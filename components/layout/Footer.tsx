@@ -9,9 +9,8 @@ const navLinks = [
 ]
 
 const socialLinks = [
-  { href: 'https://twitter.com/yourhandle', label: 'Twitter / X' },
-  { href: 'https://youtube.com/@yourhandle', label: 'YouTube' },
-  { href: 'https://linkedin.com/in/yourhandle', label: 'LinkedIn' },
+  { href: 'https://www.threads.com/@cutekangber', label: 'Threads' },
+  { href: 'https://www.instagram.com/cutekangber', label: 'Instagram' },
 ]
 
 function LogoMark({ size = 28 }: { size?: number }) {
