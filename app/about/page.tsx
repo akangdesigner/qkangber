@@ -88,10 +88,7 @@ export default function AboutPage() {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-slate-300 hover:text-white transition-colors duration-150 rounded-full px-4 py-1.5"
-                style={{ border: '1px solid rgba(255,255,255,0.1)' }}
-                onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(167,139,250,0.5)')}
-                onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)')}
+                className="text-sm text-slate-300 hover:text-white transition-all duration-150 rounded-full px-4 py-1.5 border border-white/10 hover:border-violet-400/50"
               >
                 {label}
               </a>
