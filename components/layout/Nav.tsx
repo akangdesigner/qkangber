@@ -30,6 +30,7 @@ const links = [
   { href: '/blog', label: '文章' },
   { href: '/newsletter/archive', label: '歷期電子報' },
   { href: '/newsletter', label: '開始訂閱', exact: true },
+  { href: '/about', label: '關於我' },
 ]
 
 export default function Nav() {
