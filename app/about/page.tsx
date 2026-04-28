@@ -2,14 +2,13 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: '關於',
-  description: '關於這個網站和創作者的介紹',
+  title: '關於 q康寶 — n8n 自動化工程師',
+  description: '我是 q康寶，專注電商與行銷流程自動化。用 n8n 幫客戶解決訂單、行銷漏斗、社群管理等重複性工作。不賣課程，直接幫你做好。',
 }
 
 const socialLinks = [
-  { href: 'https://twitter.com/yourhandle', label: 'Twitter / X' },
-  { href: 'https://youtube.com/@yourhandle', label: 'YouTube' },
-  { href: 'https://linkedin.com/in/yourhandle', label: 'LinkedIn' },
+  { href: 'https://www.threads.com/@cutekangber', label: 'Threads' },
+  { href: 'https://www.instagram.com/cutekangber', label: 'Instagram' },
 ]
 
 export default function AboutPage() {

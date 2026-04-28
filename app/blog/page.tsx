@@ -3,8 +3,8 @@ import PostCard from '@/components/blog/PostCard'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: '文章',
-  description: 'N8N 自動化、AI Agent 架構、RAG 資料庫實戰，以及 AI 流程工程觀點。',
+  title: 'n8n 自動化實戰文章',
+  description: 'n8n 工作流實戰、AI Agent 架構、電商行銷自動化踩坑記錄。真實案例，不寫純理論。',
 }
 
 export default async function BlogPage() {

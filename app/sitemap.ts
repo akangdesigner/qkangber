@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { getAllPosts, getAllServices } from '@/lib/mdx'
 
-const baseUrl = 'https://yourdomain.com'
+const baseUrl = 'https://aiqkangber.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [posts, services] = await Promise.all([getAllPosts(), getAllServices()])
@@ -24,6 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/services`, priority: 0.95, changeFrequency: 'weekly' },
     { url: `${baseUrl}/portfolio`, priority: 0.85, changeFrequency: 'monthly' },
     { url: `${baseUrl}/blog`, priority: 0.8, changeFrequency: 'weekly' },
+    { url: `${baseUrl}/newsletter`, priority: 0.7, changeFrequency: 'weekly' },
     { url: `${baseUrl}/about`, priority: 0.6, changeFrequency: 'monthly' },
     ...serviceEntries,
     ...postEntries,
