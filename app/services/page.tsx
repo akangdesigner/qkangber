@@ -1,5 +1,6 @@
 import { getAllServices } from '@/lib/mdx'
 import ServiceCard from '@/components/services/ServiceCard'
+import ServiceFlow from '@/components/services/ServiceFlow'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -56,6 +57,25 @@ export default async function ServicesPage() {
         <p className="text-[1.05rem] text-slate-400 max-w-xl leading-relaxed">
           專注在電商與行銷流程自動化。每個服務都是從實際踩坑中設計出來的，不賣課程，直接幫你做好。
         </p>
+      </div>
+
+      {/* interactive node graph */}
+      <div
+        className="rounded-2xl border border-white/[0.08] p-4 sm:p-6 mb-14 overflow-hidden"
+        style={{ background: 'rgba(255,255,255,0.02)' }}
+      >
+        <div className="flex items-center justify-between mb-3 px-2">
+          <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
+            <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            workflow.json · live
+          </div>
+          <div className="flex gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" />
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" />
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
+          </div>
+        </div>
+        <ServiceFlow services={services} />
       </div>
 
       {categories.map((cat) => {

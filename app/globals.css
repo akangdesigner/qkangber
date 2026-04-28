@@ -97,3 +97,10 @@ blockquote {
 
 a { color: #c4b5fd; text-decoration: none; transition: color 150ms ease; }
 a:hover { color: #ddd6fe; }
+
+@keyframes sf-dash-flow {
+  to { stroke-dashoffset: -28; }
+}
+.sf-dash-flow {
+  animation: sf-dash-flow 1.4s linear infinite;
+}
