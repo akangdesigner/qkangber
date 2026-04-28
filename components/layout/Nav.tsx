@@ -28,7 +28,8 @@ function LogoMark({ size = 30 }: { size?: number }) {
 const links = [
   { href: '/services', label: '服務' },
   { href: '/blog', label: '文章' },
-  { href: '/newsletter', label: '訂閱' },
+  { href: '/newsletter/archive', label: '電子報' },
+  { href: '/newsletter', label: '訂閱', exact: true },
 ]
 
 export default function Nav() {
@@ -45,8 +46,8 @@ export default function Nav() {
         </Link>
 
         <nav className="flex items-center gap-1">
-          {links.map(({ href, label }) => {
-            const isActive = pathname === href || pathname.startsWith(href + '/')
+          {links.map(({ href, label, exact }) => {
+            const isActive = exact ? pathname === href : (pathname === href || pathname.startsWith(href + '/'))
             return (
               <Link
                 key={href}
