@@ -1,7 +1,38 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --yes)"
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --yes)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "WebFetch(domain:newsletters.raven.tw)",
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(curl -s \"https://api.anthropic.com/v1/design/h/OO7KNizmyAahfHu5psCDBA\" -o D:/qkangber/design_file.zip)",
+      "Bash(curl -sI \"https://api.anthropic.com/v1/design/h/OO7KNizmyAahfHu5psCDBA\")",
+      "Bash(curl -s -L \"https://api.anthropic.com/v1/design/h/OO7KNizmyAahfHu5psCDBA\" -o D:/qkangber/design_raw)",
+      "Bash(xxd D:/qkangber/design_raw)",
+      "Bash(curl -s -L \"https://api.anthropic.com/v1/design/h/OO7KNizmyAahfHu5psCDBA\" -H \"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\")",
+      "Bash(curl -v \"https://api.anthropic.com/v1/design/h/OO7KNizmyAahfHu5psCDBA\")",
+      "Bash(curl -s -L https://api.anthropic.com/v1/design/h/OO7KNizmyAahfHu5psCDBA -H 'Range: bytes=0-500000' -H 'Accept: text/html,*/*' -o D:/qkangber/design_chunk.html)",
+      "Bash(env)",
+      "Read(//c/Users/asdto/.claude/**)",
+      "Read(//c/Users/asdto/AppData/Local/**)",
+      "Read(//c/Users/asdto/AppData/Roaming/**)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(list\\(d.keys\\(\\)\\)\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(k\\) for k in d.keys\\(\\)]\")",
+      "Bash(node *)",
+      "PowerShell(Get-ChildItem \"HKCU:\\\\Software\\\\Anthropic\" -ErrorAction SilentlyContinue; [Windows.Security.Credentials.PasswordVault,Windows.Security.Credentials,ContentType=WindowsRuntime]::new\\(\\).RetrieveAll\\(\\) | Where-Object {$_.Resource -match \"anthropic|claude\"} 2>$null | Select-Object Resource,UserName)",
+      "PowerShell(cmdkey *)",
+      "WebFetch(domain:claude.ai)",
+      "Bash(xargs grep *)",
+      "Bash(cp 'C:/Users/asdto/AppData/Local/Temp/Rar$DRa20780.23800/assets/logo.png' D:/qkangber/public/logo.png)",
+      "Bash(cp 'C:/Users/asdto/AppData/Local/Temp/Rar$DRa20780.23800/assets/favicon.ico' D:/qkangber/app/favicon.ico)",
+      "Bash(npx tsc *)",
+      "Bash(npx next *)",
+      "mcp__claude_ai_Google_Drive__read_file_content"
     ]
   }
 }
