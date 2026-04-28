@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
-export default function SubscribeForm({ className = '' }: { className?: string }) {
+export default function SubscribeForm({ className = '', small = false }: { className?: string; small?: boolean }) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
@@ -15,10 +15,8 @@ export default function SubscribeForm({ className = '' }: { className?: string }
       setErrorMsg('請輸入有效的 Email 地址')
       return
     }
-
     setStatus('loading')
     setErrorMsg('')
-
     try {
       const res = await fetch('/api/subscribe', {
         method: 'POST',
@@ -36,11 +34,14 @@ export default function SubscribeForm({ className = '' }: { className?: string }
 
   if (status === 'success') {
     return (
-      <p className={`text-[var(--color-text-body)] ${className}`}>
-        收到了！請記得確認你的收件匣 📬
+      <p className={`text-slate-300 text-sm ${className}`}>
+        收到了！請記得確認你的收件匣 ✨
       </p>
     )
   }
+
+  const inputCls = `flex-1 ${small ? 'px-3 py-2 text-[13px]' : 'px-4 py-3 text-sm'} rounded-full border border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:outline-none focus:border-violet-400/60 focus:bg-white/[0.07] transition-colors backdrop-blur-sm`
+  const btnCls = `${small ? 'px-4 py-2 text-[13px]' : 'px-6 py-3 text-sm'} rounded-full font-medium text-white whitespace-nowrap transition-all disabled:opacity-60`
 
   return (
     <form onSubmit={handleSubmit} className={`flex flex-col sm:flex-row gap-2 ${className}`}>
@@ -49,18 +50,22 @@ export default function SubscribeForm({ className = '' }: { className?: string }
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="your@email.com"
-        className="flex-1 px-4 py-2.5 rounded-lg border border-[var(--color-border)] bg-white text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent text-sm"
+        className={inputCls}
         disabled={status === 'loading'}
       />
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="px-5 py-2.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed whitespace-nowrap"
+        className={btnCls}
+        style={{
+          background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+          boxShadow: '0 0 24px rgba(124,92,255,0.35)',
+        }}
       >
-        {status === 'loading' ? '訂閱中...' : '免費訂閱'}
+        {status === 'loading' ? '訂閱中…' : '免費訂閱 →'}
       </button>
       {errorMsg && (
-        <p className="text-sm text-red-600 mt-1 sm:col-span-2">{errorMsg}</p>
+        <p className="text-sm text-red-400 mt-1">{errorMsg}</p>
       )}
     </form>
   )

@@ -29,3 +29,23 @@ export interface CourseFrontmatter {
 export interface Course extends CourseFrontmatter {
   slug: string
 }
+
+export interface ServiceFrontmatter {
+  title: string
+  description: string
+  price: number
+  priceNote?: string
+  category: string
+  tags: string[]
+  icon: string
+  featured: boolean
+  published: boolean
+}
+
+export interface Service extends ServiceFrontmatter {
+  slug: string
+}
+
+export interface ServiceWithContent extends Service {
+  content: string
+}

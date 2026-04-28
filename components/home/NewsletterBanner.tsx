@@ -1,51 +1,74 @@
 import SubscribeForm from '@/components/shared/SubscribeForm'
 
+function EyebrowLabel({ children, ruleWidth = 24 }: { children: React.ReactNode; ruleWidth?: number }) {
+  return (
+    <div className="flex items-center gap-3">
+      <div
+        className="h-px flex-shrink-0"
+        style={{ width: ruleWidth, background: 'linear-gradient(90deg, transparent, #7c5cff)' }}
+      />
+      <span
+        className="text-[0.66rem] tracking-[0.28em] uppercase font-semibold"
+        style={{
+          background: 'linear-gradient(90deg,#a78bfa,#60a5fa)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+        }}
+      >
+        {children}
+      </span>
+    </div>
+  )
+}
+
 export default function NewsletterBanner() {
   return (
-    <section
-      className="relative overflow-hidden border-y border-[#e7e5e4]"
-      style={{ backgroundColor: '#fff7ed' }}
-    >
-      {/* Giant ghost "500+" — decorative editorial element */}
-      <span
-        aria-hidden="true"
-        className="absolute right-4 top-1/2 -translate-y-1/2 font-serif font-bold text-[#ea580c] leading-none select-none pointer-events-none"
-        style={{ fontSize: 'clamp(72px, 16vw, 196px)', opacity: 0.065 }}
+    <section className="relative max-w-6xl mx-auto px-6 py-24">
+      <div
+        className="relative overflow-hidden rounded-3xl border border-white/[0.08] p-10 lg:p-16"
+        style={{
+          background:
+            'radial-gradient(ellipse 80% 80% at 100% 0%, rgba(124,92,255,0.18), transparent 60%), radial-gradient(ellipse 60% 60% at 0% 100%, rgba(34,211,238,0.10), transparent 60%), #0a0b14',
+        }}
       >
-        500+
-      </span>
+        <span
+          aria-hidden="true"
+          className="absolute right-6 top-1/2 -translate-y-1/2 font-bold leading-none select-none pointer-events-none"
+          style={{
+            fontSize: 'clamp(80px, 18vw, 220px)',
+            background: 'linear-gradient(180deg, rgba(167,139,250,0.16), rgba(167,139,250,0))',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            letterSpacing: '-0.04em',
+          }}
+        >
+          N8N
+        </span>
 
-      <div className="relative max-w-5xl mx-auto px-6 py-16 flex flex-col md:flex-row md:items-center gap-10">
-
-        {/* Text column */}
-        <div className="flex-1 max-w-md">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="h-px w-6 bg-[#ea580c] flex-shrink-0" />
-            <span className="text-[0.65rem] tracking-[0.25em] uppercase text-[#ea580c] font-semibold">
-              每週電子報
-            </span>
+        <div className="relative max-w-md">
+          <div className="mb-5">
+            <EyebrowLabel ruleWidth={24}>Weekly Newsletter</EyebrowLabel>
           </div>
-
-          <h2 className="font-serif text-[1.85rem] font-semibold text-[#1c1917] leading-[1.2] mb-4">
-            不讓 AI 替你思考，
-            <br />
-            <em style={{ fontStyle: 'italic' }}>但讓它幫你省時間</em>
+          <h2 className="text-[2rem] font-semibold leading-[1.15] text-white mb-4 tracking-[-0.015em]">
+            一週一封，<br />
+            <span
+              style={{
+                background: 'linear-gradient(90deg, #c4b5fd, #67e8f9)',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              把 AI 這週發生的事說清楚。
+            </span>
           </h2>
-
-          <p className="text-sm text-[#44403c] leading-relaxed">
-            每週精選：AI 動態 · N8N 實戰案例 · 一個值得思考的觀點。
+          <p className="text-sm text-slate-400 leading-relaxed mb-8">
+            每週精選本週最值得關注的 AI 動態——新模型、新工具、產業消息——過濾雜訊，只留值得你花時間的。
           </p>
-          <p className="text-sm text-[#78716c] mt-1">目前 500+ 讀者，持續更新中。</p>
-        </div>
-
-        {/* Form column */}
-        <div className="w-full md:w-[360px] flex-shrink-0">
           <SubscribeForm />
-          <p className="text-[11px] text-[#78716c] mt-3 tracking-wide">
-            免費 · 不賣資料 · 隨時退訂
-          </p>
+          <p className="text-[11px] text-slate-500 mt-4 tracking-wide">免費 · 不賣資料 · 隨時退訂</p>
         </div>
-
       </div>
     </section>
   )

@@ -20,9 +20,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.excerpt,
+    authors: [{ name: 'q康寶' }],
     openGraph: {
       type: 'article',
       publishedTime: post.date,
+      authors: ['q康寶'],
       images: post.coverImage ? [{ url: post.coverImage }] : [{ url: '/og-default.png' }],
     },
   }
@@ -41,8 +43,22 @@ export default async function PostPage({ params }: Props) {
   const post = await getPostBySlug(slug)
   if (!post) notFound()
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.date,
+    author: { '@type': 'Person', name: 'q康寶' },
+    ...(post.coverImage && { image: post.coverImage }),
+  }
+
   return (
     <article className="max-w-2xl mx-auto px-4 sm:px-6 py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className="mb-10">
         <div className="flex flex-wrap gap-1.5 mb-4">
           {post.tags.map((tag) => (
@@ -50,25 +66,25 @@ export default async function PostPage({ params }: Props) {
           ))}
         </div>
 
-        <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[var(--color-text-primary)] leading-tight mb-4">
+        <h1 className="text-3xl sm:text-[2.5rem] font-semibold text-white leading-[1.15] mb-5 tracking-[-0.02em]">
           {post.title}
         </h1>
 
-        <div className="flex items-center gap-3 text-sm text-[var(--color-text-muted)]">
+        <div className="flex items-center gap-3 text-sm text-slate-500">
           <span>{formatDate(post.date)}</span>
           <span>·</span>
           <span>{post.readingTime}</span>
         </div>
       </header>
 
-      <div className="prose prose-stone max-w-none prose-headings:font-serif prose-a:text-[var(--color-accent)] prose-a:no-underline hover:prose-a:underline prose-blockquote:border-[var(--color-accent)]">
+      <div className="prose max-w-none">
         <MDXRemote
           source={post.content}
           components={mdxComponents}
           options={{
             mdxOptions: {
               rehypePlugins: [
-                [rehypePrettyCode, { theme: 'github-light' }],
+                [rehypePrettyCode, { theme: 'github-dark' }],
               ],
             },
           }}

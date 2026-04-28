@@ -2,53 +2,45 @@ import Link from 'next/link'
 import type { Post } from '@/types/content'
 
 function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('zh-TW', {
-    year: 'numeric',
-    month: 'long',
-  })
+  return new Date(dateStr).toLocaleDateString('zh-TW', { year: 'numeric', month: 'long' })
 }
 
 export default function PostCard({ post }: { post: Post }) {
   return (
-    <Link href={`/blog/${post.slug}`} className="group block h-full">
-      <article className="relative h-full flex flex-col bg-white border border-[#e7e5e4] rounded-xl overflow-hidden transition-all duration-200 hover:shadow-[0_6px_28px_rgba(0,0,0,0.08)] hover:-translate-y-0.5">
-
-        {/* Top accent bar sweeps from left on hover */}
-        <div className="h-[3px] w-full bg-[#ea580c] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
-
-        <div className="flex flex-col flex-1 p-6 pt-5">
-
-          {/* Tags — magazine category label style */}
-          <div className="flex flex-wrap gap-1.5 mb-4">
+    <Link href={`/blog/${post.slug}`} className="group relative block h-full">
+      {/* gradient border on hover */}
+      <div
+        className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{
+          background: 'linear-gradient(135deg, rgba(99,102,241,0.5), rgba(168,85,247,0.3) 50%, transparent)',
+          filter: 'blur(0.5px)',
+        }}
+      />
+      <article className="relative h-full flex flex-col rounded-2xl border border-white/[0.07] bg-white/[0.025] hover:bg-white/[0.04] transition-all duration-300 overflow-hidden backdrop-blur-sm">
+        <div className="p-6 flex flex-col flex-1">
+          <div className="flex flex-wrap gap-1.5 mb-5">
             {post.tags.map((tag) => (
               <span
                 key={tag}
-                className="text-[10px] tracking-[0.14em] uppercase font-semibold px-2 py-0.5 rounded-full bg-[#fff7ed] text-[#ea580c]"
+                className="text-[10px] tracking-[0.16em] uppercase font-semibold px-2.5 py-0.5 rounded-full border border-white/10 bg-white/[0.04] text-slate-300 backdrop-blur-sm"
               >
                 {tag}
               </span>
             ))}
           </div>
 
-          {/* Title */}
-          <h2 className="font-serif text-[1.2rem] font-semibold text-[#1c1917] leading-snug mb-3 group-hover:text-[#ea580c] transition-colors duration-200 flex-1">
+          <h2 className="text-[1.15rem] font-semibold text-white leading-snug mb-3 group-hover:text-violet-200 transition-colors duration-200 flex-1">
             {post.title}
           </h2>
 
-          {/* Excerpt */}
-          <p className="text-sm text-[#44403c] leading-relaxed line-clamp-2 mb-5">
+          <p className="text-sm text-slate-400 leading-relaxed line-clamp-2 mb-6">
             {post.excerpt}
           </p>
 
-          {/* Footer */}
-          <div className="flex items-center justify-between text-[11px] text-[#78716c] pt-4 border-t border-[#f5f4f3]">
+          <div className="flex items-center justify-between text-[11px] text-slate-500 pt-4 border-t border-white/[0.06]">
             <span>{formatDate(post.date)}</span>
-            <span className="flex items-center gap-1.5">
-              <span className="block w-3 h-px bg-[#d6d3d1]" />
-              {post.readingTime}
-            </span>
+            <span>{post.readingTime}</span>
           </div>
-
         </div>
       </article>
     </Link>

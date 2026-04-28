@@ -1,4 +1,5 @@
 import Hero from '@/components/home/Hero'
+import CapabilityStrip from '@/components/home/CapabilityStrip'
 import FeaturedPosts from '@/components/home/FeaturedPosts'
 import NewsletterBanner from '@/components/home/NewsletterBanner'
 import { getAllPosts } from '@/lib/mdx'
@@ -11,6 +12,7 @@ export default async function HomePage() {
   return (
     <>
       <Hero />
+      <CapabilityStrip />
       <FeaturedPosts posts={latestPosts} />
       <NewsletterBanner />
     </>

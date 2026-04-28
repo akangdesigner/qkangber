@@ -11,18 +11,22 @@ export default async function CoursesPage() {
   const courses = await getAllCourses()
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
-      <div className="mb-12">
-        <h1 className="font-serif text-4xl font-semibold text-[var(--color-text-primary)] mb-3">
-          課程與資源
-        </h1>
-        <p className="text-[var(--color-text-muted)] max-w-xl">
-          精選課程和工具，幫助你更有效率地使用 AI 和自動化，同時保留自己的判斷力。
+    <div className="max-w-6xl mx-auto px-6 py-20">
+      <div className="mb-14">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="h-px w-7 flex-shrink-0" style={{ background: 'linear-gradient(90deg, transparent, #7c5cff)' }} />
+          <span className="text-[0.66rem] tracking-[0.28em] uppercase font-semibold" style={{ background: 'linear-gradient(90deg,#a78bfa,#60a5fa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            Learn with me
+          </span>
+        </div>
+        <h1 className="text-5xl font-semibold text-white mb-4 tracking-[-0.02em]">課程與資源</h1>
+        <p className="text-slate-400 max-w-xl leading-relaxed">
+          給想把 AI 與自動化真正接進工作流程的人。N8N、AI Agent、RAG、Claude Code，全都實戰過才寫出來。
         </p>
       </div>
 
       {courses.length === 0 ? (
-        <p className="text-[var(--color-text-muted)]">課程準備中，敬請期待。</p>
+        <p className="text-slate-500">課程準備中，敬請期待。</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((course) => (

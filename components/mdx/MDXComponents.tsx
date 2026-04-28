@@ -28,8 +28,14 @@ export const mdxComponents: MDXComponents = {
   ),
 
   blockquote: ({ children }) => (
-    <blockquote className="border-l-4 border-[var(--color-accent)] pl-5 my-6 text-[var(--color-text-muted)] italic not-italic">
+    <blockquote className="my-8 pl-6 text-slate-400 leading-relaxed text-lg italic"
+      style={{ borderLeft: '2px solid #8b5cf6' }}>
       {children}
     </blockquote>
+  ),
+  pre: ({ children }) => (
+    <pre className="bg-white/[0.03] border border-white/[0.07] rounded-xl p-4 overflow-x-auto text-[13px] font-mono text-violet-200 my-6">
+      {children}
+    </pre>
   ),
 }
