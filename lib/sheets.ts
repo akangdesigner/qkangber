@@ -15,7 +15,7 @@ export async function getNewsletterIssues(): Promise<NewsletterIssue[]> {
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/A:F?key=${apiKey}`
 
   try {
-    const res = await fetch(url, { next: { revalidate: 3600 } })
+    const res = await fetch(url, { next: { revalidate: 300 } })
     if (!res.ok) return []
 
     const data = await res.json()

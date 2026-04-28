@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { getNewsletterIssue, getNewsletterIssues } from '@/lib/sheets'
 import type { Metadata } from 'next'
 
+export const dynamicParams = true
+
 type Props = { params: Promise<{ slug: string }> }
 
 export async function generateStaticParams() {
