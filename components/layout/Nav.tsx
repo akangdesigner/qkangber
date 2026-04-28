@@ -28,8 +28,8 @@ function LogoMark({ size = 30 }: { size?: number }) {
 const links = [
   { href: '/services', label: '服務' },
   { href: '/blog', label: '文章' },
-  { href: '/newsletter/archive', label: '電子報' },
-  { href: '/newsletter', label: '訂閱', exact: true },
+  { href: '/newsletter/archive', label: '歷期電子報' },
+  { href: '/newsletter', label: '開始訂閱', exact: true },
 ]
 
 export default function Nav() {
@@ -70,14 +70,14 @@ export default function Nav() {
           })}
           <div className="ml-3">
             <Link
-              href="/newsletter"
+              href="/"
               className="inline-flex items-center justify-center px-5 py-2 rounded-full text-white text-sm font-medium transition-all hover:scale-[1.02] active:scale-100"
               style={{
                 background: 'linear-gradient(135deg, #2563eb 0%, #6366f1 50%, #8b5cf6 100%)',
                 boxShadow: '0 0 24px rgba(99,102,241,0.35)',
               }}
             >
-              開始訂閱
+              回首頁
             </Link>
           </div>
         </nav>
