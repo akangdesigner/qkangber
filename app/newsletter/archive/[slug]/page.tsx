@@ -57,10 +57,7 @@ export default async function IssuePage({ params }: Props) {
       </div>
 
       {/* email preview container */}
-      <div
-        className="rounded-2xl overflow-hidden border border-white/[0.08]"
-        style={{ background: '#ffffff' }}
-      >
+      <div className="rounded-2xl overflow-hidden border border-white/[0.08]" style={{ background: '#0d0e1a' }}>
         <div
           dangerouslySetInnerHTML={{ __html: issue.htmlBody }}
           className="newsletter-html-body"

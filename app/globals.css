@@ -98,6 +98,42 @@ blockquote {
 a { color: #c4b5fd; text-decoration: none; transition: color 150ms ease; }
 a:hover { color: #ddd6fe; }
 
+/* Newsletter email HTML dark mode overrides */
+.newsletter-html-body,
+.newsletter-html-body table,
+.newsletter-html-body td,
+.newsletter-html-body tr,
+.newsletter-html-body div,
+.newsletter-html-body center,
+.newsletter-html-body span {
+  background-color: transparent !important;
+  background: transparent !important;
+  border-color: rgba(255,255,255,0.07) !important;
+}
+.newsletter-html-body p,
+.newsletter-html-body li,
+.newsletter-html-body td,
+.newsletter-html-body span,
+.newsletter-html-body div {
+  color: #cbd5e1 !important;
+}
+.newsletter-html-body h1,
+.newsletter-html-body h2,
+.newsletter-html-body h3,
+.newsletter-html-body h4 {
+  color: #f1f5f9 !important;
+}
+.newsletter-html-body a {
+  color: #a78bfa !important;
+}
+.newsletter-html-body img {
+  opacity: 0.92;
+  border-radius: 8px;
+}
+.newsletter-html-body hr {
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
 @keyframes sf-dash-flow {
   to { stroke-dashoffset: -28; }
 }
