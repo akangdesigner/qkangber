@@ -63,6 +63,54 @@ export default function AboutPage() {
       </div>
 
       <div className="border-t border-white/[0.06] pt-10 mb-10">
+        <h2 className="text-lg font-semibold text-white mb-6 tracking-[-0.01em]">學歷 &amp; 經歷</h2>
+        <div className="space-y-6">
+          <div>
+            <p className="text-[0.7rem] tracking-[0.22em] uppercase font-semibold text-violet-400 mb-3">學歷</p>
+            <div className="flex items-start gap-3 text-slate-300">
+              <span className="mt-1 flex-shrink-0 text-violet-400">▪</span>
+              <div>
+                <p className="font-medium text-white">商業自動化與管理學系　碩士</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <p className="text-[0.7rem] tracking-[0.22em] uppercase font-semibold text-violet-400 mb-3">經歷</p>
+            <ul className="space-y-5">
+              <li className="flex items-start gap-3 text-slate-300">
+                <span className="mt-1 flex-shrink-0 text-violet-400">▪</span>
+                <div>
+                  <p className="font-medium text-white">電商公司　電商出貨自動化專員</p>
+                  <p className="text-sm text-slate-400 mt-1 leading-relaxed">負責第三方物流出貨溝通協調，主導出貨流程自動化建置。</p>
+                </div>
+              </li>
+              <li className="flex items-start gap-3 text-slate-300">
+                <span className="mt-1 flex-shrink-0 text-violet-400">▪</span>
+                <div>
+                  <p className="font-medium text-white">行銷公司　AI 流程開發工程師 <span className="text-xs text-violet-300 font-normal ml-1">現職</span></p>
+                  <p className="text-sm text-slate-400 mt-1 leading-relaxed">設計與開發 AI 驅動的行銷自動化流程，整合 n8n 與各類 API。</p>
+                </div>
+              </li>
+              <li className="flex items-start gap-3 text-slate-300">
+                <span className="mt-1 flex-shrink-0 text-violet-400">▪</span>
+                <div>
+                  <p className="font-medium text-white">企業合作講師 <span className="text-xs text-violet-300 font-normal ml-1">現職</span></p>
+                  <p className="text-sm text-slate-400 mt-1 leading-relaxed">每週赴合作企業進行 AI 與自動化工具培訓。</p>
+                </div>
+              </li>
+              <li className="flex items-start gap-3 text-slate-300">
+                <span className="mt-1 flex-shrink-0 text-violet-400">▪</span>
+                <div>
+                  <p className="font-medium text-white">職崖平台　課程講師 <span className="text-xs text-violet-300 font-normal ml-1">現職</span></p>
+                  <p className="text-sm text-slate-400 mt-1 leading-relaxed">開設 n8n 自動化與 AI 工具應用課程，包含 Claude 系列實戰內容。</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-white/[0.06] pt-10 mb-10">
         <h2 className="text-lg font-semibold text-white mb-5 tracking-[-0.01em]">這裡有什麼</h2>
         <ul className="space-y-3">
           {siteLinks.map(({ href, label, desc }) => (
