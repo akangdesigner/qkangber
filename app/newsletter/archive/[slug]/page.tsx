@@ -57,10 +57,19 @@ export default async function IssuePage({ params }: Props) {
       </div>
 
       {/* email preview container */}
-      <div className="rounded-2xl overflow-hidden border border-white/[0.08]" style={{ background: '#0d0e1a' }}>
+      <div className="rounded-2xl overflow-hidden" style={{ boxShadow: '0 0 0 1px rgba(255,255,255,0.08), 0 24px 64px rgba(0,0,0,0.5)' }}>
+        <div className="flex items-center gap-2 px-4 py-2.5" style={{ background: '#1a1b26', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="flex gap-1.5">
+            <span className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,255,255,0.12)' }} />
+            <span className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,255,255,0.12)' }} />
+            <span className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,255,255,0.12)' }} />
+          </div>
+          <span className="text-[0.65rem] text-slate-500 tracking-wide ml-1">郵件預覽</span>
+        </div>
         <div
           dangerouslySetInnerHTML={{ __html: issue.htmlBody }}
           className="newsletter-html-body"
+          style={{ background: '#ffffff' }}
         />
       </div>
 
