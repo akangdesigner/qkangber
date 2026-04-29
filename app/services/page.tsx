@@ -4,8 +4,8 @@ import ServiceFlow from '@/components/services/ServiceFlow'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: '服務項目',
-  description: '電商、行銷 n8n 自動化服務——訂單流程、行銷漏斗、社群管理，讓重複性工作消失。',
+  title: 'n8n 自動化服務項目 — q康寶',
+  description: '電商訂單、行銷漏斗、社群排程、數據報表——n8n 自動化服務，幫你把重複性流程一次清掉。',
 }
 
 function EyebrowLabel({ children }: { children: React.ReactNode }) {

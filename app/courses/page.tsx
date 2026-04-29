@@ -3,8 +3,8 @@ import CourseCard from '@/components/course/CourseCard'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: '課程與資源',
-  description: 'N8N 自動化、AI 工具實戰課程，以及精選學習資源。',
+  title: 'n8n 與 AI 工具課程 — q康寶',
+  description: 'n8n 自動化實戰、Claude AI 工具應用課程。職崖平台合作課程，企業培訓也接。',
 }
 
 export default async function CoursesPage() {

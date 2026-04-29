@@ -3,8 +3,8 @@ import SubscribeForm from '@/components/shared/SubscribeForm'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: '訂閱電子報',
-  description: '每週一封 AI 新聞電子報。精選本週最值得關注的 AI 動態，過濾雜訊，只給值得你花時間的資訊。免費，隨時退訂。',
+  title: 'AI 自動化週報 — 免費訂閱 | q康寶',
+  description: '每週精選 AI 與 n8n 自動化動態，過濾雜訊，只給值得花時間的資訊。免費訂閱，隨時退訂。',
 }
 
 export default function NewsletterPage() {

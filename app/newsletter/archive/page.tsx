@@ -3,8 +3,8 @@ import { getNewsletterIssues } from '@/lib/sheets'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: '電子報封存',
-  description: '歷期 q kangber AI 週報——每週精選 AI 業界動態，全部公開閱讀。',
+  title: '歷期 AI 自動化週報 — q康寶',
+  description: '歷期 q康寶 AI 與 n8n 自動化週報——每週精選業界動態，全部公開閱讀，免費無需訂閱。',
 }
 
 function EyebrowLabel({ children }: { children: React.ReactNode }) {
