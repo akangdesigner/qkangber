@@ -3,6 +3,7 @@ import localFont from 'next/font/local'
 import { JetBrains_Mono } from 'next/font/google'
 import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
+import CircuitBackdrop from '@/components/effects/CircuitBackdrop'
 import './globals.css'
 
 const notoSansTC = localFont({
@@ -39,9 +40,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="zh-TW" className={`${notoSansTC.variable} ${jetbrainsMono.variable} h-full`}>
       <body className="min-h-full flex flex-col">
-        <Nav />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <CircuitBackdrop />
+        <div className="relative z-[1] flex flex-col flex-1">
+          <Nav />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   )

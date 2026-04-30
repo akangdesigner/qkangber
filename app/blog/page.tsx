@@ -1,5 +1,6 @@
 import { getAllPosts } from '@/lib/mdx'
 import PostCard from '@/components/blog/PostCard'
+import DecodeText from '@/components/effects/DecodeText'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -19,7 +20,9 @@ export default async function BlogPage() {
             Writing archive
           </span>
         </div>
-        <h1 className="text-5xl font-semibold text-white tracking-[-0.02em] mb-4">文章</h1>
+        <h1 className="text-5xl font-semibold text-white tracking-[-0.02em] mb-4">
+          <DecodeText duration={650}>文章</DecodeText>
+        </h1>
         <p className="text-slate-400">{posts.length} 篇文章 · 持續更新中</p>
       </div>
 

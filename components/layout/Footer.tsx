@@ -1,11 +1,17 @@
-﻿import Link from 'next/link'
+import Link from 'next/link'
 import Image from 'next/image'
 import SubscribeForm from '@/components/shared/SubscribeForm'
 
-const navLinks = [
-  { href: '/services', label: '服務項目' },
+const mainLinks = [
+  { href: '/services', label: '服務' },
   { href: '/blog', label: '文章' },
-  { href: '/newsletter', label: '電子報' },
+  { href: '/tools', label: '工具站' },
+]
+
+const moreLinks = [
+  { href: '/newsletter', label: '訂閱電子報' },
+  { href: '/newsletter/archive', label: '歷期電子報' },
+  { href: '/about', label: '關於我' },
 ]
 
 const socialLinks = [
@@ -36,21 +42,34 @@ export default function Footer() {
         style={{ background: 'linear-gradient(90deg, transparent, rgba(124,92,255,0.5), transparent)' }}
       />
 
-      <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-12">
-        <div>
+      <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="md:col-span-1">
           <div className="flex items-center gap-2.5 mb-4">
             <LogoMark size={26} />
-            <span className="font-semibold text-white text-[1.02rem] tracking-[-0.01em]">q kangber</span>
+            <span className="font-semibold text-white text-[1.02rem] tracking-[-0.01em]">Q康寶</span>
           </div>
-          <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
-            N8N 自動化服務。幫你把重複的流程接起來——電商、行銷、報表，直接幫你建好，不賣課程。
+          <p className="text-sm text-slate-400 leading-relaxed">
+            n8n 自動化工程師。專注電商與行銷流程自動化——不賣課程，直接幫你做好。
           </p>
         </div>
 
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-4">頁面</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-4">主要頁面</p>
           <ul className="space-y-2.5">
-            {navLinks.map(({ href, label }) => (
+            {mainLinks.map(({ href, label }) => (
+              <li key={href}>
+                <Link href={href} className="text-sm text-slate-300 hover:text-white transition-colors duration-150">
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 mb-4">電子報 &amp; 關於</p>
+          <ul className="space-y-2.5">
+            {moreLinks.map(({ href, label }) => (
               <li key={href}>
                 <Link href={href} className="text-sm text-slate-300 hover:text-white transition-colors duration-150">
                   {label}
@@ -67,10 +86,16 @@ export default function Footer() {
               <li key={label}>
                 <a href={href} target="_blank" rel="noopener noreferrer"
                    className="text-sm text-slate-300 hover:text-white transition-colors duration-150">
-                  {label}
+                  {label} ↗
                 </a>
               </li>
             ))}
+            <li>
+              <a href="mailto:asdtodd42@gmail.com"
+                 className="text-sm text-slate-300 hover:text-white transition-colors duration-150">
+                asdtodd42@gmail.com
+              </a>
+            </li>
           </ul>
           <SubscribeForm small />
         </div>

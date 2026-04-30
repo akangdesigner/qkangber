@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from 'next'
 import Link from 'next/link'
+import DecodeText from '@/components/effects/DecodeText'
 
 export const metadata: Metadata = {
   title: '免費 AI 工具站 — Q康寶',
@@ -34,7 +35,9 @@ export default function ToolsPage() {
         </span>
       </div>
 
-      <h1 className="text-5xl font-semibold text-white tracking-[-0.02em] mb-3">工具站</h1>
+      <h1 className="text-5xl font-semibold text-white tracking-[-0.02em] mb-3">
+        <DecodeText duration={650}>工具站</DecodeText>
+      </h1>
       <p className="text-slate-400 mb-14">電商與行銷人的免費 AI 工具。不需要註冊，直接用。</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -42,7 +45,7 @@ export default function ToolsPage() {
           <Link
             key={href}
             href={href}
-            className="group rounded-2xl p-6 transition-all duration-200 hover:scale-[1.01]"
+            className="mtc group rounded-2xl p-6 transition-all duration-200 hover:scale-[1.01]"
             style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
           >
             <div className="text-2xl mb-4">{icon}</div>
