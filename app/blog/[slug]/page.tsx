@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+﻿import { notFound } from 'next/navigation'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getAllPosts, getPostBySlug } from '@/lib/mdx'
 import { mdxComponents } from '@/components/mdx/MDXComponents'
@@ -20,11 +20,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.excerpt,
-    authors: [{ name: 'q康寶' }],
+    authors: [{ name: 'Q康寶' }],
     openGraph: {
       type: 'article',
       publishedTime: post.date,
-      authors: ['q康寶'],
+      authors: ['Q康寶'],
       images: post.coverImage ? [{ url: post.coverImage }] : [{ url: '/og-default.png' }],
     },
   }
@@ -49,7 +49,7 @@ export default async function PostPage({ params }: Props) {
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
-    author: { '@type': 'Person', name: 'q康寶' },
+    author: { '@type': 'Person', name: 'Q康寶' },
     ...(post.coverImage && { image: post.coverImage }),
   }
 

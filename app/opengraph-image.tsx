@@ -1,7 +1,7 @@
-import { ImageResponse } from 'next/og'
+﻿import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
-export const alt = 'q康寶 — n8n 自動化 · AI Agent · 電商流程工程'
+export const alt = 'Q康寶 — n8n 自動化 · AI Agent · 電商流程工程'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -53,7 +53,7 @@ export default function OGImage() {
             marginBottom: 24,
           }}
         >
-          q康寶
+          Q康寶
         </div>
         <div
           style={{

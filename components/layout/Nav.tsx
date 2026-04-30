@@ -16,7 +16,7 @@ function LogoMark({ size = 30 }: { size?: number }) {
     >
       <Image
         src="/logo.png"
-        alt="q kangber"
+        alt="Q康寶"
         width={size}
         height={size}
         className="w-full h-full object-cover"
@@ -43,7 +43,7 @@ export default function Nav() {
         <Link href="/" className="flex items-center gap-2.5 select-none">
           <LogoMark size={26} />
           <span className="font-semibold text-white text-[1.02rem] tracking-[-0.01em]">
-            q kangber
+            Q康寶
           </span>
         </Link>
 

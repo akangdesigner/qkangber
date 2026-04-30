@@ -1,10 +1,10 @@
-import { getAllServices } from '@/lib/mdx'
+﻿import { getAllServices } from '@/lib/mdx'
 import ServiceCard from '@/components/services/ServiceCard'
 import ServiceFlow from '@/components/services/ServiceFlow'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'n8n 自動化服務項目 — q康寶',
+  title: 'n8n 自動化服務項目 — Q康寶',
   description: '電商訂單、行銷漏斗、社群排程、數據報表——n8n 自動化服務，幫你把重複性流程一次清掉。',
 }
 

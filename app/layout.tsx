@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import { JetBrains_Mono } from 'next/font/google'
 import Nav from '@/components/layout/Nav'
@@ -20,15 +20,15 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://aiqkangber.com'),
   title: {
-    default: 'q康寶 — n8n 自動化 · AI Agent · 電商流程工程',
-    template: '%s | q康寶',
+    default: 'Q康寶 — n8n 自動化 · AI Agent · 電商流程工程',
+    template: '%s | Q康寶',
   },
   description: '專注 n8n 工作流、AI Agent 架構、電商與行銷流程自動化。把重複性工作交給 n8n，你只管長遠的事。',
   openGraph: {
     type: 'website',
     locale: 'zh_TW',
     url: 'https://aiqkangber.com',
-    siteName: 'q康寶',
+    siteName: 'Q康寶',
   },
   twitter: {
     card: 'summary_large_image',

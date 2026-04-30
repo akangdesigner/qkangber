@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import Link from 'next/link'
@@ -178,7 +178,7 @@ export default function SocialPostPage() {
         <p className="text-sm text-slate-500">
           想把社群貼文排程自動化？{' '}
           <Link href="/services" className="text-violet-400 hover:text-violet-300 transition-colors">
-            了解 q康寶 的社群自動化服務 →
+            了解 Q康寶 的社群自動化服務 →
           </Link>
         </p>
       </div>

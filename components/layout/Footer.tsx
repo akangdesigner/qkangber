@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 import Image from 'next/image'
 import SubscribeForm from '@/components/shared/SubscribeForm'
 
@@ -23,7 +23,7 @@ function LogoMark({ size = 28 }: { size?: number }) {
         boxShadow: '0 0 0 1px rgba(255,255,255,0.08), 0 0 14px rgba(34,197,94,0.20)',
       }}
     >
-      <Image src="/logo.png" alt="q kangber" width={size} height={size} className="w-full h-full object-cover" />
+      <Image src="/logo.png" alt="Q康寶" width={size} height={size} className="w-full h-full object-cover" />
     </div>
   )
 }
@@ -78,7 +78,7 @@ export default function Footer() {
 
       <div className="border-t border-white/[0.04] py-5">
         <p className="text-center text-xs text-slate-600">
-          © {new Date().getFullYear()} q康寶. Built with intent.
+          © {new Date().getFullYear()} Q康寶. Built with intent.
         </p>
       </div>
     </footer>
