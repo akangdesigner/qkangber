@@ -27,16 +27,16 @@ export async function POST(request: Request) {
     )
   }
 
-  let body: { topic?: string; platform?: string; style?: string }
+  let body: { title?: string; summary?: string; platform?: string; style?: string }
   try {
     body = await request.json()
   } catch {
     return NextResponse.json({ error: '無效的請求格式' }, { status: 400 })
   }
 
-  const { topic, platform = 'Threads', style = 'casual' } = body
-  if (!topic || topic.trim().length < 3) {
-    return NextResponse.json({ error: '請輸入貼文主題' }, { status: 400 })
+  const { title, summary = '', platform = 'Threads', style = 'casual' } = body
+  if (!title || title.trim().length < 3) {
+    return NextResponse.json({ error: '請輸入標題' }, { status: 400 })
   }
 
   const styleDesc = STYLE_MAP[style] ?? STYLE_MAP.casual
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
         { role: 'system', content: SYSTEM_PROMPT },
         {
           role: 'user',
-          content: `平台：${platform}\n風格：${styleDesc}\n主題：${topic}\n\n請產生一篇適合此平台的貼文，hashtags 最多 10 個。`,
+          content: `平台：${platform}\n風格：${styleDesc}\n標題：${title}${summary.trim() ? `\n摘要：${summary.trim()}` : ''}\n\n請根據以上資訊，產生一篇適合此平台的貼文，hashtags 最多 10 個。`,
         },
       ],
     })

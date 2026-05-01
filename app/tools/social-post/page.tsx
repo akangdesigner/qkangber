@@ -12,7 +12,8 @@ const STYLES = [
 ]
 
 export default function SocialPostPage() {
-  const [topic, setTopic] = useState('')
+  const [title, setTitle] = useState('')
+  const [summary, setSummary] = useState('')
   const [platform, setPlatform] = useState('Threads')
   const [style, setStyle] = useState('casual')
   const [loading, setLoading] = useState(false)
@@ -22,7 +23,7 @@ export default function SocialPostPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!topic.trim()) return
+    if (!title.trim()) return
     setLoading(true)
     setError('')
     setResult(null)
@@ -31,7 +32,7 @@ export default function SocialPostPage() {
       const res = await fetch('/api/tools/social-post', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, platform, style }),
+        body: JSON.stringify({ title, summary, platform, style }),
       })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error ?? '產生失敗')
@@ -77,16 +78,28 @@ export default function SocialPostPage() {
       <h1 className="text-4xl font-semibold text-white tracking-[-0.02em] mb-2">
         社群貼文產生器
       </h1>
-      <p className="text-slate-400 mb-10">輸入主題，AI 幫你寫好貼文和標籤。免費使用。</p>
+      <p className="text-slate-400 mb-10">輸入標題與摘要，AI 幫你寫好貼文和標籤。免費使用。</p>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label className="block text-sm text-slate-400 mb-2">貼文主題</label>
+          <label className="block text-sm text-slate-400 mb-2">標題</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="例：5 個讓 n8n 自動化節省 80% 時間的技巧"
+            className="w-full rounded-xl px-4 py-3 text-white text-sm placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-violet-500/50"
+            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm text-slate-400 mb-2">摘要</label>
           <textarea
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-            placeholder="例：夏季新品上市，防曬面膜，主打長效保濕，目標客群是 25-35 歲女性"
-            rows={3}
+            value={summary}
+            onChange={(e) => setSummary(e.target.value)}
+            placeholder="例：介紹如何用 n8n 串接 Gmail、Google Sheets 與 AI，打造每週自動整理報表的工作流，適合中小企業主與行銷人員"
+            rows={4}
             className="w-full rounded-xl px-4 py-3 text-white text-sm placeholder-slate-600 resize-none focus:outline-none focus:ring-1 focus:ring-violet-500/50"
             style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
           />
@@ -124,7 +137,7 @@ export default function SocialPostPage() {
 
         <button
           type="submit"
-          disabled={loading || !topic.trim()}
+          disabled={loading || !title.trim()}
           className="w-full py-3 rounded-xl text-white font-medium text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed"
           style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}
         >
