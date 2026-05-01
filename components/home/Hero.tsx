@@ -46,7 +46,7 @@ export default function Hero() {
 
       <div className="relative max-w-6xl mx-auto px-6 grid lg:grid-cols-[1.1fr_1fr] gap-10 items-center" style={{ minHeight: 'calc(100vh - 4rem)' }}>
         {/* left — copy */}
-        <div className="relative z-10 max-w-2xl">
+        <div className="relative z-10 max-w-2xl pt-16 pb-4 lg:py-0">
           <div className="mb-7">
             <EyebrowLabel ruleWidth={32}>AI Workflow Engineering</EyebrowLabel>
           </div>
@@ -110,7 +110,7 @@ export default function Hero() {
         </div>
 
         {/* right — particle globe */}
-        <div className="relative h-[420px] sm:h-[520px] lg:h-[560px] -mr-6 lg:-mr-20">
+        <div className="relative h-[300px] sm:h-[420px] lg:h-[560px] lg:-mr-20 overflow-hidden">
           <ParticleGlobe />
         </div>
       </div>

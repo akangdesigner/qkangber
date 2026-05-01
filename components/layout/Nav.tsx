@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { useState, useEffect } from 'react'
 
 function LogoMark({ size = 30 }: { size?: number }) {
   return (
@@ -36,6 +37,16 @@ const links = [
 
 export default function Nav() {
   const pathname = usePathname()
+  const [open, setOpen] = useState(false)
+
+  // Close menu on route change
+  useEffect(() => { setOpen(false) }, [pathname])
+
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [open])
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#05060a]/80 border-b border-white/[0.06]">
@@ -47,7 +58,8 @@ export default function Nav() {
           </span>
         </Link>
 
-        <nav className="flex items-center gap-1">
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-1">
           {links.map(({ href, label, exact }) => {
             const isActive = exact ? pathname === href : (pathname === href || pathname.startsWith(href + '/'))
             return (
@@ -83,7 +95,55 @@ export default function Nav() {
             </Link>
           </div>
         </nav>
+
+        {/* Mobile hamburger button */}
+        <button
+          className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 rounded-lg hover:bg-white/[0.06] transition-colors"
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? '關閉選單' : '開啟選單'}
+          aria-expanded={open}
+        >
+          <span className={`block h-0.5 w-5 bg-slate-300 transition-all duration-200 origin-center ${open ? 'translate-y-2 rotate-45' : ''}`} />
+          <span className={`block h-0.5 w-5 bg-slate-300 transition-all duration-200 ${open ? 'opacity-0' : ''}`} />
+          <span className={`block h-0.5 w-5 bg-slate-300 transition-all duration-200 origin-center ${open ? '-translate-y-2 -rotate-45' : ''}`} />
+        </button>
       </div>
+
+      {/* Mobile menu overlay */}
+      {open && (
+        <div className="md:hidden fixed inset-0 top-16 z-40 bg-[#05060a]/95 backdrop-blur-xl flex flex-col">
+          <nav className="flex flex-col px-6 py-6 gap-1">
+            {links.map(({ href, label, exact }) => {
+              const isActive = exact ? pathname === href : (pathname === href || pathname.startsWith(href + '/'))
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`text-base px-4 py-3 rounded-xl transition-all duration-150 ${
+                    isActive
+                      ? 'text-white bg-white/[0.08]'
+                      : 'text-slate-300 hover:text-white hover:bg-white/[0.05]'
+                  }`}
+                >
+                  {label}
+                </Link>
+              )
+            })}
+          </nav>
+          <div className="px-6 pt-2">
+            <Link
+              href="/"
+              className="flex items-center justify-center px-5 py-3 rounded-full text-white text-sm font-medium transition-all active:scale-[0.98]"
+              style={{
+                background: 'linear-gradient(135deg, #2563eb 0%, #6366f1 50%, #8b5cf6 100%)',
+                boxShadow: '0 0 24px rgba(99,102,241,0.35)',
+              }}
+            >
+              回首頁
+            </Link>
+          </div>
+        </div>
+      )}
     </header>
   )
 }
