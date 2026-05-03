@@ -60,7 +60,10 @@ export async function POST(request: Request) {
   }
 
   const date = body.date ?? new Date().toISOString().slice(0, 10)
-  const tags = body.tags ?? []
+  const rawTags = body.tags ?? []
+  const tags = typeof rawTags === 'string'
+    ? rawTags.split(',').map((t: string) => t.trim()).filter(Boolean)
+    : rawTags
   const excerpt = body.excerpt ?? ''
   const featured = body.featured ?? false
   const cleanContent = stripInlineStyles(content)
