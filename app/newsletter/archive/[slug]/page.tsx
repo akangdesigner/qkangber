@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { getNewsletterIssue, getNewsletterIssues } from '@/lib/sheets'
+import { getNewsletterIssue, getAllNewsletterIssues } from '@/lib/newsletter'
 import type { Metadata } from 'next'
 
 export const dynamicParams = true
@@ -8,7 +8,7 @@ export const dynamicParams = true
 type Props = { params: Promise<{ slug: string }> }
 
 export async function generateStaticParams() {
-  const issues = await getNewsletterIssues()
+  const issues = await getAllNewsletterIssues()
   return issues.map((i) => ({ slug: i.slug }))
 }
 

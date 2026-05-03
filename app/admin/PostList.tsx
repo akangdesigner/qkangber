@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import type { Post } from '@/types/content'
 
 export default function PostList({ posts }: { posts: Post[] }) {
@@ -34,7 +35,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-10">
+      <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-semibold text-white tracking-tight">文章管理</h1>
         <button
           onClick={handleLogout}
@@ -60,18 +61,27 @@ export default function PostList({ posts }: { posts: Post[] }) {
               <p className="text-slate-500 text-xs mt-0.5">{post.date} · {post.slug}</p>
             </div>
 
-            <button
-              onClick={() => handleDelete(post.slug)}
-              disabled={deleting === post.slug}
-              className="flex-shrink-0 text-xs px-3 py-1.5 rounded-lg transition-colors disabled:opacity-40"
-              style={{
-                background: confirm === post.slug ? 'rgba(239,68,68,0.15)' : 'rgba(255,255,255,0.05)',
-                color: confirm === post.slug ? '#f87171' : '#94a3b8',
-                border: `1px solid ${confirm === post.slug ? 'rgba(239,68,68,0.3)' : 'rgba(255,255,255,0.08)'}`,
-              }}
-            >
-              {deleting === post.slug ? '刪除中…' : confirm === post.slug ? '確認刪除？' : '刪除'}
-            </button>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <Link
+                href={`/admin/edit/${post.slug}`}
+                className="text-xs px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-colors"
+                style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+              >
+                編輯
+              </Link>
+              <button
+                onClick={() => handleDelete(post.slug)}
+                disabled={deleting === post.slug}
+                className="text-xs px-3 py-1.5 rounded-lg transition-colors disabled:opacity-40"
+                style={{
+                  background: confirm === post.slug ? 'rgba(239,68,68,0.15)' : 'rgba(255,255,255,0.05)',
+                  color: confirm === post.slug ? '#f87171' : '#94a3b8',
+                  border: `1px solid ${confirm === post.slug ? 'rgba(239,68,68,0.3)' : 'rgba(255,255,255,0.08)'}`,
+                }}
+              >
+                {deleting === post.slug ? '刪除中…' : confirm === post.slug ? '確認刪除？' : '刪除'}
+              </button>
+            </div>
           </div>
         ))}
       </div>

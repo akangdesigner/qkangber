@@ -1,5 +1,5 @@
 ﻿import Link from 'next/link'
-import { getNewsletterIssues } from '@/lib/sheets'
+import { getAllNewsletterIssues } from '@/lib/newsletter'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -38,7 +38,7 @@ function formatDate(dateStr: string) {
 }
 
 export default async function ArchivePage() {
-  const issues = await getNewsletterIssues()
+  const issues = await getAllNewsletterIssues()
 
   return (
     <div className="relative max-w-4xl mx-auto px-6 py-16">
