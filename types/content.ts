@@ -40,6 +40,8 @@ export interface ServiceFrontmatter {
   icon: string
   featured: boolean
   published: boolean
+  serviceType?: 'automation' | 'ai'
+  faq?: { q: string; a: string }[]
 }
 
 export interface Service extends ServiceFrontmatter {

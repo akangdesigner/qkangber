@@ -44,10 +44,11 @@ export default function AboutPage() {
       </div>
 
       <h1 className="text-4xl sm:text-5xl font-semibold text-white leading-tight mb-8 tracking-[-0.02em]">
-        你好，我是<br />
+        歡迎來到{' '}
         <span style={{ background: 'linear-gradient(90deg, #c4b5fd, #93c5fd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
           Q kangber
         </span>
+        {' '}的 AI 世界
       </h1>
 
       <div className="space-y-5 text-[1.05rem] text-slate-300 leading-[1.85] mb-14">

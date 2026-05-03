@@ -1,11 +1,10 @@
-﻿import { getAllServices } from '@/lib/mdx'
-import ServiceCard from '@/components/services/ServiceCard'
-import ServiceFlow from '@/components/services/ServiceFlow'
+import { getAllServices } from '@/lib/mdx'
+import ServicesTabs from '@/components/services/ServicesTabs'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'n8n 自動化服務項目 — Q kangber',
-  description: '電商訂單、行銷漏斗、社群排程、數據報表——n8n 自動化服務，幫你把重複性流程一次清掉。',
+  title: 'AI 自動化與應用服務 — Q kangber',
+  description: '電商訂單、行銷漏斗自動化，以及 Claude AI 應用開發、聊天機器人、提示詞工程顧問——一站式 AI 服務。',
 }
 
 function EyebrowLabel({ children }: { children: React.ReactNode }) {
@@ -28,7 +27,8 @@ function EyebrowLabel({ children }: { children: React.ReactNode }) {
 
 export default async function ServicesPage() {
   const services = await getAllServices()
-  const categories = [...new Set(services.map((s) => s.category))]
+  const automationServices = services.filter((s) => !s.serviceType || s.serviceType === 'automation')
+  const aiServices = services.filter((s) => s.serviceType === 'ai')
 
   return (
     <div className="relative max-w-5xl mx-auto px-4 sm:px-6 py-16">
@@ -42,7 +42,7 @@ export default async function ServicesPage() {
           <EyebrowLabel>Services</EyebrowLabel>
         </div>
         <h1 className="text-4xl sm:text-5xl font-semibold text-white leading-tight mb-5 tracking-[-0.02em]">
-          讓 N8N 處理<br />
+          AI 幫你處理<br />
           <span
             style={{
               background: 'linear-gradient(90deg, #c4b5fd 0%, #93c5fd 50%, #67e8f9 100%)',
@@ -55,45 +55,11 @@ export default async function ServicesPage() {
           </span>
         </h1>
         <p className="text-[1.05rem] text-slate-400 max-w-xl leading-relaxed">
-          專注在電商與行銷流程自動化。每個服務都是從實際踩坑中設計出來的，不賣課程，直接幫你做好。
+          n8n 流程自動化、Claude AI 應用開發——從重複性作業到智慧判斷，每個環節都可以設計得更好。
         </p>
       </div>
 
-      {/* interactive node graph */}
-      <div
-        className="rounded-2xl border border-white/[0.08] p-4 sm:p-6 mb-14 overflow-hidden"
-        style={{ background: 'rgba(255,255,255,0.02)' }}
-      >
-        <div className="flex items-center justify-between mb-3 px-2">
-          <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
-            <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            workflow.json · live
-          </div>
-          <div className="flex gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" />
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" />
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
-          </div>
-        </div>
-        <ServiceFlow services={services} />
-      </div>
-
-      {categories.map((cat) => {
-        const catServices = services.filter((s) => s.category === cat)
-        return (
-          <div key={cat} className="mb-14">
-            <h2 className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-500 mb-6 flex items-center gap-3">
-              <span>{cat}</span>
-              <span className="h-px flex-1 bg-white/[0.06]" />
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {catServices.map((service) => (
-                <ServiceCard key={service.slug} service={service} />
-              ))}
-            </div>
-          </div>
-        )
-      })}
+      <ServicesTabs automationServices={automationServices} aiServices={aiServices} />
 
       <div
         className="relative rounded-2xl border border-white/[0.08] p-8 text-center mt-4 overflow-hidden"
@@ -107,7 +73,7 @@ export default async function ServicesPage() {
         />
         <p className="text-slate-400 mb-2 text-sm">有客製化需求？</p>
         <p className="text-xl font-semibold text-white mb-5 tracking-[-0.01em]">
-          說說你的流程，我來評估能否自動化
+          說說你的需求，我來評估怎麼用 AI 解決
         </p>
         <a
           href="mailto:asdtodd42@gmail.com"

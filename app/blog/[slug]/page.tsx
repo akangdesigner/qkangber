@@ -2,6 +2,7 @@
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getAllPosts, getPostBySlug } from '@/lib/mdx'
 import { mdxComponents } from '@/components/mdx/MDXComponents'
+import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import Tag from '@/components/shared/Tag'
 import type { Metadata } from 'next'
 import rehypePrettyCode from 'rehype-pretty-code'
@@ -59,6 +60,11 @@ export default async function PostPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <Breadcrumbs crumbs={[
+        { label: '首頁', href: '/' },
+        { label: '部落格', href: '/blog' },
+        { label: post.title },
+      ]} />
       <header className="mb-10">
         <div className="flex flex-wrap gap-1.5 mb-4">
           {post.tags.map((tag) => (

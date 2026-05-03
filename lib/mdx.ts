@@ -106,6 +106,7 @@ export const getAllServices = cache(async (): Promise<Service[]> => {
         icon: data.icon ?? '⚙️',
         featured: data.featured ?? false,
         published: data.published ?? true,
+        serviceType: data.serviceType,
       } satisfies Service
     })
     .filter((s) => s.published)
@@ -132,6 +133,8 @@ export const getServiceBySlug = cache(async (slug: string): Promise<ServiceWithC
     icon: data.icon ?? '⚙️',
     featured: data.featured ?? false,
     published: data.published ?? true,
+    serviceType: data.serviceType,
+    faq: data.faq,
     content,
   }
 })

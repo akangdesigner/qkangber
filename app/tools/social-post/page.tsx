@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Breadcrumbs from '@/components/shared/Breadcrumbs'
 
 const PLATFORMS = ['Threads', 'Instagram', 'Facebook']
 const STYLES = [
@@ -58,11 +59,11 @@ export default function SocialPostPage() {
         style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 10%, rgba(124,92,255,0.10), transparent 60%)' }}
       />
 
-      <div className="mb-2">
-        <Link href="/tools" className="text-sm text-slate-500 hover:text-slate-300 transition-colors">
-          ← 工具站
-        </Link>
-      </div>
+      <Breadcrumbs crumbs={[
+        { label: '首頁', href: '/' },
+        { label: '工具站', href: '/tools' },
+        { label: '社群貼文產生器' },
+      ]} />
 
       <div className="flex items-center gap-3 mb-4 mt-6">
         <div className="h-px w-8 flex-shrink-0" style={{ background: 'linear-gradient(90deg, transparent, #7c5cff)' }} />
