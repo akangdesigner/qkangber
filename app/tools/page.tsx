@@ -14,6 +14,13 @@ const tools = [
     tags: ['社群行銷', 'AI 寫作'],
     icon: '✍️',
   },
+  {
+    href: '/tools/pet-talk',
+    title: '寵物溝通師',
+    desc: '輸入寵物名字、個性和你的問題，AI 化身靈魂溝通師，替你解讀牠的心聲。',
+    tags: ['搞笑', '寵物'],
+    icon: '🐾',
+  },
 ]
 
 export default function ToolsPage() {
