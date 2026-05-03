@@ -14,9 +14,15 @@ function escapeYaml(str: string): string {
   return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, ' ')
 }
 
-// 移除 HTML inline style 屬性，避免 MDX/React 渲染時 style prop 型別錯誤
-function stripInlineStyles(html: string): string {
-  return html.replace(/\s+style="[^"]*"/g, '')
+// 清理 HTML，讓 MDX 能安全編譯
+function sanitizeForMdx(html: string): string {
+  return html
+    .replace(/\s+style="[^"]*"/g, '')          // 移除 inline style（React prop 型別衝突）
+    .replace(/<!--[\s\S]*?-->/g, '')             // 移除 HTML 註解（MDX 不支援）
+    .replace(/\{/g, '&#123;').replace(/\}/g, '&#125;') // 大括號轉 HTML entity（避免 MDX 當 JS 解析）
+    .replace(/<br\s*\/?>/gi, '<br />')           // <br> → <br />（JSX 需要自閉合）
+    .replace(/<hr\s*\/?>/gi, '<hr />')           // <hr> → <hr />
+    .replace(/<img([^>]*)(?<!\/)>/gi, '<img$1 />') // <img ...> → <img ... />
 }
 
 // 從 HTML 內容自動產生摘要（最多 120 字）
@@ -71,7 +77,7 @@ export async function POST(request: Request) {
     ? rawTags.split(',').map((t: string) => t.trim()).filter(Boolean)
     : rawTags
   const featured = body.featured ?? false
-  const cleanContent = stripInlineStyles(content)
+  const cleanContent = sanitizeForMdx(content)
   const excerpt = body.excerpt || autoExcerpt(cleanContent)
 
   const monthPrefix = date.slice(0, 7)

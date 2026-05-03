@@ -51,7 +51,20 @@ export default async function PostPage({ params }: Props) {
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
-    author: { '@type': 'Person', name: 'Q kangber' },
+    author: {
+      '@type': 'Person',
+      name: 'Q kangber',
+      url: 'https://aiqkangber.com/about',
+      sameAs: [
+        'https://www.threads.com/@cutekangber',
+        'https://www.instagram.com/cutekangber',
+      ],
+    },
+    publisher: {
+      '@type': 'Person',
+      name: 'Q kangber',
+      url: 'https://aiqkangber.com',
+    },
     ...(post.coverImage && { image: post.coverImage }),
   }
 
