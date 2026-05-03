@@ -34,7 +34,39 @@ export default function ServiceFlow({ services }: Props) {
   })
 
   return (
-    <div className="relative w-full" style={{ aspectRatio: `${W}/${H}`, maxWidth: W, margin: '0 auto' }}>
+    <>
+      {/* Mobile card list */}
+      <div className="md:hidden flex flex-col gap-3">
+        {nodes.map((n) => (
+          <button
+            key={n.slug}
+            onClick={() => router.push(`/services/${n.slug}`)}
+            className="w-full text-left rounded-2xl p-4 transition-all duration-200 active:scale-[0.98]"
+            style={{
+              background: 'rgba(13,14,26,0.92)',
+              border: `1.5px solid rgba(255,255,255,0.1)`,
+              boxShadow: '0 1px 0 rgba(255,255,255,0.04) inset, 0 6px 20px rgba(0,0,0,0.5)',
+            }}
+          >
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="text-2xl">{n.icon}</span>
+              <span className="text-[0.6rem] tracking-[0.18em] uppercase font-semibold" style={{ color: n.color }}>
+                {n.category}
+              </span>
+            </div>
+            <div className="text-white text-[0.95rem] font-semibold leading-snug tracking-[-0.01em] mb-1">
+              {n.title}
+            </div>
+            <div className="text-xs text-slate-500 font-mono">
+              NT$ {n.price.toLocaleString()}{n.priceNote}
+            </div>
+          </button>
+        ))}
+        <p className="text-center text-[10px] font-mono text-slate-500 mt-1">點擊卡片查看服務詳情</p>
+      </div>
+
+      {/* Desktop SVG flow */}
+      <div className="hidden md:block relative w-full" style={{ aspectRatio: `${W}/${H}`, maxWidth: W, margin: '0 auto' }}>
       <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 w-full h-full">
         <defs>
           <pattern id="sf-grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -159,5 +191,6 @@ export default function ServiceFlow({ services }: Props) {
         點擊任一節點查看服務詳情
       </div>
     </div>
+    </>
   )
 }

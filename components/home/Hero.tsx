@@ -110,7 +110,7 @@ export default function Hero() {
         </div>
 
         {/* right — particle globe */}
-        <div className="relative h-[420px] sm:h-[520px] lg:h-[560px] -mr-6 lg:-mr-20">
+        <div className="relative h-[260px] sm:h-[380px] lg:h-[560px] lg:-mr-20">
           <ParticleGlobe />
         </div>
       </div>

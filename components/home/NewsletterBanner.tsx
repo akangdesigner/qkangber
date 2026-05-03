@@ -25,7 +25,7 @@ export default function NewsletterBanner() {
   return (
     <section className="relative max-w-6xl mx-auto px-6 py-24">
       <div
-        className="relative overflow-hidden rounded-3xl border border-white/[0.08] p-10 lg:p-16"
+        className="relative overflow-hidden rounded-3xl border border-white/[0.08] p-6 sm:p-10 lg:p-16"
         style={{
           background:
             'radial-gradient(ellipse 80% 80% at 100% 0%, rgba(124,92,255,0.18), transparent 60%), radial-gradient(ellipse 60% 60% at 0% 100%, rgba(34,211,238,0.10), transparent 60%), #0a0b14',
