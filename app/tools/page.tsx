@@ -2,7 +2,7 @@
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: '免費 AI 工具站 — Q康寶',
+  title: '免費 AI 工具站 — Q kangber',
   description: '電商與行銷人的免費 AI 工具。社群貼文產生器，不需要註冊，直接用。',
 }
 

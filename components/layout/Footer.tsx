@@ -29,7 +29,7 @@ function LogoMark({ size = 28 }: { size?: number }) {
         boxShadow: '0 0 0 1px rgba(255,255,255,0.08), 0 0 14px rgba(34,197,94,0.20)',
       }}
     >
-      <Image src="/logo.png" alt="Q康寶" width={size} height={size} className="w-full h-full object-cover" />
+      <Image src="/logo.png" alt="Q kangber" width={size} height={size} className="w-full h-full object-cover" />
     </div>
   )
 }
@@ -46,7 +46,7 @@ export default function Footer() {
         <div className="md:col-span-1">
           <div className="flex items-center gap-2.5 mb-4">
             <LogoMark size={26} />
-            <span className="font-semibold text-white text-[1.02rem] tracking-[-0.01em]">Q康寶</span>
+            <span className="font-semibold text-white text-[1.02rem] tracking-[-0.01em]">Q kangber</span>
           </div>
           <p className="text-sm text-slate-400 leading-relaxed">
             n8n 自動化工程師。專注電商與行銷流程自動化——不賣課程，直接幫你做好。
@@ -103,7 +103,7 @@ export default function Footer() {
 
       <div className="border-t border-white/[0.04] py-5">
         <p className="text-center text-xs text-slate-600">
-          © {new Date().getFullYear()} Q康寶. Built with intent.
+          © {new Date().getFullYear()} Q kangber. Built with intent.
         </p>
       </div>
     </footer>

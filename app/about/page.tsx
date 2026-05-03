@@ -2,8 +2,8 @@
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: '關於 Q康寶 — n8n 自動化工程師',
-  description: '我是 Q康寶，整合 AI 工具與 n8n 自動化流程，讓工作達到高效產出。在意的不是用了多少 AI，而是 AI 有沒有精準表達你的想法。',
+  title: '關於 Q kangber — n8n 自動化工程師',
+  description: '我是 Q kangber，整合 AI 工具與 n8n 自動化流程，讓工作達到高效產出。在意的不是用了多少 AI，而是 AI 有沒有精準表達你的想法。',
 }
 
 const socialLinks = [
@@ -46,7 +46,7 @@ export default function AboutPage() {
       <h1 className="text-4xl sm:text-5xl font-semibold text-white leading-tight mb-8 tracking-[-0.02em]">
         你好，我是<br />
         <span style={{ background: 'linear-gradient(90deg, #c4b5fd, #93c5fd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-          Q康寶
+          Q kangber
         </span>
       </h1>
 

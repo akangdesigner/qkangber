@@ -20,11 +20,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.excerpt,
-    authors: [{ name: 'Q康寶' }],
+    authors: [{ name: 'Q kangber' }],
     openGraph: {
       type: 'article',
       publishedTime: post.date,
-      authors: ['Q康寶'],
+      authors: ['Q kangber'],
       images: post.coverImage ? [{ url: post.coverImage }] : [{ url: '/og-default.png' }],
     },
   }
@@ -49,7 +49,7 @@ export default async function PostPage({ params }: Props) {
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
-    author: { '@type': 'Person', name: 'Q康寶' },
+    author: { '@type': 'Person', name: 'Q kangber' },
     ...(post.coverImage && { image: post.coverImage }),
   }
 

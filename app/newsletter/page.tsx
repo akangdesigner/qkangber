@@ -3,7 +3,7 @@ import SubscribeForm from '@/components/shared/SubscribeForm'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'AI 自動化週報 — 免費訂閱 | Q康寶',
+  title: 'AI 自動化週報 — 免費訂閱 | Q kangber',
   description: '每週精選 AI 與 n8n 自動化動態，過濾雜訊，只給值得花時間的資訊。免費訂閱，隨時退訂。',
 }
 

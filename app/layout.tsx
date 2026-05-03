@@ -21,15 +21,15 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://aiqkangber.com'),
   title: {
-    default: 'Q康寶 — n8n 自動化 · AI Agent · 電商流程工程',
-    template: '%s | Q康寶',
+    default: 'Q kangber — n8n 自動化 · AI Agent · 電商流程工程',
+    template: '%s | Q kangber',
   },
   description: '專注 n8n 工作流、AI Agent 架構、電商與行銷流程自動化。把重複性工作交給 n8n，你只管長遠的事。',
   openGraph: {
     type: 'website',
     locale: 'zh_TW',
     url: 'https://aiqkangber.com',
-    siteName: 'Q康寶',
+    siteName: 'Q kangber',
   },
   twitter: {
     card: 'summary_large_image',
