@@ -13,9 +13,24 @@ const socialLinks = [
 
 const siteLinks = [
   { href: '/services', label: '服務項目', desc: '電商與行銷自動化，每個服務獨立頁面說明' },
-  { href: '/portfolio', label: '作品集', desc: '實際交付的 n8n 工作流案例與成效' },
-  { href: '/blog', label: '文章', desc: '自動化實戰心得與踩坑記錄' },
+  { href: '/blog', label: '知識庫', desc: '自動化實戰心得、AI 工具應用與踩坑記錄' },
+  { href: '/newsletter/archive', label: '歷期電子報', desc: '每週 AI 業界動態精選，全部公開閱讀' },
 ]
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Q kangber',
+  url: 'https://aiqkangber.com/about',
+  email: 'asdtodd42@gmail.com',
+  jobTitle: 'n8n 自動化工程師',
+  description: '整合 AI 工具與 n8n 自動化流程，協助電商與行銷團隊打造高效自動化系統。',
+  sameAs: [
+    'https://www.threads.com/@cutekangber',
+    'https://www.instagram.com/cutekangber',
+  ],
+  knowsAbout: ['n8n workflow automation', 'AI application development', 'marketing automation', 'e-commerce automation'],
+}
 
 function EyebrowLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -34,6 +49,10 @@ function EyebrowLabel({ children }: { children: React.ReactNode }) {
 export default function AboutPage() {
   return (
     <main className="relative max-w-2xl mx-auto px-6 py-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
       <div
         className="absolute inset-0 pointer-events-none -z-10"
         style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 10%, rgba(124,92,255,0.12), transparent 60%)' }}
