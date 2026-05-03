@@ -7,6 +7,15 @@ import type { Post, PostWithContent, Course, Service, ServiceWithContent } from 
 
 const contentDir = path.join(process.cwd(), 'content')
 
+function sanitizeForMdx(content: string): string {
+  return content
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/\{/g, '&#123;').replace(/\}/g, '&#125;')
+    .replace(/<br\s*\/?>/gi, '<br />')
+    .replace(/<hr\s*\/?>/gi, '<hr />')
+    .replace(/<img([^>]*)(?<!\/)>/gi, '<img$1 />')
+}
+
 function getFileSlugs(dir: string): string[] {
   if (!fs.existsSync(dir)) return []
   return fs
@@ -57,7 +66,7 @@ export const getPostBySlug = cache(async (slug: string): Promise<PostWithContent
     coverImage: data.coverImage,
     featured: data.featured ?? false,
     readingTime: readingTime(content),
-    content,
+    content: sanitizeForMdx(content),
   }
 })
 
