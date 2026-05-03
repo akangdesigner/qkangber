@@ -10,6 +10,10 @@ function slugify(text: string): string {
     .slice(0, 60)
 }
 
+function escapeYaml(str: string): string {
+  return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, ' ')
+}
+
 function buildMdx(fields: {
   title: string
   date: string
@@ -19,8 +23,8 @@ function buildMdx(fields: {
   content: string
 }): string {
   const { title, date, tags, excerpt, featured, content } = fields
-  const tagsYaml = tags.map((t) => `"${t}"`).join(', ')
-  return `---\ntitle: "${title}"\ndate: "${date}"\ntags: [${tagsYaml}]\nexcerpt: "${excerpt}"\nfeatured: ${featured}\n---\n\n${content}`
+  const tagsYaml = tags.map((t) => `"${escapeYaml(t)}"`).join(', ')
+  return `---\ntitle: "${escapeYaml(title)}"\ndate: "${date}"\ntags: [${tagsYaml}]\nexcerpt: "${escapeYaml(excerpt)}"\nfeatured: ${featured}\n---\n\n${content}`
 }
 
 export async function POST(request: Request) {
