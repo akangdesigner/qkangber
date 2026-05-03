@@ -4,7 +4,7 @@ import SubscribeForm from '@/components/shared/SubscribeForm'
 
 const mainLinks = [
   { href: '/services', label: '服務' },
-  { href: '/blog', label: '文章' },
+  { href: '/blog', label: '知識庫' },
   { href: '/tools', label: '工具站' },
 ]
 

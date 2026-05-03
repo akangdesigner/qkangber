@@ -14,6 +14,11 @@ function escapeYaml(str: string): string {
   return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, ' ')
 }
 
+// 移除 HTML inline style 屬性，避免 MDX/React 渲染時 style prop 型別錯誤
+function stripInlineStyles(html: string): string {
+  return html.replace(/\s+style="[^"]*"/g, '')
+}
+
 function buildMdx(fields: {
   title: string
   date: string
@@ -58,13 +63,16 @@ export async function POST(request: Request) {
   const tags = body.tags ?? []
   const excerpt = body.excerpt ?? ''
   const featured = body.featured ?? false
+  const cleanContent = stripInlineStyles(content)
 
   const monthPrefix = date.slice(0, 7)
-  const slug = body.slug ?? slugify(title)
-  const filename = `${monthPrefix}-${slug}.mdx`
+  // 若外部傳入 slug，直接用（不再加月份前綴避免重複）
+  const rawSlug = body.slug ?? slugify(title)
+  const slug = rawSlug.startsWith(monthPrefix) ? rawSlug : `${monthPrefix}-${rawSlug}`
+  const filename = `${slug}.mdx`
   const filePath = `content/blog/${filename}`
 
-  const mdxContent = buildMdx({ title, date, tags, excerpt, featured, content })
+  const mdxContent = buildMdx({ title, date, tags, excerpt, featured, content: cleanContent })
   const encoded = Buffer.from(mdxContent, 'utf-8').toString('base64')
 
   const owner = process.env.GITHUB_OWNER ?? 'akangdesigner'
