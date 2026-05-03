@@ -62,7 +62,8 @@
       "Bash(Test-Path \"D:\\\\qkangber\\\\.vercel\")",
       "Bash(Get-Content \"D:\\\\qkangber\\\\.vercel\\\\project.json\" -ErrorAction SilentlyContinue)",
       "Bash(git pull *)",
-      "Bash(git stash *)"
+      "Bash(git stash *)",
+      "Bash(git rm *)"
     ]
   }
 }

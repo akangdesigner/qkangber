@@ -3,6 +3,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getAllPosts, getPostBySlug } from '@/lib/mdx'
 import { mdxComponents } from '@/components/mdx/MDXComponents'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
+import AuthorCard from '@/components/shared/AuthorCard'
 import Tag from '@/components/shared/Tag'
 import type { Metadata } from 'next'
 import rehypePrettyCode from 'rehype-pretty-code'
@@ -96,6 +97,8 @@ export default async function PostPage({ params }: Props) {
           }}
         />
       </div>
+
+      <AuthorCard />
     </article>
   )
 }
