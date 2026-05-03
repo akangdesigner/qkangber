@@ -19,6 +19,12 @@ function stripInlineStyles(html: string): string {
   return html.replace(/\s+style="[^"]*"/g, '')
 }
 
+// 從 HTML 內容自動產生摘要（最多 120 字）
+function autoExcerpt(html: string, max = 120): string {
+  const text = html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+  return text.length > max ? text.slice(0, max) + '…' : text
+}
+
 function buildMdx(fields: {
   title: string
   date: string
@@ -64,9 +70,9 @@ export async function POST(request: Request) {
   const tags = typeof rawTags === 'string'
     ? rawTags.split(',').map((t: string) => t.trim()).filter(Boolean)
     : rawTags
-  const excerpt = body.excerpt ?? ''
   const featured = body.featured ?? false
   const cleanContent = stripInlineStyles(content)
+  const excerpt = body.excerpt || autoExcerpt(cleanContent)
 
   const monthPrefix = date.slice(0, 7)
   // 若外部傳入 slug，直接用（不再加月份前綴避免重複）
