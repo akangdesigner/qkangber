@@ -1,6 +1,5 @@
 ﻿import type { Metadata } from 'next'
 import Link from 'next/link'
-import DecodeText from '@/components/effects/DecodeText'
 
 export const metadata: Metadata = {
   title: '免費 AI 工具站 — Q康寶',
@@ -36,7 +35,7 @@ export default function ToolsPage() {
       </div>
 
       <h1 className="text-5xl font-semibold text-white tracking-[-0.02em] mb-3">
-        <DecodeText duration={650}>工具站</DecodeText>
+        工具站
       </h1>
       <p className="text-slate-400 mb-14">電商與行銷人的免費 AI 工具。不需要註冊，直接用。</p>
 

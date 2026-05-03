@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: '關於 Q康寶 — n8n 自動化工程師',
-  description: '我是 Q康寶，專注電商與行銷流程自動化。用 n8n 幫客戶解決訂單、行銷漏斗、社群管理等重複性工作。不賣課程，直接幫你做好。',
+  description: '我是 Q康寶，整合 AI 工具與 n8n 自動化流程，讓工作達到高效產出。在意的不是用了多少 AI，而是 AI 有沒有精準表達你的想法。',
 }
 
 const socialLinks = [
@@ -52,13 +52,13 @@ export default function AboutPage() {
 
       <div className="space-y-5 text-[1.05rem] text-slate-300 leading-[1.85] mb-14">
         <p>
-          專注電商與行銷流程自動化幾年了。用 n8n 幫客戶解決的問題，從訂單處理到行銷漏斗都有。
+          我做的事是整合 AI 工具——不只是自動化、不只是省時間，而是讓整套工作流程達到真正高效的產出。從資料怎麼流、系統怎麼串，到最後產出什麼，每個環節都要設計過。
         </p>
         <p>
-          我不賣課程，也不寫教科書。我的工作是直接幫你把重複性流程自動化——你告訴我你每天在重複做什麼，我告訴你哪些可以讓 n8n 代勞。
+          AI 不是用來取代你的判斷，而是用來精準表達你的想法。產品提案、創意發想、寫文案——這些工作的核心還是你，AI 的角色是讓你的想法更快落地、更清楚呈現。一味依賴只會讓輸出變得平庸，找到人與 AI 的分工點，才是真正有效的使用方式。
         </p>
         <p>
-          踩過很多坑，所以知道哪些方案真的能用、哪些只是理論上漂亮。
+          我追求的是 AI 與人之間的平衡——不是口號，是每個案子都在實際拿捏的事。
         </p>
       </div>
 
@@ -101,7 +101,7 @@ export default function AboutPage() {
               <li className="flex items-start gap-3 text-slate-300">
                 <span className="mt-1 flex-shrink-0 text-violet-400">▪</span>
                 <div>
-                  <p className="font-medium text-white">職崖平台　課程講師 <span className="text-xs text-violet-300 font-normal ml-1">現職</span></p>
+                  <p className="font-medium text-white">職涯平台　課程講師 <span className="text-xs text-violet-300 font-normal ml-1">現職</span></p>
                   <p className="text-sm text-slate-400 mt-1 leading-relaxed">開設 n8n 自動化與 AI 工具應用課程，包含 Claude 系列實戰內容。</p>
                 </div>
               </li>

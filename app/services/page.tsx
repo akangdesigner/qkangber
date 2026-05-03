@@ -1,7 +1,6 @@
 ﻿import { getAllServices } from '@/lib/mdx'
 import ServiceCard from '@/components/services/ServiceCard'
 import ServiceFlow from '@/components/services/ServiceFlow'
-import DecodeText from '@/components/effects/DecodeText'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -43,7 +42,7 @@ export default async function ServicesPage() {
           <EyebrowLabel>Services</EyebrowLabel>
         </div>
         <h1 className="text-4xl sm:text-5xl font-semibold text-white leading-tight mb-5 tracking-[-0.02em]">
-          <DecodeText duration={650}>讓 N8N 處理</DecodeText><br />
+          讓 N8N 處理<br />
           <span
             style={{
               background: 'linear-gradient(90deg, #c4b5fd 0%, #93c5fd 50%, #67e8f9 100%)',

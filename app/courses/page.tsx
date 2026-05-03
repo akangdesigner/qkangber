@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'n8n 與 AI 工具課程 — Q康寶',
-  description: 'n8n 自動化實戰、Claude AI 工具應用課程。職崖平台合作課程，企業培訓也接。',
+  description: 'n8n 自動化實戰、Claude AI 工具應用課程。職涯平台合作課程，企業培訓也接。',
 }
 
 export default async function CoursesPage() {
