@@ -41,7 +41,7 @@ export async function POST(request: Request) {
   let body: {
     title?: string
     date?: string
-    tags?: string[]
+    tags?: string[] | string
     excerpt?: string
     featured?: boolean
     content?: string
