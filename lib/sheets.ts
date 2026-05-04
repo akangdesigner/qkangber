@@ -1,3 +1,13 @@
+function autoExcerpt(content: string, maxLen = 120): string {
+  const firstPara = content
+    .split('\n')
+    .map((l) => l.trim())
+    .find((l) => l && !l.startsWith('#') && !l.startsWith('!') && !l.startsWith('```'))
+  if (!firstPara) return ''
+  const plain = firstPara.replace(/[*_`[\]()>]/g, '').trim()
+  return plain.length > maxLen ? plain.slice(0, maxLen) + '…' : plain
+}
+
 export type SheetPost = {
   slug: string
   title: string
@@ -32,7 +42,7 @@ export async function getBlogPostsFromSheets(): Promise<SheetPost[]> {
         title: row[1] ?? '',
         date: row[2] ?? '',
         tags: row[3] ? row[3].split(',').map((t) => t.trim()).filter(Boolean) : [],
-        excerpt: row[4] ?? '',
+        excerpt: row[4]?.trim() || autoExcerpt(row[5] ?? ''),
         content: row[5] ?? '',
         featured: row[6]?.toLowerCase() === 'true',
         published: row[7]?.toLowerCase() === 'true',
