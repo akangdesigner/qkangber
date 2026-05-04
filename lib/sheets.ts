@@ -1,3 +1,49 @@
+export type SheetPost = {
+  slug: string
+  title: string
+  date: string
+  tags: string[]
+  excerpt: string
+  content: string
+  featured: boolean
+  published: boolean
+}
+
+export async function getBlogPostsFromSheets(): Promise<SheetPost[]> {
+  const sheetId = process.env.GOOGLE_SHEET_ID
+  const apiKey = process.env.GOOGLE_SHEETS_API_KEY
+  if (!sheetId || !apiKey) return []
+
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/posts!A:H?key=${apiKey}`
+
+  try {
+    const res = await fetch(url, { next: { revalidate: 60 } })
+    if (!res.ok) return []
+
+    const data = await res.json()
+    const rows: string[][] = data.values ?? []
+    if (rows.length < 2) return []
+
+    const [, ...dataRows] = rows
+
+    return dataRows
+      .map((row) => ({
+        slug: row[0]?.trim() ?? '',
+        title: row[1] ?? '',
+        date: row[2] ?? '',
+        tags: row[3] ? row[3].split(',').map((t) => t.trim()).filter(Boolean) : [],
+        excerpt: row[4] ?? '',
+        content: row[5] ?? '',
+        featured: row[6]?.toLowerCase() === 'true',
+        published: row[7]?.toLowerCase() === 'true',
+      }))
+      .filter((p) => p.published && p.slug)
+      .sort((a, b) => (a.date > b.date ? -1 : 1))
+  } catch {
+    return []
+  }
+}
+
 export type NewsletterIssue = {
   slug: string
   date: string

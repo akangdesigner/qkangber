@@ -3,6 +3,7 @@ import path from 'path'
 import matter from 'gray-matter'
 import { cache } from 'react'
 import { readingTime } from './reading-time'
+import { getBlogPostsFromSheets } from './sheets'
 import type { Post, PostWithContent, Course, Service, ServiceWithContent } from '@/types/content'
 
 const contentDir = path.join(process.cwd(), 'content')
@@ -28,11 +29,10 @@ export const getAllPosts = cache(async (): Promise<Post[]> => {
   const dir = path.join(contentDir, 'blog')
   const slugs = getFileSlugs(dir)
 
-  const posts = slugs.map((slug) => {
+  const mdxPosts: Post[] = slugs.map((slug) => {
     const ext = fs.existsSync(path.join(dir, `${slug}.mdx`)) ? 'mdx' : 'md'
     const raw = fs.readFileSync(path.join(dir, `${slug}.${ext}`), 'utf-8')
     const { data, content } = matter(raw)
-
     return {
       slug,
       title: data.title ?? '',
@@ -45,10 +45,43 @@ export const getAllPosts = cache(async (): Promise<Post[]> => {
     } satisfies Post
   })
 
-  return posts.sort((a, b) => (a.date > b.date ? -1 : 1))
+  const sheetPosts = await getBlogPostsFromSheets()
+  const sheetPostsMapped: Post[] = sheetPosts.map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    date: p.date,
+    tags: p.tags,
+    excerpt: p.excerpt,
+    featured: p.featured,
+    readingTime: readingTime(p.content),
+  }))
+
+  // Sheets takes priority over MDX for same slug
+  const bySlug = new Map<string, Post>()
+  for (const p of mdxPosts) bySlug.set(p.slug, p)
+  for (const p of sheetPostsMapped) bySlug.set(p.slug, p)
+
+  return Array.from(bySlug.values()).sort((a, b) => (a.date > b.date ? -1 : 1))
 })
 
 export const getPostBySlug = cache(async (slug: string): Promise<PostWithContent | null> => {
+  // Sheets takes priority
+  const sheetPosts = await getBlogPostsFromSheets()
+  const sheetPost = sheetPosts.find((p) => p.slug === slug)
+  if (sheetPost) {
+    return {
+      slug: sheetPost.slug,
+      title: sheetPost.title,
+      date: sheetPost.date,
+      tags: sheetPost.tags,
+      excerpt: sheetPost.excerpt,
+      featured: sheetPost.featured,
+      readingTime: readingTime(sheetPost.content),
+      content: sheetPost.content,
+    }
+  }
+
+  // Fallback to MDX filesystem
   const dir = path.join(contentDir, 'blog')
   const ext = fs.existsSync(path.join(dir, `${slug}.mdx`)) ? 'mdx' : 'md'
   const filePath = path.join(dir, `${slug}.${ext}`)
