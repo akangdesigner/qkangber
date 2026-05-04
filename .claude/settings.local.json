@@ -63,7 +63,9 @@
       "Bash(Get-Content \"D:\\\\qkangber\\\\.vercel\\\\project.json\" -ErrorAction SilentlyContinue)",
       "Bash(git pull *)",
       "Bash(git stash *)",
-      "Bash(git rm *)"
+      "Bash(git rm *)",
+      "Bash(curl -s -H \"Authorization: Bearer $\\(grep GITHUB_TOKEN .env.local)",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('sha',''\\)\\); import base64; print\\(base64.b64decode\\(d.get\\('content',''\\)\\).decode\\('utf-8','replace'\\)[:2000]\\)\")"
     ]
   }
 }
