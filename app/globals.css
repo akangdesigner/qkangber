@@ -81,6 +81,33 @@ body {
   --tw-prose-bullets:       #6366f1;
 }
 
+/* Prose headings — tech accent */
+.prose h2 {
+  position: relative;
+  padding-left: 1rem;
+  letter-spacing: -0.01em;
+}
+.prose h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  bottom: 0.1em;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #8b5cf6 0%, #3b82f6 100%);
+}
+
+.prose h3 {
+  letter-spacing: -0.01em;
+}
+.prose h3::before {
+  content: "// ";
+  font-weight: 400;
+  color: #6366f1;
+  opacity: 0.8;
+}
+
 code, .code {
   font-family: var(--font-mono);
   font-size: 0.9em;
