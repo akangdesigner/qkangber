@@ -95,17 +95,21 @@ export default async function PostPage({ params }: Props) {
       </header>
 
       <div className="prose max-w-none">
-        <MDXRemote
-          source={post.content}
-          components={mdxComponents}
-          options={{
-            mdxOptions: {
-              rehypePlugins: [
-                [rehypePrettyCode, { theme: 'github-dark' }],
-              ],
-            },
-          }}
-        />
+        {post.content.trimStart().startsWith('<') ? (
+          <div dangerouslySetInnerHTML={{ __html: post.content }} />
+        ) : (
+          <MDXRemote
+            source={post.content}
+            components={mdxComponents}
+            options={{
+              mdxOptions: {
+                rehypePlugins: [
+                  [rehypePrettyCode, { theme: 'github-dark' }],
+                ],
+              },
+            }}
+          />
+        )}
       </div>
 
       <AuthorCard />
