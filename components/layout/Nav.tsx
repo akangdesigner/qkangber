@@ -32,6 +32,7 @@ const links = [
   { href: '/tools', label: '工具站' },
   { href: '/newsletter/archive', label: '歷期電子報' },
   { href: '/newsletter', label: '開始訂閱', exact: true },
+  { href: '/faq', label: 'AI X 自動化指南' },
   { href: '/about', label: '關於我' },
 ]
 
