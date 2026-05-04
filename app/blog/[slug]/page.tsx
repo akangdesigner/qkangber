@@ -8,12 +8,9 @@ import Tag from '@/components/shared/Tag'
 import type { Metadata } from 'next'
 import rehypePrettyCode from 'rehype-pretty-code'
 
-type Props = { params: Promise<{ slug: string }> }
+export const revalidate = 60
 
-export async function generateStaticParams() {
-  const posts = await getAllPosts()
-  return posts.map((p) => ({ slug: p.slug }))
-}
+type Props = { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
