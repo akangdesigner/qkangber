@@ -65,99 +65,143 @@ const workflows: Workflow[] = [
   },
 ]
 
-const categoryColors: Record<string, string> = {
-  電商: 'bg-orange-50 text-orange-700 border-orange-200',
-  行銷: 'bg-blue-50 text-blue-700 border-blue-200',
-  社群: 'bg-purple-50 text-purple-700 border-purple-200',
-  報表: 'bg-green-50 text-green-700 border-green-200',
+const categoryStyles: Record<string, { bg: string; color: string; border: string }> = {
+  電商: { bg: 'rgba(99,102,241,0.10)', color: '#a78bfa', border: 'rgba(139,92,246,0.20)' },
+  行銷: { bg: 'rgba(96,165,250,0.10)', color: '#93c5fd', border: 'rgba(96,165,250,0.20)' },
+  社群: { bg: 'rgba(167,139,250,0.10)', color: '#c4b5fd', border: 'rgba(167,139,250,0.20)' },
+  報表: { bg: 'rgba(34,211,238,0.10)', color: '#67e8f9', border: 'rgba(34,211,238,0.20)' },
 }
+
+const defaultStyle = { bg: 'rgba(255,255,255,0.05)', color: '#94a3b8', border: 'rgba(255,255,255,0.10)' }
 
 export default function PortfolioPage() {
   const categories = [...new Set(workflows.map((w) => w.category))]
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
+    <div className="relative max-w-5xl mx-auto px-4 sm:px-6 py-16">
+      <div
+        className="absolute inset-0 pointer-events-none -z-10"
+        style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 10%, rgba(124,92,255,0.10), transparent 60%)' }}
+      />
+
       <div className="mb-14">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="h-px w-8 bg-[#ea580c] flex-shrink-0" />
-          <span className="text-[0.68rem] tracking-[0.22em] uppercase text-[#ea580c] font-semibold">
-            作品集
+        <div className="flex items-center gap-3 mb-5">
+          <div className="h-px w-8 flex-shrink-0" style={{ background: 'linear-gradient(90deg, transparent, #7c5cff)' }} />
+          <span
+            className="text-[0.66rem] tracking-[0.28em] uppercase font-semibold"
+            style={{ background: 'linear-gradient(90deg,#a78bfa,#60a5fa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
+          >
+            Portfolio
           </span>
         </div>
-        <h1 className="font-serif text-4xl sm:text-5xl font-semibold text-[#1c1917] leading-tight mb-5">
+        <h1 className="text-4xl sm:text-5xl font-semibold text-white leading-tight mb-5 tracking-[-0.02em]">
           實際交付的<br />
-          <em>n8n 工作流案例</em>
+          <span
+            style={{
+              background: 'linear-gradient(90deg, #c4b5fd 0%, #93c5fd 50%, #67e8f9 100%)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            n8n 工作流案例
+          </span>
         </h1>
-        <p className="text-[1.05rem] text-[#78716c] max-w-xl leading-relaxed">
+        <p className="text-[1.05rem] text-slate-400 max-w-xl leading-relaxed">
           以下是部分交付過的自動化專案。每個案例都有真實的業務背景與可量化的成效。
         </p>
       </div>
 
       <div className="flex flex-wrap gap-2 mb-10">
-        {categories.map((cat) => (
-          <span
-            key={cat}
-            className={`text-xs font-medium px-3 py-1 rounded-full border ${categoryColors[cat] ?? 'bg-stone-50 text-stone-700 border-stone-200'}`}
-          >
-            {cat}（{workflows.filter((w) => w.category === cat).length}）
-          </span>
-        ))}
+        {categories.map((cat) => {
+          const s = categoryStyles[cat] ?? defaultStyle
+          return (
+            <span
+              key={cat}
+              className="text-xs font-medium px-3 py-1 rounded-full"
+              style={{ background: s.bg, color: s.color, border: `1px solid ${s.border}` }}
+            >
+              {cat}（{workflows.filter((w) => w.category === cat).length}）
+            </span>
+          )
+        })}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {workflows.map((wf, i) => (
-          <div
-            key={i}
-            className="border border-[#e7e5e4] rounded-xl p-6 bg-[#fafaf9] hover:border-[#ea580c]/40 hover:shadow-sm transition-all duration-200"
-          >
-            <div className="flex items-start justify-between gap-3 mb-3">
-              <span
-                className={`text-xs font-medium px-2.5 py-0.5 rounded-full border ${categoryColors[wf.category] ?? 'bg-stone-50 text-stone-700 border-stone-200'}`}
-              >
-                {wf.category}
-              </span>
-              <span className="text-xs text-[#78716c] whitespace-nowrap">
-                {wf.nodes} 個節點
-              </span>
-            </div>
-
-            <h3 className="font-serif text-lg font-semibold text-[#1c1917] leading-snug mb-3">
-              {wf.title}
-            </h3>
-
-            <p className="text-sm text-[#78716c] leading-relaxed mb-4">
-              {wf.description}
-            </p>
-
-            <div className="flex flex-wrap gap-1.5 mb-4">
-              {wf.tags.map((tag) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {workflows.map((wf, i) => {
+          const s = categoryStyles[wf.category] ?? defaultStyle
+          return (
+            <div
+              key={i}
+              className="group rounded-xl p-6 transition-all duration-200"
+              style={{
+                background: 'rgba(255,255,255,0.025)',
+                border: '1px solid rgba(255,255,255,0.07)',
+                backdropFilter: 'blur(4px)',
+              }}
+            >
+              <div className="flex items-start justify-between gap-3 mb-4">
                 <span
-                  key={tag}
-                  className="text-[0.68rem] text-[#78716c] bg-[#f5f5f4] border border-[#e7e5e4] rounded px-2 py-0.5"
+                  className="text-xs font-medium px-2.5 py-0.5 rounded-full"
+                  style={{ background: s.bg, color: s.color, border: `1px solid ${s.border}` }}
                 >
-                  {tag}
+                  {wf.category}
                 </span>
-              ))}
-            </div>
+                <span className="text-xs text-slate-500 whitespace-nowrap font-mono">
+                  {wf.nodes} nodes
+                </span>
+              </div>
 
-            <div className="flex items-center gap-2 pt-4 border-t border-[#e7e5e4]">
-              <span className="text-[#ea580c] text-xs flex-shrink-0">成效</span>
-              <span className="text-sm font-medium text-[#1c1917]">{wf.result}</span>
+              <h3 className="text-lg font-semibold text-white leading-snug mb-3 tracking-[-0.01em]">
+                {wf.title}
+              </h3>
+
+              <p className="text-sm text-slate-400 leading-relaxed mb-4">
+                {wf.description}
+              </p>
+
+              <div className="flex flex-wrap gap-1.5 mb-5">
+                {wf.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-[0.68rem] text-slate-400 rounded px-2 py-0.5"
+                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <span className="text-[0.68rem] tracking-[0.12em] uppercase font-semibold" style={{ color: '#a78bfa' }}>成效</span>
+                <span className="text-sm font-medium text-white">{wf.result}</span>
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
-      <div className="border border-[#e7e5e4] rounded-xl p-8 text-center mt-12">
-        <p className="font-serif text-xl font-semibold text-[#1c1917] mb-3">
-          想要類似的自動化解決方案？
-        </p>
-        <p className="text-sm text-[#78716c] mb-6 max-w-sm mx-auto">
-          告訴我你目前的流程，我來評估哪些環節可以自動化、能節省多少時間。
+      <div
+        className="relative rounded-2xl border border-white/[0.08] p-8 text-center mt-12 overflow-hidden"
+        style={{
+          background: 'radial-gradient(ellipse 80% 80% at 50% 0%, rgba(124,92,255,0.10), transparent 60%), #0a0b14',
+        }}
+      >
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px"
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(124,92,255,0.4), transparent)' }}
+        />
+        <p className="text-slate-400 mb-2 text-sm">想要類似的自動化解決方案？</p>
+        <p className="text-xl font-semibold text-white mb-5 tracking-[-0.01em]">
+          告訴我你目前的流程，我來評估哪些環節可以自動化
         </p>
         <a
           href="mailto:asdtodd42@gmail.com"
-          className="inline-flex items-center gap-2 bg-[#ea580c] hover:bg-[#dc4e08] text-white text-sm font-medium px-6 py-3 rounded-lg transition-colors duration-150"
+          className="inline-flex items-center gap-2 text-white text-sm font-medium px-6 py-3 rounded-full transition-all hover:scale-[1.02] active:scale-100"
+          style={{
+            background: 'linear-gradient(135deg, #2563eb 0%, #6366f1 50%, #8b5cf6 100%)',
+            boxShadow: '0 0 24px rgba(99,102,241,0.35)',
+          }}
         >
           免費諮詢 →
         </a>
