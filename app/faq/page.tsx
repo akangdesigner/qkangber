@@ -147,7 +147,7 @@ export default function FaqPage() {
                 <details
                   key={item.q}
                   className="group rounded-xl overflow-hidden"
-                  style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
+                  style={{ background: '#0d0e1a', border: '1px solid rgba(255,255,255,0.07)' }}
                 >
                   <summary className="flex items-center justify-between gap-4 px-5 py-4 cursor-pointer list-none text-white font-medium text-sm select-none hover:text-violet-300 transition-colors">
                     {item.q}
