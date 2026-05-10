@@ -1,10 +1,12 @@
 function autoExcerpt(content: string, maxLen = 120): string {
-  const firstPara = content
-    .split('\n')
+  // Strip HTML tags first (Sheets content is HTML)
+  const stripped = content.replace(/<[^>]+>/g, ' ').replace(/&[a-z]+;/gi, ' ').replace(/\s+/g, ' ')
+  const firstPara = stripped
+    .split(/\n+/)
     .map((l) => l.trim())
     .find((l) => l && !l.startsWith('#') && !l.startsWith('!') && !l.startsWith('```'))
   if (!firstPara) return ''
-  const plain = firstPara.replace(/[*_`[\]()>]/g, '').trim()
+  const plain = firstPara.replace(/[*_`[\]()]/g, '').trim()
   return plain.length > maxLen ? plain.slice(0, maxLen) + '…' : plain
 }
 
