@@ -6,7 +6,7 @@ function autoExcerpt(content: string, maxLen = 120): string {
     .map((l) => l.trim())
     .find((l) => l && !l.startsWith('#') && !l.startsWith('!') && !l.startsWith('```'))
   if (!firstPara) return ''
-  const plain = firstPara.replace(/[*_`[\]()]/g, '').trim()
+  const plain = firstPara.replace(/[*_`[\]()]/g, '').replace(/^前言[：:：\s]*/, '').trim()
   return plain.length > maxLen ? plain.slice(0, maxLen) + '…' : plain
 }
 
