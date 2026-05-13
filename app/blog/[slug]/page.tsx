@@ -5,6 +5,7 @@ import { mdxComponents } from '@/components/mdx/MDXComponents'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import AuthorCard from '@/components/shared/AuthorCard'
 import PostNavigation from '@/components/blog/PostNavigation'
+import BlogSidebar from '@/components/blog/BlogSidebar'
 import Tag from '@/components/shared/Tag'
 import type { Metadata } from 'next'
 import rehypePrettyCode from 'rehype-pretty-code'
@@ -49,6 +50,9 @@ export default async function PostPage({ params }: Props) {
   const prevPost = idx < allPosts.length - 1 ? allPosts[idx + 1] : null
   const nextPost = idx > 0 ? allPosts[idx - 1] : null
 
+  const popularPosts = allPosts.filter((p) => p.featured).slice(0, 3)
+  const latestPosts = allPosts.filter((p) => p.slug !== slug).slice(0, 4)
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -73,54 +77,62 @@ export default async function PostPage({ params }: Props) {
   }
 
   return (
-    <article className="max-w-2xl mx-auto px-4 sm:px-6 py-16">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Breadcrumbs crumbs={[
-        { label: '首頁', href: '/' },
-        { label: '部落格', href: '/blog' },
-        { label: post.title },
-      ]} />
-      <header className="mb-10">
-        <div className="flex flex-wrap gap-1.5 mb-4">
-          {post.tags.map((tag) => (
-            <Tag key={tag} label={tag} />
-          ))}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_272px] gap-16 items-start">
+        <article>
+          <Breadcrumbs crumbs={[
+            { label: '首頁', href: '/' },
+            { label: '部落格', href: '/blog' },
+            { label: post.title },
+          ]} />
+          <header className="mb-10">
+            <div className="flex flex-wrap gap-1.5 mb-4">
+              {post.tags.map((tag) => (
+                <Tag key={tag} label={tag} />
+              ))}
+            </div>
+
+            <h1 className="text-3xl sm:text-[2.5rem] font-semibold text-white leading-[1.15] mb-5 tracking-[-0.02em]">
+              {post.title}
+            </h1>
+
+            <div className="flex items-center gap-3 text-sm text-slate-500">
+              <span>{formatDate(post.date)}</span>
+              <span>·</span>
+              <span>{post.readingTime}</span>
+            </div>
+          </header>
+
+          <div className="prose max-w-none">
+            {post.content.trimStart().startsWith('<') ? (
+              <div dangerouslySetInnerHTML={{ __html: post.content }} />
+            ) : (
+              <MDXRemote
+                source={post.content}
+                components={mdxComponents}
+                options={{
+                  mdxOptions: {
+                    rehypePlugins: [
+                      [rehypePrettyCode, { theme: 'github-dark' }],
+                    ],
+                  },
+                }}
+              />
+            )}
+          </div>
+
+          <PostNavigation prev={prevPost} next={nextPost} />
+          <AuthorCard />
+        </article>
+
+        <div className="hidden lg:block sticky top-24">
+          <BlogSidebar latest={latestPosts} popular={popularPosts} />
         </div>
-
-        <h1 className="text-3xl sm:text-[2.5rem] font-semibold text-white leading-[1.15] mb-5 tracking-[-0.02em]">
-          {post.title}
-        </h1>
-
-        <div className="flex items-center gap-3 text-sm text-slate-500">
-          <span>{formatDate(post.date)}</span>
-          <span>·</span>
-          <span>{post.readingTime}</span>
-        </div>
-      </header>
-
-      <div className="prose max-w-none">
-        {post.content.trimStart().startsWith('<') ? (
-          <div dangerouslySetInnerHTML={{ __html: post.content }} />
-        ) : (
-          <MDXRemote
-            source={post.content}
-            components={mdxComponents}
-            options={{
-              mdxOptions: {
-                rehypePlugins: [
-                  [rehypePrettyCode, { theme: 'github-dark' }],
-                ],
-              },
-            }}
-          />
-        )}
       </div>
-
-      <PostNavigation prev={prevPost} next={nextPost} />
-      <AuthorCard />
-    </article>
+    </div>
   )
 }
