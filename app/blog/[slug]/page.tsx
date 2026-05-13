@@ -1,9 +1,10 @@
 ﻿import { notFound } from 'next/navigation'
 import { MDXRemote } from 'next-mdx-remote/rsc'
-import { getAllPosts, getPostBySlug } from '@/lib/mdx'
+import { getPostBySlug, getAllPosts } from '@/lib/mdx'
 import { mdxComponents } from '@/components/mdx/MDXComponents'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import AuthorCard from '@/components/shared/AuthorCard'
+import PostNavigation from '@/components/blog/PostNavigation'
 import Tag from '@/components/shared/Tag'
 import type { Metadata } from 'next'
 import rehypePrettyCode from 'rehype-pretty-code'
@@ -41,6 +42,12 @@ export default async function PostPage({ params }: Props) {
   const { slug } = await params
   const post = await getPostBySlug(slug)
   if (!post) notFound()
+
+  const allPosts = await getAllPosts()
+  const idx = allPosts.findIndex((p) => p.slug === slug)
+  // allPosts is sorted newest-first, so idx+1 = older (上一篇), idx-1 = newer (下一篇)
+  const prevPost = idx < allPosts.length - 1 ? allPosts[idx + 1] : null
+  const nextPost = idx > 0 ? allPosts[idx - 1] : null
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -112,6 +119,7 @@ export default async function PostPage({ params }: Props) {
         )}
       </div>
 
+      <PostNavigation prev={prevPost} next={nextPost} />
       <AuthorCard />
     </article>
   )
