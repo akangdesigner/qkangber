@@ -51,7 +51,7 @@ export default async function PostPage({ params }: Props) {
   const nextPost = idx > 0 ? allPosts[idx - 1] : null
 
   const popularPosts = allPosts.filter((p) => p.featured).slice(0, 3)
-  const latestPosts = allPosts.filter((p) => p.slug !== slug).slice(0, 4)
+  const latestPosts = allPosts.filter((p) => p.slug !== slug).slice(0, 1)
 
   const jsonLd = {
     '@context': 'https://schema.org',
