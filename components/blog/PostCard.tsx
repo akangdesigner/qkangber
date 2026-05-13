@@ -32,7 +32,7 @@ export default function PostCard({ post }: { post: Post }) {
       href={`/blog/${post.slug}`}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      className="mtc group relative block h-full rounded-2xl border border-white/[0.07] bg-white/[0.025] hover:bg-white/[0.04] transition-colors duration-300 overflow-hidden backdrop-blur-sm"
+      className="mtc group relative flex flex-col h-full rounded-2xl border border-white/[0.07] bg-white/[0.025] hover:bg-white/[0.04] transition-colors duration-300 overflow-hidden backdrop-blur-sm"
       style={{ transition: 'transform 180ms ease-out, background-color 300ms', transformStyle: 'preserve-3d', willChange: 'transform' }}
     >
       {post.coverImage && (
@@ -47,7 +47,7 @@ export default function PostCard({ post }: { post: Post }) {
         </div>
       )}
 
-      <div className="relative p-6 flex flex-col h-full">
+      <div className="relative p-6 flex flex-col flex-1">
         {post.category && (
           <span className="text-[9px] tracking-[0.22em] uppercase font-bold px-2.5 py-1 rounded-md bg-violet-500/20 text-violet-300 border border-violet-500/30 mb-3 self-start">
             {post.category}
