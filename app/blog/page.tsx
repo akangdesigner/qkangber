@@ -1,5 +1,5 @@
 import { getAllPosts } from '@/lib/mdx'
-import PostCard from '@/components/blog/PostCard'
+import BlogFilter from '@/components/blog/BlogFilter'
 import type { Metadata } from 'next'
 
 export const revalidate = 60
@@ -9,8 +9,17 @@ export const metadata: Metadata = {
   description: 'n8n 工作流實戰、AI Agent 架構、電商行銷自動化踩坑記錄。真實案例，不寫純理論。',
 }
 
+const PREFERRED_CATEGORY_ORDER = ['開發日記', '工具教學', '最新AI趨勢']
+
 export default async function BlogPage() {
   const posts = await getAllPosts()
+
+  const allCategories = posts.map((p) => p.category).filter((c): c is string => Boolean(c))
+  const unique = [...new Set(allCategories)]
+  const sortedCategories = [
+    ...PREFERRED_CATEGORY_ORDER.filter((c) => unique.includes(c)),
+    ...unique.filter((c) => !PREFERRED_CATEGORY_ORDER.includes(c)).sort(),
+  ]
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-20">
@@ -30,11 +39,7 @@ export default async function BlogPage() {
       {posts.length === 0 ? (
         <p className="text-slate-500">還沒有文章，敬請期待。</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {posts.map((post) => (
-            <PostCard key={post.slug} post={post} />
-          ))}
-        </div>
+        <BlogFilter posts={posts} categories={sortedCategories} />
       )}
     </div>
   )
