@@ -4,7 +4,6 @@ import { useState, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
-import type { Metadata } from 'next'
 
 const SPECIES = ['貓', '狗', '兔子', '倉鼠', '鸚鵡', '烏龜', '其他']
 
