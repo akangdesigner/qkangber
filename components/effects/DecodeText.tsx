@@ -28,15 +28,12 @@ export default function DecodeText({
   style = {},
 }: DecodeTextProps) {
   const [display, setDisplay] = useState(children)
-  const [done, setDone] = useState(false)
+  const done = display === children
 
   useEffect(() => {
     if (!children) return
     let raf: number
-    let startTimer: ReturnType<typeof setTimeout>
     let start: number | null = null
-    setDone(false)
-    setDisplay(children.split('').map(pickGlyph).join(''))
 
     function step(t: number) {
       if (start === null) start = t
@@ -52,11 +49,11 @@ export default function DecodeText({
         raf = requestAnimationFrame(step)
       } else {
         setDisplay(children)
-        setDone(true)
       }
     }
 
-    startTimer = setTimeout(() => {
+    const startTimer = setTimeout(() => {
+      setDisplay(children.split('').map(pickGlyph).join(''))
       raf = requestAnimationFrame(step)
     }, delay)
 

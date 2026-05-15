@@ -86,7 +86,7 @@ export default async function PostPage({ params }: Props) {
         <article>
           <Breadcrumbs crumbs={[
             { label: '首頁', href: '/' },
-            { label: '部落格', href: '/blog' },
+            { label: 'AI × N8N 知識庫', href: '/blog' },
             { label: post.title },
           ]} />
           <header className="mb-10">

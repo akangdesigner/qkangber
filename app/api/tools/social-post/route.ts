@@ -19,12 +19,16 @@ export async function POST(request: Request) {
   const headersList = await headers()
   const ip = headersList.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
 
-  const rl = checkRateLimit(ip)
-  if (!rl.success) {
-    return NextResponse.json(
-      { error: '請求過於頻繁，請稍後再試' },
-      { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } },
-    )
+  const apiKey = headersList.get('x-api-key')
+  const isAuthorized = apiKey && apiKey === process.env.POST_API_KEY
+  if (!isAuthorized) {
+    const rl = checkRateLimit(ip)
+    if (!rl.success) {
+      return NextResponse.json(
+        { error: '請求過於頻繁，請稍後再試' },
+        { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } },
+      )
+    }
   }
 
   let body: { topic?: string; platform?: string; style?: string }
