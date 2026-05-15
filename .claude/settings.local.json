@@ -83,7 +83,11 @@
       "PowerShell($key = \\(Get-Content D:\\\\qkangber\\\\.env.local | Where-Object { $_ -match \"^GOOGLE_SHEETS_API_KEY=\" }\\) -replace \"GOOGLE_SHEETS_API_KEY=\", \"\"; $id = \\(Get-Content D:\\\\qkangber\\\\.env.local | Where-Object { $_ -match \"^GOOGLE_SHEET_ID=\" }\\) -replace \"GOOGLE_SHEET_ID=\", \"\"; $url = \"https://sheets.googleapis.com/v4/spreadsheets/$id/values/posts!A1:Z1?key=$key\"; \\(Invoke-WebRequest $url\\).Content)",
       "PowerShell($key = \\(Get-Content D:\\\\qkangber\\\\.env.local | Where-Object { $_ -match \"^GOOGLE_SHEETS_API_KEY=\" }\\) -replace \"GOOGLE_SHEETS_API_KEY=\", \"\"; $id = \\(Get-Content D:\\\\qkangber\\\\.env.local | Where-Object { $_ -match \"^GOOGLE_SHEET_ID=\" }\\) -replace \"GOOGLE_SHEET_ID=\", \"\"; $url = \"https://sheets.googleapis.com/v4/spreadsheets/$id/values/posts!A2:N5?key=$key\"; \\(Invoke-WebRequest $url\\).Content)",
       "PowerShell($key = \\(Get-Content D:\\\\qkangber\\\\.env.local | Where-Object { $_ -match \"^GOOGLE_SHEETS_API_KEY=\" }\\) -replace \"GOOGLE_SHEETS_API_KEY=\", \"\"; $id = \\(Get-Content D:\\\\qkangber\\\\.env.local | Where-Object { $_ -match \"^GOOGLE_SHEET_ID=\" }\\) -replace \"GOOGLE_SHEET_ID=\", \"\"; $url = \"https://sheets.googleapis.com/v4/spreadsheets/$id/values/posts!A2:N5?key=$key\"; $data = \\(Invoke-WebRequest $url\\).Content | ConvertFrom-Json; foreach \\($row in $data.values\\) { Write-Output \"slug=$\\($row[0]\\) | category=$\\($row[12]\\) | coverImage=$\\($row[13]\\)\" })",
-      "PowerShell(Select-String *)"
+      "PowerShell(Select-String *)",
+      "Bash(mkdir -p /tmp/design-extract)",
+      "Bash(tar -xf \"C:/Users/asdto/.claude/projects/D--qkangber/design-extract/archive.tar\")",
+      "Bash(cp \"/mnt/c/Users/asdto/.claude/projects/D--qkangber/design-extract/archive.tar\" /tmp/archive.tar)",
+      "Bash(tar -xf /tmp/archive.tar)"
     ]
   }
 }
