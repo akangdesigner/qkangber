@@ -5,8 +5,9 @@ import type { Metadata } from 'next'
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: 'AI × N8N 知識庫 — Q kangber',
+  title: 'AI × N8N 知識庫',
   description: 'AI 與 N8N 自動化實戰知識庫。工作流架構、AI Agent 開發、電商行銷自動化——全都真實踩過才寫出來。',
+  alternates: { canonical: 'https://aiqkangber.com/blog' },
 }
 
 const PREFERRED_CATEGORY_ORDER = ['開發日記', '工具教學', '最新AI趨勢']

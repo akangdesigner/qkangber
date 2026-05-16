@@ -3,8 +3,9 @@ import Link from 'next/link'
 import FlipCard from '@/components/about/FlipCard'
 
 export const metadata: Metadata = {
-  title: '關於 Q kangber — n8n 自動化流程架構師',
+  title: { absolute: '關於 Q kangber — n8n 自動化流程架構師' },
   description: '我是 Q kangber，n8n 與 AI 深度整合的流程架構師、Vibe Coding 實踐者。從電商物流自動化轉型，現協助企業建置 AI 行銷自動化架構，並於職涯平台擔任業師。',
+  alternates: { canonical: 'https://aiqkangber.com/about' },
 }
 
 const socialLinks = [
@@ -99,15 +100,6 @@ export default function AboutPage() {
               About
             </span>
           </div>
-        </div>
-
-        <div className="flex items-end justify-between gap-6 mb-10 flex-wrap">
-          <p className="text-sm text-slate-400 leading-relaxed max-w-sm m-0">
-            一張卡片有兩面 — 點擊翻面，看我是誰，<br />以及我怎麼想這件事。
-          </p>
-          <p className="text-xs text-slate-600 tracking-[0.16em] uppercase m-0">
-            滑鼠移動 → 3D 傾斜　·　點擊卡片 → 翻面
-          </p>
         </div>
 
         {/* Flip card hero */}

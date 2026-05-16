@@ -16,7 +16,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const issue = await getNewsletterIssue(slug)
   if (!issue) return {}
-  return { title: issue.subject, description: issue.summary }
+  return {
+    title: issue.subject,
+    description: issue.summary,
+    alternates: { canonical: `https://aiqkangber.com/newsletter/archive/${slug}` },
+    openGraph: {
+      type: 'article',
+      publishedTime: issue.date,
+      images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
+    },
+  }
 }
 
 function formatDate(dateStr: string) {

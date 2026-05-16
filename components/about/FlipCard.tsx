@@ -208,8 +208,8 @@ function FrontFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: num
                 onClick={(e) => { e.stopPropagation(); onFlip() }}
                 style={{ background: 'linear-gradient(135deg, #2563eb, #6366f1 50%, #8b5cf6)', color: 'white', border: 'none', borderRadius: 999, padding: '11px 22px', fontSize: 13, fontWeight: 500, fontFamily: 'inherit', display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer', whiteSpace: 'nowrap', boxShadow: '0 8px 26px rgba(124,92,255,0.4)' }}
               >
-                看背面 · 我怎麼想的
-                <span style={{ display: 'inline-block', transform: active ? 'translateX(3px)' : 'translateX(0)', transition: 'transform 200ms' }}>↻</span>
+                核心理念
+                <span style={{ display: 'inline-block', transform: active ? 'translateX(3px)' : 'translateX(0)', transition: 'transform 200ms' }}>→</span>
               </button>
             </div>
           </Layer>
@@ -257,8 +257,8 @@ function BackFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: numb
             onClick={(e) => { e.stopPropagation(); onFlip() }}
             style={{ background: 'rgba(255,255,255,0.04)', color: '#c4b5fd', borderRadius: 999, border: '1px solid rgba(167,139,250,0.35)', padding: '11px 22px', fontSize: 13, fontWeight: 500, fontFamily: 'inherit', display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer', whiteSpace: 'nowrap' }}
           >
-            <span style={{ display: 'inline-block', transform: active ? 'translateX(-3px)' : 'translateX(0)', transition: 'transform 200ms' }}>↻</span>
-            翻回正面
+            <span style={{ display: 'inline-block', transform: active ? 'translateX(-3px)' : 'translateX(0)', transition: 'transform 200ms' }}>←</span>
+            返回
           </button>
         </Layer>
       </div>

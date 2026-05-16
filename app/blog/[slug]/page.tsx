@@ -18,16 +18,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const post = await getPostBySlug(slug)
   if (!post) return {}
+  const ogImage = post.coverImage ? post.coverImage : '/opengraph-image'
   return {
     title: post.title,
     description: post.excerpt,
     authors: [{ name: 'Q kangber' }],
+    alternates: { canonical: `https://aiqkangber.com/blog/${slug}` },
     openGraph: {
       type: 'article',
       publishedTime: post.date,
       authors: ['Q kangber'],
-      images: post.coverImage ? [{ url: post.coverImage }] : [{ url: '/og-default.png' }],
+      images: [{ url: ogImage, width: 1200, height: 630 }],
     },
+    twitter: { card: 'summary_large_image', images: [ogImage] },
   }
 }
 
@@ -58,7 +61,9 @@ export default async function PostPage({ params }: Props) {
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.excerpt,
+    url: `https://aiqkangber.com/blog/${slug}`,
     datePublished: post.date,
+    dateModified: post.date,
     author: {
       '@type': 'Person',
       name: 'Q kangber',

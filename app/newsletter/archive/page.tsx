@@ -3,8 +3,9 @@ import { getAllNewsletterIssues } from '@/lib/newsletter'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: '歷期 AI 自動化週報 — Q kangber',
+  title: '歷期 AI 自動化週報',
   description: '歷期 Q kangber AI 與 n8n 自動化週報——每週精選業界動態，全部公開閱讀，免費無需訂閱。',
+  alternates: { canonical: 'https://aiqkangber.com/newsletter/archive' },
 }
 
 function EyebrowLabel({ children }: { children: React.ReactNode }) {
