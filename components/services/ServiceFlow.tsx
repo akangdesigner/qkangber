@@ -1,196 +1,540 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { Service } from '@/types/content'
 
-const NODE_COLORS = ['#a78bfa', '#60a5fa', '#67e8f9', '#4ade80']
+/* ─── Stroke SVG Glyphs ─────────────────────────────────────── */
+function GlyphCart() {
+  return (
+    <svg viewBox="0 0 24 24" width="100%" height="100%" fill="none"
+      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 1.95-1.55L20.5 7H6" />
+      <circle cx="9.5" cy="20" r="1.2" /><circle cx="17.5" cy="20" r="1.2" />
+      <path d="M10 11h6" opacity="0.55" />
+    </svg>
+  )
+}
+function GlyphFunnel() {
+  return (
+    <svg viewBox="0 0 24 24" width="100%" height="100%" fill="none"
+      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 5h16l-6 8v6l-4-2v-4Z" /><path d="M8 9h8" opacity="0.55" />
+    </svg>
+  )
+}
+function GlyphChart() {
+  return (
+    <svg viewBox="0 0 24 24" width="100%" height="100%" fill="none"
+      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 20V4M4 20h16" />
+      <rect x="7" y="12" width="3" height="6" rx="0.5" />
+      <rect x="12" y="8" width="3" height="10" rx="0.5" />
+      <rect x="17" y="14" width="3" height="4" rx="0.5" opacity="0.7" />
+    </svg>
+  )
+}
+function GlyphTruck() {
+  return (
+    <svg viewBox="0 0 24 24" width="100%" height="100%" fill="none"
+      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="7" width="11" height="9" rx="1.5" />
+      <path d="M13 10h4.5L21 13v3h-8" />
+      <circle cx="7" cy="18" r="1.6" /><circle cx="17" cy="18" r="1.6" />
+    </svg>
+  )
+}
+function GlyphLeads() {
+  return (
+    <svg viewBox="0 0 24 24" width="100%" height="100%" fill="none"
+      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="8" cy="9" r="3" /><path d="M3 19c0-3 2.5-5 5-5s5 2 5 5" />
+      <path d="M15 7l2.5 2.5L22 5" />
+    </svg>
+  )
+}
+function GlyphTrigger() {
+  return (
+    <svg viewBox="0 0 24 24" width="100%" height="100%" fill="none"
+      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M13 2 L5 13 H11 L9 22 L19 10 H13 L15 2 Z" />
+    </svg>
+  )
+}
 
-const OUTPUTS = [
-  { x: 1010, y: 110, name: 'Slack', icon: '💬' },
-  { x: 1010, y: 250, name: 'LINE',  icon: '🟢' },
-  { x: 1010, y: 380, name: 'Email', icon: '✉️' },
-  { x: 1010, y: 510, name: 'Sheet', icon: '📑' },
+/* ─── Service row config ─────────────────────────────────────── */
+const SERVICE_CONFIG = [
+  {
+    glyphKey: 'ecommerce',
+    Glyph: GlyphCart,
+    theme: { c1: '#22d3ee', c2: '#a78bfa' },
+    portfolio: {
+      title: 'Shopify × 黑貓物流自動出貨',
+      category: '電商',
+      Glyph: GlyphTruck,
+      nodes: 12,
+      resultShort: '節省 40 小時/月',
+      color: '#22d3ee',
+    },
+  },
+  {
+    glyphKey: 'marketing',
+    Glyph: GlyphFunnel,
+    theme: { c1: '#a78bfa', c2: '#f0abfc' },
+    portfolio: {
+      title: '廣告表單 → CRM 自動分流跟進',
+      category: '行銷',
+      Glyph: GlyphLeads,
+      nodes: 18,
+      resultShort: '轉換 +35%',
+      color: '#a78bfa',
+    },
+  },
+  {
+    glyphKey: 'report',
+    Glyph: GlyphChart,
+    theme: { c1: '#60a5fa', c2: '#67e8f9' },
+    portfolio: {
+      title: '電商週報自動化儀表板',
+      category: '報表',
+      Glyph: GlyphChart,
+      nodes: 15,
+      resultShort: '報表 3hr → 0',
+      color: '#60a5fa',
+    },
+  },
 ]
 
-type Props = { services: Service[] }
+/* ─── Port dot ───────────────────────────────────────────────── */
+function PortDot({ side, color = '#a78bfa', portId, pulse = false }: {
+  side: 'left' | 'right'; color?: string; portId: string; pulse?: boolean
+}) {
+  return (
+    <span
+      data-port={portId}
+      style={{
+        position: 'absolute',
+        top: '50%',
+        [side === 'left' ? 'left' : 'right']: -7,
+        transform: 'translateY(-50%)',
+        width: 14, height: 14, borderRadius: '50%',
+        background: `radial-gradient(circle, ${color}cc, transparent 70%)`,
+        boxShadow: `inset 0 0 0 1.5px ${color}, 0 0 12px ${color}99`,
+        display: 'inline-grid', placeItems: 'center',
+        pointerEvents: 'none', zIndex: 4,
+      }}
+    >
+      <span style={{ width: 5, height: 5, borderRadius: '50%', background: color, boxShadow: `0 0 6px ${color}` }} />
+      {pulse && (
+        <span style={{
+          position: 'absolute', inset: -2, borderRadius: '50%',
+          border: `1px solid ${color}`, opacity: 0.45,
+          animation: 'portPulse 1.8s ease-out infinite',
+        }} />
+      )}
+    </span>
+  )
+}
 
-export default function ServiceFlow({ services }: Props) {
-  const router = useRouter()
-  const [hover, setHover] = useState<string | null>(null)
+/* ─── Trigger node ───────────────────────────────────────────── */
+function TriggerNode() {
+  const COLOR = '#7c5cff'
+  return (
+    <div style={{
+      position: 'relative', width: 200,
+      padding: '20px 22px', borderRadius: 16,
+      background: 'radial-gradient(120% 140% at 50% 0%, rgba(124,92,255,0.18) 0%, rgba(2,3,10,0.6) 70%)',
+      boxShadow: `inset 0 0 0 1px rgba(124,92,255,0.45), inset 0 1px 0 rgba(255,255,255,0.05), 0 18px 50px -20px rgba(0,0,0,0.6), 0 0 60px -10px rgba(124,92,255,0.45)`,
+      textAlign: 'center',
+    }}>
+      <div style={{
+        display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 10,
+        fontFamily: 'ui-monospace, monospace',
+        fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c4b5fd',
+      }}>
+        <span style={{ width: 16, height: 16, display: 'block', color: '#c4b5fd' }}><GlyphTrigger /></span>
+        TRIGGER
+      </div>
+      <div style={{ fontFamily: 'inherit', fontSize: 15, fontWeight: 600, color: '#fff', marginBottom: 4 }}>
+        Webhook 觸發
+      </div>
+      <div style={{ fontFamily: 'ui-monospace, monospace', fontSize: 11, color: '#94a3b8', letterSpacing: '0.04em' }}>
+        客戶事件 / Cron 排程
+      </div>
+      <PortDot side="right" portId="trigger-out" color={COLOR} pulse />
+    </div>
+  )
+}
 
-  const W = 1100, H = 620
-  const trigger = { x: 130, y: H / 2 }
+/* ─── Service node ───────────────────────────────────────────── */
+function ServiceNode({ service, cfg, idx }: {
+  service: Service
+  cfg: typeof SERVICE_CONFIG[0]
+  idx: number
+}) {
+  const { c1, c2 } = cfg.theme
+  const Glyph = cfg.Glyph
+  return (
+    <div
+      data-service-card
+      style={{
+        position: 'relative', padding: '16px 18px', borderRadius: 14,
+        background: 'radial-gradient(140% 150% at 50% 0%, rgba(255,255,255,0.04) 0%, rgba(2,3,10,0.55) 75%)',
+        boxShadow: `inset 0 0 0 1px ${c1}33, inset 0 1px 0 rgba(255,255,255,0.05), 0 14px 40px -16px rgba(0,0,0,0.6), 0 0 40px -12px ${c1}33`,
+        transition: 'box-shadow 250ms', cursor: 'pointer',
+      }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLElement).style.boxShadow =
+          `inset 0 0 0 1px ${c1}77, inset 0 1px 0 rgba(255,255,255,0.07), 0 22px 50px -16px rgba(0,0,0,0.7), 0 0 60px -10px ${c1}66`
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLElement).style.boxShadow =
+          `inset 0 0 0 1px ${c1}33, inset 0 1px 0 rgba(255,255,255,0.05), 0 14px 40px -16px rgba(0,0,0,0.6), 0 0 40px -12px ${c1}33`
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+        <div style={{
+          width: 30, height: 30, borderRadius: 8,
+          display: 'grid', placeItems: 'center',
+          background: `linear-gradient(135deg, ${c1}22, ${c2}1a)`,
+          boxShadow: `inset 0 0 0 1px ${c1}44`,
+          color: c1,
+        }}>
+          <span style={{ width: 16, height: 16, display: 'block' }}><Glyph /></span>
+        </div>
+        <span style={{
+          fontFamily: 'ui-monospace, monospace',
+          fontSize: 10, letterSpacing: '0.20em', textTransform: 'uppercase' as const, color: c1,
+        }}>{service.category}</span>
+        <span style={{ flex: 1 }} />
+        <span style={{ fontFamily: 'ui-monospace, monospace', fontSize: 9, color: '#475569', letterSpacing: '0.16em' }}>
+          {String(idx + 1).padStart(2, '0')}
+        </span>
+      </div>
+      <div style={{ fontSize: 15, fontWeight: 600, color: '#fff', letterSpacing: '-0.01em', marginBottom: 8, lineHeight: 1.3 }}>
+        {service.title}
+      </div>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, fontFamily: 'ui-monospace, monospace' }}>
+        <span style={{
+          fontSize: 13, fontWeight: 600,
+          background: `linear-gradient(90deg, ${c1}, ${c2})`,
+          WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent',
+        }}>NT$ {service.price.toLocaleString()}</span>
+        <span style={{ fontSize: 10, color: '#64748b' }}>{service.priceNote}</span>
+      </div>
+      <PortDot side="left" portId={`service-${idx}-in`} color={c1} />
+      <PortDot side="right" portId={`service-${idx}-out`} color={c2} pulse />
+    </div>
+  )
+}
 
-  const nodes = services.map((s, i) => {
-    const t = services.length === 1 ? 0.5 : i / (services.length - 1)
-    const yPad = 80
-    return {
-      ...s,
-      color: NODE_COLORS[i % NODE_COLORS.length],
-      x: 700 + Math.sin((t - 0.5) * Math.PI * 0.4) * 36,
-      y: yPad + t * (H - yPad * 2),
+/* ─── Portfolio node ─────────────────────────────────────────── */
+function PortfolioNode({ entry, idx }: {
+  entry: typeof SERVICE_CONFIG[0]['portfolio']
+  idx: number
+}) {
+  const { color, Glyph } = entry
+  return (
+    <a
+      href="/portfolio"
+      data-portfolio-card
+      style={{
+        position: 'relative', display: 'block',
+        padding: '14px 16px', borderRadius: 14,
+        textDecoration: 'none', color: '#e2e8f0',
+        background: `radial-gradient(140% 150% at 0% 50%, ${color}1a 0%, rgba(2,3,10,0.55) 70%)`,
+        boxShadow: `inset 0 0 0 1px ${color}33, inset 0 1px 0 rgba(255,255,255,0.05), 0 14px 40px -16px rgba(0,0,0,0.6), 0 0 40px -12px ${color}33`,
+        transition: 'box-shadow 250ms, transform 250ms',
+      }}
+      onMouseEnter={(e) => {
+        const el = e.currentTarget as HTMLElement
+        el.style.boxShadow = `inset 0 0 0 1px ${color}88, inset 0 1px 0 rgba(255,255,255,0.07), 0 22px 50px -16px rgba(0,0,0,0.7), 0 0 60px -10px ${color}66`
+        el.style.transform = 'translateX(2px)'
+      }}
+      onMouseLeave={(e) => {
+        const el = e.currentTarget as HTMLElement
+        el.style.boxShadow = `inset 0 0 0 1px ${color}33, inset 0 1px 0 rgba(255,255,255,0.05), 0 14px 40px -16px rgba(0,0,0,0.6), 0 0 40px -12px ${color}33`
+        el.style.transform = 'translateX(0)'
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+        <div style={{
+          width: 24, height: 24, borderRadius: 6,
+          display: 'grid', placeItems: 'center',
+          background: `${color}22`, boxShadow: `inset 0 0 0 1px ${color}55`, color,
+        }}>
+          <span style={{ width: 13, height: 13, display: 'block' }}><Glyph /></span>
+        </div>
+        <span style={{
+          fontFamily: 'ui-monospace, monospace',
+          fontSize: 9.5, letterSpacing: '0.20em', textTransform: 'uppercase' as const, color,
+        }}>CASE · {entry.category}</span>
+      </div>
+      <div style={{
+        fontSize: 13.5, fontWeight: 600, color: '#fff', letterSpacing: '-0.005em',
+        lineHeight: 1.35, marginBottom: 8,
+        display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden',
+      }}>{entry.title}</div>
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 8,
+        fontFamily: 'ui-monospace, monospace', fontSize: 10, color: '#94a3b8', letterSpacing: '0.04em',
+      }}>
+        <span style={{ color }}>{entry.nodes} nodes</span>
+        <span style={{ opacity: 0.3 }}>·</span>
+        <span style={{ color: '#a7f3d0', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 6px rgba(52,211,153,0.9)' }} />
+          {entry.resultShort}
+        </span>
+      </div>
+      <PortDot side="left" portId={`portfolio-${idx}-in`} color={color} />
+    </a>
+  )
+}
+
+/* ─── Connector overlay ──────────────────────────────────────── */
+type Curve = { id: string; from: { x: number; y: number }; to: { x: number; y: number }; c1: string; c2: string }
+
+function ConnectorOverlay({ wrapperRef, version }: { wrapperRef: React.RefObject<HTMLDivElement | null>; version: number }) {
+  const [box, setBox] = useState({ w: 0, h: 0 })
+  const [curves, setCurves] = useState<Curve[]>([])
+
+  function measure() {
+    const wrap = wrapperRef.current
+    if (!wrap) return
+    const wr = wrap.getBoundingClientRect()
+
+    function centerOf(selector: string) {
+      const el = wrap!.querySelector(selector)
+      if (!el) return null
+      const r = el.getBoundingClientRect()
+      return { x: r.left + r.width / 2 - wr.left, y: r.top + r.height / 2 - wr.top }
     }
-  })
+
+    const triggerOut = centerOf('[data-port="trigger-out"]')
+    if (!triggerOut) { setBox({ w: wr.width, h: wr.height }); setCurves([]); return }
+
+    const next: Curve[] = []
+    SERVICE_CONFIG.forEach((cfg, i) => {
+      const sIn  = centerOf(`[data-port="service-${i}-in"]`)
+      const sOut = centerOf(`[data-port="service-${i}-out"]`)
+      const pIn  = centerOf(`[data-port="portfolio-${i}-in"]`)
+      if (sIn) next.push({ id: `t-s${i}`, from: triggerOut, to: sIn, c1: '#7c5cff', c2: cfg.theme.c1 })
+      if (sOut && pIn) next.push({ id: `s${i}-p${i}`, from: sOut, to: pIn, c1: cfg.theme.c2, c2: cfg.portfolio.color })
+    })
+    setBox({ w: wr.width, h: wr.height })
+    setCurves(next)
+  }
+
+  useLayoutEffect(() => {
+    measure()
+    const ro = new ResizeObserver(measure)
+    if (wrapperRef.current) ro.observe(wrapperRef.current)
+    window.addEventListener('resize', measure)
+    return () => { ro.disconnect(); window.removeEventListener('resize', measure) }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [version])
+
+  useEffect(() => {
+    const t1 = setTimeout(measure, 80)
+    const t2 = setTimeout(measure, 400)
+    return () => { clearTimeout(t1); clearTimeout(t2) }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [version])
+
+  if (!box.w || curves.length === 0) return null
+
+  return (
+    <svg aria-hidden width={box.w} height={box.h} viewBox={`0 0 ${box.w} ${box.h}`}
+      style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1 }}>
+      <defs>
+        {curves.map((c) => (
+          <linearGradient key={`g-${c.id}`} id={`conn-${c.id}`}
+            x1={c.from.x} y1={c.from.y} x2={c.to.x} y2={c.to.y} gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor={c.c1} stopOpacity="0.9" />
+            <stop offset="1" stopColor={c.c2} stopOpacity="0.9" />
+          </linearGradient>
+        ))}
+      </defs>
+      {curves.map((c, i) => {
+        const dx = Math.max(70, Math.abs(c.to.x - c.from.x) * 0.55)
+        const d = `M ${c.from.x} ${c.from.y} C ${c.from.x + dx} ${c.from.y}, ${c.to.x - dx} ${c.to.y}, ${c.to.x} ${c.to.y}`
+        const pathId = `path-${c.id}`
+        return (
+          <g key={c.id}>
+            <path d={d} fill="none" stroke={c.c2} strokeOpacity="0.18" strokeWidth="6" />
+            <path id={pathId} d={d} fill="none" stroke={`url(#conn-${c.id})`} strokeWidth="1.4" />
+            <path d={d} fill="none" stroke={c.c2} strokeOpacity="0.32" strokeWidth="1.1" strokeDasharray="4 6">
+              <animate attributeName="stroke-dashoffset" from="0" to="-40"
+                dur={`${2.4 + (i % 3) * 0.4}s`} repeatCount="indefinite" />
+            </path>
+            <circle r="2.4" fill={c.c2}>
+              <animateMotion dur={`${3.0 + (i % 3) * 0.3}s`} begin={`${i * 0.2}s`} repeatCount="indefinite">
+                <mpath xlinkHref={`#${pathId}`} />
+              </animateMotion>
+              <animate attributeName="opacity" values="0;1;1;0"
+                dur={`${3.0 + (i % 3) * 0.3}s`} begin={`${i * 0.2}s`} repeatCount="indefinite" />
+            </circle>
+            <circle r="1.6" fill={c.c1}>
+              <animateMotion dur={`${3.0 + (i % 3) * 0.3}s`} begin={`${i * 0.2 + 1.4}s`} repeatCount="indefinite">
+                <mpath xlinkHref={`#${pathId}`} />
+              </animateMotion>
+              <animate attributeName="opacity" values="0;0.8;0.8;0"
+                dur={`${3.0 + (i % 3) * 0.3}s`} begin={`${i * 0.2 + 1.4}s`} repeatCount="indefinite" />
+            </circle>
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
+/* ─── Main ───────────────────────────────────────────────────── */
+export default function ServiceFlow({ services }: { services: Service[] }) {
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const [version, setVersion] = useState(0)
+
+  useEffect(() => {
+    if (!document.fonts) return
+    document.fonts.ready.then(() => setVersion((v) => v + 1))
+  }, [])
+
+  // Map services to config rows (up to 3)
+  const rows = SERVICE_CONFIG.slice(0, Math.min(services.length, 3)).map((cfg, i) => ({
+    cfg, service: services[i],
+  }))
 
   return (
     <>
+      <style>{`
+        @keyframes portPulse {
+          0%   { transform: scale(1);   opacity: 0.5; }
+          100% { transform: scale(2.6); opacity: 0; }
+        }
+        @keyframes frameLivePulse {
+          0%, 100% { opacity: 1; } 50% { opacity: 0.45; }
+        }
+      `}</style>
+
       {/* Mobile card list */}
       <div className="md:hidden flex flex-col gap-3">
-        {nodes.map((n) => (
-          <button
-            key={n.slug}
-            onClick={() => router.push(`/services/${n.slug}`)}
-            className="w-full text-left rounded-2xl p-4 transition-all duration-200 active:scale-[0.98]"
-            style={{
-              background: 'rgba(13,14,26,0.92)',
-              border: `1.5px solid rgba(255,255,255,0.1)`,
-              boxShadow: '0 1px 0 rgba(255,255,255,0.04) inset, 0 6px 20px rgba(0,0,0,0.5)',
-            }}
-          >
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-2xl">{n.icon}</span>
-              <span className="text-[0.6rem] tracking-[0.18em] uppercase font-semibold" style={{ color: n.color }}>
-                {n.category}
-              </span>
-            </div>
-            <div className="text-white text-[0.95rem] font-semibold leading-snug tracking-[-0.01em] mb-1">
-              {n.title}
-            </div>
-            <div className="text-xs text-slate-500 font-mono">
-              NT$ {n.price.toLocaleString()}{n.priceNote}
-            </div>
-          </button>
-        ))}
-        <p className="text-center text-[10px] font-mono text-slate-500 mt-1">點擊卡片查看服務詳情</p>
-      </div>
-
-      {/* Desktop SVG flow */}
-      <div className="hidden md:block relative w-full" style={{ aspectRatio: `${W}/${H}`, maxWidth: W, margin: '0 auto' }}>
-      <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 w-full h-full">
-        <defs>
-          <pattern id="sf-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="1" fill="rgba(255,255,255,0.06)" />
-          </pattern>
-          <radialGradient id="sf-bg" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="rgba(99,102,241,0.10)" />
-            <stop offset="100%" stopColor="rgba(0,0,0,0)" />
-          </radialGradient>
-          {nodes.map((n) => (
-            <linearGradient key={n.slug} id={`sf-grad-${n.slug}`} x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.6" />
-              <stop offset="100%" stopColor={n.color} stopOpacity="0.9" />
-            </linearGradient>
-          ))}
-        </defs>
-
-        <rect width={W} height={H} fill="url(#sf-bg)" />
-        <rect width={W} height={H} fill="url(#sf-grid)" />
-
-        {/* trigger → service connections */}
-        {nodes.map((n, i) => {
-          const x1 = trigger.x + 70, y1 = trigger.y
-          const x2 = n.x - 70, y2 = n.y
-          const cx = (x1 + x2) / 2
-          const path = `M ${x1} ${y1} C ${cx} ${y1}, ${cx} ${y2}, ${x2} ${y2}`
-          const active = hover === n.slug
+        {rows.map(({ service, cfg }, i) => {
+          const { c1 } = cfg.theme
+          const Glyph = cfg.Glyph
           return (
-            <g key={n.slug}>
-              <path d={path} fill="none" stroke={`url(#sf-grad-${n.slug})`}
-                strokeWidth={active ? 2.5 : 1.5} strokeOpacity={active ? 1 : 0.55} />
-              <path d={path} fill="none" stroke={n.color} strokeWidth="1.5"
-                strokeDasharray="6 8" strokeOpacity={active ? 1 : 0.7}
-                className="sf-dash-flow" style={{ animationDelay: `${i * -300}ms` }} />
-            </g>
-          )
-        })}
-
-        {/* service → output connections (decorative) */}
-        {nodes.flatMap((n, i) =>
-          OUTPUTS.map((o, j) => (
-            <line key={`${i}-${j}`}
-              x1={n.x + 70} y1={n.y} x2={o.x - 28} y2={o.y}
-              stroke="rgba(148,163,184,0.12)" strokeWidth="1" strokeDasharray="2 6" />
-          ))
-        )}
-
-        {/* trigger node */}
-        <g>
-          <rect x={trigger.x - 70} y={trigger.y - 30} width="140" height="60" rx="14"
-            fill="rgba(13,14,26,0.9)" stroke="rgba(34,211,238,0.5)" strokeWidth="1.5" />
-          <circle cx={trigger.x - 70} cy={trigger.y} r="6" fill="#22d3ee">
-            <animate attributeName="r" values="6;9;6" dur="2s" repeatCount="indefinite" />
-          </circle>
-          <text x={trigger.x} y={trigger.y - 4} textAnchor="middle" fill="white" fontSize="13" fontWeight="600">
-            Webhook 觸發
-          </text>
-          <text x={trigger.x} y={trigger.y + 14} textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="monospace">
-            客戶事件 / Cron 排程
-          </text>
-        </g>
-
-        {/* output nodes */}
-        {OUTPUTS.map((o) => (
-          <g key={o.name}>
-            <circle cx={o.x} cy={o.y} r="22" fill="rgba(13,14,26,0.9)"
-              stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
-            <text x={o.x} y={o.y + 4} textAnchor="middle" fontSize="14">{o.icon}</text>
-            <text x={o.x + 32} y={o.y + 4} fill="#94a3b8" fontSize="11" fontFamily="monospace">{o.name}</text>
-          </g>
-        ))}
-
-        {/* service nodes */}
-        {nodes.map((n) => {
-          const isHover = hover === n.slug
-          return (
-            <foreignObject key={n.slug} x={n.x - 105} y={n.y - 44} width="210" height="88"
-              style={{ overflow: 'visible' }}>
-              <div
-                onMouseEnter={() => setHover(n.slug)}
-                onMouseLeave={() => setHover(null)}
-                onClick={() => router.push(`/services/${n.slug}`)}
-                className="relative cursor-pointer rounded-2xl p-3 transition-all duration-200"
-                style={{
-                  background: 'rgba(13,14,26,0.92)',
-                  border: `1.5px solid ${isHover ? n.color : 'rgba(255,255,255,0.1)'}`,
-                  boxShadow: isHover
-                    ? `0 0 0 4px ${n.color}22, 0 0 28px ${n.color}55`
-                    : '0 1px 0 rgba(255,255,255,0.04) inset, 0 6px 20px rgba(0,0,0,0.5)',
-                  transform: isHover ? 'translateY(-3px) scale(1.02)' : 'none',
-                  height: '88px',
-                }}
-              >
-                <span style={{
-                  position: 'absolute', left: -6, top: '50%', transform: 'translateY(-50%)',
-                  width: 10, height: 10, borderRadius: 999, background: n.color,
-                  boxShadow: `0 0 10px ${n.color}aa`,
-                }} />
-                <span style={{
-                  position: 'absolute', right: -6, top: '50%', transform: 'translateY(-50%)',
-                  width: 10, height: 10, borderRadius: 999, background: '#cbd5e1',
-                }} />
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xl">{n.icon}</span>
-                  <span className="text-[0.6rem] tracking-[0.18em] uppercase font-semibold"
-                    style={{ color: n.color }}>{n.category}</span>
+            <div key={service.slug} style={{
+              position: 'relative', padding: '16px 18px', borderRadius: 14,
+              background: 'rgba(2,3,10,0.6)',
+              boxShadow: `inset 0 0 0 1px ${c1}33, inset 0 1px 0 rgba(255,255,255,0.05)`,
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+                <div style={{
+                  width: 30, height: 30, borderRadius: 8,
+                  display: 'grid', placeItems: 'center',
+                  background: `${c1}22`, boxShadow: `inset 0 0 0 1px ${c1}44`, color: c1,
+                }}>
+                  <span style={{ width: 16, height: 16, display: 'block' }}><Glyph /></span>
                 </div>
-                <div className="text-white text-[0.92rem] font-semibold leading-tight tracking-[-0.01em]">
-                  {n.title}
-                </div>
-                <div className="text-[10px] text-slate-500 mt-0.5 font-mono">
-                  NT$ {n.price.toLocaleString()}{n.priceNote}
-                </div>
+                <span style={{ fontSize: 10, fontFamily: 'ui-monospace, monospace', letterSpacing: '0.18em', textTransform: 'uppercase', color: c1 }}>
+                  {service.category}
+                </span>
               </div>
-            </foreignObject>
+              <div style={{ fontSize: 15, fontWeight: 600, color: '#fff', marginBottom: 6 }}>{service.title}</div>
+              <div style={{ fontFamily: 'ui-monospace, monospace', fontSize: 11, color: '#64748b' }}>
+                NT$ {service.price.toLocaleString()}{service.priceNote}
+              </div>
+            </div>
           )
         })}
-      </svg>
-
-      <div className="absolute bottom-3 right-3 text-[10px] font-mono text-slate-500 flex items-center gap-1.5 pointer-events-none">
-        <span className="inline-block w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-        點擊任一節點查看服務詳情
+        <p style={{ textAlign: 'center', fontSize: 10, fontFamily: 'ui-monospace, monospace', color: '#475569', marginTop: 4 }}>
+          點擊卡片查看服務詳情
+        </p>
       </div>
-    </div>
+
+      {/* Desktop workflow canvas */}
+      <div className="hidden md:block">
+        {/* Section description */}
+        <div style={{ marginBottom: 20 }}>
+          <p style={{
+            fontSize: 13, lineHeight: 1.7, color: '#64748b', maxWidth: 600,
+          }}>
+            左邊是觸發源、中間是服務節點、右邊連到實際交付過的作品。每條線都代表一條真的跑得起來的流程。
+          </p>
+        </div>
+
+        {/* IDE Frame */}
+        <div style={{
+          borderRadius: 16, overflow: 'hidden',
+          boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.06), 0 30px 80px -20px rgba(0,0,0,0.6)',
+          background: 'rgba(8,9,16,0.4)', backdropFilter: 'blur(8px)',
+        }}>
+          {/* Header */}
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '12px 18px', borderBottom: '1px solid rgba(255,255,255,0.06)',
+            background: 'rgba(2,3,10,0.6)',
+          }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 10,
+              fontFamily: 'ui-monospace, monospace', fontSize: 11, color: '#cbd5e1', letterSpacing: '0.04em',
+            }}>
+              <span style={{
+                width: 7, height: 7, borderRadius: '50%',
+                background: '#34d399', boxShadow: '0 0 8px rgba(52,211,153,0.8)',
+                animation: 'frameLivePulse 1.6s ease-in-out infinite',
+              }} />
+              workflow.json · live
+            </div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              {['#f87171', '#fbbf24', '#34d399'].map((c) => (
+                <span key={c} style={{ width: 11, height: 11, borderRadius: '50%', background: c, opacity: 0.85 }} />
+              ))}
+            </div>
+          </div>
+
+          {/* 3-column workflow */}
+          <div ref={wrapperRef} style={{ position: 'relative', padding: '56px 48px', minHeight: 520 }}>
+            <div style={{
+              position: 'relative',
+              display: 'grid',
+              gridTemplateColumns: 'auto 1fr auto',
+              gap: '0 72px',
+              alignItems: 'center',
+              zIndex: 2,
+            }}>
+              {/* LEFT — Trigger */}
+              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <TriggerNode />
+              </div>
+
+              {/* MIDDLE — Services */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 340, width: '100%', justifySelf: 'center' }}>
+                {rows.map(({ service, cfg }, i) => (
+                  <ServiceNode key={service.slug} service={service} cfg={cfg} idx={i} />
+                ))}
+              </div>
+
+              {/* RIGHT — Portfolio */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 20, width: 280 }}>
+                {rows.map(({ cfg }, i) => (
+                  <PortfolioNode key={`p-${i}`} entry={cfg.portfolio} idx={i} />
+                ))}
+              </div>
+            </div>
+
+            <ConnectorOverlay wrapperRef={wrapperRef} version={version} />
+          </div>
+
+          {/* Footer */}
+          <div style={{
+            padding: '10px 18px', borderTop: '1px solid rgba(255,255,255,0.06)',
+            display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
+            fontFamily: 'ui-monospace, monospace', fontSize: 11, color: '#67e8f9', letterSpacing: '0.04em',
+            background: 'rgba(2,3,10,0.6)',
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#67e8f9', boxShadow: '0 0 8px rgba(103,232,249,0.9)', marginRight: 8 }} />
+            右側節點點擊可查看作品集
+          </div>
+        </div>
+      </div>
     </>
   )
 }
