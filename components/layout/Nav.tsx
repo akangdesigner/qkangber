@@ -31,7 +31,6 @@ const links = [
   { href: '/blog', label: 'AI × N8N 知識庫' },
   { href: '/tools', label: '工具站' },
   { href: '/newsletter/archive', label: '歷期電子報' },
-  { href: '/newsletter', label: '開始訂閱', exact: true },
   { href: '/faq', label: 'AI X 自動化指南' },
   { href: '/about', label: '關於我' },
 ]
@@ -52,8 +51,8 @@ export default function Nav() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1">
-          {links.map(({ href, label, exact }) => {
-            const isActive = exact ? pathname === href : (pathname === href || pathname.startsWith(href + '/'))
+          {links.map(({ href, label }) => {
+            const isActive = pathname === href || pathname.startsWith(href + '/')
             return (
               <Link
                 key={href}
@@ -104,8 +103,8 @@ export default function Nav() {
       {mobileOpen && (
         <nav className="md:hidden border-t border-white/[0.06] bg-[#05060a]/95 backdrop-blur-xl">
           <div className="max-w-6xl mx-auto px-6 py-3 flex flex-col">
-            {links.map(({ href, label, exact }) => {
-              const isActive = exact ? pathname === href : (pathname === href || pathname.startsWith(href + '/'))
+            {links.map(({ href, label }) => {
+              const isActive = pathname === href || pathname.startsWith(href + '/')
               return (
                 <Link
                   key={href}

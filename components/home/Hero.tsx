@@ -48,7 +48,7 @@ export default function Hero() {
         {/* left — copy */}
         <div className="relative z-10 max-w-2xl">
           <div className="mb-7">
-            <EyebrowLabel ruleWidth={32}>AI Workflow Engineering</EyebrowLabel>
+            <EyebrowLabel ruleWidth={32}>Claude · n8n · RAG · 提示詞工程</EyebrowLabel>
           </div>
 
           <h1 className="text-[2.6rem] sm:text-[3.4rem] lg:text-[3.75rem] font-semibold leading-[1.05] tracking-[-0.025em] text-white mb-7">
@@ -74,20 +74,20 @@ export default function Hero() {
           </h1>
 
           <p className="text-[1.05rem] text-slate-400 leading-[1.85] max-w-lg mb-10">
-            專注於 N8N 工作流、AI Agent、RAG 資料庫與提示詞架構。
-            把 LLM 從 demo 帶進你日常營運的 production 流程裡。
+            用 n8n 串流程、Claude 做判斷、RAG 建知識庫、提示詞工程讓輸出穩定可控——
+            設計從資料進到結果出的完整自動化體系。
           </p>
 
           <div className="flex flex-wrap gap-3 mb-10">
             <Link
-              href="/newsletter"
+              href="/services"
               className="inline-flex items-center justify-center px-7 py-3 rounded-full text-white text-sm font-medium transition-all hover:scale-[1.02] active:scale-100"
               style={{
                 background: 'linear-gradient(135deg, #2563eb 0%, #6366f1 50%, #8b5cf6 100%)',
                 boxShadow: '0 0 32px rgba(99,102,241,0.4)',
               }}
             >
-              免費訂閱電子報
+              看服務方案
             </Link>
             <Link
               href="/blog"
@@ -105,7 +105,7 @@ export default function Hero() {
               </span>
               <span>Live · 每週更新</span>
             </div>
-            <span className="opacity-60">N8N · Claude · RAG · Vector DB</span>
+            <span className="opacity-60">n8n · Claude · RAG · 提示詞工程</span>
           </div>
         </div>
 

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import FlipCard from '@/components/about/FlipCard'
 
 export const metadata: Metadata = {
   title: '關於 Q kangber — n8n 自動化流程架構師',
@@ -15,6 +16,24 @@ const siteLinks = [
   { href: '/services', label: '服務項目', desc: '電商與行銷自動化，每個服務獨立頁面說明' },
   { href: '/blog', label: 'AI × N8N 知識庫', desc: '自動化實戰心得、AI 工具應用與踩坑記錄' },
   { href: '/newsletter/archive', label: '歷期電子報', desc: '每週 AI 業界動態精選，全部公開閱讀' },
+]
+
+const experience = [
+  {
+    role: '電商公司　電商出貨自動化專員',
+    current: false,
+    desc: '負責第三方物流出貨溝通協調，主導出貨流程自動化建置。這段經驗奠定了我對真實業務流程的理解。',
+  },
+  {
+    role: '行銷公司　AI 流程開發工程師',
+    current: true,
+    desc: '設計與開發 AI 驅動的行銷自動化架構，整合 n8n 與各類 API。憑藉高強度的自學與實作，陸續開發出多款 App、個人品牌官網及教師教學工具。',
+  },
+  {
+    role: '職涯平台　業師',
+    current: true,
+    desc: '於職涯平台擔任業師，將 n8n 自動化與 API 整合的實戰技術轉化為可傳承的教學體系，陪伴學員從零到實際落地。',
+  },
 ]
 
 const faqs = [
@@ -59,149 +78,133 @@ const personJsonLd = {
   knowsAbout: ['n8n workflow automation', 'AI application development', 'marketing automation', 'e-commerce automation', 'Vibe Coding', 'Claude AI', 'API integration'],
 }
 
-function EyebrowLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-3">
-      <div className="h-px w-8 flex-shrink-0" style={{ background: 'linear-gradient(90deg, transparent, #7c5cff)' }} />
-      <span
-        className="text-[0.66rem] tracking-[0.28em] uppercase font-semibold"
-        style={{ background: 'linear-gradient(90deg,#a78bfa,#60a5fa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
-      >
-        {children}
-      </span>
-    </div>
-  )
-}
-
 export default function AboutPage() {
   return (
-    <main className="relative max-w-2xl mx-auto px-6 py-20">
+    <main className="relative overflow-hidden pb-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
-      <div
-        className="absolute inset-0 pointer-events-none -z-10"
-        style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 10%, rgba(124,92,255,0.12), transparent 60%)' }}
-      />
 
-      <div className="mb-6">
-        <EyebrowLabel>About</EyebrowLabel>
-      </div>
+      {/* Ambient glow */}
+      <div aria-hidden className="absolute inset-0 pointer-events-none -z-10" style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(124,92,255,0.18), transparent 60%)' }} />
+      <div aria-hidden className="absolute inset-0 pointer-events-none -z-10" style={{ backgroundImage: 'radial-gradient(circle, rgba(167,139,250,0.18) 1px, transparent 1px)', backgroundSize: '32px 32px', opacity: 0.45 }} />
 
-      <h1 className="text-4xl sm:text-5xl font-semibold text-white leading-tight mb-8 tracking-[-0.02em]">
-        歡迎來到{' '}
-        <span style={{ background: 'linear-gradient(90deg, #c4b5fd, #93c5fd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-          Q kangber
-        </span>
-        {' '}的 AI 世界
-      </h1>
-
-      <div className="space-y-5 text-[1.05rem] text-slate-300 leading-[1.85] mb-14">
-        <p>
-          我是一位專注於 n8n 與 AI 深度整合的流程架構師，也是 Vibe Coding 的實踐者。我做的事不只是讓流程跑起來——而是把從資料流到系統串接的每個環節都設計過，確保整套自動化體系真正高效。
-        </p>
-        <p>
-          我熱衷於實作 Claude 3.5、OpenCanvas 等前沿 AI 工具，在人機協作的黃金分工點上，將複雜的想法轉化為精確的系統邏輯。核心理念只有一句話：AI 不為取代判斷，而是精準表達想法。
-        </p>
-        <p>
-          產品提案、流程設計、API 架構——這些工作的核心永遠是你的判斷，AI 的角色是讓你的想法更快落地、更清楚呈現。找到人與 AI 的分工點，才是真正有效的使用方式，而不是一味依賴。
-        </p>
-      </div>
-
-      <div className="border-t border-white/[0.06] pt-10 mb-10">
-        <h2 className="text-lg font-semibold text-white mb-6 tracking-[-0.01em]">學歷 &amp; 經歷</h2>
-        <div className="space-y-6">
-          <div>
-            <p className="text-[0.7rem] tracking-[0.22em] uppercase font-semibold text-violet-400 mb-3">學歷</p>
-            <div className="flex items-start gap-3 text-slate-300">
-              <span className="mt-1 flex-shrink-0 text-violet-400">▪</span>
-              <div>
-                <p className="font-medium text-white">商業自動化與管理學系　碩士</p>
-              </div>
-            </div>
-          </div>
-          <div>
-            <p className="text-[0.7rem] tracking-[0.22em] uppercase font-semibold text-violet-400 mb-3">經歷</p>
-            <ul className="space-y-5">
-              <li className="flex items-start gap-3 text-slate-300">
-                <span className="mt-1 flex-shrink-0 text-violet-400">▪</span>
-                <div>
-                  <p className="font-medium text-white">電商公司　電商出貨自動化專員</p>
-                  <p className="text-sm text-slate-400 mt-1 leading-relaxed">負責第三方物流出貨溝通協調，主導出貨流程自動化建置。這段經驗奠定了我對真實業務流程的理解。</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3 text-slate-300">
-                <span className="mt-1 flex-shrink-0 text-violet-400">▪</span>
-                <div>
-                  <p className="font-medium text-white">行銷公司　AI 流程開發工程師 <span className="text-xs text-violet-300 font-normal ml-1">現職</span></p>
-                  <p className="text-sm text-slate-400 mt-1 leading-relaxed">設計與開發 AI 驅動的行銷自動化架構，整合 n8n 與各類 API。憑藉高強度的自學與實作，陸續開發出多款 App、個人品牌官網及教師教學工具。</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3 text-slate-300">
-                <span className="mt-1 flex-shrink-0 text-violet-400">▪</span>
-                <div>
-                  <p className="font-medium text-white">企業合作講師 <span className="text-xs text-violet-300 font-normal ml-1">現職</span></p>
-                  <p className="text-sm text-slate-400 mt-1 leading-relaxed">每週赴合作企業進行 AI 與自動化工具培訓。</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3 text-slate-300">
-                <span className="mt-1 flex-shrink-0 text-violet-400">▪</span>
-                <div>
-                  <p className="font-medium text-white">職涯平台　課程講師 <span className="text-xs text-violet-300 font-normal ml-1">現職</span></p>
-                  <p className="text-sm text-slate-400 mt-1 leading-relaxed">開設 n8n 自動化與 AI 工具應用課程，將實戰技術轉化為可傳承的教學體系，陪伴學員從零到實際落地。</p>
-                </div>
-              </li>
-            </ul>
+      <div className="max-w-[1080px] mx-auto px-6 pt-20">
+        {/* Eyebrow + subtitle */}
+        <div className="mb-4">
+          <div className="flex items-center gap-3">
+            <div className="h-px w-8 flex-shrink-0" style={{ background: 'linear-gradient(90deg, transparent, #7c5cff)' }} />
+            <span className="text-[0.66rem] tracking-[0.28em] uppercase font-semibold" style={{ background: 'linear-gradient(90deg,#a78bfa,#60a5fa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              About
+            </span>
           </div>
         </div>
-      </div>
 
-      <div className="border-t border-white/[0.06] pt-10 mb-10">
-        <h2 className="text-lg font-semibold text-white mb-6 tracking-[-0.01em]">常見問題 Q&amp;A</h2>
-        <ul className="space-y-6">
-          {faqs.map(({ q, a }, i) => (
-            <li key={i} className="border border-white/[0.06] rounded-xl p-5 bg-white/[0.02]">
-              <p className="font-semibold text-white mb-2 leading-snug">Q：{q}</p>
-              <p className="text-sm text-slate-400 leading-relaxed">A：{a}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
+        <div className="flex items-end justify-between gap-6 mb-10 flex-wrap">
+          <p className="text-sm text-slate-400 leading-relaxed max-w-sm m-0">
+            一張卡片有兩面 — 點擊翻面，看我是誰，<br />以及我怎麼想這件事。
+          </p>
+          <p className="text-xs text-slate-600 tracking-[0.16em] uppercase m-0">
+            滑鼠移動 → 3D 傾斜　·　點擊卡片 → 翻面
+          </p>
+        </div>
 
-      <div className="border-t border-white/[0.06] pt-10 mb-10">
-        <h2 className="text-lg font-semibold text-white mb-5 tracking-[-0.01em]">這裡有什麼</h2>
-        <ul className="space-y-3">
-          {siteLinks.map(({ href, label, desc }) => (
-            <li key={href} className="flex items-start gap-3 text-slate-400">
-              <span className="mt-1 flex-shrink-0" style={{ color: '#a78bfa' }}>→</span>
-              <span>
-                <Link href={href} className="font-medium text-white hover:text-violet-300 transition-colors duration-150">
-                  {label}
+        {/* Flip card hero */}
+        <FlipCard />
+
+        {/* 學歷 & 經歷 */}
+        <section className="border-t border-white/[0.06] pt-14 mt-20">
+          <h2 className="text-2xl font-semibold text-white tracking-[-0.015em] mb-9">
+            學歷 <span className="text-slate-600 font-normal">&amp;</span> 經歷
+          </h2>
+
+          <div className="mb-10">
+            <p className="text-[0.7rem] tracking-[0.22em] uppercase font-semibold text-violet-400 mb-4">學歷</p>
+            <div className="flex items-start gap-3">
+              <span className="mt-1 flex-shrink-0 text-violet-400">▪</span>
+              <p className="font-medium text-white m-0">商業自動化與管理學系　碩士</p>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-[0.7rem] tracking-[0.22em] uppercase font-semibold text-violet-400 mb-4">經歷</p>
+            <ul className="space-y-6 list-none p-0 m-0">
+              {experience.map((e, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="mt-1 flex-shrink-0 text-violet-400">▪</span>
+                  <div>
+                    <p className="font-medium text-white m-0 leading-snug">
+                      {e.role}
+                      {e.current && (
+                        <span className="ml-2 text-xs text-violet-300 font-normal px-2 py-0.5 rounded-full border border-violet-400/30 bg-violet-500/8">現職</span>
+                      )}
+                    </p>
+                    <p className="text-sm text-slate-400 mt-1.5 leading-relaxed m-0">{e.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* 這裡有什麼 */}
+        <section className="border-t border-white/[0.06] pt-14 mt-16">
+          <h2 className="text-2xl font-semibold text-white tracking-[-0.015em] mb-8">這裡有什麼</h2>
+          <ul className="space-y-4 list-none p-0 m-0">
+            {siteLinks.map(({ href, label, desc }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  className="flex items-start gap-4 p-5 rounded-2xl border border-white/[0.06] bg-white/[0.02] transition-all duration-200 hover:border-violet-400/40 hover:bg-violet-500/5 hover:-translate-y-px no-underline"
+                >
+                  <span className="mt-0.5 flex-shrink-0 text-violet-400">→</span>
+                  <div>
+                    <p className="font-medium text-white m-0">{label}</p>
+                    <p className="text-sm text-slate-400 mt-1 leading-relaxed m-0">{desc}</p>
+                  </div>
                 </Link>
-                {' '}— {desc}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
+              </li>
+            ))}
+          </ul>
+        </section>
 
-      <div className="border-t border-white/[0.06] pt-10">
-        <h2 className="text-lg font-semibold text-white mb-5 tracking-[-0.01em]">聯絡我</h2>
-        <ul className="flex flex-wrap gap-3">
-          {socialLinks.map(({ href, label }) => (
-            <li key={href}>
+        {/* 常見問題 */}
+        <section className="border-t border-white/[0.06] pt-14 mt-16 max-w-2xl">
+          <h2 className="text-2xl font-semibold text-white tracking-[-0.015em] mb-8">常見問題 Q&amp;A</h2>
+          <ul className="space-y-4 list-none p-0 m-0">
+            {faqs.map(({ q, a }, i) => (
+              <li key={i} className="border border-white/[0.06] rounded-xl p-5 bg-white/[0.02]">
+                <p className="font-semibold text-white mb-2 leading-snug m-0">Q：{q}</p>
+                <p className="text-sm text-slate-400 leading-relaxed m-0">A：{a}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* 聯絡我 */}
+        <section className="border-t border-white/[0.06] pt-14 mt-16">
+          <h2 className="text-2xl font-semibold text-white tracking-[-0.015em] mb-6">聯絡我</h2>
+          <div className="flex flex-wrap gap-3">
+            {socialLinks.map(({ href, label }) => (
               <a
+                key={href}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-slate-300 hover:text-white transition-all duration-150 rounded-full px-4 py-1.5 border border-white/10 hover:border-violet-400/50"
+                className="text-sm text-slate-300 hover:text-white transition-all duration-150 rounded-full px-5 py-2 border border-white/10 hover:border-violet-400/50"
               >
                 {label}
               </a>
-            </li>
-          ))}
-        </ul>
+            ))}
+            <a
+              href="mailto:asdtodd42@gmail.com"
+              className="text-sm text-slate-300 hover:text-white transition-all duration-150 rounded-full px-5 py-2 border border-white/10 hover:border-violet-400/50"
+            >
+              Email
+            </a>
+          </div>
+        </section>
       </div>
     </main>
   )
