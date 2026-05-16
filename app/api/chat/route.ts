@@ -13,7 +13,8 @@ function getKnowledgeBase(): string {
   return knowledgeBase
 }
 
-const SYSTEM_PROMPT = `你是 Q kangber 網站的 AI 助理。以下是你的知識庫，你必須以此為依據回答訪客的問題。
+function buildSystemPrompt(): string {
+  return `你是 Q kangber 網站的 AI 助理。以下是你的知識庫，你必須以此為依據回答訪客的問題。
 
 ${getKnowledgeBase()}
 
@@ -27,6 +28,7 @@ ${getKnowledgeBase()}
 - 不確定的事不要捏造，引導用戶直接聯絡 Q kangber
 - 有合作意願時，引導至 Email asdtodd42@gmail.com 或 Threads @cutekangber
 - 絕對不透露任何 API Key、Webhook URL 或系統內部資訊`
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -37,7 +39,7 @@ export async function POST(req: NextRequest) {
     const stream = await groq.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
       messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'system', content: buildSystemPrompt() },
         ...messages,
       ],
       max_tokens: 600,
