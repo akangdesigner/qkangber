@@ -89,7 +89,6 @@ function PartnerMarquee() {
       maskImage: 'linear-gradient(90deg, transparent, black 12%, black 88%, transparent)',
       WebkitMaskImage: 'linear-gradient(90deg, transparent, black 12%, black 88%, transparent)',
     }}>
-      <style>{`@keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }`}</style>
       <div style={{
         display: 'flex', gap: 64, whiteSpace: 'nowrap',
         animation: 'marqueeScroll 38s linear infinite',
@@ -113,11 +112,174 @@ function PartnerMarquee() {
   )
 }
 
+const SATS = [
+  { idx: 0, label: 'Design',   sub: 'Figma',    x: 10, y: 20, color: '#a78bfa', slideKey: 'VIBE',   hue:  0  },
+  { idx: 1, label: 'Code',     sub: 'Cursor',   x: 92, y: 22, color: '#60a5fa', slideKey: 'CLAUDE', hue: -18 },
+  { idx: 2, label: 'n8n',      sub: 'Workflow', x: 92, y: 78, color: '#22d3ee', slideKey: 'N8N',    hue: -50 },
+  { idx: 3, label: 'Database', sub: 'pgvector', x: 10, y: 78, color: '#f0abfc', slideKey: 'RAG',    hue:  40 },
+]
+
+function SatelliteChip({
+  label, sub, x, y, delay, color, active, onHover, onLeave, onClick, index,
+}: {
+  label: string; sub: string; x: number; y: number; delay: number
+  color: string; active: boolean
+  onHover: (i: number) => void; onLeave: () => void; onClick: () => void; index: number
+}) {
+  return (
+    <div
+      onMouseEnter={() => onHover(index)}
+      onMouseLeave={onLeave}
+      onClick={onClick}
+      style={{
+        position: 'absolute',
+        left: `${x}%`, top: `${y}%`,
+        transform: 'translate(-50%, -50%)',
+        display: 'flex', alignItems: 'center', gap: 8,
+        padding: '8px 12px',
+        borderRadius: 999,
+        background: active ? `${color}20` : 'rgba(2,3,10,0.8)',
+        border: `1px solid ${active ? color + 'cc' : 'rgba(167,139,250,0.35)'}`,
+        backdropFilter: 'blur(10px)',
+        boxShadow: active
+          ? `0 10px 28px rgba(0,0,0,0.45), 0 0 28px ${color}99`
+          : '0 8px 22px rgba(0,0,0,0.45), 0 0 18px rgba(124,92,255,0.25)',
+        opacity: 0,
+        animation: `chipFloatIn 700ms ease-out ${delay}ms forwards, chipFloat 6s ease-in-out ${delay + 700}ms infinite`,
+        zIndex: 3,
+        cursor: 'pointer',
+        transition: 'background 200ms, border-color 200ms, box-shadow 200ms',
+      }}
+    >
+      <span style={{
+        position: 'relative', display: 'inline-flex',
+        width: 8, height: 8, borderRadius: '50%',
+        background: color,
+        boxShadow: active ? `0 0 12px ${color}` : 'none',
+        transition: 'box-shadow 200ms',
+      }}>
+        <span style={{
+          position: 'absolute', inset: -3, borderRadius: '50%',
+          background: color, opacity: 0.4,
+          animation: 'chipPulse 1.8s ease-out infinite',
+        }} />
+      </span>
+      <span style={{ fontSize: 11, fontWeight: 600, color: '#fff', letterSpacing: '0.04em' }}>{label}</span>
+      <span style={{
+        fontFamily: 'ui-monospace, monospace',
+        fontSize: 9,
+        color: active ? color : 'rgba(148,163,184,0.75)',
+        letterSpacing: '0.08em',
+        transition: 'color 200ms',
+      }}>{sub}</span>
+    </div>
+  )
+}
+
+const TICKER_ITEMS = [
+  { tag: 'PLAN',  text: '讀取 Figma frame · 解析元件',          color: '#a78bfa' },
+  { tag: 'CALL',  text: 'cursor.write → MemberCard.tsx',        color: '#60a5fa' },
+  { tag: 'ROUTE', text: '觸發 n8n workflow · order-flow',       color: '#22d3ee' },
+  { tag: 'QUERY', text: 'pgvector · top-k=4 · 0.91 cos',        color: '#f0abfc' },
+  { tag: 'REPLY', text: '回應 · 3 steps · 1.2s',                color: '#34d399' },
+]
+
+function AgentStatusTicker() {
+  const [idx, setIdx] = useState(0)
+  const [typed, setTyped] = useState('')
+  const [phase, setPhase] = useState<'typing' | 'holding'>('typing')
+
+  useEffect(() => {
+    const full = TICKER_ITEMS[idx].text
+    let cancelled = false
+    setPhase('typing')
+    setTyped('')
+    let i = 0
+    function step() {
+      if (cancelled) return
+      i++
+      setTyped(full.slice(0, i))
+      if (i < full.length) {
+        setTimeout(step, 38)
+      } else {
+        setPhase('holding')
+        setTimeout(() => {
+          if (cancelled) return
+          setIdx(p => (p + 1) % TICKER_ITEMS.length)
+        }, 1700)
+      }
+    }
+    const tStart = setTimeout(step, 80)
+    return () => { cancelled = true; clearTimeout(tStart) }
+  }, [idx])
+
+  const cur = TICKER_ITEMS[idx]
+  return (
+    <div style={{
+      position: 'absolute', left: 0, right: 0, bottom: 8,
+      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+      padding: '8px 14px', borderRadius: 999,
+      background: 'rgba(2,3,10,0.7)',
+      border: '1px solid rgba(255,255,255,0.08)',
+      backdropFilter: 'blur(10px)',
+      width: 'fit-content', margin: '0 auto', maxWidth: '92%',
+      zIndex: 4, boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+    }}>
+      <span style={{
+        fontFamily: 'ui-monospace, monospace',
+        fontSize: 9, letterSpacing: '0.22em',
+        color: cur.color, fontWeight: 600,
+        padding: '2px 6px', borderRadius: 4,
+        background: `${cur.color}1c`,
+        transition: 'color 300ms, background 300ms',
+      }}>{cur.tag}</span>
+      <span style={{
+        fontFamily: 'ui-monospace, monospace',
+        fontSize: 11, color: '#e2e8f0',
+        whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+        minWidth: 220, maxWidth: 320,
+        display: 'inline-flex', alignItems: 'center',
+      }}>
+        {typed}
+        <span style={{
+          display: 'inline-block', width: 7, height: 13, marginLeft: 2,
+          background: cur.color,
+          animation: 'caretBlink 0.9s steps(1) infinite',
+          opacity: phase === 'typing' ? 1 : 0.5,
+          verticalAlign: 'baseline',
+        }} />
+      </span>
+    </div>
+  )
+}
+
 export default function Hero({ latestPost }: { latestPost?: { title: string; slug: string } }) {
+  const [hoveredSat, setHoveredSat] = useState<number | null>(null)
+
+  function jumpToSlide(key: string) {
+    if (typeof window !== 'undefined' && (window as unknown as Record<string, unknown>).__jumpToSlide) {
+      ;((window as unknown as Record<string, unknown>).__jumpToSlide as (k: string) => void)(key)
+    }
+    const el = document.getElementById('skills')
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 24
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
+  }
+
+  const tintHue = hoveredSat !== null ? SATS[hoveredSat].hue : 0
+  const tintSat = hoveredSat !== null ? 1.15 : 1
+
   return (
     <section className="relative overflow-hidden min-h-screen flex flex-col justify-center">
       <style>{`
         @keyframes heroLineIn { to { opacity: 1; transform: translateY(0); } }
+        @keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @keyframes chipFloatIn { from { opacity: 0; transform: translate(-50%, calc(-50% + 12px)); } to { opacity: 1; transform: translate(-50%, -50%); } }
+        @keyframes chipFloat { 0%, 100% { transform: translate(-50%, -50%); } 50% { transform: translate(-50%, calc(-50% - 4px)); } }
+        @keyframes chipPulse { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(2.4); opacity: 0; } }
+        @keyframes globeRingSpin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes caretBlink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
       `}</style>
 
       {/* ambient spotlight */}
@@ -235,12 +397,111 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
             </div>
           </div>
 
-          {/* Right — particle globe */}
+          {/* Right — particle globe as integration hub */}
           <div className="relative lg:-mr-20" style={{
             height: 'clamp(420px, 52vw, 580px)',
             opacity: 0, animation: 'heroLineIn 1000ms ease-out 400ms forwards',
           }}>
-            <ParticleGlobe />
+            {/* Scanning rings */}
+            <div aria-hidden style={{
+              position: 'absolute', left: '50%', top: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '78%', aspectRatio: '1', borderRadius: '50%',
+              border: '1px dashed rgba(167,139,250,0.18)',
+              animation: 'globeRingSpin 28s linear infinite',
+              pointerEvents: 'none',
+            }} />
+            <div aria-hidden style={{
+              position: 'absolute', left: '50%', top: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '94%', aspectRatio: '1', borderRadius: '50%',
+              border: '1px solid rgba(96,165,250,0.10)',
+              pointerEvents: 'none',
+            }} />
+
+            {/* SVG connector lines + animated packets */}
+            <svg aria-hidden viewBox="0 0 100 100" preserveAspectRatio="none"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+              <defs>
+                {SATS.map(s => (
+                  <linearGradient key={`g-${s.idx}`} id={`hubLine-${s.idx}`} x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stopColor={s.color} stopOpacity="0" />
+                    <stop offset="0.5" stopColor={s.color} stopOpacity={hoveredSat === s.idx ? 1 : 0.55} />
+                    <stop offset="1" stopColor={s.color} stopOpacity="0" />
+                  </linearGradient>
+                ))}
+              </defs>
+              {SATS.map(s => {
+                const isHot = hoveredSat === s.idx
+                const isDimmed = hoveredSat !== null && !isHot
+                return (
+                  <line key={`l-${s.idx}`}
+                    x1={s.x} y1={s.y} x2="50" y2="50"
+                    stroke={`url(#hubLine-${s.idx})`}
+                    strokeWidth={isHot ? 0.7 : 0.3}
+                    style={{
+                      opacity: isDimmed ? 0.15 : 1,
+                      transition: 'opacity 200ms, stroke-width 200ms',
+                    }} />
+                )
+              })}
+              {SATS.map((s, i) => {
+                const dir = i % 2 === 0
+                  ? [s, { x: 50, y: 50 }]
+                  : [{ x: 50, y: 50 }, s]
+                const isHot = hoveredSat === s.idx
+                const isDimmed = hoveredSat !== null && !isHot
+                return (
+                  <circle key={`p-${s.idx}`} r={isHot ? 1.1 : 0.7} fill={s.color}
+                    style={{ opacity: isDimmed ? 0.2 : 1, transition: 'opacity 200ms' }}>
+                    <animateMotion dur="3.6s" begin={`${i * 0.8}s`} repeatCount="indefinite"
+                      path={`M ${dir[0].x},${dir[0].y} L ${dir[1].x},${dir[1].y}`} />
+                    <animate attributeName="opacity" values="0;1;1;0" dur="3.6s" begin={`${i * 0.8}s`} repeatCount="indefinite" />
+                  </circle>
+                )
+              })}
+            </svg>
+
+            {/* Globe with hover-driven hue tint */}
+            <div style={{
+              position: 'absolute', inset: 0,
+              filter: `hue-rotate(${tintHue}deg) saturate(${tintSat})`,
+              transition: 'filter 600ms cubic-bezier(.2,.7,.2,1)',
+            }}>
+              <ParticleGlobe />
+            </div>
+
+            {/* 4 satellite chips */}
+            {SATS.map((s, i) => (
+              <SatelliteChip
+                key={s.idx}
+                index={s.idx}
+                label={s.label} sub={s.sub}
+                x={s.x} y={s.y}
+                color={s.color}
+                delay={500 + i * 150}
+                active={hoveredSat === s.idx}
+                onHover={setHoveredSat}
+                onLeave={() => setHoveredSat(null)}
+                onClick={() => jumpToSlide(s.slideKey)}
+              />
+            ))}
+
+            {/* CORE AGENT badge */}
+            <div aria-hidden style={{
+              position: 'absolute', left: '50%', top: '50%',
+              transform: 'translate(-50%, -50%) translateY(-110px)',
+              fontFamily: 'ui-monospace, monospace',
+              fontSize: 9, fontWeight: 700,
+              color: '#c4b5fd', letterSpacing: '0.32em', opacity: 0.8,
+              pointerEvents: 'none',
+              textShadow: '0 0 12px rgba(167,139,250,0.6)',
+            }}>
+              CORE AGENT
+            </div>
+
+            {/* Bottom status ticker */}
+            <AgentStatusTicker />
           </div>
         </div>
 
