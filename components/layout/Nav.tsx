@@ -28,6 +28,7 @@ function LogoMark({ size = 30 }: { size?: number }) {
 
 const links = [
   { href: '/services', label: '服務' },
+  { href: '/portfolio', label: '作品集' },
   { href: '/blog', label: 'AI × N8N 知識庫' },
   { href: '/tools', label: '工具站' },
   { href: '/newsletter/archive', label: '歷期電子報' },

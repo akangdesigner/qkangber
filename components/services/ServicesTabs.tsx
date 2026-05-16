@@ -178,7 +178,7 @@ export default function ServicesTabs({ automationServices, aiServices }: Props) 
       </div>
 
       {/* Holographic pills */}
-      <div style={{ display: 'flex', gap: 14, marginBottom: 20, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 14, marginBottom: 28, flexWrap: 'wrap' }}>
         <HoloPill
           active={active === 'automation'}
           onClick={() => setActive('automation')}
@@ -199,7 +199,7 @@ export default function ServicesTabs({ automationServices, aiServices }: Props) 
       <div style={{
         position: 'relative',
         display: 'flex', alignItems: 'center', gap: 16,
-        padding: '14px 20px',
+        padding: '20px 24px',
         borderRadius: 14,
         background: 'rgba(255,255,255,0.02)',
         border: '1px solid rgba(255,255,255,0.06)',

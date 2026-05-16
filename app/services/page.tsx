@@ -3,8 +3,9 @@ import ServicesTabs from '@/components/services/ServicesTabs'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'AI 自動化與應用服務 — Q kangber',
+  title: 'AI 自動化與應用服務',
   description: '電商訂單、行銷漏斗自動化，以及 Claude AI 應用開發、聊天機器人、提示詞工程顧問——一站式 AI 服務。',
+  alternates: { canonical: 'https://aiqkangber.com/services' },
 }
 
 function EyebrowLabel({ children }: { children: React.ReactNode }) {
@@ -32,9 +33,21 @@ export default async function ServicesPage() {
 
   return (
     <div className="relative max-w-5xl mx-auto px-4 sm:px-6 py-16">
+      {/* Ambient glow */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 0%, rgba(124,92,255,0.15), transparent 70%)' }}
+        aria-hidden
+        className="absolute inset-0 pointer-events-none -z-10"
+        style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(124,92,255,0.18), transparent 60%)' }}
+      />
+      {/* Dot grid */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none -z-10"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(167,139,250,0.18) 1px, transparent 1px)',
+          backgroundSize: '32px 32px',
+          opacity: 0.4,
+        }}
       />
 
       <div className="mb-14">

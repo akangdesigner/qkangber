@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'AI X 自動化指南 — Q kangber',
+  title: 'AI X 自動化指南',
   description: 'n8n、AI Agent、RAG、Prompt Engineering 常見技術問題解答。從架構選型到實際踩坑，全部說清楚。',
+  alternates: { canonical: 'https://aiqkangber.com/faq' },
 }
 
 const BASE_URL = 'https://aiqkangber.com'
