@@ -3,10 +3,10 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import ParticleGlobe from './ParticleGlobe'
 
-function ChangelogPill() {
+function ChangelogPill({ title, slug }: { title: string; slug: string }) {
   return (
     <Link
-      href="/blog"
+      href={`/blog/${slug}`}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 10,
         padding: '6px 6px 6px 14px',
@@ -36,7 +36,7 @@ function ChangelogPill() {
         color: '#fff', fontSize: 10, fontWeight: 600, letterSpacing: '0.1em',
         textTransform: 'uppercase',
       }}>NEW</span>
-      <span>RAG 系列 · 從 Pinecone 換到 pgvector 的踩坑筆記</span>
+      <span>{title}</span>
       <span style={{ color: '#a78bfa', marginRight: 12 }}>→</span>
     </Link>
   )
@@ -113,7 +113,7 @@ function PartnerMarquee() {
   )
 }
 
-export default function Hero() {
+export default function Hero({ latestPost }: { latestPost?: { title: string; slug: string } }) {
   return (
     <section className="relative overflow-hidden min-h-screen flex flex-col justify-center">
       <style>{`
@@ -138,9 +138,11 @@ export default function Hero() {
         <div className="grid lg:grid-cols-[1.15fr_1fr] gap-8 items-center" style={{ minHeight: 560 }}>
           {/* Left — copy */}
           <div>
-            <div style={{ opacity: 0, transform: 'translateY(10px)', animation: 'heroLineIn 600ms ease-out 60ms forwards' }}>
-              <ChangelogPill />
-            </div>
+            {latestPost && (
+              <div style={{ opacity: 0, transform: 'translateY(10px)', animation: 'heroLineIn 600ms ease-out 60ms forwards' }}>
+                <ChangelogPill title={latestPost.title} slug={latestPost.slug} />
+              </div>
+            )}
 
             <h1 style={{
               fontSize: 'clamp(2.4rem, 5.4vw, 4.4rem)',

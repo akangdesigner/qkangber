@@ -20,9 +20,11 @@ export default async function HomePage() {
   const issues = await getAllNewsletterIssues()
   const recentIssues = issues.filter(i => i.published).slice(0, 3)
 
+  const latestPost = allPosts[0] ? { title: allPosts[0].title, slug: allPosts[0].slug } : undefined
+
   return (
     <>
-      <Hero />
+      <Hero latestPost={latestPost} />
       <HomeCarousel />
       <FeaturedPosts posts={latestPosts} />
       <HomeNewsletter issues={recentIssues} />
