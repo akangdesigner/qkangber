@@ -540,91 +540,45 @@ export default function PortfolioTabs() {
 
         {/* ── project content ── */}
         {active === 'teaching' && (
-          <div
-            key="teaching"
-            style={{ animation: 'fade-in-up 300ms ease both' }}
-          >
-            {/* two-column grid */}
+          <div key="teaching" style={{ animation: 'fade-in-up 300ms ease both' }}>
+
+            {/* ── row 1: title + mockup ── */}
             <div
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'minmax(0,45fr) minmax(0,55fr)',
                 gap: 48,
                 alignItems: 'start',
+                marginBottom: 40,
               }}
               className="portfolio-grid"
             >
-              {/* left: info */}
+              {/* left: title block */}
               <div style={{ order: 0 }}>
-                {/* header */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 12,
-                    marginBottom: 16,
-                  }}
-                >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
                   <StatusBadge status="已上線" />
                 </div>
-                <h2
-                  style={{
-                    fontSize: 'clamp(22px, 3vw, 28px)',
-                    fontWeight: 700,
-                    color: '#fff',
-                    letterSpacing: '-0.02em',
-                    marginBottom: 8,
-                  }}
-                >
+                <h2 style={{
+                  fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 700,
+                  color: '#fff', letterSpacing: '-0.02em', marginBottom: 8,
+                }}>
                   教師專案管理系統
                 </h2>
-                <p
-                  style={{
-                    fontSize: 13,
-                    fontFamily: 'var(--font-jetbrains), monospace',
-                    color: '#6366f1',
-                    letterSpacing: '0.02em',
-                    marginBottom: 16,
-                  }}
-                >
+                <p style={{
+                  fontSize: 13, fontFamily: 'var(--font-jetbrains), monospace',
+                  color: '#6366f1', letterSpacing: '0.02em', marginBottom: 24,
+                }}>
                   「一個人的補習班後台，AI 幫你記課、寫報告、推通知」
                 </p>
-                <p
-                  style={{
-                    fontSize: 14,
-                    color: '#94a3b8',
-                    lineHeight: 1.7,
-                    marginBottom: 28,
-                  }}
-                >
-                  專為 1 對 1 線上教師設計的全功能管理系統。用自然語言更新課程紀錄，AI 自動結構化並生成 Word 報告，課程同步 Google Calendar，LINE Bot 每日提醒。
-                </p>
-
-                {/* features */}
-                <div style={{ marginBottom: 28 }}>
-                  {features.map((f) => (
-                    <FeatureRow key={f.title} {...f} />
-                  ))}
-                </div>
-
                 {/* tech stack */}
                 <div>
-                  <p
-                    style={{
-                      fontSize: 10,
-                      fontFamily: 'var(--font-jetbrains), monospace',
-                      color: '#475569',
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      marginBottom: 10,
-                    }}
-                  >
-                    TECH STACK
-                  </p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                    {techStack.map((t) => (
-                      <TechChip key={t} label={t} />
-                    ))}
+                  <p style={{
+                    fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                    color: '#475569', letterSpacing: '0.1em', textTransform: 'uppercase' as const,
+                    marginBottom: 10,
+                  }}>TECH STACK</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 6 }}>
+                    {techStack.map((t) => <TechChip key={t} label={t} />)}
                   </div>
                 </div>
               </div>
@@ -635,6 +589,56 @@ export default function PortfolioTabs() {
                   src="/works/teaching-preview.jpg"
                   title="教學管理系統 · localhost:5173"
                 />
+              </div>
+            </div>
+
+            {/* ── row 2: 核心用途 + 重點功能 ── */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: 20,
+              }}
+              className="portfolio-blocks"
+            >
+              {/* 核心用途 */}
+              <div style={{
+                padding: '28px 28px 28px 28px',
+                borderRadius: 16,
+                background: 'rgba(255,255,255,0.02)',
+                border: '1px solid rgba(255,255,255,0.07)',
+              }}>
+                <p style={{
+                  fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                  color: '#6366f1', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
+                  marginBottom: 14,
+                }}>// 核心用途</p>
+                <p style={{ fontSize: 14, color: '#e2e8f0', fontWeight: 600, lineHeight: 1.5, marginBottom: 12 }}>
+                  1 對 1 線上教師的全功能後台
+                </p>
+                <p style={{ fontSize: 13.5, color: '#94a3b8', lineHeight: 1.8, marginBottom: 16 }}>
+                  市面上沒有專為獨立教師設計的管理工具——學生都在 LINE 上，課程紀錄在筆記本，提醒得自己記。這個系統就是為了補上這個缺口。
+                </p>
+                <p style={{ fontSize: 13.5, color: '#94a3b8', lineHeight: 1.8 }}>
+                  用自然語言說「今天跟小明上了代數」，AI 自動解析成結構化紀錄；下課後 Claude 生成當堂摘要；隔天早上 LINE Bot 提醒你今天有哪些學生要上課。
+                </p>
+              </div>
+
+              {/* 重點功能 */}
+              <div style={{
+                padding: '28px 28px 28px 28px',
+                borderRadius: 16,
+                background: 'rgba(255,255,255,0.02)',
+                border: '1px solid rgba(255,255,255,0.07)',
+              }}>
+                <p style={{
+                  fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                  color: '#6366f1', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
+                  marginBottom: 14,
+                }}>// 重點功能</p>
+                <div>
+                  {features.map((f) => <FeatureRow key={f.title} {...f} />)}
+                </div>
               </div>
             </div>
           </div>
@@ -661,6 +665,9 @@ export default function PortfolioTabs() {
           }
           .portfolio-grid > *:last-child {
             order: 0 !important;
+          }
+          .portfolio-blocks {
+            grid-template-columns: 1fr !important;
           }
         }
       `}</style>
