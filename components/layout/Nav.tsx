@@ -74,18 +74,6 @@ export default function Nav() {
               </Link>
             )
           })}
-          <div className="ml-3">
-            <Link
-              href="/"
-              className="inline-flex items-center justify-center px-5 py-2 rounded-full text-white text-sm font-medium transition-all hover:scale-[1.02] active:scale-100"
-              style={{
-                background: 'linear-gradient(135deg, #2563eb 0%, #6366f1 50%, #8b5cf6 100%)',
-                boxShadow: '0 0 24px rgba(99,102,241,0.35)',
-              }}
-            >
-              回首頁
-            </Link>
-          </div>
         </nav>
 
         {/* Mobile hamburger */}
@@ -121,19 +109,6 @@ export default function Nav() {
                 </Link>
               )
             })}
-            <div className="mt-2 mb-1">
-              <Link
-                href="/"
-                onClick={() => setMobileOpen(false)}
-                className="inline-flex items-center justify-center w-full px-5 py-2.5 rounded-full text-white text-sm font-medium transition-all hover:scale-[1.02] active:scale-100"
-                style={{
-                  background: 'linear-gradient(135deg, #2563eb 0%, #6366f1 50%, #8b5cf6 100%)',
-                  boxShadow: '0 0 24px rgba(99,102,241,0.35)',
-                }}
-              >
-                回首頁
-              </Link>
-            </div>
           </div>
         </nav>
       )}
