@@ -11,23 +11,24 @@ function ChangelogPill({ title, slug }: { title: string; slug: string }) {
         display: 'inline-flex', alignItems: 'center', gap: 10,
         padding: '6px 6px 6px 14px',
         borderRadius: 999,
-        background: 'rgba(255,255,255,0.02)',
-        border: '1px solid rgba(255,255,255,0.07)',
+        background: 'rgba(124,92,255,0.06)',
+        border: '1px solid transparent',
+        boxShadow: 'inset 0 0 0 1px rgba(167,139,250,0.10), inset 0 1px 0 rgba(255,255,255,0.05), 0 12px 40px -12px rgba(124,92,255,0.4)',
         textDecoration: 'none',
         fontSize: 12, color: '#cbd5e1',
         marginBottom: 32,
         backdropFilter: 'blur(8px)',
-        transition: 'border-color 200ms, background 200ms',
+        transition: 'background 200ms, box-shadow 200ms',
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget as HTMLElement
-        el.style.borderColor = 'rgba(167,139,250,0.45)'
-        el.style.background = 'rgba(124,92,255,0.08)'
+        el.style.background = 'rgba(124,92,255,0.12)'
+        el.style.boxShadow = 'inset 0 0 0 1px rgba(167,139,250,0.32), inset 0 1px 0 rgba(255,255,255,0.08), 0 16px 50px -10px rgba(124,92,255,0.6)'
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget as HTMLElement
-        el.style.borderColor = 'rgba(255,255,255,0.10)'
-        el.style.background = 'rgba(255,255,255,0.03)'
+        el.style.background = 'rgba(124,92,255,0.06)'
+        el.style.boxShadow = 'inset 0 0 0 1px rgba(167,139,250,0.10), inset 0 1px 0 rgba(255,255,255,0.05), 0 12px 40px -12px rgba(124,92,255,0.4)'
       }}
     >
       <span style={{
@@ -138,12 +139,14 @@ function SatelliteChip({
         display: 'flex', alignItems: 'center', gap: 8,
         padding: '8px 12px',
         borderRadius: 999,
-        background: active ? `${color}18` : 'rgba(2,3,10,0.22)',
-        border: `1px solid ${active ? color + 'aa' : 'rgba(167,139,250,0.22)'}`,
-        backdropFilter: 'blur(6px)',
+        background: active
+          ? `radial-gradient(120% 180% at 50% 50%, ${color}33 0%, ${color}14 45%, rgba(2,3,10,0.5) 100%)`
+          : `radial-gradient(120% 180% at 50% 50%, ${color}1c 0%, rgba(2,3,10,0.55) 70%)`,
+        border: '1px solid transparent',
+        backdropFilter: 'blur(10px)',
         boxShadow: active
-          ? `0 0 20px ${color}55`
-          : 'none',
+          ? `inset 0 0 0 1px ${color}55, inset 0 1px 0 rgba(255,255,255,0.06), 0 18px 50px -18px ${color}cc, 0 0 60px -10px ${color}66`
+          : `inset 0 0 0 1px ${color}22, inset 0 1px 0 rgba(255,255,255,0.04), 0 14px 40px -16px rgba(0,0,0,0.6), 0 0 40px -10px ${color}33`,
         opacity: 0,
         animation: `chipFloatIn 700ms ease-out ${delay}ms forwards, chipFloat 6s ease-in-out ${delay + 700}ms infinite`,
         zIndex: 3,
@@ -219,11 +222,13 @@ function AgentStatusTicker() {
       position: 'absolute', left: 0, right: 0, bottom: 8,
       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
       padding: '8px 14px', borderRadius: 999,
-      background: 'rgba(2,3,10,0.35)',
-      border: '1px solid rgba(255,255,255,0.06)',
+      background: `radial-gradient(120% 180% at 50% 50%, ${cur.color}1c 0%, rgba(2,3,10,0.55) 70%)`,
+      border: '1px solid transparent',
       backdropFilter: 'blur(10px)',
       width: 'fit-content', margin: '0 auto', maxWidth: '92%',
-      zIndex: 4, boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+      zIndex: 4,
+      boxShadow: `inset 0 0 0 1px ${cur.color}22, inset 0 1px 0 rgba(255,255,255,0.04), 0 18px 50px -18px rgba(0,0,0,0.7), 0 0 50px -10px ${cur.color}40`,
+      transition: 'background 400ms, box-shadow 400ms',
     }}>
       <span style={{
         fontFamily: 'ui-monospace, monospace',
@@ -370,21 +375,24 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
               <Link
                 href="/blog"
                 style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  color: '#e2e8f0', border: '1px solid rgba(255,255,255,0.10)',
+                  background: 'radial-gradient(120% 180% at 50% 50%, rgba(167,139,250,0.12) 0%, rgba(2,3,10,0.3) 70%)',
+                  color: '#e2e8f0', border: '1px solid transparent',
                   borderRadius: 999, padding: '13px 26px', fontSize: 14, fontWeight: 500,
                   textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8,
                   backdropFilter: 'blur(8px)',
-                  transition: 'border-color 200ms, color 200ms',
+                  boxShadow: 'inset 0 0 0 1px rgba(167,139,250,0.18), inset 0 1px 0 rgba(255,255,255,0.04), 0 14px 40px -16px rgba(124,92,255,0.4)',
+                  transition: 'background 200ms, box-shadow 200ms, color 200ms',
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement
-                  el.style.borderColor = 'rgba(167,139,250,0.45)'
+                  el.style.background = 'radial-gradient(120% 180% at 50% 50%, rgba(167,139,250,0.22) 0%, rgba(2,3,10,0.3) 70%)'
+                  el.style.boxShadow = 'inset 0 0 0 1px rgba(167,139,250,0.4), inset 0 1px 0 rgba(255,255,255,0.06), 0 16px 50px -14px rgba(124,92,255,0.55)'
                   el.style.color = '#fff'
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget as HTMLElement
-                  el.style.borderColor = 'rgba(255,255,255,0.10)'
+                  el.style.background = 'radial-gradient(120% 180% at 50% 50%, rgba(167,139,250,0.12) 0%, rgba(2,3,10,0.3) 70%)'
+                  el.style.boxShadow = 'inset 0 0 0 1px rgba(167,139,250,0.18), inset 0 1px 0 rgba(255,255,255,0.04), 0 14px 40px -16px rgba(124,92,255,0.4)'
                   el.style.color = '#e2e8f0'
                 }}
               >
