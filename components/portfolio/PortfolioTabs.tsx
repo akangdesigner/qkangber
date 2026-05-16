@@ -35,6 +35,37 @@ function TeacherIcon({ active }: { active: boolean }) {
   )
 }
 
+function MonitorIcon({ active }: { active: boolean }) {
+  return (
+    <svg viewBox="0 0 32 32" width={22} height={22} style={{ display: 'block' }}>
+      <defs>
+        <linearGradient id="p-monitor-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#22d3ee" />
+          <stop offset="50%" stopColor="#60a5fa" />
+          <stop offset="100%" stopColor="#a78bfa" />
+        </linearGradient>
+      </defs>
+      {/* screen */}
+      <rect x="3" y="5" width="26" height="18" rx="2"
+        fill={active ? 'url(#p-monitor-grad)' : 'none'}
+        stroke={active ? '#fff' : '#22d3ee'}
+        strokeWidth="1.5"
+        opacity={active ? 0.3 : 1}
+      />
+      {/* chart bars inside */}
+      <rect x="7" y="14" width="3" height="6" rx="1" fill={active ? '#67e8f9' : '#22d3ee'} opacity="0.9" />
+      <rect x="12" y="11" width="3" height="9" rx="1" fill={active ? '#93c5fd' : '#60a5fa'} opacity="0.9" />
+      <rect x="17" y="9" width="3" height="11" rx="1" fill={active ? '#c4b5fd' : '#a78bfa'} opacity="0.9" />
+      <rect x="22" y="13" width="3" height="7" rx="1" fill={active ? '#67e8f9' : '#22d3ee'} opacity="0.9" />
+      {/* alert dot */}
+      <circle cx="26" cy="7" r="3" fill={active ? '#f87171' : '#ef4444'} />
+      {/* stand */}
+      <line x1="16" y1="23" x2="16" y2="27" stroke={active ? '#fff' : '#22d3ee'} strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="11" y1="27" x2="21" y2="27" stroke={active ? '#fff' : '#22d3ee'} strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 function SparklesIcon({ active }: { active: boolean }) {
   return (
     <svg viewBox="0 0 32 32" width={22} height={22} style={{ display: 'block' }}>
@@ -432,7 +463,19 @@ function ComingSoon() {
 
 /* ─── main component ─── */
 export default function PortfolioTabs() {
-  const [active, setActive] = useState<'teaching' | 'more'>('teaching')
+  const [active, setActive] = useState<'teaching' | 'monitoring' | 'more'>('teaching')
+
+  const monitoringStack = [
+    'Node.js', 'Express', 'React', 'Vite', 'SQLite', 'Docker', 'RESTful API', 'LINE Messaging API',
+  ]
+
+  const monitoringFeatures = [
+    { emoji: '🕷️', title: '網路爬蟲監控', desc: '自動抓取各平台商品價格，比對自有品牌與市場即時定價' },
+    { emoji: '📊', title: '即時數據儀表板', desc: 'React + Vite 前端呈現監控數據，支援圖表與時間軸視覺化' },
+    { emoji: '🚨', title: '告警通知系統', desc: '價格異常或庫存變動時自動觸發 LINE 推播通知' },
+    { emoji: '⏰', title: '排程任務引擎', desc: 'Node.js 排程定時執行爬蟲，數據自動入庫無需人工介入' },
+    { emoji: '📤', title: 'CSV 匯出分析', desc: '商品監控數據一鍵匯出，支援批量比對與離線分析' },
+  ]
 
   const techStack = [
     'React 19', 'Vite', 'Supabase', 'Groq API',
@@ -518,6 +561,13 @@ export default function PortfolioTabs() {
             label="教師專案管理系統"
             sub="prod · 2025"
             onClick={() => setActive('teaching')}
+          />
+          <TabPill
+            active={active === 'monitoring'}
+            icon={<MonitorIcon active={active === 'monitoring'} />}
+            label="產品監控系統"
+            sub="dev · 2026"
+            onClick={() => setActive('monitoring')}
           />
           <TabPill
             active={active === 'more'}
@@ -638,6 +688,212 @@ export default function PortfolioTabs() {
                 }}>// 重點功能</p>
                 <div>
                   {features.map((f) => <FeatureRow key={f.title} {...f} />)}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {active === 'monitoring' && (
+          <div key="monitoring" style={{ animation: 'fade-in-up 300ms ease both' }}>
+
+            {/* row 1: title + mockup */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'minmax(0,45fr) minmax(0,55fr)',
+                gap: 48,
+                alignItems: 'start',
+                marginBottom: 40,
+              }}
+              className="portfolio-grid"
+            >
+              {/* left */}
+              <div style={{ order: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+                  <StatusBadge status="開發中" />
+                  <a
+                    href="https://github.com/akangdesigner/productmonitoring"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 6,
+                      padding: '3px 10px', borderRadius: 999,
+                      fontSize: 11, fontFamily: 'var(--font-jetbrains), monospace',
+                      color: '#94a3b8', letterSpacing: '0.04em',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      background: 'rgba(255,255,255,0.03)',
+                      textDecoration: 'none',
+                      transition: 'color 150ms, border-color 150ms',
+                    }}
+                    onMouseEnter={(e) => {
+                      const el = e.currentTarget as HTMLElement
+                      el.style.color = '#e2e8f0'
+                      el.style.borderColor = 'rgba(255,255,255,0.18)'
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget as HTMLElement
+                      el.style.color = '#94a3b8'
+                      el.style.borderColor = 'rgba(255,255,255,0.08)'
+                    }}
+                  >
+                    <svg viewBox="0 0 16 16" width={12} height={12} fill="currentColor">
+                      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    GitHub
+                  </a>
+                </div>
+                <h2 style={{
+                  fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 700,
+                  color: '#fff', letterSpacing: '-0.02em', marginBottom: 8,
+                }}>
+                  產品監控系統
+                </h2>
+                <p style={{
+                  fontSize: 13, fontFamily: 'var(--font-jetbrains), monospace',
+                  color: '#22d3ee', letterSpacing: '0.02em', marginBottom: 24,
+                }}>
+                  「自動盯盤、價格追蹤、異常即推播——讓資料替你守夜」
+                </p>
+                <div>
+                  <p style={{
+                    fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                    color: '#475569', letterSpacing: '0.1em', textTransform: 'uppercase' as const,
+                    marginBottom: 10,
+                  }}>TECH STACK</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 6 }}>
+                    {monitoringStack.map((t) => (
+                      <span key={t} style={{
+                        padding: '3px 10px', borderRadius: 6,
+                        fontSize: 11, fontFamily: 'var(--font-jetbrains), monospace',
+                        letterSpacing: '0.03em',
+                        border: '1px solid rgba(34,211,238,0.25)',
+                        background: 'rgba(34,211,238,0.06)',
+                        color: '#67e8f9',
+                        whiteSpace: 'nowrap' as const,
+                      }}>{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* right: architecture diagram */}
+              <div style={{ order: 1 }}>
+                <div style={{
+                  borderRadius: 12,
+                  border: '1px solid rgba(34,211,238,0.25)',
+                  overflow: 'hidden',
+                  boxShadow: '0 0 0 1px rgba(34,211,238,0.10), 0 24px 60px rgba(34,211,238,0.08), 0 4px 16px rgba(0,0,0,0.6)',
+                  background: '#050810',
+                }}>
+                  {/* title bar */}
+                  <div style={{
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '10px 14px',
+                    background: '#070910',
+                    borderBottom: '1px solid rgba(34,211,238,0.15)',
+                  }}>
+                    <div style={{ display: 'flex', gap: 5, flexShrink: 0 }}>
+                      {['#ff5f56', '#ffbd2e', '#27c93f'].map((c) => (
+                        <div key={c} style={{ width: 9, height: 9, borderRadius: '50%', background: c, opacity: 0.85 }} />
+                      ))}
+                    </div>
+                    <div style={{
+                      flex: 1, background: 'rgba(255,255,255,0.03)',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                      borderRadius: 5, padding: '3px 10px',
+                      fontSize: 11, fontFamily: 'var(--font-jetbrains), monospace',
+                      color: '#334155', letterSpacing: '0.02em',
+                    }}>
+                      productmonitoring · localhost:3000
+                    </div>
+                    <span style={{
+                      display: 'flex', alignItems: 'center', gap: 5,
+                      fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                      color: '#fbbf24', letterSpacing: '0.06em',
+                    }}>
+                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fbbf24', display: 'inline-block', animation: 'pulse-dot 2s ease-in-out infinite' }} />
+                      DEV
+                    </span>
+                  </div>
+
+                  {/* architecture diagram */}
+                  <div style={{ padding: '28px 24px', fontFamily: 'var(--font-jetbrains), monospace' }}>
+                    {/* scraper → db → api → frontend */}
+                    <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 12 }}>
+                      {[
+                        { layer: 'SCRAPERS', desc: '各平台商品爬蟲 · 排程觸發', color: '#a78bfa', icon: '🕷️' },
+                        { layer: 'JOBS',     desc: '排程任務引擎 · 自動入庫',   color: '#60a5fa', icon: '⏰' },
+                        { layer: 'API',      desc: 'Express REST · routes / services', color: '#22d3ee', icon: '⚡' },
+                        { layer: 'FRONTEND', desc: 'React + Vite · 監控儀表板', color: '#34d399', icon: '📊' },
+                      ].map((row, i, arr) => (
+                        <div key={row.layer}>
+                          <div style={{
+                            display: 'flex', alignItems: 'center', gap: 12,
+                            padding: '10px 14px', borderRadius: 8,
+                            background: `${row.color}0d`,
+                            border: `1px solid ${row.color}30`,
+                          }}>
+                            <span style={{ fontSize: 14 }}>{row.icon}</span>
+                            <div style={{ flex: 1 }}>
+                              <span style={{ fontSize: 10, color: row.color, fontWeight: 700, letterSpacing: '0.14em' }}>{row.layer}</span>
+                              <span style={{ fontSize: 10, color: '#475569', marginLeft: 10 }}>{row.desc}</span>
+                            </div>
+                          </div>
+                          {i < arr.length - 1 && (
+                            <div style={{ paddingLeft: 22, color: '#334155', fontSize: 11, lineHeight: 1 }}>↓</div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{
+                      marginTop: 16, padding: '8px 14px', borderRadius: 6,
+                      background: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.18)',
+                      fontSize: 10, color: '#fbbf24', letterSpacing: '0.06em',
+                    }}>
+                      ⚠ LINE Messaging API · alert service · in progress
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* row 2: 核心用途 + 重點功能 */}
+            <div
+              style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}
+              className="portfolio-blocks"
+            >
+              <div style={{
+                padding: '28px', borderRadius: 16,
+                background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)',
+              }}>
+                <p style={{
+                  fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                  color: '#22d3ee', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
+                  marginBottom: 14,
+                }}>// 核心用途</p>
+                <p style={{ fontSize: 14, color: '#e2e8f0', fontWeight: 600, lineHeight: 1.5, marginBottom: 12 }}>
+                  自有品牌的 24hr 自動守價機器人
+                </p>
+                <p style={{ fontSize: 13.5, color: '#94a3b8', lineHeight: 1.8, marginBottom: 16 }}>
+                  人工盯競品價格又費時又容易漏接——這套系統讓爬蟲替你持續監控各平台商品售價與庫存，比對自有品牌定價，一旦發現異常立即推播通知。
+                </p>
+                <p style={{ fontSize: 13.5, color: '#94a3b8', lineHeight: 1.8 }}>
+                  三層架構設計讓資料存取、業務邏輯、前端展示完全解耦，新增監控平台只需加一個 scraper module，不影響其他層。以微服務思想打造，可獨立擴展任一層。
+                </p>
+              </div>
+
+              <div style={{
+                padding: '28px', borderRadius: 16,
+                background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)',
+              }}>
+                <p style={{
+                  fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                  color: '#22d3ee', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
+                  marginBottom: 14,
+                }}>// 重點功能</p>
+                <div>
+                  {monitoringFeatures.map((f) => <FeatureRow key={f.title} {...f} />)}
                 </div>
               </div>
             </div>
