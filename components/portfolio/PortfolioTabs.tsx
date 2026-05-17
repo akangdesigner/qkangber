@@ -777,84 +777,12 @@ export default function PortfolioTabs() {
                 </div>
               </div>
 
-              {/* right: architecture diagram */}
+              {/* right: screenshot mockup */}
               <div style={{ order: 1 }}>
-                <div style={{
-                  borderRadius: 12,
-                  border: '1px solid rgba(34,211,238,0.25)',
-                  overflow: 'hidden',
-                  boxShadow: '0 0 0 1px rgba(34,211,238,0.10), 0 24px 60px rgba(34,211,238,0.08), 0 4px 16px rgba(0,0,0,0.6)',
-                  background: '#050810',
-                }}>
-                  {/* title bar */}
-                  <div style={{
-                    display: 'flex', alignItems: 'center', gap: 10,
-                    padding: '10px 14px',
-                    background: '#070910',
-                    borderBottom: '1px solid rgba(34,211,238,0.15)',
-                  }}>
-                    <div style={{ display: 'flex', gap: 5, flexShrink: 0 }}>
-                      {['#ff5f56', '#ffbd2e', '#27c93f'].map((c) => (
-                        <div key={c} style={{ width: 9, height: 9, borderRadius: '50%', background: c, opacity: 0.85 }} />
-                      ))}
-                    </div>
-                    <div style={{
-                      flex: 1, background: 'rgba(255,255,255,0.03)',
-                      border: '1px solid rgba(255,255,255,0.06)',
-                      borderRadius: 5, padding: '3px 10px',
-                      fontSize: 11, fontFamily: 'var(--font-jetbrains), monospace',
-                      color: '#334155', letterSpacing: '0.02em',
-                    }}>
-                      productmonitoring · localhost:3000
-                    </div>
-                    <span style={{
-                      display: 'flex', alignItems: 'center', gap: 5,
-                      fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
-                      color: '#fbbf24', letterSpacing: '0.06em',
-                    }}>
-                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fbbf24', display: 'inline-block', animation: 'pulse-dot 2s ease-in-out infinite' }} />
-                      DEV
-                    </span>
-                  </div>
-
-                  {/* architecture diagram */}
-                  <div style={{ padding: '28px 24px', fontFamily: 'var(--font-jetbrains), monospace' }}>
-                    {/* scraper → db → api → frontend */}
-                    <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 12 }}>
-                      {[
-                        { layer: 'SCRAPERS', desc: '各平台商品爬蟲 · 排程觸發', color: '#a78bfa', icon: '🕷️' },
-                        { layer: 'JOBS',     desc: '排程任務引擎 · 自動入庫',   color: '#60a5fa', icon: '⏰' },
-                        { layer: 'API',      desc: 'Express REST · routes / services', color: '#22d3ee', icon: '⚡' },
-                        { layer: 'FRONTEND', desc: 'React + Vite · 監控儀表板', color: '#34d399', icon: '📊' },
-                      ].map((row, i, arr) => (
-                        <div key={row.layer}>
-                          <div style={{
-                            display: 'flex', alignItems: 'center', gap: 12,
-                            padding: '10px 14px', borderRadius: 8,
-                            background: `${row.color}0d`,
-                            border: `1px solid ${row.color}30`,
-                          }}>
-                            <span style={{ fontSize: 14 }}>{row.icon}</span>
-                            <div style={{ flex: 1 }}>
-                              <span style={{ fontSize: 10, color: row.color, fontWeight: 700, letterSpacing: '0.14em' }}>{row.layer}</span>
-                              <span style={{ fontSize: 10, color: '#475569', marginLeft: 10 }}>{row.desc}</span>
-                            </div>
-                          </div>
-                          {i < arr.length - 1 && (
-                            <div style={{ paddingLeft: 22, color: '#334155', fontSize: 11, lineHeight: 1 }}>↓</div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                    <div style={{
-                      marginTop: 16, padding: '8px 14px', borderRadius: 6,
-                      background: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.18)',
-                      fontSize: 10, color: '#fbbf24', letterSpacing: '0.06em',
-                    }}>
-                      ⚠ LINE Messaging API · alert service · in progress
-                    </div>
-                  </div>
-                </div>
+                <BrowserMockup
+                  src="/works/monitoring-preview.jpg"
+                  title="產品比價監控台 · Beauty Intel v1.0"
+                />
               </div>
             </div>
 
