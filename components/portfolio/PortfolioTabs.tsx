@@ -66,6 +66,40 @@ function MonitorIcon({ active }: { active: boolean }) {
   )
 }
 
+function MarketingIcon({ active }: { active: boolean }) {
+  return (
+    <svg viewBox="0 0 32 32" width={22} height={22} style={{ display: 'block' }}>
+      <defs>
+        <linearGradient id="p-marketing-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#f97316" />
+          <stop offset="100%" stopColor="#fbbf24" />
+        </linearGradient>
+      </defs>
+      {/* n8n-style node: left circle */}
+      <circle cx="6" cy="16" r="4"
+        fill={active ? 'url(#p-marketing-grad)' : 'none'}
+        stroke={active ? '#f97316' : '#78350f'}
+        strokeWidth="1.5"
+      />
+      {/* middle node */}
+      <rect x="13" y="12" width="6" height="8" rx="2"
+        fill={active ? 'rgba(249,115,22,0.3)' : 'none'}
+        stroke={active ? '#fbbf24' : '#78350f'}
+        strokeWidth="1.5"
+      />
+      {/* right node */}
+      <circle cx="26" cy="16" r="4"
+        fill={active ? 'rgba(251,191,36,0.25)' : 'none'}
+        stroke={active ? '#fbbf24' : '#78350f'}
+        strokeWidth="1.5"
+      />
+      {/* connector lines */}
+      <line x1="10" y1="16" x2="13" y2="16" stroke={active ? '#f97316' : '#78350f'} strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="19" y1="16" x2="22" y2="16" stroke={active ? '#fbbf24' : '#78350f'} strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 function SparklesIcon({ active }: { active: boolean }) {
   return (
     <svg viewBox="0 0 32 32" width={22} height={22} style={{ display: 'block' }}>
@@ -463,7 +497,7 @@ function ComingSoon() {
 
 /* ─── main component ─── */
 export default function PortfolioTabs() {
-  const [active, setActive] = useState<'teaching' | 'monitoring' | 'more'>('teaching')
+  const [active, setActive] = useState<'teaching' | 'monitoring' | 'marketing' | 'more'>('teaching')
 
   const monitoringStack = [
     'Node.js', 'Express', 'React', 'Vite', 'SQLite', 'Docker', 'RESTful API', 'LINE Messaging API',
@@ -568,6 +602,13 @@ export default function PortfolioTabs() {
             label="產品監控系統"
             sub="dev · 2026"
             onClick={() => setActive('monitoring')}
+          />
+          <TabPill
+            active={active === 'marketing'}
+            icon={<MarketingIcon active={active === 'marketing'} />}
+            label="行銷文章生成工作流"
+            sub="n8n · 2026"
+            onClick={() => setActive('marketing')}
           />
           <TabPill
             active={active === 'more'}
@@ -823,6 +864,214 @@ export default function PortfolioTabs() {
                 <div>
                   {monitoringFeatures.map((f) => <FeatureRow key={f.title} {...f} />)}
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {active === 'marketing' && (
+          <div key="marketing" style={{ animation: 'fade-in-up 300ms ease both' }}>
+
+            {/* row 1: title + workflow canvas */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'minmax(0,42fr) minmax(0,58fr)',
+                gap: 48,
+                alignItems: 'start',
+                marginBottom: 40,
+              }}
+              className="portfolio-grid"
+            >
+              {/* left */}
+              <div style={{ order: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+                  <StatusBadge status="已上線" />
+                </div>
+                <h2 style={{
+                  fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 700,
+                  color: '#fff', letterSpacing: '-0.02em', marginBottom: 8,
+                }}>
+                  行銷文章生成工作流
+                </h2>
+                <p style={{
+                  fontSize: 13, fontFamily: 'var(--font-jetbrains), monospace',
+                  color: '#f97316', letterSpacing: '0.02em', marginBottom: 24,
+                }}>
+                  「輸入關鍵字，n8n 自動找資料、生文章、改寫成各平台格式」
+                </p>
+                <div>
+                  <p style={{
+                    fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                    color: '#475569', letterSpacing: '0.1em', textTransform: 'uppercase' as const,
+                    marginBottom: 10,
+                  }}>TECH STACK</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 6 }}>
+                    {['n8n', 'Webhook', 'Groq API', 'OpenRouter API', 'Google Sheets', 'AI Agent'].map((t) => (
+                      <span key={t} style={{
+                        padding: '3px 10px', borderRadius: 6,
+                        fontSize: 11, fontFamily: 'var(--font-jetbrains), monospace',
+                        letterSpacing: '0.03em',
+                        border: '1px solid rgba(249,115,22,0.3)',
+                        background: 'rgba(249,115,22,0.07)',
+                        color: '#fdba74',
+                        whiteSpace: 'nowrap' as const,
+                      }}>{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* right: n8n workflow canvas frame */}
+              <div style={{ order: 1 }}>
+                <div style={{
+                  borderRadius: 12,
+                  border: '1px solid rgba(249,115,22,0.3)',
+                  overflow: 'hidden',
+                  boxShadow: '0 0 0 1px rgba(249,115,22,0.12), 0 24px 60px rgba(249,115,22,0.12), 0 4px 16px rgba(0,0,0,0.6)',
+                  background: '#111218',
+                }}>
+                  {/* n8n-style title bar */}
+                  <div style={{
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '10px 14px',
+                    background: '#0d0e1a',
+                    borderBottom: '1px solid rgba(249,115,22,0.2)',
+                  }}>
+                    <div style={{ display: 'flex', gap: 5, flexShrink: 0 }}>
+                      {['#ff5f56', '#ffbd2e', '#27c93f'].map((c) => (
+                        <div key={c} style={{ width: 9, height: 9, borderRadius: '50%', background: c, opacity: 0.85 }} />
+                      ))}
+                    </div>
+                    <div style={{
+                      flex: 1,
+                      background: 'rgba(255,255,255,0.04)',
+                      border: '1px solid rgba(255,255,255,0.07)',
+                      borderRadius: 5, padding: '3px 10px',
+                      fontSize: 11, fontFamily: 'var(--font-jetbrains), monospace',
+                      color: '#475569', letterSpacing: '0.02em',
+                    }}>
+                      workflow.json · Marketing Article Generator
+                    </div>
+                    <div style={{
+                      display: 'flex', alignItems: 'center', gap: 5,
+                      padding: '2px 8px', borderRadius: 4,
+                      background: 'rgba(249,115,22,0.12)',
+                      border: '1px solid rgba(249,115,22,0.25)',
+                      fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                      color: '#fb923c', letterSpacing: '0.08em',
+                    }}>
+                      <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 5px #22c55e' }} />
+                      active
+                    </div>
+                  </div>
+                  {/* workflow screenshot */}
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '16/7' }}>
+                    <Image
+                      src="/works/marketing-workflow.png"
+                      alt="行銷文章生成 n8n 工作流截圖"
+                      fill
+                      style={{ objectFit: 'cover', objectPosition: 'center' }}
+                      sizes="(max-width: 768px) 100vw, 58vw"
+                      priority
+                    />
+                    <div style={{
+                      position: 'absolute', inset: 0,
+                      background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px)',
+                      pointerEvents: 'none',
+                    }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* row 2: core purpose + features */}
+            <div
+              style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}
+              className="portfolio-blocks"
+            >
+              <div style={{
+                padding: '28px', borderRadius: 16,
+                background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)',
+              }}>
+                <p style={{
+                  fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                  color: '#f97316', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
+                  marginBottom: 14,
+                }}>// 核心用途</p>
+                <p style={{ fontSize: 14, color: '#e2e8f0', fontWeight: 600, lineHeight: 1.5, marginBottom: 12 }}>
+                  一鍵從關鍵字到多平台行銷文案
+                </p>
+                <p style={{ fontSize: 13.5, color: '#94a3b8', lineHeight: 1.8, marginBottom: 16 }}>
+                  輸入文章標題與關鍵字，Webhook 觸發工作流，n8n 自動網路搜尋相關資料、調用 AI 生成初稿，再依各社群平台邏輯改寫格式。
+                </p>
+                <p style={{ fontSize: 13.5, color: '#94a3b8', lineHeight: 1.8 }}>
+                  建議仍需手動改稿確保文章真實性，但可省下 80% 的初稿時間。最終輸出自動寫回 Google Sheets 存檔。
+                </p>
+              </div>
+
+              <div style={{
+                padding: '28px', borderRadius: 16,
+                background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)',
+              }}>
+                <p style={{
+                  fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                  color: '#f97316', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
+                  marginBottom: 14,
+                }}>// 重點功能</p>
+                <div>
+                  {[
+                    { emoji: '🔎', title: '自動資料蒐集', desc: 'Webhook 接收關鍵字後，n8n 自動搜尋網路相關資訊作為文章素材' },
+                    { emoji: '✍️', title: 'AI 初稿生成', desc: '多 LLM 並行（Groq + OpenRouter），依需求選用不同模型生成初稿' },
+                    { emoji: '📱', title: '多平台格式改寫', desc: '同一篇文章自動改寫為 Instagram、Facebook、Twitter/X、LINE 各平台格式' },
+                    { emoji: '🖼️', title: '配圖生成', desc: '文章生成後觸發圖片生成節點，自動產生封面圖並上傳 Google Drive' },
+                    { emoji: '📊', title: 'Sheets 自動存檔', desc: '所有輸出文案與圖片連結自動 append 到 Google Sheets，方便批量管理' },
+                  ].map((f) => <FeatureRow key={f.title} {...f} />)}
+                </div>
+              </div>
+            </div>
+
+            {/* row 3: social output gallery */}
+            <div>
+              <p style={{
+                fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                color: '#475569', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
+                marginBottom: 16,
+              }}>// 輸出範例</p>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }} className="portfolio-blocks">
+                {[
+                  { src: '/works/marketing-instagram.png', label: 'Instagram', color: '#e1306c' },
+                  { src: '/works/marketing-twitter.png',   label: 'Twitter / X', color: '#1d9bf0' },
+                ].map(({ src, label, color }) => (
+                  <div key={label} style={{
+                    borderRadius: 12,
+                    border: `1px solid ${color}33`,
+                    overflow: 'hidden',
+                    boxShadow: `0 0 0 1px ${color}15, 0 12px 32px rgba(0,0,0,0.5)`,
+                    background: '#0d0e1a',
+                  }}>
+                    <div style={{
+                      padding: '8px 12px',
+                      background: '#0d0e1a',
+                      borderBottom: `1px solid ${color}22`,
+                      display: 'flex', alignItems: 'center', gap: 8,
+                    }}>
+                      <span style={{
+                        fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                        color, letterSpacing: '0.1em', textTransform: 'uppercase' as const,
+                      }}>{label}</span>
+                    </div>
+                    <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3' }}>
+                      <Image
+                        src={src}
+                        alt={`${label} 輸出範例`}
+                        fill
+                        style={{ objectFit: 'cover', objectPosition: 'top' }}
+                        sizes="(max-width: 768px) 100vw, 45vw"
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
