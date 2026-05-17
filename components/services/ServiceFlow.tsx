@@ -451,15 +451,6 @@ export default function ServiceFlow({ services }: { services: Service[] }) {
 
       {/* Desktop workflow canvas */}
       <div className="hidden md:block">
-        {/* Section description */}
-        <div style={{ marginBottom: 20 }}>
-          <p style={{
-            fontSize: 13, lineHeight: 1.7, color: '#64748b', maxWidth: 600,
-          }}>
-            左邊是觸發源、中間是服務節點、右邊連到實際交付過的作品。每條線都代表一條真的跑得起來的流程。
-          </p>
-        </div>
-
         {/* IDE Frame */}
         <div style={{
           borderRadius: 16, overflow: 'hidden',
