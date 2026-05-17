@@ -100,6 +100,36 @@ function MarketingIcon({ active }: { active: boolean }) {
   )
 }
 
+function NewsletterIcon({ active }: { active: boolean }) {
+  return (
+    <svg viewBox="0 0 32 32" width={22} height={22} style={{ display: 'block' }}>
+      <defs>
+        <linearGradient id="p-newsletter-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#22c55e" />
+          <stop offset="100%" stopColor="#86efac" />
+        </linearGradient>
+      </defs>
+      {/* clock / schedule trigger */}
+      <circle cx="8" cy="16" r="5"
+        fill={active ? 'rgba(34,197,94,0.2)' : 'none'}
+        stroke={active ? '#22c55e' : '#14532d'}
+        strokeWidth="1.5"
+      />
+      <path d="M8 13v3.5l2 1.5" stroke={active ? '#22c55e' : '#14532d'} strokeWidth="1.2" strokeLinecap="round" fill="none" />
+      {/* connector */}
+      <line x1="13" y1="16" x2="17" y2="16" stroke={active ? '#22c55e' : '#14532d'} strokeWidth="1.5" strokeLinecap="round" />
+      {/* envelope / email */}
+      <rect x="17" y="11" width="11" height="9" rx="1.5"
+        fill={active ? 'url(#p-newsletter-grad)' : 'none'}
+        stroke={active ? '#86efac' : '#14532d'}
+        strokeWidth="1.5"
+        opacity={active ? 0.9 : 1}
+      />
+      <path d="M17 12.5l5.5 4 5.5-4" stroke={active ? '#fff' : '#14532d'} strokeWidth="1" fill="none" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 function SparklesIcon({ active }: { active: boolean }) {
   return (
     <svg viewBox="0 0 32 32" width={22} height={22} style={{ display: 'block' }}>
@@ -497,7 +527,7 @@ function ComingSoon() {
 
 /* ─── main component ─── */
 export default function PortfolioTabs() {
-  const [active, setActive] = useState<'teaching' | 'monitoring' | 'marketing' | 'more'>('teaching')
+  const [active, setActive] = useState<'teaching' | 'monitoring' | 'marketing' | 'newsletter' | 'more'>('teaching')
 
   const monitoringStack = [
     'Node.js', 'Express', 'React', 'Vite', 'SQLite', 'Docker', 'RESTful API', 'LINE Messaging API',
@@ -609,6 +639,13 @@ export default function PortfolioTabs() {
             label="行銷文章生成工作流"
             sub="n8n · 2026"
             onClick={() => setActive('marketing')}
+          />
+          <TabPill
+            active={active === 'newsletter'}
+            icon={<NewsletterIcon active={active === 'newsletter'} />}
+            label="新聞電子報工作流"
+            sub="n8n · 2026"
+            onClick={() => setActive('newsletter')}
           />
           <TabPill
             active={active === 'more'}
@@ -1072,6 +1109,211 @@ export default function PortfolioTabs() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {active === 'newsletter' && (
+          <div key="newsletter" style={{ animation: 'fade-in-up 300ms ease both' }}>
+
+            {/* row 1: title + workflow canvas */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'minmax(0,42fr) minmax(0,58fr)',
+                gap: 48,
+                alignItems: 'start',
+                marginBottom: 40,
+              }}
+              className="portfolio-grid"
+            >
+              {/* left */}
+              <div style={{ order: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+                  <StatusBadge status="已上線" />
+                </div>
+                <h2 style={{
+                  fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 700,
+                  color: '#fff', letterSpacing: '-0.02em', marginBottom: 8,
+                }}>
+                  新聞趨勢整合電子報工作流
+                </h2>
+                <p style={{
+                  fontSize: 13, fontFamily: 'var(--font-jetbrains), monospace',
+                  color: '#22c55e', letterSpacing: '0.02em', marginBottom: 24,
+                }}>
+                  「每日自動搜尋 AI 議題，整合成可讀新聞摘要寄出」
+                </p>
+                <div>
+                  <p style={{
+                    fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                    color: '#475569', letterSpacing: '0.1em', textTransform: 'uppercase' as const,
+                    marginBottom: 10,
+                  }}>TECH STACK</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 6 }}>
+                    {['n8n', 'Schedule Trigger', 'Google News', '/scrape', 'Groq API', 'OpenRouter API', 'Google Sheets', 'Gmail'].map((t) => (
+                      <span key={t} style={{
+                        padding: '3px 10px', borderRadius: 6,
+                        fontSize: 11, fontFamily: 'var(--font-jetbrains), monospace',
+                        letterSpacing: '0.03em',
+                        border: '1px solid rgba(34,197,94,0.3)',
+                        background: 'rgba(34,197,94,0.07)',
+                        color: '#86efac',
+                        whiteSpace: 'nowrap' as const,
+                      }}>{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* right: n8n workflow canvas */}
+              <div style={{ order: 1 }}>
+                <div style={{
+                  borderRadius: 12,
+                  border: '1px solid rgba(34,197,94,0.3)',
+                  overflow: 'hidden',
+                  boxShadow: '0 0 0 1px rgba(34,197,94,0.12), 0 24px 60px rgba(34,197,94,0.1), 0 4px 16px rgba(0,0,0,0.6)',
+                  background: '#111218',
+                }}>
+                  <div style={{
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '10px 14px',
+                    background: '#0d0e1a',
+                    borderBottom: '1px solid rgba(34,197,94,0.2)',
+                  }}>
+                    <div style={{ display: 'flex', gap: 5, flexShrink: 0 }}>
+                      {['#ff5f56', '#ffbd2e', '#27c93f'].map((c) => (
+                        <div key={c} style={{ width: 9, height: 9, borderRadius: '50%', background: c, opacity: 0.85 }} />
+                      ))}
+                    </div>
+                    <div style={{
+                      flex: 1,
+                      background: 'rgba(255,255,255,0.04)',
+                      border: '1px solid rgba(255,255,255,0.07)',
+                      borderRadius: 5, padding: '3px 10px',
+                      fontSize: 11, fontFamily: 'var(--font-jetbrains), monospace',
+                      color: '#475569', letterSpacing: '0.02em',
+                    }}>
+                      電子報 · workflow.json
+                    </div>
+                    <div style={{
+                      display: 'flex', alignItems: 'center', gap: 5,
+                      padding: '2px 8px', borderRadius: 4,
+                      background: 'rgba(34,197,94,0.1)',
+                      border: '1px solid rgba(34,197,94,0.25)',
+                      fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                      color: '#4ade80', letterSpacing: '0.08em',
+                    }}>
+                      <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 5px #22c55e' }} />
+                      published
+                    </div>
+                  </div>
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '16/7' }}>
+                    <Image
+                      src="/works/newsletter-workflow.png"
+                      alt="新聞電子報 n8n 工作流截圖"
+                      fill
+                      style={{ objectFit: 'cover', objectPosition: 'top' }}
+                      sizes="(max-width: 768px) 100vw, 58vw"
+                      priority
+                    />
+                    <div style={{
+                      position: 'absolute', inset: 0,
+                      background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px)',
+                      pointerEvents: 'none',
+                    }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* row 2: core purpose + features */}
+            <div
+              style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}
+              className="portfolio-blocks"
+            >
+              <div style={{
+                padding: '28px', borderRadius: 16,
+                background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)',
+              }}>
+                <p style={{
+                  fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                  color: '#22c55e', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
+                  marginBottom: 14,
+                }}>// 核心用途</p>
+                <p style={{ fontSize: 14, color: '#e2e8f0', fontWeight: 600, lineHeight: 1.5, marginBottom: 12 }}>
+                  AI 新聞自動追蹤 + 電子報全自動生成
+                </p>
+                <p style={{ fontSize: 13.5, color: '#94a3b8', lineHeight: 1.8, marginBottom: 16 }}>
+                  Schedule Trigger 每日定時啟動，同步抓取三個 Google News 頻道的最新 AI 議題，自動爬取各文章全文，再交由 AI 整合成有觀點的摘要。
+                </p>
+                <p style={{ fontSize: 13.5, color: '#94a3b8', lineHeight: 1.8 }}>
+                  整合完成後格式化成電子報，寫入 Google Sheets 存檔，並透過 Gmail 自動寄送給訂閱者。底部 Webhook 節點支援訂閱者動態新增至名單。
+                </p>
+              </div>
+
+              <div style={{
+                padding: '28px', borderRadius: 16,
+                background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)',
+              }}>
+                <p style={{
+                  fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                  color: '#22c55e', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
+                  marginBottom: 14,
+                }}>// 重點功能</p>
+                <div>
+                  {[
+                    { emoji: '⏰', title: '每日排程觸發', desc: 'Schedule Trigger 定時啟動，無需手動操作，每天自動執行一次' },
+                    { emoji: '📰', title: '多源 Google News 搜尋', desc: '平行抓取三個搜尋頻道，覆蓋 AI 工具發布、研究動態、產業趨勢' },
+                    { emoji: '🕷️', title: '全文爬蟲', desc: '/scrape 節點抓取文章原文，AI 有足夠內容生成有深度的摘要' },
+                    { emoji: '🤖', title: 'AI 雙模型摘要', desc: 'Groq + OpenRouter 並行處理，確保輸出品質與速度平衡' },
+                    { emoji: '📧', title: 'Gmail 自動發送', desc: '整合完成後直接寄出，支援訂閱者名單管理，Webhook 動態新增訂閱' },
+                  ].map((f) => <FeatureRow key={f.title} {...f} />)}
+                </div>
+              </div>
+            </div>
+
+            {/* row 3: email output preview */}
+            <div>
+              <p style={{
+                fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                color: '#475569', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
+                marginBottom: 16,
+              }}>// 輸出範例</p>
+              <div style={{
+                borderRadius: 12,
+                border: '1px solid rgba(34,197,94,0.25)',
+                overflow: 'hidden',
+                boxShadow: '0 0 0 1px rgba(34,197,94,0.1), 0 12px 32px rgba(0,0,0,0.5)',
+                background: '#0d0e1a',
+                maxWidth: 860,
+              }}>
+                <div style={{
+                  padding: '8px 14px',
+                  background: '#0d0e1a',
+                  borderBottom: '1px solid rgba(34,197,94,0.15)',
+                  display: 'flex', alignItems: 'center', gap: 8,
+                }}>
+                  <span style={{
+                    fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                    color: '#22c55e', letterSpacing: '0.1em', textTransform: 'uppercase' as const,
+                  }}>Gmail · Q kangber 週報</span>
+                  <span style={{
+                    marginLeft: 'auto',
+                    fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                    color: '#475569',
+                  }}>2026-05-11</span>
+                </div>
+                <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9' }}>
+                  <Image
+                    src="/works/newsletter-email.png"
+                    alt="Q kangber 週報電子報輸出截圖"
+                    fill
+                    style={{ objectFit: 'cover', objectPosition: 'top' }}
+                    sizes="(max-width: 768px) 100vw, 860px"
+                  />
+                </div>
               </div>
             </div>
           </div>
