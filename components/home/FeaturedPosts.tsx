@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import FeaturedPostCard from '@/components/home/FeaturedPostCard'
+import PostCard from '@/components/blog/PostCard'
 import type { Post } from '@/types/content'
 
 function EyebrowLabel({ children }: { children: React.ReactNode }) {
@@ -43,8 +43,8 @@ export default function FeaturedPosts({ posts }: { posts: Post[] }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {posts.map((post, idx) => (
-          <FeaturedPostCard key={post.slug} post={post} idx={idx} />
+        {posts.map((post) => (
+          <PostCard key={post.slug} post={post} />
         ))}
       </div>
     </section>
