@@ -45,8 +45,45 @@ export default async function IssuePage({ params }: Props) {
   const issue = await getNewsletterIssue(slug)
   if (!issue) notFound()
 
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'NewsArticle',
+      headline: issue.subject,
+      description: issue.summary ?? issue.subject,
+      url: `https://aiqkangber.com/newsletter/archive/${slug}`,
+      datePublished: issue.date,
+      dateModified: issue.date,
+      author: {
+        '@type': 'Person',
+        name: 'Q kangber',
+        url: 'https://aiqkangber.com/about',
+      },
+      publisher: {
+        '@type': 'Person',
+        name: 'Q kangber',
+        url: 'https://aiqkangber.com/about',
+      },
+      isPartOf: {
+        '@type': 'Periodical',
+        name: 'Q kangber AI 自動化週報',
+        url: 'https://aiqkangber.com/newsletter/archive',
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: '首頁', item: 'https://aiqkangber.com' },
+        { '@type': 'ListItem', position: 2, name: '電子報存檔', item: 'https://aiqkangber.com/newsletter/archive' },
+        { '@type': 'ListItem', position: 3, name: issue.subject, item: `https://aiqkangber.com/newsletter/archive/${slug}` },
+      ],
+    },
+  ]
+
   return (
     <div className="max-w-3xl mx-auto px-6 py-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="mb-8">
         <Link
           href="/newsletter/archive"

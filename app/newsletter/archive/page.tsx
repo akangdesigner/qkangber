@@ -3,8 +3,9 @@ import { getAllNewsletterIssues } from '@/lib/newsletter'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: '歷期 AI 自動化週報',
-  description: '歷期 Q kangber AI 與 n8n 自動化週報——每週精選業界動態，全部公開閱讀，免費無需訂閱。',
+  title: 'Q kangber 電子報存檔 — 每週 AI 與 N8N 自動化精選',
+  description: '收錄每期 AI 趨勢、N8N 自動化、工具推薦與實戰心得——全部公開免費閱讀，不用訂閱也能看。',
+  keywords: ['AI 自動化週報', 'N8N 電子報', 'AI 趨勢週報', '免費 AI 電子報'],
   alternates: { canonical: 'https://aiqkangber.com/newsletter/archive' },
 }
 
@@ -26,6 +27,29 @@ function EyebrowLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: '歷期 AI 自動化週報',
+    description: '歷期 Q kangber AI 與 n8n 自動化週報——每週精選業界動態，全部公開閱讀，免費無需訂閱。',
+    url: 'https://aiqkangber.com/newsletter/archive',
+    publisher: {
+      '@type': 'Person',
+      name: 'Q kangber',
+      url: 'https://aiqkangber.com/about',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '首頁', item: 'https://aiqkangber.com' },
+      { '@type': 'ListItem', position: 2, name: '電子報存檔', item: 'https://aiqkangber.com/newsletter/archive' },
+    ],
+  },
+]
+
 function formatDate(dateStr: string) {
   try {
     return new Date(dateStr).toLocaleDateString('zh-TW', {
@@ -43,6 +67,7 @@ export default async function ArchivePage() {
 
   return (
     <div className="relative max-w-4xl mx-auto px-6 py-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-64 pointer-events-none -z-10"
         style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(124,92,255,0.12), transparent 70%)' }}

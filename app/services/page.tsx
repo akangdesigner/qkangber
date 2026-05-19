@@ -3,10 +3,34 @@ import ServicesTabs from '@/components/services/ServicesTabs'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'AI 自動化與應用服務',
-  description: '電商訂單、行銷漏斗自動化，以及 Claude AI 應用開發、聊天機器人、提示詞工程顧問——一站式 AI 服務。',
+  title: 'Q kangber 服務 — N8N 自動化、AI Agent 開發與企業 AI 轉型',
+  description: '提供 N8N 工作流自動化、AI Agent 開發、聊天機器人建置與提示詞工程顧問——協助電商與行銷企業把 AI 真正導入日常營運。',
+  keywords: ['N8N 自動化服務', 'AI Agent 開發', '企業 AI 轉型', '行銷自動化'],
   alternates: { canonical: 'https://aiqkangber.com/services' },
 }
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'AI 自動化與應用服務',
+    description: '電商訂單、行銷漏斗自動化，以及 Claude AI 應用開發、聊天機器人、提示詞工程顧問——一站式 AI 服務。',
+    url: 'https://aiqkangber.com/services',
+    provider: {
+      '@type': 'Person',
+      name: 'Q kangber',
+      url: 'https://aiqkangber.com/about',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '首頁', item: 'https://aiqkangber.com' },
+      { '@type': 'ListItem', position: 2, name: '服務', item: 'https://aiqkangber.com/services' },
+    ],
+  },
+]
 
 function EyebrowLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -33,6 +57,7 @@ export default async function ServicesPage() {
 
   return (
     <div className="relative max-w-5xl mx-auto px-4 sm:px-6 py-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       {/* Ambient glow */}
       <div
         aria-hidden

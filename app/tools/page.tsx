@@ -2,10 +2,57 @@
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: '免費 AI 工具站',
-  description: '電商與行銷人的免費 AI 工具。社群貼文產生器、寵物溝通師，不需要註冊，直接用。',
+  title: 'Q kangber 工具站 — 免費 AI 工具，不用註冊直接用',
+  description: '提供社群貼文產生器、寵物溝通師等免費 AI 小工具——有趣的、實用的都有，不需要註冊，開啟就能用。',
+  keywords: ['免費 AI 工具', '社群貼文產生器', 'AI 行銷工具', '線上 AI 工具'],
   alternates: { canonical: 'https://aiqkangber.com/tools' },
 }
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: '免費 AI 工具站',
+    description: '電商與行銷人的免費 AI 工具。社群貼文產生器、寵物溝通師，不需要註冊，直接用。',
+    url: 'https://aiqkangber.com/tools',
+    publisher: {
+      '@type': 'Person',
+      name: 'Q kangber',
+      url: 'https://aiqkangber.com/about',
+    },
+    hasPart: [
+      {
+        '@type': 'SoftwareApplication',
+        name: '社群貼文產生器',
+        url: 'https://aiqkangber.com/tools/social-post',
+        applicationCategory: 'UtilitiesApplication',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'TWD' },
+      },
+      {
+        '@type': 'SoftwareApplication',
+        name: '寵物溝通師',
+        url: 'https://aiqkangber.com/tools/pet-talk',
+        applicationCategory: 'EntertainmentApplication',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'TWD' },
+      },
+      {
+        '@type': 'SoftwareApplication',
+        name: 'HTML 文章編輯器',
+        url: 'https://aiqkangber.com/tools/html-editor',
+        applicationCategory: 'UtilitiesApplication',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'TWD' },
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '首頁', item: 'https://aiqkangber.com' },
+      { '@type': 'ListItem', position: 2, name: '工具站', item: 'https://aiqkangber.com/tools' },
+    ],
+  },
+]
 
 const tools = [
   {
@@ -22,11 +69,19 @@ const tools = [
     tags: ['搞笑', '寵物', '偽科學'],
     icon: '🔬',
   },
+  {
+    href: '/tools/html-editor',
+    title: 'HTML 文章編輯器',
+    desc: '貼入 HTML 文章、上傳圖片自動轉 base64 嵌入，複製後直接貼到方格子等內容平台，圖文一次搞定。',
+    tags: ['內容發布', 'HTML', '圖片嵌入'],
+    icon: '📝',
+  },
 ]
 
 export default function ToolsPage() {
   return (
     <main className="relative max-w-4xl mx-auto px-6 py-20">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div
         className="absolute inset-0 pointer-events-none -z-10"
         style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 10%, rgba(124,92,255,0.10), transparent 60%)' }}
