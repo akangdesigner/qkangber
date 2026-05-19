@@ -23,6 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: service.title,
     description: service.description,
+    ...(service.keywords ? { keywords: service.keywords } : {}),
     alternates: { canonical: `${BASE_URL}/services/${slug}` },
   }
 }

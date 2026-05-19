@@ -4,7 +4,7 @@ import matter from 'gray-matter'
 import { cache } from 'react'
 import { readingTime } from './reading-time'
 import { getBlogPostsFromSheets } from './sheets'
-import type { Post, PostWithContent, Course, Service, ServiceWithContent } from '@/types/content'
+import type { Post, PostWithContent, Service, ServiceWithContent } from '@/types/content'
 
 const contentDir = path.join(process.cwd(), 'content')
 
@@ -109,29 +109,6 @@ export const getPostBySlug = cache(async (slug: string): Promise<PostWithContent
   }
 })
 
-export const getAllCourses = cache(async (): Promise<Course[]> => {
-  const dir = path.join(contentDir, 'courses')
-  const slugs = getFileSlugs(dir)
-
-  return slugs
-    .map((slug) => {
-      const ext = fs.existsSync(path.join(dir, `${slug}.mdx`)) ? 'mdx' : 'md'
-      const raw = fs.readFileSync(path.join(dir, `${slug}.${ext}`), 'utf-8')
-      const { data } = matter(raw)
-
-      return {
-        slug,
-        title: data.title ?? '',
-        description: data.description ?? '',
-        platform: data.platform ?? '',
-        link: data.link ?? '#',
-        price: data.price ?? '免費',
-        coverImage: data.coverImage,
-        published: data.published ?? true,
-      } satisfies Course
-    })
-    .filter((c) => c.published)
-})
 
 export const getAllServices = cache(async (): Promise<Service[]> => {
   const dir = path.join(contentDir, 'services')

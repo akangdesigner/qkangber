@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'AI X 自動化指南',
-  description: 'n8n、AI Agent、RAG、Prompt Engineering 常見技術問題解答。從架構選型到實際踩坑，全部說清楚。',
+  title: 'Q kangber — N8N、AI Agent、RAG 與 Prompt Engineering 常見問題解答',
+  description: '整理 N8N 工作流、AI Agent 架構、RAG 向量資料庫與 Prompt Engineering 的常見技術問題——從選型到踩坑，直接給你明確的答案。',
+  keywords: ['N8N 常見問題', 'AI Agent 教學', 'RAG 是什麼', 'Prompt Engineering 入門'],
   alternates: { canonical: 'https://aiqkangber.com/faq' },
 }
 

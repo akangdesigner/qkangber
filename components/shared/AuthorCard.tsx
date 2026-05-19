@@ -28,7 +28,7 @@ export default function AuthorCard() {
         <p className="text-[10px] tracking-[0.2em] uppercase text-slate-500 mb-1">作者</p>
         <p className="text-white font-semibold text-sm mb-2">Q kangber</p>
         <p className="text-slate-400 text-sm leading-relaxed mb-3">
-          商業自動化碩士，現職 AI 流程工程師，同時在企業與職涯平台擔任自動化培訓講師。
+          商業自動化碩士，現職行銷公司 AI 流程開發工程師，同時協助企業 AI 轉型與內部培訓，並於職涯平台擔任培訓講師及舉辦實體講座。
           不相信 AI 能取代你的判斷，但相信它能讓你的想法更快落地——
           我在做的，是找到人與 AI 之間那個最值錢的分工點。
         </p>

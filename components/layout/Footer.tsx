@@ -50,7 +50,7 @@ export default function Footer() {
             <span className="font-semibold text-white text-[1.02rem] tracking-[-0.01em]">Q kangber</span>
           </div>
           <p className="text-sm text-slate-400 leading-relaxed">
-            商業自動化碩士 · AI 流程工程師 · 企業培訓講師。專注人與 AI 的平衡，讓重複的事自動化，讓真正重要的事留給你。
+            商業自動化碩士 · AI 流程開發工程師 · 職涯培訓講師 · 企業 AI 轉型顧問。讓重複的事自動化，讓真正重要的事留給你。
           </p>
         </div>
 

@@ -3,8 +3,9 @@ import Link from 'next/link'
 import FlipCard from '@/components/about/FlipCard'
 
 export const metadata: Metadata = {
-  title: { absolute: '關於 Q kangber — n8n 自動化流程架構師' },
-  description: '我是 Q kangber，n8n 與 AI 深度整合的流程架構師、Vibe Coding 實踐者。從電商物流自動化轉型，現協助企業建置 AI 行銷自動化架構，並於職涯平台擔任業師。',
+  title: { absolute: 'Q kangber — 專注於 n8n 與 AI 深度整合的流程架構師' },
+  description: '專注於 n8n 與 AI 深度整合的流程架構師、Vibe Coding 實踐者。協助企業實現 AI 轉型與自動化、提供內部培訓，同時於職涯平台擔任培訓講師並舉辦實體講座。',
+  keywords: ['N8N 流程架構師', 'Vibe Coding', 'AI 轉型顧問', '企業 AI 培訓'],
   alternates: { canonical: 'https://aiqkangber.com/about' },
 }
 
@@ -23,7 +24,7 @@ const experience = [
   {
     role: '電商公司　電商出貨自動化專員',
     current: false,
-    desc: '負責第三方物流出貨溝通協調，主導出貨流程自動化建置。這段經驗奠定了我對真實業務流程的理解。',
+    desc: '負責第三方物流出貨溝通協調，協助公司把傳統訂單與統計表單導入 n8n，主導出貨流程轉型自動化。這段經驗奠定了我對真實業務流程的理解。',
   },
   {
     role: '行銷公司　AI 流程開發工程師',
@@ -31,9 +32,9 @@ const experience = [
     desc: '設計與開發 AI 驅動的行銷自動化架構，整合 n8n 與各類 API。憑藉高強度的自學與實作，陸續開發出多款 App、個人品牌官網及教師教學工具。',
   },
   {
-    role: '職涯平台　業師',
+    role: '職涯培訓講師 · 企業 AI 轉型顧問',
     current: true,
-    desc: '於職涯平台擔任業師，將 n8n 自動化與 API 整合的實戰技術轉化為可傳承的教學體系，陪伴學員從零到實際落地。',
+    desc: '於職涯平台擔任培訓講師並舉辦實體講座，同時協助企業實現 AI 轉型與自動化，提供內部教育訓練。將 n8n 自動化與 API 整合的實戰技術轉化為可落地的教學體系，陪伴個人與團隊從零到實際導入。',
   },
 ]
 
@@ -71,12 +72,12 @@ const personJsonLd = {
   url: 'https://aiqkangber.com/about',
   email: 'asdtodd42@gmail.com',
   jobTitle: 'n8n 自動化流程架構師',
-  description: '專注於 n8n 與 AI 深度整合的流程架構師，Vibe Coding 實踐者。協助電商與行銷企業建置 AI 驅動的自動化架構，並於職涯平台擔任業師。',
+  description: '專注於 n8n 與 AI 深度整合的流程架構師，Vibe Coding 實踐者。協助企業實現 AI 轉型與自動化、提供內部培訓，同時於職涯平台擔任培訓講師並舉辦實體講座。',
   sameAs: [
     'https://www.threads.com/@cutekangber',
     'https://www.instagram.com/cutekangber',
   ],
-  knowsAbout: ['n8n workflow automation', 'AI application development', 'marketing automation', 'e-commerce automation', 'Vibe Coding', 'Claude AI', 'API integration'],
+  knowsAbout: ['n8n workflow automation', 'AI application development', 'marketing automation', 'e-commerce automation', 'Vibe Coding', 'Claude Code', 'Claude AI', 'API integration'],
 }
 
 export default function AboutPage() {

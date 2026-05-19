@@ -192,15 +192,15 @@ function FrontFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: num
                 AI 不為取代判斷，而是精準表達想法。
               </p>
               <p style={{ fontFamily: '"Noto Sans TC", sans-serif', fontSize: 14, lineHeight: 1.85, color: '#94a3b8', margin: '20px 0 0 0', maxWidth: 560 }}>
-                n8n 與 AI 深度整合的流程架構師，Vibe Coding 實踐者。
-                從電商物流自動化轉型，現協助企業建置 AI 行銷自動化架構，
-                並於職涯平台擔任業師。
+                專注於 n8n 與 AI 深度整合的流程架構師，Vibe Coding 實踐者。
+                相信 AI 產出與人的協作配合，才能讓成果<span style={{ color: '#c4b5fd' }}>有溫度、有實際價值</span>——
+                協助企業 AI 轉型與內部培訓，並於職涯平台擔任培訓講師及舉辦實體講座。
               </p>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 20 }}>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, maxWidth: 380 }}>
-                {['N8N', 'AI Agent', 'RAG', 'Claude 3.5', 'OpenCanvas', 'Vibe Coding'].map(t => (
+                {['N8N', 'Claude Code', 'Vibe Coding', 'API 整合', '流程架構'].map(t => (
                   <span key={t} style={{ display: 'inline-block', fontSize: 10, fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 999, background: 'rgba(255,255,255,0.04)', color: '#cbd5e1', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(6px)' }}>{t}</span>
                 ))}
               </div>
@@ -235,18 +235,18 @@ function BackFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: numb
 
         <Layer depth={1.4} drift={5} pointer={pointer} style={{ position: 'absolute', top: 100, left: 56, right: 56 }}>
           <h2 style={{ fontFamily: '"Noto Sans TC", sans-serif', fontSize: 32, lineHeight: 1.2, fontWeight: 600, color: '#fff', letterSpacing: '-0.02em', margin: 0 }}>
-            我做的事不只是讓流程跑起來——<br />
-            <span style={{ background: 'linear-gradient(90deg, #c4b5fd, #93c5fd)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>而是把每個環節都設計過。</span>
+            AI 產出 × 人的協作——<br />
+            <span style={{ background: 'linear-gradient(90deg, #c4b5fd, #93c5fd)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>讓你的東西有溫度，也有真正的價值。</span>
           </h2>
         </Layer>
 
         <Layer depth={0.9} drift={3} pointer={pointer} style={{ position: 'absolute', top: 220, left: 56, right: 56, bottom: 100 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 36, fontFamily: '"Noto Sans TC", sans-serif', fontSize: 14, lineHeight: 1.85, color: '#cbd5e1' }}>
             <p style={{ margin: 0 }}>
-              我熱衷於實作 Claude 3.5、OpenCanvas 等前沿 AI 工具，在<span style={{ color: '#c4b5fd' }}>人機協作的黃金分工點上</span>，將複雜的想法轉化為精確的系統邏輯。
+              純 AI 產出速度快，但少了靈魂；純人工有溫度，但太慢。最好的成果，是<span style={{ color: '#c4b5fd' }}>你的判斷力 × AI 的執行力</span>——兩者精準配合，才能輸出真正有價值的東西。
             </p>
             <p style={{ margin: 0 }}>
-              產品提案、流程設計、API 架構——核心永遠是<span style={{ color: '#c4b5fd' }}>你的判斷</span>，AI 的角色是讓你的想法更快落地、更清楚呈現。
+              我在做的，是找到這個<span style={{ color: '#c4b5fd' }}>黃金分工點</span>：讓 AI 處理重複與生成，讓人負責方向與溫度，讓每一份產出都值得被看見。
             </p>
           </div>
         </Layer>
