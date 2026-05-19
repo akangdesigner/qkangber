@@ -2,6 +2,12 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
+  // Block Server Action probe requests (bots sending Next-Action header)
+  // This app has no Server Actions, so all such requests are invalid.
+  if (request.headers.has('next-action')) {
+    return new NextResponse(null, { status: 400 })
+  }
+
   const { pathname } = request.nextUrl
 
   if (!pathname.startsWith('/admin')) return NextResponse.next()
@@ -18,5 +24,8 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: [
+    '/admin/:path*',
+    '/((?!_next/static|_next/image|favicon.ico).*)',
+  ],
 }
