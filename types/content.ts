@@ -39,3 +39,11 @@ export interface Service extends ServiceFrontmatter {
 export interface ServiceWithContent extends Service {
   content: string
 }
+
+export interface Course {
+  title: string
+  description: string
+  platform: string
+  price: string
+  link: string
+}
