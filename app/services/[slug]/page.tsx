@@ -154,8 +154,8 @@ export default async function ServicePage({ params }: Props) {
               </p>
             </div>
 
-            <a
-              href="mailto:asdtodd42@gmail.com"
+            <Link
+              href="/contact"
               className="block w-full text-center text-white font-medium text-sm py-3 rounded-full transition-all hover:scale-[1.02] active:scale-100 mb-3"
               style={{
                 background: 'linear-gradient(135deg, #2563eb 0%, #6366f1 50%, #8b5cf6 100%)',
@@ -163,7 +163,7 @@ export default async function ServicePage({ params }: Props) {
               }}
             >
               立即諮詢
-            </a>
+            </Link>
 
             <p className="text-xs text-center text-slate-500">
               初次諮詢免費 · 評估後再報價

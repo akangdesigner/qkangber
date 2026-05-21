@@ -110,7 +110,7 @@ export default function HomeNewsletter({ issues = [] }: { issues?: NewsletterIss
   const { ref, style: tiltStyle, active, pointer } = useTilt({ max: 5, scale: 1.0, perspective: 1600 })
 
   return (
-    <section style={{ position: 'relative', padding: '60px 0 100px' }}>
+    <section id="subscribe" style={{ position: 'relative', padding: '60px 0 100px' }}>
       <div style={{ maxWidth: 1180, margin: '0 auto', padding: '0 24px' }}>
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24, marginBottom: 32, flexWrap: 'wrap' as const }}>
           <div>
