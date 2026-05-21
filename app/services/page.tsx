@@ -1,5 +1,6 @@
 import { getAllServices } from '@/lib/mdx'
 import ServicesTabs from '@/components/services/ServicesTabs'
+import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -113,8 +114,8 @@ export default async function ServicesPage() {
         <p className="text-xl font-semibold text-white mb-5 tracking-[-0.01em]">
           說說你的需求，我來評估怎麼用 AI 解決
         </p>
-        <a
-          href="mailto:asdtodd42@gmail.com"
+        <Link
+          href="/contact"
           className="inline-flex items-center gap-2 text-white text-sm font-medium px-6 py-3 rounded-full transition-all hover:scale-[1.02] active:scale-100"
           style={{
             background: 'linear-gradient(135deg, #2563eb 0%, #6366f1 50%, #8b5cf6 100%)',
@@ -122,7 +123,7 @@ export default async function ServicesPage() {
           }}
         >
           免費諮詢 →
-        </a>
+        </Link>
       </div>
     </div>
   )
