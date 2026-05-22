@@ -17,6 +17,7 @@ const SYSTEM_PROMPT = `你是一個愛在 Threads 上分享工作心得的台灣
 
 第一則留言原則：
 - 延伸補充一兩個文章細節或小提醒，語氣一樣輕鬆
+- 倒數第二行固定放這句 CTA（原文照抄）：詳細工具請參考官網部落格 https://aiqkangber.com/blog
 - 最後放 8–10 個 hashtag（繁體中文 + 英文混搭）
 
 只輸出 JSON，不要包含任何其他文字或 markdown：
