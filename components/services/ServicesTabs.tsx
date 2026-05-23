@@ -168,7 +168,7 @@ export default function ServicesTabs({ automationServices, aiServices }: Props) 
           fontFamily: 'JetBrains Mono, ui-monospace, monospace',
           fontSize: 10, color: '#64748b', letterSpacing: '0.22em', textTransform: 'uppercase',
           flexShrink: 0,
-        }}>// select.mode</span>
+        }}>{'// select.mode'}</span>
         <div style={{ height: 1, flex: 1, background: 'rgba(255,255,255,0.06)' }} />
         <span style={{
           fontFamily: 'JetBrains Mono, ui-monospace, monospace',

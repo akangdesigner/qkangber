@@ -496,7 +496,7 @@ function ComingSoon() {
           gap: 2,
         }}
       >
-        <span style={{ color: '#6366f1' }}>//</span>
+        <span style={{ color: '#6366f1' }}>{'// '}</span>
         <span>&nbsp;更多作品即將上線</span>
         <span
           style={{
@@ -556,7 +556,7 @@ export default function PortfolioTabs() {
 
   return (
     <>
-      {/* global keyframes */}
+      {/* css animations */}
       <style>{`
         @keyframes pulse-dot {
           0%, 100% { opacity: 1; }
@@ -740,7 +740,7 @@ export default function PortfolioTabs() {
                   fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
                   color: '#6366f1', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
                   marginBottom: 14,
-                }}>// 核心用途</p>
+                }}>{'// 核心用途'}</p>
                 <p style={{ fontSize: 14, color: '#e2e8f0', fontWeight: 600, lineHeight: 1.5, marginBottom: 12 }}>
                   1 對 1 線上教師的全功能後台
                 </p>
@@ -763,7 +763,7 @@ export default function PortfolioTabs() {
                   fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
                   color: '#6366f1', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
                   marginBottom: 14,
-                }}>// 重點功能</p>
+                }}>{'// 重點功能'}</p>
                 <div>
                   {features.map((f) => <FeatureRow key={f.title} {...f} />)}
                 </div>
@@ -877,7 +877,7 @@ export default function PortfolioTabs() {
                   fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
                   color: '#22d3ee', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
                   marginBottom: 14,
-                }}>// 核心用途</p>
+                }}>{'// 核心用途'}</p>
                 <p style={{ fontSize: 14, color: '#e2e8f0', fontWeight: 600, lineHeight: 1.5, marginBottom: 12 }}>
                   自有品牌的 24hr 自動守價機器人
                 </p>
@@ -897,7 +897,7 @@ export default function PortfolioTabs() {
                   fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
                   color: '#22d3ee', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
                   marginBottom: 14,
-                }}>// 重點功能</p>
+                }}>{'// 重點功能'}</p>
                 <div>
                   {monitoringFeatures.map((f) => <FeatureRow key={f.title} {...f} />)}
                 </div>
@@ -1035,7 +1035,7 @@ export default function PortfolioTabs() {
                   fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
                   color: '#f97316', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
                   marginBottom: 14,
-                }}>// 核心用途</p>
+                }}>{'// 核心用途'}</p>
                 <p style={{ fontSize: 14, color: '#e2e8f0', fontWeight: 600, lineHeight: 1.5, marginBottom: 12 }}>
                   一鍵從關鍵字到多平台行銷文案
                 </p>
@@ -1055,7 +1055,7 @@ export default function PortfolioTabs() {
                   fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
                   color: '#f97316', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
                   marginBottom: 14,
-                }}>// 重點功能</p>
+                }}>{'// 重點功能'}</p>
                 <div>
                   {[
                     { emoji: '🔎', title: '自動資料蒐集', desc: 'Webhook 接收關鍵字後，n8n 自動搜尋網路相關資訊作為文章素材' },
@@ -1074,7 +1074,7 @@ export default function PortfolioTabs() {
                 fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
                 color: '#475569', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
                 marginBottom: 16,
-              }}>// 輸出範例</p>
+              }}>{'// 輸出範例'}</p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }} className="portfolio-blocks">
                 {[
                   { src: '/works/marketing-instagram.png', label: 'Instagram', color: '#e1306c' },
@@ -1241,7 +1241,7 @@ export default function PortfolioTabs() {
                   fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
                   color: '#22c55e', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
                   marginBottom: 14,
-                }}>// 核心用途</p>
+                }}>{'// 核心用途'}</p>
                 <p style={{ fontSize: 14, color: '#e2e8f0', fontWeight: 600, lineHeight: 1.5, marginBottom: 12 }}>
                   AI 新聞自動追蹤 + 電子報全自動生成
                 </p>
@@ -1261,7 +1261,7 @@ export default function PortfolioTabs() {
                   fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
                   color: '#22c55e', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
                   marginBottom: 14,
-                }}>// 重點功能</p>
+                }}>{'// 重點功能'}</p>
                 <div>
                   {[
                     { emoji: '⏰', title: '每日排程觸發', desc: 'Schedule Trigger 定時啟動，無需手動操作，每天自動執行一次' },
@@ -1280,7 +1280,7 @@ export default function PortfolioTabs() {
                 fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
                 color: '#475569', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
                 marginBottom: 16,
-              }}>// 輸出範例</p>
+              }}>{'// 輸出範例'}</p>
               <div style={{
                 borderRadius: 12,
                 border: '1px solid rgba(34,197,94,0.25)',
