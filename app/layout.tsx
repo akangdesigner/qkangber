@@ -1,6 +1,7 @@
 ﻿import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import { JetBrains_Mono } from 'next/font/google'
+import Script from 'next/script'
 import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
 import CircuitBackdrop from '@/components/effects/CircuitBackdrop'
@@ -42,6 +43,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="zh-TW" className={`${notoSansTC.variable} ${jetbrainsMono.variable} h-full`}>
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-J6T5R7BQFW" strategy="afterInteractive" />
+      <Script id="ga4" strategy="afterInteractive">{`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J6T5R7BQFW');
+      `}</Script>
       <body className="min-h-full flex flex-col">
         <CircuitBackdrop />
         <MouseSpotlight />
