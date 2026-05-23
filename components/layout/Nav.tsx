@@ -30,7 +30,7 @@ const links = [
   { href: '/services', label: '服務' },
   { href: '/portfolio', label: '作品集' },
   { href: '/blog', label: 'AI × N8N 知識庫' },
-  { href: '/tools', label: '工具站' },
+  { href: '/contact', label: '諮詢服務' },
   { href: '/newsletter/archive', label: '歷期電子報' },
   { href: '/faq', label: 'AI X 自動化指南' },
   { href: '/about', label: '關於我' },
