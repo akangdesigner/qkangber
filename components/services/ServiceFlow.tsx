@@ -416,7 +416,7 @@ export default function ServiceFlow({ services }: { services: Service[] }) {
 
       {/* Mobile card list */}
       <div className="md:hidden flex flex-col gap-3">
-        {rows.map(({ service, cfg }, i) => {
+        {rows.map(({ service, cfg }) => {
           const { c1 } = cfg.theme
           const Glyph = cfg.Glyph
           return (

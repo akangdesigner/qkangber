@@ -49,6 +49,7 @@ function HeroFocusStrip() {
   useEffect(() => {
     const t = setInterval(() => setIdx(i => (i + 1) % words.length), 2200)
     return () => clearInterval(t)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <div style={{
@@ -195,8 +196,6 @@ function AgentStatusTicker() {
   useEffect(() => {
     const full = TICKER_ITEMS[idx].text
     let cancelled = false
-    setPhase('typing')
-    setTyped('')
     let i = 0
     function step() {
       if (cancelled) return
@@ -212,7 +211,12 @@ function AgentStatusTicker() {
         }, 1700)
       }
     }
-    const tStart = setTimeout(step, 80)
+    const tStart = setTimeout(() => {
+      if (cancelled) return
+      setPhase('typing')
+      setTyped('')
+      setTimeout(step, 80)
+    }, 0)
     return () => { cancelled = true; clearTimeout(tStart) }
   }, [idx])
 

@@ -1,5 +1,6 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { useTilt } from '@/hooks/useTilt'
 
 const SLIDES = [
@@ -384,14 +385,14 @@ function SlideCard({
                 }}>{c}</span>
               ))}
             </div>
-            <a href="/blog" style={{
+            <Link href="/blog" style={{
               fontSize: 13, color: c1, fontWeight: 500,
               textDecoration: 'none',
               display: 'inline-flex', alignItems: 'center', gap: 6,
             }}>
               看相關文章
               <span style={{ display: 'inline-block', transition: 'transform 200ms', transform: active ? 'translateX(3px)' : 'translateX(0)' }}>→</span>
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -485,7 +486,7 @@ export default function HomeCarousel() {
 
   useEffect(() => {
     if (paused) return
-    const t = setInterval(next, 5200)
+    const t = setInterval(() => setIdx(i => (i + 1) % len), 5200)
     return () => clearInterval(t)
   }, [paused, len])
 

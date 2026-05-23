@@ -23,7 +23,6 @@ export default function ChatWidget() {
 
   useEffect(() => {
     if (open) {
-      setUnread(false)
       setTimeout(() => inputRef.current?.focus(), 120)
     }
   }, [open])
@@ -153,7 +152,7 @@ export default function ChatWidget() {
         </div>
 
         <button
-          onClick={() => setOpen((v) => !v)}
+          onClick={() => { if (!open) setUnread(false); setOpen((v) => !v) }}
           style={{
             width: 54,
             height: 54,
