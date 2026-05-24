@@ -1,5 +1,6 @@
 import { getAllServices } from '@/lib/mdx'
 import ServicesTabs from '@/components/services/ServicesTabs'
+import HeroBanner from '@/components/services/HeroBanner'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
@@ -57,47 +58,13 @@ export default async function ServicesPage() {
   const aiServices = services.filter((s) => s.serviceType === 'ai')
 
   return (
-    <div className="relative max-w-5xl mx-auto px-4 sm:px-6 py-16">
+    <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      {/* Ambient glow */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none -z-10"
-        style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(124,92,255,0.18), transparent 60%)' }}
-      />
-      {/* Dot grid */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none -z-10"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgba(167,139,250,0.18) 1px, transparent 1px)',
-          backgroundSize: '32px 32px',
-          opacity: 0.4,
-        }}
-      />
 
-      <div className="mb-14">
-        <div className="mb-5">
-          <EyebrowLabel>Services</EyebrowLabel>
-        </div>
-        <h1 className="text-4xl sm:text-5xl font-semibold text-white leading-tight mb-5 tracking-[-0.02em]">
-          AI 幫你處理<br />
-          <span
-            style={{
-              background: 'linear-gradient(90deg, #c4b5fd 0%, #93c5fd 50%, #67e8f9 100%)',
-              WebkitBackgroundClip: 'text',
-              backgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            你不該浪費時間的事
-          </span>
-        </h1>
-        <p className="text-[1.05rem] text-slate-400 max-w-xl leading-relaxed">
-          n8n 流程自動化、Claude AI 應用開發——從重複性作業到智慧判斷，每個環節都可以設計得更好。
-        </p>
-      </div>
+      {/* Full-width hero banner */}
+      <HeroBanner />
 
+      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 pb-16">
       <ServicesTabs automationServices={automationServices} aiServices={aiServices} />
 
       <div
@@ -126,5 +93,6 @@ export default async function ServicesPage() {
         </Link>
       </div>
     </div>
+    </>
   )
 }
