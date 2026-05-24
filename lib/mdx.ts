@@ -132,6 +132,13 @@ export const getAllServices = cache(async (): Promise<Service[]> => {
         featured: data.featured ?? false,
         published: data.published ?? true,
         serviceType: data.serviceType,
+        subtitle: data.subtitle,
+        accent: data.accent,
+        accent2: data.accent2,
+        platforms: data.platforms,
+        metric: data.metric,
+        kpis: data.kpis,
+        previewImage: data.previewImage,
       } satisfies Service
     })
     .filter((s) => s.published)
@@ -160,6 +167,13 @@ export const getServiceBySlug = cache(async (slug: string): Promise<ServiceWithC
     published: data.published ?? true,
     serviceType: data.serviceType,
     faq: data.faq,
+    subtitle: data.subtitle,
+    accent: data.accent,
+    accent2: data.accent2,
+    platforms: data.platforms,
+    metric: data.metric,
+    kpis: data.kpis,
+    previewImage: data.previewImage,
     content,
   }
 })

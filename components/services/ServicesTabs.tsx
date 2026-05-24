@@ -191,7 +191,7 @@ export default function ServicesTabs({ automationServices, aiServices }: Props) 
           onClick={() => setActive('ai')}
           icon={<AiIcon size={22} active={active === 'ai'} />}
           label="AI 應用"
-          sub="Claude · GPT · Agents"
+          sub="LINE Bot · RAG · Agents"
         />
       </div>
 
@@ -286,7 +286,7 @@ export default function ServicesTabs({ automationServices, aiServices }: Props) 
           </div>
           <div className="mb-14">
             <h2 className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-500 mb-6 flex items-center gap-3">
-              <span>AI 應用</span>
+              <span>客服與 AI</span>
               <span className="h-px flex-1 bg-white/[0.06]" />
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
