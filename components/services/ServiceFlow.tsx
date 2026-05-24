@@ -60,6 +60,15 @@ function GlyphTrigger() {
     </svg>
   )
 }
+function GlyphShare() {
+  return (
+    <svg viewBox="0 0 24 24" width="100%" height="100%" fill="none"
+      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="18" cy="5" r="2.5" /><circle cx="6" cy="12" r="2.5" /><circle cx="18" cy="19" r="2.5" />
+      <path d="M8.5 10.5 L15.5 6.5M8.5 13.5 L15.5 17.5" />
+    </svg>
+  )
+}
 
 /* ─── Service row config — matched by slug ───────────────────── */
 const SERVICE_CONFIG = [
@@ -100,6 +109,19 @@ const SERVICE_CONFIG = [
       nodes: 15,
       resultShort: '報表 0 hr/週',
       color: '#60a5fa',
+    },
+  },
+  {
+    slug: 'social-media-automation',
+    Glyph: GlyphShare,
+    theme: { c1: '#f0abfc', c2: '#a78bfa' },
+    portfolio: {
+      title: '社群跨平台排程自動化',
+      category: '社群',
+      Glyph: GlyphShare,
+      nodes: 10,
+      resultShort: '−5hr/週',
+      color: '#f0abfc',
     },
   },
 ]

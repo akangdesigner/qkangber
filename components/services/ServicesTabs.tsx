@@ -239,21 +239,7 @@ export default function ServicesTabs({ automationServices, aiServices }: Props) 
       {/* n8n 自動化 content */}
       {active === 'automation' && (
         <>
-          <div
-            className="rounded-2xl border border-white/[0.08] p-4 sm:p-6 mb-14 overflow-hidden"
-            style={{ background: 'rgba(255,255,255,0.02)' }}
-          >
-            <div className="flex items-center justify-between mb-3 px-2">
-              <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
-                <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                workflow.json · live
-              </div>
-              <div className="flex gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" />
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" />
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
-              </div>
-            </div>
+          <div className="mb-14">
             <ServiceFlow services={automationServices} />
           </div>
 
