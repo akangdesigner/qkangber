@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import PortfolioTabs from '@/components/portfolio/PortfolioTabs'
+import PortfolioBanner from '@/components/portfolio/PortfolioBanner'
 
 export const metadata: Metadata = {
   title: 'Q kangber 作品集 — N8N 自動化與 AI 應用實戰案例',
@@ -35,6 +36,7 @@ export default function PortfolioPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#05060a' }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <PortfolioBanner />
       <PortfolioTabs />
     </div>
   )
