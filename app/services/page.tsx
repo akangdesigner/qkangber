@@ -56,6 +56,7 @@ export default async function ServicesPage() {
   const services = await getAllServices()
   const automationServices = services.filter((s) => !s.serviceType || s.serviceType === 'automation')
   const aiServices = services.filter((s) => s.serviceType === 'ai')
+  const webServices = services.filter((s) => s.serviceType === 'web')
 
   return (
     <>
@@ -65,7 +66,7 @@ export default async function ServicesPage() {
       <HeroBanner />
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 pb-16">
-      <ServicesTabs automationServices={automationServices} aiServices={aiServices} />
+      <ServicesTabs automationServices={automationServices} aiServices={aiServices} webServices={webServices} />
 
       <div
         className="relative rounded-2xl border border-white/[0.08] p-8 text-center mt-4 overflow-hidden"
