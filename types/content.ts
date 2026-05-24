@@ -30,6 +30,13 @@ export interface ServiceFrontmatter {
   published: boolean
   serviceType?: 'automation' | 'ai'
   faq?: { q: string; a: string }[]
+  subtitle?: string
+  accent?: string
+  accent2?: string
+  platforms?: string[]
+  metric?: { before: string; after: string; label: string }
+  kpis?: [string, string, string][]
+  previewImage?: string
 }
 
 export interface Service extends ServiceFrontmatter {
