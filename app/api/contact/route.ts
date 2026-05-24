@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 
   if (!serviceAccountJson || !sheetId) {
     console.error('[contact] 缺少 GOOGLE_SERVICE_ACCOUNT_JSON 或 GOOGLE_SHEET_ID')
-    return NextResponse.json({ error: '系統設定錯誤，請直接來信 asdtodd42@gmail.com' }, { status: 500 })
+    return NextResponse.json({ error: '系統設定錯誤，請直接來信', sysError: true }, { status: 500 })
   }
 
   try {
@@ -53,6 +53,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error('[contact] Sheets 寫入失敗:', err)
-    return NextResponse.json({ error: '提交失敗，請直接來信 asdtodd42@gmail.com' }, { status: 500 })
+    return NextResponse.json({ error: '提交失敗，請直接來信', sysError: true }, { status: 500 })
   }
 }

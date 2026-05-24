@@ -49,11 +49,13 @@ export default function ContactForm() {
   const [message, setMessage] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const [sysError, setSysError] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setStatus('loading')
     setErrorMsg('')
+    setSysError(false)
 
     try {
       const res = await fetch('/api/contact', {
@@ -64,6 +66,7 @@ export default function ContactForm() {
       const data = await res.json()
       if (!res.ok) {
         setErrorMsg(data.error ?? '提交失敗，請稍後再試')
+        setSysError(!!data.sysError)
         setStatus('error')
       } else {
         setStatus('success')
@@ -89,7 +92,7 @@ export default function ContactForm() {
         <p style={{ fontSize: 14, color: '#94a3b8', lineHeight: 1.75 }}>
           我通常在 24 小時內回覆，<br />
           如果比較急可以直接寄信到{' '}
-          <a href="mailto:asdtodd42@gmail.com" style={{ color: '#a78bfa' }}>asdtodd42@gmail.com</a>
+          <a href="mailto:asdtodd42@gmail.com?subject=諮詢需求" style={{ color: '#a78bfa' }}>asdtodd42@gmail.com</a>
         </p>
       </div>
     )
@@ -188,7 +191,20 @@ export default function ContactForm() {
       </div>
 
       {status === 'error' && (
-        <p style={{ fontSize: 13, color: '#f87171', margin: 0 }}>{errorMsg}</p>
+        <p style={{ fontSize: 13, color: '#f87171', margin: 0 }}>
+          {errorMsg}
+          {sysError && (
+            <>
+              {' '}
+              <a
+                href="mailto:asdtodd42@gmail.com?subject=諮詢需求"
+                style={{ color: '#f87171', textDecoration: 'underline' }}
+              >
+                asdtodd42@gmail.com
+              </a>
+            </>
+          )}
+        </p>
       )}
 
       <button
