@@ -8,9 +8,10 @@ import ServiceFlow from './ServiceFlow'
 type Props = {
   automationServices: Service[]
   aiServices: Service[]
+  webServices: Service[]
 }
 
-type TabId = 'automation' | 'ai'
+type TabId = 'automation' | 'ai' | 'web'
 
 function N8nIcon({ size = 22, active = false }: { size?: number; active?: boolean }) {
   return (
@@ -29,6 +30,29 @@ function N8nIcon({ size = 22, active = false }: { size?: number; active?: boolea
       <circle cx="16" cy="8"  r="3.5" fill={active ? 'url(#st-n8n-grad)' : '#0a0b14'} stroke={active ? '#fff' : '#a78bfa'} strokeWidth="1.5" />
       <circle cx="16" cy="24" r="3.5" fill={active ? 'url(#st-n8n-grad)' : '#0a0b14'} stroke={active ? '#fff' : '#a78bfa'} strokeWidth="1.5" />
       <circle cx="26" cy="16" r="3.5" fill={active ? 'url(#st-n8n-grad)' : '#0a0b14'} stroke={active ? '#fff' : '#a78bfa'} strokeWidth="1.5" />
+    </svg>
+  )
+}
+
+function WebIcon({ size = 22, active = false }: { size?: number; active?: boolean }) {
+  return (
+    <svg viewBox="0 0 32 32" width={size} height={size} style={{ display: 'block' }}>
+      <defs>
+        <linearGradient id="st-web-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#60a5fa" />
+          <stop offset="100%" stopColor="#34d399" />
+        </linearGradient>
+      </defs>
+      <rect x="3" y="5" width="26" height="22" rx="3"
+        fill={active ? 'none' : 'none'}
+        stroke={active ? '#fff' : '#60a5fa'}
+        strokeWidth="1.5"
+      />
+      <path d="M3 11h26" stroke={active ? '#fff' : '#60a5fa'} strokeWidth="1.5" />
+      <circle cx="8"  cy="8" r="1.2" fill={active ? '#f87171' : '#475569'} />
+      <circle cx="12" cy="8" r="1.2" fill={active ? '#fbbf24' : '#475569'} />
+      <circle cx="16" cy="8" r="1.2" fill={active ? '#34d399' : '#475569'} />
+      <path d="M8 18h10M8 22h7" stroke={active ? 'url(#st-web-grad)' : '#4b5563'} strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   )
 }
@@ -148,7 +172,7 @@ function HoloPill({
   )
 }
 
-export default function ServicesTabs({ automationServices, aiServices }: Props) {
+export default function ServicesTabs({ automationServices, aiServices, webServices }: Props) {
   const [active, setActive] = useState<TabId>('automation')
 
   const automationCategories = [...new Set(automationServices.map((s) => s.category))]
@@ -193,6 +217,13 @@ export default function ServicesTabs({ automationServices, aiServices }: Props) 
           label="AI 應用"
           sub="LINE Bot · RAG · Agents"
         />
+        <HoloPill
+          active={active === 'web'}
+          onClick={() => setActive('web')}
+          icon={<WebIcon size={22} active={active === 'web'} />}
+          label="網站開發"
+          sub="Next.js · React · SEO"
+        />
       </div>
 
       {/* Status console bar */}
@@ -226,7 +257,9 @@ export default function ServicesTabs({ automationServices, aiServices }: Props) 
         }}>
           {active === 'automation'
             ? 'loaded: workflow.json · 4 nodes · 12 connections'
-            : 'loaded: ai.config.json · claude-3.5 · 6 endpoints'}
+            : active === 'ai'
+            ? 'loaded: ai.config.json · claude-3.5 · 6 endpoints'
+            : 'loaded: next.config.js · vibe-coding · seo-ready'}
         </span>
         <div style={{ flex: 1 }} />
         <span style={{
@@ -277,6 +310,28 @@ export default function ServicesTabs({ automationServices, aiServices }: Props) 
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {aiServices.map((service) => (
+                <ServiceCard key={service.slug} service={service} />
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* 網站開發 content */}
+      {active === 'web' && (
+        <>
+          <div className="mb-10 max-w-xl">
+            <p className="text-slate-400 leading-relaxed">
+              用 AI 輔助開發（Vibe Coding）加速交付——架構設計、SEO 策略、自動化整合由我負責，重複性程式碼讓 AI 生成。7 天起交付，程式碼乾淨可維護。
+            </p>
+          </div>
+          <div className="mb-14">
+            <h2 className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-500 mb-6 flex items-center gap-3">
+              <span>網站開發</span>
+              <span className="h-px flex-1 bg-white/[0.06]" />
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {webServices.map((service) => (
                 <ServiceCard key={service.slug} service={service} />
               ))}
             </div>
