@@ -61,44 +61,44 @@ function GlyphTrigger() {
   )
 }
 
-/* ─── Service row config ─────────────────────────────────────── */
+/* ─── Service row config — matched by slug ───────────────────── */
 const SERVICE_CONFIG = [
   {
-    glyphKey: 'ecommerce',
+    slug: 'ecommerce-automation',
     Glyph: GlyphCart,
     theme: { c1: '#22d3ee', c2: '#a78bfa' },
     portfolio: {
-      title: 'Shopify × 黑貓物流自動出貨',
+      title: '電商訂單 → 出貨自動化',
       category: '電商',
       Glyph: GlyphTruck,
       nodes: 12,
-      resultShort: '節省 40 小時/月',
+      resultShort: '−90% 人工作業',
       color: '#22d3ee',
     },
   },
   {
-    glyphKey: 'marketing',
+    slug: 'marketing-automation',
     Glyph: GlyphFunnel,
     theme: { c1: '#a78bfa', c2: '#f0abfc' },
     portfolio: {
-      title: '廣告表單 → CRM 自動分流跟進',
+      title: '潛客自動分流 × Email 跟進',
       category: '行銷',
       Glyph: GlyphLeads,
       nodes: 18,
-      resultShort: '轉換 +35%',
+      resultShort: '+35% 轉換率',
       color: '#a78bfa',
     },
   },
   {
-    glyphKey: 'report',
+    slug: 'data-report-automation',
     Glyph: GlyphChart,
     theme: { c1: '#60a5fa', c2: '#67e8f9' },
     portfolio: {
-      title: '電商週報自動化儀表板',
+      title: '每日數據報表自動發送',
       category: '報表',
       Glyph: GlyphChart,
       nodes: 15,
-      resultShort: '報表 3hr → 0',
+      resultShort: '報表 0 hr/週',
       color: '#60a5fa',
     },
   },
@@ -210,9 +210,14 @@ function ServiceNode({ service, cfg, idx }: {
           {String(idx + 1).padStart(2, '0')}
         </span>
       </div>
-      <div style={{ fontSize: 15, fontWeight: 600, color: '#fff', letterSpacing: '-0.01em', marginBottom: 8, lineHeight: 1.3 }}>
-        {service.title}
+      <div style={{ fontSize: 15, fontWeight: 600, color: '#fff', letterSpacing: '-0.01em', marginBottom: 4, lineHeight: 1.3 }}>
+        {service.title.replace(/ —.*$/, '')}
       </div>
+      {service.subtitle && (
+        <div style={{ fontSize: 11, color: '#64748b', marginBottom: 8, lineHeight: 1.4 }}>
+          {service.subtitle}
+        </div>
+      )}
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, fontFamily: 'ui-monospace, monospace' }}>
         <span style={{
           fontSize: 13, fontWeight: 600,
@@ -397,10 +402,11 @@ export default function ServiceFlow({ services }: { services: Service[] }) {
     document.fonts.ready.then(() => setVersion((v) => v + 1))
   }, [])
 
-  // Map services to config rows (up to 3)
-  const rows = SERVICE_CONFIG.slice(0, Math.min(services.length, 3)).map((cfg, i) => ({
-    cfg, service: services[i],
-  }))
+  // Map configs to services by slug
+  const rows = SERVICE_CONFIG.flatMap((cfg) => {
+    const service = services.find((s) => s.slug === cfg.slug)
+    return service ? [{ cfg, service }] : []
+  })
 
   return (
     <>
@@ -437,7 +443,7 @@ export default function ServiceFlow({ services }: { services: Service[] }) {
                   {service.category}
                 </span>
               </div>
-              <div style={{ fontSize: 15, fontWeight: 600, color: '#fff', marginBottom: 6 }}>{service.title}</div>
+              <div style={{ fontSize: 15, fontWeight: 600, color: '#fff', marginBottom: 6 }}>{service.title.replace(/ —.*$/, '')}</div>
               <div style={{ fontFamily: 'ui-monospace, monospace', fontSize: 11, color: '#64748b' }}>
                 NT$ {service.price.toLocaleString()}{service.priceNote}
               </div>
