@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { Service } from '@/types/content'
 
@@ -196,21 +197,25 @@ function ServiceNode({ service, cfg, idx }: {
   const { c1, c2 } = cfg.theme
   const Glyph = cfg.Glyph
   return (
-    <div
+    <Link
+      href={`/services/${service.slug}`}
       data-service-card
       style={{
-        position: 'relative', padding: '16px 18px', borderRadius: 14,
+        position: 'relative', display: 'block', padding: '16px 18px', borderRadius: 14,
+        textDecoration: 'none', color: '#e2e8f0',
         background: 'radial-gradient(140% 150% at 50% 0%, rgba(255,255,255,0.04) 0%, rgba(2,3,10,0.55) 75%)',
         boxShadow: `inset 0 0 0 1px ${c1}33, inset 0 1px 0 rgba(255,255,255,0.05), 0 14px 40px -16px rgba(0,0,0,0.6), 0 0 40px -12px ${c1}33`,
-        transition: 'box-shadow 250ms', cursor: 'pointer',
+        transition: 'box-shadow 250ms, transform 250ms', cursor: 'pointer',
       }}
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.boxShadow =
-          `inset 0 0 0 1px ${c1}77, inset 0 1px 0 rgba(255,255,255,0.07), 0 22px 50px -16px rgba(0,0,0,0.7), 0 0 60px -10px ${c1}66`
+        const el = e.currentTarget as HTMLElement
+        el.style.boxShadow = `inset 0 0 0 1px ${c1}77, inset 0 1px 0 rgba(255,255,255,0.07), 0 22px 50px -16px rgba(0,0,0,0.7), 0 0 60px -10px ${c1}66`
+        el.style.transform = 'translateY(-2px)'
       }}
       onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.boxShadow =
-          `inset 0 0 0 1px ${c1}33, inset 0 1px 0 rgba(255,255,255,0.05), 0 14px 40px -16px rgba(0,0,0,0.6), 0 0 40px -12px ${c1}33`
+        const el = e.currentTarget as HTMLElement
+        el.style.boxShadow = `inset 0 0 0 1px ${c1}33, inset 0 1px 0 rgba(255,255,255,0.05), 0 14px 40px -16px rgba(0,0,0,0.6), 0 0 40px -12px ${c1}33`
+        el.style.transform = 'translateY(0)'
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
@@ -250,7 +255,7 @@ function ServiceNode({ service, cfg, idx }: {
       </div>
       <PortDot side="left" portId={`service-${idx}-in`} color={c1} />
       <PortDot side="right" portId={`service-${idx}-out`} color={c2} pulse />
-    </div>
+    </Link>
   )
 }
 
@@ -448,7 +453,8 @@ export default function ServiceFlow({ services }: { services: Service[] }) {
           const { c1 } = cfg.theme
           const Glyph = cfg.Glyph
           return (
-            <div key={service.slug} style={{
+            <Link key={service.slug} href={`/services/${service.slug}`} style={{
+              display: 'block', textDecoration: 'none', color: '#e2e8f0',
               position: 'relative', padding: '16px 18px', borderRadius: 14,
               background: 'rgba(2,3,10,0.6)',
               boxShadow: `inset 0 0 0 1px ${c1}33, inset 0 1px 0 rgba(255,255,255,0.05)`,
@@ -469,7 +475,7 @@ export default function ServiceFlow({ services }: { services: Service[] }) {
               <div style={{ fontFamily: 'ui-monospace, monospace', fontSize: 11, color: '#64748b' }}>
                 NT$ {service.price.toLocaleString()}{service.priceNote}
               </div>
-            </div>
+            </Link>
           )
         })}
         <p style={{ textAlign: 'center', fontSize: 10, fontFamily: 'ui-monospace, monospace', color: '#475569', marginTop: 4 }}>
@@ -550,7 +556,7 @@ export default function ServiceFlow({ services }: { services: Service[] }) {
             background: 'rgba(2,3,10,0.6)',
           }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#67e8f9', boxShadow: '0 0 8px rgba(103,232,249,0.9)', marginRight: 8 }} />
-            右側節點點擊可查看作品集
+            中間節點 → 服務詳情　｜　右側節點 → 作品集
           </div>
         </div>
       </div>
