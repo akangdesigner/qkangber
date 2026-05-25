@@ -9,6 +9,7 @@ import BlogSidebar from '@/components/blog/BlogSidebar'
 import Tag from '@/components/shared/Tag'
 import type { Metadata } from 'next'
 import rehypePrettyCode from 'rehype-pretty-code'
+import remarkGfm from 'remark-gfm'
 
 export const revalidate = 60
 
@@ -121,6 +122,7 @@ export default async function PostPage({ params }: Props) {
                 components={mdxComponents}
                 options={{
                   mdxOptions: {
+                    remarkPlugins: [remarkGfm],
                     rehypePlugins: [
                       [rehypePrettyCode, { theme: 'github-dark' }],
                     ],

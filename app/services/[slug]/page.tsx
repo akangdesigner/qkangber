@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { MDXRemote } from 'next-mdx-remote/rsc'
+import remarkGfm from 'remark-gfm'
 import { getAllServices, getServiceBySlug } from '@/lib/mdx'
 import { mdxComponents } from '@/components/mdx/MDXComponents'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
@@ -99,7 +100,7 @@ export default async function ServicePage({ params }: Props) {
           </div>
 
           <div className="prose prose-invert max-w-none prose-a:text-violet-400 prose-a:no-underline hover:prose-a:underline">
-            <MDXRemote source={service.content} components={mdxComponents} />
+            <MDXRemote source={service.content} components={mdxComponents} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
           </div>
 
           {service.faq?.length && (

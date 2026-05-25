@@ -3,6 +3,29 @@ import Image from 'next/image'
 import type { MDXComponents } from 'mdx/types'
 
 export const mdxComponents: MDXComponents = {
+  table: ({ children }) => (
+    <div className="overflow-x-auto my-8 rounded-xl" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
+      <table className="w-full text-sm border-collapse">{children}</table>
+    </div>
+  ),
+  thead: ({ children }) => (
+    <thead style={{ background: 'rgba(255,255,255,0.04)' }}>{children}</thead>
+  ),
+  tbody: ({ children }) => (
+    <tbody>{children}</tbody>
+  ),
+  tr: ({ children }) => (
+    <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>{children}</tr>
+  ),
+  th: ({ children }) => (
+    <th className="px-4 py-3 text-left text-xs font-semibold tracking-wider text-slate-400 uppercase whitespace-nowrap">
+      {children}
+    </th>
+  ),
+  td: ({ children }) => (
+    <td className="px-4 py-3 text-slate-300 align-top">{children}</td>
+  ),
+
   a: ({ href = '', children, ...props }) => {
     if (href.startsWith('http')) {
       return (
