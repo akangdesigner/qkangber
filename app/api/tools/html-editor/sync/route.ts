@@ -83,14 +83,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: '請先登入管理後台（/admin/login）' }, { status: 401 })
   }
 
-  let body: { slug: string; title: string; date: string; tags: string; published: boolean; html: string }
+  let body: { slug: string; title: string; date: string; tags: string; published: boolean; html: string; category?: string; coverImage?: string }
   try {
     body = await req.json()
   } catch {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
 
-  const { slug, title, date, tags, published, html: rawHtml } = body
+  const { slug, title, date, tags, published, html: rawHtml, category, coverImage } = body
   if (!slug?.trim() || !title?.trim() || !rawHtml?.trim()) {
     return NextResponse.json({ error: 'slug、title、html 為必填' }, { status: 400 })
   }
@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
     // 1. Upload images
     const { html: cleanHtml, uploaded } = await replaceBase64WithDrive(rawHtml, auth)
 
-    // 2. Build row
+    // 2. Build row (A–N: A=slug B=title C=date D=tags E=excerpt F=content G=featured H=published I–L=empty M=category N=coverImage)
     const excerpt = autoExcerpt(cleanHtml)
     const row = [
       slug.trim(),
@@ -111,8 +111,14 @@ export async function POST(req: NextRequest) {
       tags.trim(),
       excerpt,
       cleanHtml,
-      'false',                      // featured
-      published ? 'true' : 'false', // published
+      'false',                      // G featured
+      published ? 'true' : 'false', // H published
+      '',                           // I
+      '',                           // J
+      '',                           // K
+      '',                           // L
+      (category ?? '').trim(),      // M category
+      (coverImage ?? '').trim(),    // N coverImage
     ]
 
     const sheetId = process.env.GOOGLE_SHEET_ID!
@@ -134,7 +140,7 @@ export async function POST(req: NextRequest) {
       sheetRow = rowIdx + 1
       await sheets.spreadsheets.values.update({
         spreadsheetId: sheetId,
-        range: `posts!A${sheetRow}:H${sheetRow}`,
+        range: `posts!A${sheetRow}:N${sheetRow}`,
         valueInputOption: 'RAW',
         requestBody: { values: [row] },
       })
@@ -143,7 +149,7 @@ export async function POST(req: NextRequest) {
       // Append new row
       await sheets.spreadsheets.values.append({
         spreadsheetId: sheetId,
-        range: 'posts!A:H',
+        range: 'posts!A:N',
         valueInputOption: 'RAW',
         insertDataOption: 'INSERT_ROWS',
         requestBody: { values: [row] },
