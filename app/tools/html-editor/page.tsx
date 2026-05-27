@@ -15,9 +15,12 @@ const DEFAULT_HTML = `<h2>文章標題</h2>
 
 <p>點擊右側卡片選取佔位符後，截圖並按 <strong>Ctrl+V</strong> 即可取代。</p>`
 
+const TODAY = new Date().toISOString().slice(0, 10)
+
 type FilledSlot = { text: string; thumb: string }
 type Slot = { key: string; text: string }
-type UploadState = { phase: 'idle' | 'loading' | 'ok' | 'err'; msg?: string }
+type AsyncState = { phase: 'idle' | 'loading' | 'ok' | 'err'; msg?: string }
+type Meta = { slug: string; title: string; date: string; tags: string; category: string; coverImage: string; published: boolean }
 
 const SLOT_RE = /<div[^>]*>([^<]*📸[^<]*)<\/div>/gi
 const BASE64_RE = /src="data:image\/[^;]+;base64,[^"]+"/gi
@@ -65,15 +68,32 @@ function buildPreviewDoc(body: string) {
 <body>${body}</body></html>`
 }
 
+// Try to extract article content + title from a full HTML draft file
+function extractFromFullHtml(raw: string): { content: string; title: string } | null {
+  if (!/<html/i.test(raw)) return null
+  const contentMatch = raw.match(/<div id="article-content">([\s\S]*?)<\/div>\s*(?:<\/body>|<script)/)
+  if (!contentMatch) return null
+  const content = contentMatch[1].trim()
+  const titleMatch = raw.match(/<title[^>]*>([\s\S]*?)<\/title>/i)
+  const title = titleMatch ? titleMatch[1].trim() : ''
+  return { content, title }
+}
+
+const inputCls = 'w-full px-3 py-2 rounded-lg text-sm text-white bg-white/[0.04] border border-white/[0.07] outline-none focus:border-violet-500/50 transition-colors placeholder-slate-700'
+
 export default function HtmlEditorPage() {
   const [html, setHtml] = useState(DEFAULT_HTML)
   const [activeKey, setActiveKey] = useState<string | null>(null)
   const [filledSlots, setFilledSlots] = useState<Record<string, FilledSlot>>({})
-  const [rightTab, setRightTab] = useState<'slots' | 'preview'>('slots')
+  const [rightTab, setRightTab] = useState<'slots' | 'preview' | 'publish'>('slots')
   const [copied, setCopied] = useState(false)
   const [copiedRich, setCopiedRich] = useState(false)
   const [flashKey, setFlashKey] = useState<string | null>(null)
-  const [upload, setUpload] = useState<UploadState>({ phase: 'idle' })
+  const [upload, setUpload] = useState<AsyncState>({ phase: 'idle' })
+  const [sync, setSync] = useState<AsyncState>({ phase: 'idle' })
+  const [meta, setMeta] = useState<Meta>({
+    slug: '', title: '', date: TODAY, tags: '', category: '開發日記', coverImage: '', published: true,
+  })
 
   const htmlRef = useRef(html)
   const activeKeyRef = useRef(activeKey)
@@ -84,6 +104,21 @@ export default function HtmlEditorPage() {
   const filledCount = Object.keys(filledSlots).length
   const totalCount = unfilled.length + filledCount
   const base64Count = useMemo(() => countBase64(html), [html])
+
+  function handleHtmlChange(value: string) {
+    // Auto-extract when user pastes a full HTML draft file
+    const extracted = extractFromFullHtml(value)
+    if (extracted) {
+      setHtml(extracted.content)
+      setMeta((prev) => ({
+        ...prev,
+        title: prev.title || extracted.title,
+      }))
+      setRightTab('publish')
+      return
+    }
+    setHtml(value)
+  }
 
   // Global paste → replace active slot
   useEffect(() => {
@@ -144,12 +179,38 @@ export default function HtmlEditorPage() {
       const json = await res.json()
       if (!res.ok) throw new Error(json.error)
       setHtml(json.html)
-      setUpload({ phase: 'ok', msg: `${json.uploaded} 張截圖已上傳至 Google Drive，網址已替換完成` })
+      setUpload({ phase: 'ok', msg: `${json.uploaded} 張截圖已上傳至 imgbb，網址已替換完成` })
     } catch (err) {
-      setUpload({
-        phase: 'err',
-        msg: err instanceof Error ? err.message : '上傳失敗',
+      setUpload({ phase: 'err', msg: err instanceof Error ? err.message : '上傳失敗' })
+    }
+  }
+
+  async function handleSync() {
+    if (!meta.slug.trim() || !meta.title.trim()) {
+      setSync({ phase: 'err', msg: 'slug 和標題為必填' })
+      return
+    }
+    setSync({ phase: 'loading' })
+    try {
+      const res = await fetch('/api/tools/html-editor/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          slug: meta.slug,
+          title: meta.title,
+          date: meta.date,
+          tags: meta.tags,
+          published: meta.published,
+          html,
+          category: meta.category,
+          coverImage: meta.coverImage,
+        }),
       })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error)
+      setSync({ phase: 'ok', msg: `文章已${json.action === 'updated' ? '更新' : '新增'}到 Google Sheets ✓` })
+    } catch (err) {
+      setSync({ phase: 'err', msg: err instanceof Error ? err.message : '同步失敗' })
     }
   }
 
@@ -181,7 +242,7 @@ export default function HtmlEditorPage() {
           </div>
           <h1 className="text-3xl font-semibold text-white tracking-[-0.02em]">HTML 文章編輯器</h1>
           <p className="text-slate-400 text-sm mt-1.5">
-            貼入 HTML → 偵測 📸 佔位符 → Ctrl+V 貼截圖 → 上傳取得網址 → 複製到 Sheets
+            貼入完整 HTML 草稿 → 自動萃取內容 → 填妥 slug / tags → 一鍵發布到 Google Sheets
           </p>
         </div>
 
@@ -189,17 +250,12 @@ export default function HtmlEditorPage() {
         <div className="flex items-center gap-2.5 flex-shrink-0 flex-wrap">
           <span className="text-xs text-slate-700 hidden sm:block tabular-nums">{html.length.toLocaleString()} 字元</span>
 
-          {/* Upload button — only shown when base64 images exist */}
           {base64Count > 0 && (
             <button
               onClick={handleUpload}
               disabled={upload.phase === 'loading'}
               className="px-4 py-2.5 rounded-xl text-sm font-medium transition-all disabled:opacity-50"
-              style={{
-                background: 'rgba(99,102,241,0.15)',
-                color: '#a5b4fc',
-                border: '1px solid rgba(99,102,241,0.35)',
-              }}>
+              style={{ background: 'rgba(99,102,241,0.15)', color: '#a5b4fc', border: '1px solid rgba(99,102,241,0.35)' }}>
               {upload.phase === 'loading' ? (
                 <span className="flex items-center gap-2">
                   <span className="w-3 h-3 border-2 border-indigo-400/30 border-t-indigo-400 rounded-full animate-spin" />
@@ -222,20 +278,18 @@ export default function HtmlEditorPage() {
         </div>
       </div>
 
-      {/* Upload status strip */}
+      {/* Status strips */}
       {upload.phase === 'ok' && (
         <div className="mb-4 px-4 py-2.5 rounded-xl text-sm flex items-center gap-2.5"
           style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', color: '#4ade80' }}>
-          <span>✓</span>
-          <span className="flex-1">{upload.msg}</span>
+          <span>✓</span><span className="flex-1">{upload.msg}</span>
           <button onClick={() => setUpload({ phase: 'idle' })} className="text-green-800 hover:text-green-600 text-xs">✕</button>
         </div>
       )}
       {upload.phase === 'err' && (
         <div className="mb-4 px-4 py-2.5 rounded-xl text-sm flex items-center gap-2.5"
           style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)', color: '#f87171' }}>
-          <span>✕</span>
-          <span className="flex-1">{upload.msg}</span>
+          <span>✕</span><span className="flex-1">{upload.msg}</span>
           <button onClick={() => setUpload({ phase: 'idle' })} className="text-red-900 hover:text-red-700 text-xs">✕</button>
         </div>
       )}
@@ -269,7 +323,7 @@ export default function HtmlEditorPage() {
                 <div key={i} className="w-2.5 h-2.5 rounded-full" style={{ background: 'rgba(255,255,255,0.12)' }} />
               ))}
             </div>
-            <span className="text-xs text-slate-500">HTML 編輯器</span>
+            <span className="text-xs text-slate-500">HTML 編輯器 — 支援貼入完整草稿 HTML</span>
             {base64Count > 0 && (
               <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full"
                 style={{ background: 'rgba(99,102,241,0.12)', color: '#818cf8', border: '1px solid rgba(99,102,241,0.2)' }}>
@@ -279,7 +333,7 @@ export default function HtmlEditorPage() {
           </div>
           <textarea
             value={html}
-            onChange={(e) => { setHtml(e.target.value); trackCursor(e) }}
+            onChange={(e) => { handleHtmlChange(e.target.value); trackCursor(e) }}
             onKeyUp={trackCursor}
             onMouseUp={trackCursor}
             onBlur={trackCursor}
@@ -297,6 +351,7 @@ export default function HtmlEditorPage() {
             {([
               { id: 'slots' as const, label: totalCount > 0 ? `📸 截圖佔位符 (${filledCount}/${totalCount})` : '📸 截圖佔位符' },
               { id: 'preview' as const, label: '即時預覽' },
+              { id: 'publish' as const, label: sync.phase === 'ok' ? '✓ 已發布' : '發布到 Sheets' },
             ]).map(({ id, label }) => (
               <button key={id} onClick={() => setRightTab(id)}
                 className="px-4 py-1.5 rounded-lg text-sm font-medium transition-all"
@@ -329,7 +384,6 @@ export default function HtmlEditorPage() {
                 </div>
               ) : (
                 <div className="p-4 space-y-2.5">
-                  {/* Progress */}
                   <div className="flex items-center gap-3 mb-4">
                     <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.07)' }}>
                       <div className="h-full rounded-full transition-all duration-700"
@@ -341,7 +395,6 @@ export default function HtmlEditorPage() {
                     <span className="text-xs text-slate-600 flex-shrink-0 tabular-nums">{filledCount} / {totalCount} 完成</span>
                   </div>
 
-                  {/* Unfilled */}
                   {unfilled.map((slot, idx) => {
                     const isActive = activeKey === slot.key
                     return (
@@ -374,7 +427,6 @@ export default function HtmlEditorPage() {
                     )
                   })}
 
-                  {/* Filled */}
                   {Object.entries(filledSlots).map(([text, slot]) => {
                     const isFlashing = flashKey === text
                     return (
@@ -401,12 +453,11 @@ export default function HtmlEditorPage() {
                     )
                   })}
 
-                  {/* Upload hint when screenshots are filled */}
                   {filledCount > 0 && base64Count > 0 && (
                     <div className="mt-4 px-4 py-3 rounded-xl text-xs text-slate-500 leading-relaxed"
                       style={{ background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(99,102,241,0.2)' }}>
                       截圖填入完成後，點擊右上角「<span style={{ color: '#a5b4fc' }}>上傳截圖取得網址</span>」，
-                      圖片會上傳到 Google Drive 並替換為公開 URL，再複製 HTML 貼到 Sheets 即可。
+                      圖片會上傳到 imgbb 並替換為公開 URL，再到「發布到 Sheets」tab 一鍵同步。
                     </div>
                   )}
                 </div>
@@ -440,6 +491,140 @@ export default function HtmlEditorPage() {
                 sandbox="allow-same-origin"
                 title="HTML 預覽"
               />
+            </div>
+          )}
+
+          {/* ── Publish panel ── */}
+          {rightTab === 'publish' && (
+            <div className="flex-1 min-h-0 rounded-2xl overflow-y-auto"
+              style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.01)' }}>
+              <div className="p-5 space-y-4">
+
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  貼入草稿 HTML 後，標題會自動填入。補上 slug、tags 後一鍵同步到 Google Sheets。
+                </p>
+
+                {/* slug */}
+                <div>
+                  <label className="block text-[11px] text-slate-500 mb-1.5 uppercase tracking-wider">Slug <span className="text-red-500">*</span></label>
+                  <input
+                    value={meta.slug}
+                    onChange={(e) => setMeta((p) => ({ ...p, slug: e.target.value }))}
+                    placeholder="gsc-rank-tracker"
+                    className={inputCls}
+                  />
+                </div>
+
+                {/* title */}
+                <div>
+                  <label className="block text-[11px] text-slate-500 mb-1.5 uppercase tracking-wider">標題 <span className="text-red-500">*</span></label>
+                  <input
+                    value={meta.title}
+                    onChange={(e) => setMeta((p) => ({ ...p, title: e.target.value }))}
+                    placeholder="文章完整標題"
+                    className={inputCls}
+                  />
+                </div>
+
+                {/* date + category row */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[11px] text-slate-500 mb-1.5 uppercase tracking-wider">日期</label>
+                    <input
+                      type="date"
+                      value={meta.date}
+                      onChange={(e) => setMeta((p) => ({ ...p, date: e.target.value }))}
+                      className={inputCls}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] text-slate-500 mb-1.5 uppercase tracking-wider">分類</label>
+                    <input
+                      value={meta.category}
+                      onChange={(e) => setMeta((p) => ({ ...p, category: e.target.value }))}
+                      placeholder="開發日記"
+                      className={inputCls}
+                    />
+                  </div>
+                </div>
+
+                {/* tags */}
+                <div>
+                  <label className="block text-[11px] text-slate-500 mb-1.5 uppercase tracking-wider">Tags（逗號分隔）</label>
+                  <input
+                    value={meta.tags}
+                    onChange={(e) => setMeta((p) => ({ ...p, tags: e.target.value }))}
+                    placeholder="n8n,Claude Code,SEO"
+                    className={inputCls}
+                  />
+                </div>
+
+                {/* coverImage */}
+                <div>
+                  <label className="block text-[11px] text-slate-500 mb-1.5 uppercase tracking-wider">封面圖路徑</label>
+                  <input
+                    value={meta.coverImage}
+                    onChange={(e) => setMeta((p) => ({ ...p, coverImage: e.target.value }))}
+                    placeholder="/images/blog/screenshot-xxx.png"
+                    className={inputCls}
+                  />
+                </div>
+
+                {/* published toggle */}
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <div
+                    onClick={() => setMeta((p) => ({ ...p, published: !p.published }))}
+                    className="relative w-9 h-5 rounded-full transition-colors flex-shrink-0"
+                    style={{ background: meta.published ? '#6366f1' : 'rgba(255,255,255,0.1)' }}>
+                    <div className="absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform"
+                      style={{ left: meta.published ? '18px' : '2px' }} />
+                  </div>
+                  <span className="text-sm text-slate-400">立即發布</span>
+                </label>
+
+                {/* sync status */}
+                {sync.phase === 'ok' && (
+                  <div className="px-4 py-3 rounded-xl text-sm flex items-center gap-2"
+                    style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', color: '#4ade80' }}>
+                    <span>✓</span><span>{sync.msg}</span>
+                  </div>
+                )}
+                {sync.phase === 'err' && (
+                  <div className="px-4 py-3 rounded-xl text-sm flex items-center gap-2"
+                    style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)', color: '#f87171' }}>
+                    <span>✕</span>
+                    <span className="flex-1">{sync.msg}</span>
+                    {sync.msg?.includes('登入') && (
+                      <a href="/admin/login" target="_blank" className="underline text-xs">前往登入 →</a>
+                    )}
+                  </div>
+                )}
+
+                {/* sync button */}
+                <button
+                  onClick={handleSync}
+                  disabled={sync.phase === 'loading'}
+                  className="w-full py-3 rounded-xl text-sm font-semibold transition-all disabled:opacity-50"
+                  style={{
+                    background: sync.phase === 'ok'
+                      ? 'rgba(34,197,94,0.15)'
+                      : 'linear-gradient(135deg,#6366f1,#8b5cf6)',
+                    color: sync.phase === 'ok' ? '#4ade80' : '#fff',
+                    border: sync.phase === 'ok' ? '1px solid rgba(34,197,94,0.3)' : '1px solid transparent',
+                    boxShadow: sync.phase === 'ok' ? 'none' : '0 0 24px rgba(99,102,241,0.3)',
+                  }}>
+                  {sync.phase === 'loading' ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      同步中…
+                    </span>
+                  ) : sync.phase === 'ok' ? '✓ 已同步到 Google Sheets' : '同步到 Google Sheets'}
+                </button>
+
+                <p className="text-[11px] text-slate-700 text-center">
+                  需先登入 <a href="/admin/login" target="_blank" className="text-violet-600 hover:text-violet-500">/admin</a> 才能同步
+                </p>
+              </div>
             </div>
           )}
         </div>
