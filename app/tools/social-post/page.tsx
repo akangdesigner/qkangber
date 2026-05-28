@@ -50,7 +50,7 @@ export default function SocialPostPage() {
   }
 
   return (
-    <main className="relative max-w-2xl mx-auto px-6 py-20">
+    <main className="relative max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
       <div
         className="absolute inset-0 pointer-events-none -z-10"
         style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 10%, rgba(124,92,255,0.10), transparent 60%)' }}
@@ -72,7 +72,7 @@ export default function SocialPostPage() {
         </span>
       </div>
 
-      <h1 className="text-4xl font-semibold text-white tracking-[-0.02em] mb-2">
+      <h1 className="text-2xl sm:text-4xl font-semibold text-white tracking-[-0.02em] mb-2">
         社群貼文產生器
       </h1>
       <p className="text-slate-400 mb-10">貼上文章草稿，AI 幫你拆出主貼文＋第一則留言（含 hashtag）。</p>

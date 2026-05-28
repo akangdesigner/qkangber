@@ -20,3 +20,14 @@ Google 以 EEAT 評估頁面品質，所有內容必須體現：
 - meta title / description 必須包含主關鍵字且對人類有意義，不堆砌關鍵字
 - 圖片必須有描述性 alt 文字
 - 內部連結要有語意，錨文字要描述目標頁內容
+
+# RWD 響應式設計原則
+
+## 基本規則
+- 所有頁面外層 padding 使用 `px-4 sm:px-6`，垂直 padding 使用 `py-12 sm:py-20`（不直接用 `px-6` 或 `py-20`）
+- 標題字級必須搭配響應式前綴，不可單獨使用大字級：
+  - `text-5xl` → `text-3xl sm:text-5xl`
+  - `text-4xl` → `text-2xl sm:text-4xl`
+- Grid 欄數必須從手機單欄開始：`grid-cols-2` → `grid-cols-1 sm:grid-cols-2`
+- 固定高度 layout（如編輯器）只在 `lg:` 以上套用：`lg:h-[68vh] lg:min-h-[520px]`
+- 行動版需補上明確高度：`h-56 sm:h-72 lg:h-auto lg:min-h-0`

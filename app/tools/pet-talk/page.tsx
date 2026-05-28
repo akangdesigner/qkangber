@@ -127,7 +127,7 @@ export default function PetTalkPage() {
   const inputStyle = { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }
 
   return (
-    <main className="relative max-w-2xl mx-auto px-6 py-20">
+    <main className="relative max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
       <div
         className="absolute inset-0 pointer-events-none -z-10"
         style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 5%, rgba(236,72,153,0.1), transparent 60%)' }}
@@ -149,7 +149,7 @@ export default function PetTalkPage() {
         </span>
       </div>
 
-      <h1 className="text-4xl font-semibold text-white tracking-[-0.02em] mb-2">寵物溝通師</h1>
+      <h1 className="text-2xl sm:text-4xl font-semibold text-white tracking-[-0.02em] mb-2">寵物溝通師</h1>
       <p className="text-slate-400 mb-10">
         上傳毛孩照片，AI 化身量子靈魂感應師，用極度嚴肅的偽科學替你解讀牠的心聲。
       </p>
@@ -216,7 +216,7 @@ export default function PetTalkPage() {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm text-slate-400 mb-2">寵物名字</label>
             <input

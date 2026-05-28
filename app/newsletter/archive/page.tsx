@@ -66,7 +66,7 @@ export default async function ArchivePage() {
   const issues = await getAllNewsletterIssues()
 
   return (
-    <div className="relative max-w-4xl mx-auto px-6 py-16">
+    <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-64 pointer-events-none -z-10"
@@ -77,7 +77,7 @@ export default async function ArchivePage() {
         <div className="mb-5">
           <EyebrowLabel>Newsletter Archive</EyebrowLabel>
         </div>
-        <h1 className="text-4xl sm:text-5xl font-semibold text-white mb-4 tracking-[-0.02em]">
+        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-semibold text-white mb-4 tracking-[-0.02em]">
           歷期電子報
         </h1>
         <p className="text-slate-400 leading-relaxed max-w-lg">

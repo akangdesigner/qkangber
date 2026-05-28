@@ -129,7 +129,7 @@ export default function FaqPage() {
   }
 
   return (
-    <main className="relative max-w-3xl mx-auto px-6 py-20">
+    <main className="relative max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
@@ -156,7 +156,7 @@ export default function FaqPage() {
         </span>
       </div>
 
-      <h1 className="text-4xl font-semibold text-white tracking-[-0.02em] mb-3">AI X 自動化指南</h1>
+      <h1 className="text-2xl sm:text-4xl font-semibold text-white tracking-[-0.02em] mb-3">AI X 自動化指南</h1>
       <p className="text-slate-400 mb-14">
         n8n、AI Agent、RAG、Prompt Engineering 的實戰問答。有其他問題歡迎
         <a href="mailto:asdtodd42@gmail.com" className="text-violet-400 hover:text-violet-300 transition-colors ml-1">直接問我</a>。
