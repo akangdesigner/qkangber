@@ -80,7 +80,7 @@ const tools = [
 
 export default function ToolsPage() {
   return (
-    <main className="relative max-w-4xl mx-auto px-6 py-20">
+    <main className="relative max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div
         className="absolute inset-0 pointer-events-none -z-10"
@@ -97,7 +97,7 @@ export default function ToolsPage() {
         </span>
       </div>
 
-      <h1 className="text-5xl font-semibold text-white tracking-[-0.02em] mb-3">
+      <h1 className="text-3xl sm:text-5xl font-semibold text-white tracking-[-0.02em] mb-3">
         工具站
       </h1>
       <p className="text-slate-400 mb-14">電商與行銷人的免費 AI 工具。不需要註冊，直接用。</p>

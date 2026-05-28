@@ -48,6 +48,15 @@ function readAsBase64(file: File): Promise<string> {
   })
 }
 
+function readAsText(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = (e) => resolve(e.target?.result as string)
+    reader.onerror = reject
+    reader.readAsText(file, 'utf-8')
+  })
+}
+
 function buildPreviewDoc(body: string) {
   return `<!DOCTYPE html>
 <html lang="zh-TW"><head><meta charset="utf-8">
@@ -94,6 +103,8 @@ export default function HtmlEditorPage() {
   const [meta, setMeta] = useState<Meta>({
     slug: '', title: '', date: TODAY, tags: '', category: '開發日記', coverImage: '', published: true,
   })
+  const [folderState, setFolderState] = useState<AsyncState>({ phase: 'idle' })
+  const folderInputRef = useRef<HTMLInputElement>(null)
 
   const htmlRef = useRef(html)
   const activeKeyRef = useRef(activeKey)
@@ -104,6 +115,61 @@ export default function HtmlEditorPage() {
   const filledCount = Object.keys(filledSlots).length
   const totalCount = unfilled.length + filledCount
   const base64Count = useMemo(() => countBase64(html), [html])
+
+  async function handleFolderSelect(files: FileList) {
+    setFolderState({ phase: 'loading' })
+    try {
+      // Separate HTML file and image files
+      let htmlFile: File | null = null
+      const imageFiles = new Map<string, File>()
+      for (const file of Array.from(files)) {
+        const name = file.name.toLowerCase()
+        if (name.endsWith('.html') && !file.name.startsWith('.')) {
+          htmlFile = file
+        } else if (/\.(png|jpg|jpeg|gif|webp)$/i.test(name)) {
+          imageFiles.set(file.name, file)
+        }
+      }
+      if (!htmlFile) throw new Error('資料夾裡找不到 .html 檔案')
+
+      // Read HTML and embed images as base64
+      let rawHtml = await readAsText(htmlFile)
+      for (const [name, file] of imageFiles) {
+        const b64 = await readAsBase64(file)
+        // Replace both quoted forms: src="name.png" and src='name.png'
+        const esc = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        rawHtml = rawHtml.replace(new RegExp(`src="${esc}"`, 'g'), `src="${b64}"`)
+        rawHtml = rawHtml.replace(new RegExp(`src='${esc}'`, 'g'), `src='${b64}'`)
+      }
+
+      // Extract #article-content
+      const extracted = extractFromFullHtml(rawHtml)
+      const content = extracted ? extracted.content : rawHtml
+      const title = extracted?.title ?? ''
+
+      setHtml(content)
+      if (title) setMeta((p) => ({ ...p, title: p.title || title }))
+      setFolderState({ phase: 'idle' })
+
+      // Auto-upload base64 images to imgbb
+      if (imageFiles.size > 0) {
+        setUpload({ phase: 'loading' })
+        const res = await fetch('/api/tools/html-editor/upload-images', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ html: content }),
+        })
+        const json = await res.json()
+        if (!res.ok) throw new Error(json.error)
+        setHtml(json.html)
+        setUpload({ phase: 'ok', msg: `${json.uploaded} 張截圖已上傳，網址已替換完成` })
+      }
+
+      setRightTab('publish')
+    } catch (err) {
+      setFolderState({ phase: 'err', msg: err instanceof Error ? err.message : '讀取失敗' })
+    }
+  }
 
   function handleHtmlChange(value: string) {
     // Auto-extract when user pastes a full HTML draft file
@@ -220,7 +286,7 @@ export default function HtmlEditorPage() {
   }
 
   return (
-    <main className="relative max-w-[1440px] mx-auto px-4 sm:px-6 py-16">
+    <main className="relative max-w-[1440px] mx-auto px-4 sm:px-6 py-8 sm:py-16">
       <div className="absolute inset-0 pointer-events-none -z-10"
         style={{ background: 'radial-gradient(ellipse 50% 30% at 50% 5%, rgba(99,102,241,0.08), transparent 55%)' }} />
 
@@ -242,12 +308,42 @@ export default function HtmlEditorPage() {
           </div>
           <h1 className="text-3xl font-semibold text-white tracking-[-0.02em]">HTML 文章編輯器</h1>
           <p className="text-slate-400 text-sm mt-1.5">
-            貼入完整 HTML 草稿 → 自動萃取內容 → 填妥 slug / tags → 一鍵發布到 Google Sheets
+            選取草稿資料夾（HTML + 截圖）→ 自動處理圖片 → 填妥 slug / tags → 一鍵發布到 Google Sheets
           </p>
         </div>
 
         {/* Action buttons */}
         <div className="flex items-center gap-2.5 flex-shrink-0 flex-wrap">
+          {/* Hidden folder input */}
+          <input
+            ref={folderInputRef}
+            type="file"
+            // @ts-expect-error webkitdirectory is not in React types
+            webkitdirectory=""
+            multiple
+            className="hidden"
+            onChange={(e) => e.target.files && handleFolderSelect(e.target.files)}
+          />
+
+          {/* Folder picker button */}
+          <button
+            onClick={() => folderInputRef.current?.click()}
+            disabled={folderState.phase === 'loading'}
+            className="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all disabled:opacity-50"
+            style={{
+              background: 'linear-gradient(135deg,#7c3aed,#6366f1)',
+              color: '#fff',
+              border: '1px solid transparent',
+              boxShadow: '0 0 20px rgba(124,58,237,0.3)',
+            }}>
+            {folderState.phase === 'loading' ? (
+              <span className="flex items-center gap-2">
+                <span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                處理中…
+              </span>
+            ) : '📁 選取草稿資料夾'}
+          </button>
+
           <span className="text-xs text-slate-700 hidden sm:block tabular-nums">{html.length.toLocaleString()} 字元</span>
 
           {base64Count > 0 && (
@@ -279,6 +375,13 @@ export default function HtmlEditorPage() {
       </div>
 
       {/* Status strips */}
+      {folderState.phase === 'err' && (
+        <div className="mb-4 px-4 py-2.5 rounded-xl text-sm flex items-center gap-2.5"
+          style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)', color: '#f87171' }}>
+          <span>✕</span><span className="flex-1">{folderState.msg}</span>
+          <button onClick={() => setFolderState({ phase: 'idle' })} className="text-red-900 hover:text-red-700 text-xs">✕</button>
+        </div>
+      )}
       {upload.phase === 'ok' && (
         <div className="mb-4 px-4 py-2.5 rounded-xl text-sm flex items-center gap-2.5"
           style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', color: '#4ade80' }}>
@@ -311,10 +414,10 @@ export default function HtmlEditorPage() {
       )}
 
       {/* ── Main grid ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4" style={{ height: '68vh', minHeight: 520 }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:h-[68vh] lg:min-h-[520px]">
 
         {/* Left: HTML editor */}
-        <div className="flex flex-col min-h-0 rounded-2xl overflow-hidden"
+        <div className="flex flex-col h-56 sm:h-72 lg:h-auto lg:min-h-0 rounded-2xl overflow-hidden"
           style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="flex items-center gap-3 px-4 py-2.5 flex-shrink-0"
             style={{ background: 'rgba(255,255,255,0.025)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
@@ -345,9 +448,9 @@ export default function HtmlEditorPage() {
         </div>
 
         {/* Right: tabbed panel */}
-        <div className="flex flex-col min-h-0 gap-3">
+        <div className="flex flex-col h-[420px] sm:h-[480px] lg:h-auto lg:min-h-0 gap-3">
 
-          <div className="flex gap-1.5 flex-shrink-0">
+          <div className="flex gap-1.5 flex-shrink-0 flex-wrap">
             {([
               { id: 'slots' as const, label: totalCount > 0 ? `📸 截圖佔位符 (${filledCount}/${totalCount})` : '📸 截圖佔位符' },
               { id: 'preview' as const, label: '即時預覽' },

@@ -52,7 +52,7 @@ export default async function BlogPage() {
   ]
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-20">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="mb-14">
         <div className="flex items-center gap-3 mb-4">
@@ -61,7 +61,7 @@ export default async function BlogPage() {
             Knowledge Base
           </span>
         </div>
-        <h1 className="text-5xl font-semibold text-white tracking-[-0.02em] mb-4">
+        <h1 className="text-3xl sm:text-5xl font-semibold text-white tracking-[-0.02em] mb-4">
           AI × N8N 知識庫
         </h1>
         <p className="text-slate-400">{posts.length} 篇文章 · 持續更新中</p>
