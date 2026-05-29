@@ -4,18 +4,22 @@ import { google } from 'googleapis'
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export async function POST(request: Request) {
-  let body: { name?: string; email?: string; service?: string; budget?: string; message?: string }
+  let body: {
+    brand?: string; name?: string; email?: string
+    website?: string; budget?: string; topics?: string[]; message?: string
+  }
   try {
     body = await request.json()
   } catch {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
 
-  const { name, email, service, budget, message } = body
+  const { brand, name, email, website, budget, topics, message } = body
 
-  if (!name?.trim()) return NextResponse.json({ error: '請填寫姓名' }, { status: 400 })
+  if (!brand?.trim()) return NextResponse.json({ error: '請填寫品牌或公司名稱' }, { status: 400 })
+  if (!name?.trim()) return NextResponse.json({ error: '請填寫稱呼' }, { status: 400 })
   if (!email || !emailRegex.test(email)) return NextResponse.json({ error: '請輸入有效的 Email' }, { status: 400 })
-  if (!message?.trim()) return NextResponse.json({ error: '請描述需求' }, { status: 400 })
+  if (!message?.trim()) return NextResponse.json({ error: '請描述想聊聊的內容' }, { status: 400 })
 
   const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON
   const sheetId = process.env.GOOGLE_SHEET_ID
@@ -36,15 +40,17 @@ export async function POST(request: Request) {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: sheetId,
-      range: 'contact!A:F',
+      range: 'contact!A:H',
       valueInputOption: 'RAW',
       requestBody: {
         values: [[
           new Date().toISOString(),
+          brand.trim(),
           name.trim(),
           email.trim(),
-          service || '未指定',
+          website?.trim() || '',
           budget || '未填',
+          Array.isArray(topics) ? topics.join(', ') : '',
           message.trim(),
         ]],
       },
