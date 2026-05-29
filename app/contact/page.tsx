@@ -10,17 +10,19 @@ export const metadata: Metadata = {
 
 const METHODS = [
   {
-    label: '連絡電話', value: '02-2745-7601', sub: '週一至週五 · 10:00–19:00',
-    color: '#60a5fa',
+    label: 'Instagram', value: '@q_kangber', sub: '日常分享 · 私訊也可諮詢',
+    href: 'https://www.instagram.com/q_kangber', color: '#f0abfc',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A14 14 0 0 1 4 7a2 2 0 0 1 2-3" />
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
       </svg>
     ),
   },
   {
     label: '聯絡信箱', value: 'asdtodd42@gmail.com', sub: '一律回信 · 通常 24 小時內',
-    color: '#a78bfa',
+    href: 'mailto:asdtodd42@gmail.com', color: '#a78bfa',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -29,8 +31,8 @@ const METHODS = [
     ),
   },
   {
-    label: 'Line 客服', value: '@qkangber', sub: '掃描 QR 或直接加入好友',
-    color: '#34d399',
+    label: 'Line 客服', value: 'skdxrytrmoon', sub: '掃描 QR 或直接加入好友',
+    href: 'https://line.me/ti/p/~skdxrytrmoon', color: '#34d399',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="4" width="18" height="14" rx="4" />
@@ -40,27 +42,22 @@ const METHODS = [
     ),
   },
   {
-    label: '社群粉絲團', value: 'facebook.com/qkangber', sub: '日常更新 · 不定期直播',
-    color: '#f0abfc',
+    label: 'Threads', value: 'threads.net/@q_kangber', sub: '日常更新 · 不定期分享',
+    href: 'https://www.threads.com/@q_kangber', color: '#60a5fa',
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="9" />
-        <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+        <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.36-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 1.55 0c.029-.612-.124-1.085-.452-1.41-.34-.337-.86-.51-1.546-.51-.685 0-1.273.21-1.748.624-.36.314-.62.745-.77 1.282l-1.99-.544c.252-.92.71-1.69 1.36-2.288.79-.728 1.86-1.118 3.097-1.13 1.288-.012 2.36.41 3.103 1.222.685.748 1.05 1.79 1.085 3.098.058.041.116.083.173.126 1.27.747 2.198 1.85 2.685 3.19.68 1.87.743 4.92-1.738 7.353-1.89 1.854-4.18 2.69-7.43 2.715Zm-1.95-9.367c-.093 0-.187.002-.281.007-1.131.064-2.397.586-2.33 1.823.035.642.355 1.193.873 1.53.434.281.99.418 1.57.385.94-.05 1.683-.397 2.207-1.03.46-.557.749-1.337.86-2.319a6.4 6.4 0 0 0-1.299-.121l-1.6-.275Z" />
       </svg>
     ),
   },
 ]
 
+const ADDRESS = '台北市信義區東興路 49 號 11 樓'
+const MAP_SRC = `https://maps.google.com/maps?q=${encodeURIComponent('台北市信義區東興路49號11樓')}&t=&z=16&ie=UTF8&iwloc=&output=embed`
+
 export default function ContactPage() {
   return (
     <div style={{ color: '#e2e8f0' }}>
-      <style>{`
-        @keyframes pinPulse {
-          0% { transform: scale(1); opacity: 0.8; }
-          100% { transform: scale(2.8); opacity: 0; }
-        }
-      `}</style>
-
       {/* ── HERO ── */}
       <section style={{
         position: 'relative',
@@ -165,12 +162,20 @@ export default function ContactPage() {
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-              {METHODS.map(m => (
-                <div key={m.label} style={{
-                  display: 'grid',
-                  gridTemplateColumns: '40px 1fr',
-                  gap: 14, alignItems: 'start',
-                }}>
+              {METHODS.map(m => {
+                const isExternal = m.href.startsWith('http')
+                return (
+                <a
+                  key={m.label}
+                  href={m.href}
+                  {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  className="group"
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '40px 1fr',
+                    gap: 14, alignItems: 'start',
+                    textDecoration: 'none', color: 'inherit',
+                  }}>
                   <div style={{
                     display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                     width: 40, height: 40, borderRadius: 10,
@@ -186,73 +191,44 @@ export default function ContactPage() {
                       fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase',
                       color: 'rgba(148,163,184,0.85)', marginBottom: 4,
                     }}>{m.label}</div>
-                    <div style={{
+                    <div className="group-hover:underline" style={{
                       fontSize: 14, fontWeight: 600, color: '#fff', letterSpacing: '0.01em',
+                      textUnderlineOffset: 3, textDecorationColor: m.color,
                     }}>{m.value}</div>
                     <div style={{
                       fontSize: 12, color: 'rgba(148,163,184,0.75)', marginTop: 3,
                     }}>{m.sub}</div>
                   </div>
-                </div>
-              ))}
+                </a>
+              )})}
             </div>
 
-            {/* Map placeholder */}
+            {/* Map — embedded Google Maps */}
             <div style={{
               position: 'relative',
-              height: 200,
               borderRadius: 14,
               overflow: 'hidden',
               background: 'rgba(2,3,10,0.55)',
               boxShadow: 'inset 0 0 0 1px rgba(167,139,250,0.22), 0 18px 40px -22px rgba(124,92,255,0.45)',
-            }} className="h-40 sm:h-48 lg:h-[200px]">
-              {/* Grid lines */}
+            }} className="h-56 sm:h-64 lg:h-[260px]">
+              <iframe
+                title={`${ADDRESS} 地圖`}
+                src={MAP_SRC}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                style={{
+                  position: 'absolute', inset: 0,
+                  width: '100%', height: '100%', border: 0,
+                  filter: 'grayscale(0.5) invert(0.9) hue-rotate(190deg) brightness(1.08) contrast(0.92)',
+                }}
+              />
+              {/* Purple tint overlay to blend with theme (clicks pass through) */}
               <div aria-hidden style={{
-                position: 'absolute', inset: 0,
-                backgroundImage:
-                  'linear-gradient(rgba(167,139,250,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(167,139,250,0.10) 1px, transparent 1px)',
-                backgroundSize: '40px 40px',
+                position: 'absolute', inset: 0, pointerEvents: 'none',
+                background: 'linear-gradient(180deg, rgba(124,92,255,0.10), rgba(2,3,10,0.18))',
+                mixBlendMode: 'overlay',
               }} />
-              {/* Abstract road paths */}
-              <svg aria-hidden viewBox="0 0 400 220" preserveAspectRatio="none"
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
-                <path d="M -20 60 C 80 90, 160 30, 240 80 S 380 140, 460 100"
-                  stroke="rgba(96,165,250,0.32)" strokeWidth="1.4" fill="none" />
-                <path d="M -20 150 C 70 110, 180 200, 280 150 S 360 100, 460 130"
-                  stroke="rgba(167,139,250,0.32)" strokeWidth="1.2" fill="none" />
-                <path d="M 60 -20 C 100 60, 50 140, 110 220"
-                  stroke="rgba(34,211,238,0.22)" strokeWidth="1" fill="none" />
-                <path d="M 320 -20 C 280 80, 340 160, 300 240"
-                  stroke="rgba(240,171,252,0.20)" strokeWidth="1" fill="none" />
-              </svg>
-              {/* Pin */}
-              <div style={{
-                position: 'absolute', left: '50%', top: '52%',
-                transform: 'translate(-50%, -100%)',
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
-              }}>
-                <div style={{
-                  position: 'relative',
-                  width: 18, height: 18, borderRadius: '50%',
-                  background: 'radial-gradient(circle, #c4b5fd 0%, #8b5cf6 70%)',
-                  boxShadow: '0 0 18px rgba(167,139,250,0.9), 0 0 38px rgba(124,92,255,0.6)',
-                }}>
-                  <span style={{
-                    position: 'absolute', inset: -8, borderRadius: '50%',
-                    border: '1px solid rgba(167,139,250,0.5)',
-                    animation: 'pinPulse 2s ease-out infinite',
-                  }} />
-                </div>
-                <span style={{
-                  fontFamily: 'ui-monospace, monospace',
-                  fontSize: 10, letterSpacing: '0.18em', color: '#c4b5fd',
-                  padding: '4px 10px', borderRadius: 999,
-                  background: 'rgba(2,3,10,0.7)',
-                  boxShadow: 'inset 0 0 0 1px rgba(167,139,250,0.4)',
-                  whiteSpace: 'nowrap',
-                }}>25.04°N · 121.57°E</span>
-              </div>
-              {/* Address label */}
+              {/* Address label + open-in-maps link */}
               <div style={{
                 position: 'absolute', left: 14, bottom: 12, right: 14,
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
@@ -260,14 +236,23 @@ export default function ContactPage() {
                 <div style={{
                   fontSize: 12, color: '#e2e8f0',
                   padding: '7px 12px', borderRadius: 8,
-                  background: 'rgba(2,3,10,0.7)',
+                  background: 'rgba(2,3,10,0.78)',
                   boxShadow: 'inset 0 0 0 1px rgba(167,139,250,0.3)',
-                }}>台北市信義區東興路 49 號 11 樓</div>
-                <div style={{
-                  fontFamily: 'ui-monospace, monospace',
-                  fontSize: 10, letterSpacing: '0.18em', color: 'rgba(148,163,184,0.85)',
-                  textTransform: 'uppercase', whiteSpace: 'nowrap',
-                }}>MAP · TAIPEI</div>
+                  backdropFilter: 'blur(4px)',
+                }}>{ADDRESS}</div>
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('台北市信義區東興路49號11樓')}`}
+                  target="_blank" rel="noopener noreferrer"
+                  style={{
+                    fontFamily: 'ui-monospace, monospace',
+                    fontSize: 10, letterSpacing: '0.16em', color: '#c4b5fd',
+                    textTransform: 'uppercase', whiteSpace: 'nowrap',
+                    padding: '7px 11px', borderRadius: 8, textDecoration: 'none',
+                    background: 'rgba(2,3,10,0.78)',
+                    boxShadow: 'inset 0 0 0 1px rgba(167,139,250,0.4)',
+                    backdropFilter: 'blur(4px)',
+                  }}
+                >開啟導航 ↗</a>
               </div>
             </div>
           </div>

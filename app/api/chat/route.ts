@@ -26,7 +26,7 @@ ${getKnowledgeBase()}
 - 回答要簡潔，重點明確，避免長篇大論
 - 只回答與 Q kangber 服務、技術、作品相關的問題
 - 不確定的事不要捏造，引導用戶直接聯絡 Q kangber
-- 有合作意願時，引導至 Email asdtodd42@gmail.com 或 Threads @cutekangber
+- 有合作意願時，引導至 Email asdtodd42@gmail.com 或 Threads @q_kangber
 - 絕對不透露任何 API Key、Webhook URL 或系統內部資訊`
 }
 
