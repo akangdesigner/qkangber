@@ -2,66 +2,97 @@
 
 import { useState } from 'react'
 
-const SERVICE_OPTIONS = [
-  { value: 'n8n', label: 'n8n 自動化工作流開發' },
-  { value: 'ai-agent', label: 'AI Agent 應用開發' },
-  { value: 'chatbot', label: '聊天機器人建置' },
-  { value: 'prompt', label: '提示詞工程顧問' },
-  { value: 'other', label: '其他需求' },
-]
-
-const BUDGET_OPTIONS = [
-  { value: '5k-15k', label: 'NT$ 5,000 ~ 15,000' },
-  { value: '15k-30k', label: 'NT$ 15,000 ~ 30,000' },
-  { value: '30k+', label: 'NT$ 30,000 以上' },
-  { value: 'unknown', label: '不確定，想先討論' },
-]
+const BUDGET_OPTIONS = ['10 萬以下', '10–30 萬', '30–80 萬', '80 萬以上', '想先聊聊']
+const TOPICS = ['N8N 工作流', 'AI Agent', 'RAG 檢索', '提示詞架構', '顧問諮詢', '其他']
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
-const inputStyle: React.CSSProperties = {
+const INPUT_BASE: React.CSSProperties = {
   width: '100%',
-  background: 'rgba(255,255,255,0.04)',
-  border: '1px solid rgba(255,255,255,0.10)',
-  borderRadius: 10,
   padding: '11px 14px',
-  color: '#f1f5f9',
-  fontSize: 14,
-  outline: 'none',
-  transition: 'border-color 150ms',
+  borderRadius: 10,
+  background: 'rgba(2,3,10,0.55)',
+  boxShadow: 'inset 0 0 0 1px rgba(167,139,250,0.18), inset 0 1px 0 rgba(255,255,255,0.03)',
+  color: '#e2e8f0',
+  fontSize: 13.5,
   fontFamily: 'inherit',
+  outline: 'none',
+  letterSpacing: '0.01em',
+  border: '1px solid transparent',
+  transition: 'box-shadow 150ms',
 }
 
-const labelStyle: React.CSSProperties = {
-  display: 'block',
-  fontSize: 12,
-  fontWeight: 600,
-  color: '#94a3b8',
-  marginBottom: 6,
-  letterSpacing: '0.04em',
+function Label({ text, required }: { text: string; required?: boolean }) {
+  return (
+    <label style={{
+      display: 'flex', alignItems: 'center', gap: 6,
+      fontSize: 12, fontWeight: 500,
+      color: '#cbd5e1', marginBottom: 7, letterSpacing: '0.02em',
+    }}>
+      {text}
+      {required && <span style={{ color: '#f0abfc', fontSize: 11 }}>*</span>}
+    </label>
+  )
+}
+
+function Field({ label, required, type = 'text', value, onChange, placeholder }: {
+  label: string; required?: boolean; type?: string
+  value: string; onChange: (v: string) => void; placeholder?: string
+}) {
+  const [focused, setFocused] = useState(false)
+  return (
+    <div>
+      <Label text={label} required={required} />
+      <input
+        type={type}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        placeholder={placeholder || ' '}
+        required={required}
+        style={{
+          ...INPUT_BASE,
+          boxShadow: focused
+            ? 'inset 0 0 0 1px rgba(167,139,250,0.55), 0 0 0 3px rgba(124,92,255,0.08)'
+            : INPUT_BASE.boxShadow,
+        }}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+      />
+    </div>
+  )
 }
 
 export default function ContactForm() {
+  const [brand, setBrand] = useState('')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [service, setService] = useState('')
+  const [website, setWebsite] = useState('')
   const [budget, setBudget] = useState('')
+  const [topics, setTopics] = useState<Set<string>>(new Set())
   const [message, setMessage] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
   const [sysError, setSysError] = useState(false)
+  const [msgFocused, setMsgFocused] = useState(false)
+
+  function toggleTopic(t: string) {
+    setTopics(prev => {
+      const next = new Set(prev)
+      next.has(t) ? next.delete(t) : next.add(t)
+      return next
+    })
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setStatus('loading')
     setErrorMsg('')
     setSysError(false)
-
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, service, budget, message }),
+        body: JSON.stringify({ brand, name, email, website, budget, topics: [...topics], message }),
       })
       const data = await res.json()
       if (!res.ok) {
@@ -80,160 +111,203 @@ export default function ContactForm() {
   if (status === 'success') {
     return (
       <div style={{
-        textAlign: 'center', padding: '48px 24px',
-        background: 'rgba(255,255,255,0.025)',
-        border: '1px solid rgba(255,255,255,0.08)',
         borderRadius: 18,
+        background: 'radial-gradient(120% 180% at 50% 0%, rgba(124,92,255,0.10) 0%, rgba(2,3,10,0.55) 65%)',
+        boxShadow: 'inset 0 0 0 1px rgba(167,139,250,0.18), inset 0 1px 0 rgba(255,255,255,0.05), 0 24px 60px -28px rgba(124,92,255,0.45)',
+        backdropFilter: 'blur(10px)',
+        padding: '52px 32px',
+        textAlign: 'center',
       }}>
-        <div style={{ fontSize: 40, marginBottom: 16 }}>✅</div>
-        <h3 style={{ fontSize: 20, fontWeight: 600, color: '#fff', marginBottom: 8 }}>
-          已收到你的需求！
+        <div style={{
+          width: 48, height: 48, borderRadius: '50%', margin: '0 auto 18px',
+          background: 'rgba(52,211,153,0.15)',
+          boxShadow: 'inset 0 0 0 1px rgba(52,211,153,0.4), 0 0 24px rgba(52,211,153,0.3)',
+          display: 'grid', placeItems: 'center', fontSize: 22,
+        }}>✓</div>
+        <h3 style={{ fontSize: 20, fontWeight: 600, color: '#fff', marginBottom: 10, marginTop: 0 }}>
+          已收到你的訊息！
         </h3>
-        <p style={{ fontSize: 14, color: '#94a3b8', lineHeight: 1.75 }}>
-          我通常在 24 小時內回覆，<br />
-          如果比較急可以直接寄信到{' '}
-          <a href="mailto:asdtodd42@gmail.com?subject=諮詢需求" style={{ color: '#a78bfa' }}>asdtodd42@gmail.com</a>
+        <p style={{ fontSize: 14, color: '#94a3b8', lineHeight: 1.75, margin: 0 }}>
+          通常 1–2 個工作天內回覆。<br />
+          比較急可以直接來信：{' '}
+          <a href="mailto:asdtodd42@gmail.com" style={{ color: '#a78bfa' }}>asdtodd42@gmail.com</a>
         </p>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+    <div style={{
+      borderRadius: 18,
+      background: 'radial-gradient(120% 180% at 50% 0%, rgba(124,92,255,0.10) 0%, rgba(2,3,10,0.55) 65%)',
+      boxShadow: 'inset 0 0 0 1px rgba(167,139,250,0.18), inset 0 1px 0 rgba(255,255,255,0.05), 0 24px 60px -28px rgba(124,92,255,0.45)',
+      backdropFilter: 'blur(10px)',
+      padding: 28,
+    }}>
+      {/* Card header */}
+      <div style={{
+        display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
+        marginBottom: 22, gap: 12,
+      }}>
         <div>
-          <label style={labelStyle}>姓名 <span style={{ color: '#f87171' }}>*</span></label>
-          <input
-            type="text"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            placeholder="你的名字"
-            required
-            style={inputStyle}
-            onFocus={e => { e.currentTarget.style.borderColor = 'rgba(167,139,250,0.5)' }}
-            onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)' }}
-          />
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            fontFamily: 'ui-monospace, monospace',
+            fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase',
+            color: '#c4b5fd', marginBottom: 10,
+          }}>
+            <span style={{
+              width: 6, height: 6, borderRadius: '50%',
+              background: '#34d399',
+              boxShadow: '0 0 10px rgba(52,211,153,0.9)',
+              display: 'inline-block',
+            }} />
+            取得聯繫 · GET IN TOUCH
+          </div>
+          <h2 style={{
+            margin: 0, fontSize: 22, fontWeight: 600,
+            letterSpacing: '-0.01em', color: '#fff',
+          }}>跟我們聊聊</h2>
         </div>
-        <div>
-          <label style={labelStyle}>Email <span style={{ color: '#f87171' }}>*</span></label>
-          <input
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder="your@email.com"
-            required
-            style={inputStyle}
-            onFocus={e => { e.currentTarget.style.borderColor = 'rgba(167,139,250,0.5)' }}
-            onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)' }}
-          />
-        </div>
+        <div style={{
+          fontFamily: 'ui-monospace, monospace',
+          fontSize: 10, letterSpacing: '0.2em',
+          color: 'rgba(148,163,184,0.7)',
+          textTransform: 'uppercase',
+          whiteSpace: 'nowrap', paddingTop: 4,
+        }}>FORM · 06 FIELDS</div>
       </div>
 
-      <div>
-        <label style={labelStyle}>感興趣的服務</label>
-        <select
-          value={service}
-          onChange={e => setService(e.target.value)}
-          style={{ ...inputStyle, cursor: 'pointer' }}
-          onFocus={e => { e.currentTarget.style.borderColor = 'rgba(167,139,250,0.5)' }}
-          onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)' }}
-        >
-          <option value="" style={{ background: '#0a0b14' }}>請選擇服務類型（可跳過）</option>
-          {SERVICE_OPTIONS.map(o => (
-            <option key={o.value} value={o.value} style={{ background: '#0a0b14' }}>{o.label}</option>
-          ))}
-        </select>
-      </div>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+          <Field label="品牌 / 公司" required value={brand} onChange={setBrand} />
+          <Field label="稱呼" required value={name} onChange={setName} />
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+          <Field label="聯絡信箱" required type="email" value={email} onChange={setEmail} />
+          <Field label="網站網址" type="url" value={website} onChange={setWebsite} />
+        </div>
 
-      <div>
-        <label style={labelStyle}>預算範圍</label>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-          {BUDGET_OPTIONS.map(o => (
-            <button
-              key={o.value}
-              type="button"
-              onClick={() => setBudget(budget === o.value ? '' : o.value)}
-              style={{
-                padding: '7px 14px',
-                borderRadius: 999,
-                fontSize: 12,
-                fontWeight: 500,
-                cursor: 'pointer',
-                fontFamily: 'inherit',
-                transition: 'all 150ms',
-                background: budget === o.value
-                  ? 'linear-gradient(135deg, rgba(37,99,235,0.3), rgba(139,92,246,0.3))'
-                  : 'rgba(255,255,255,0.04)',
-                border: budget === o.value
-                  ? '1px solid rgba(167,139,250,0.5)'
-                  : '1px solid rgba(255,255,255,0.09)',
-                color: budget === o.value ? '#c4b5fd' : '#94a3b8',
-              }}
+        {/* Budget select */}
+        <div>
+          <Label text="預算範圍" />
+          <div style={{ position: 'relative' }}>
+            <select
+              value={budget}
+              onChange={e => setBudget(e.target.value)}
+              style={{ ...INPUT_BASE, appearance: 'none', paddingRight: 34, cursor: 'pointer' }}
             >
-              {o.label}
-            </button>
-          ))}
+              <option value="">請選擇…</option>
+              {BUDGET_OPTIONS.map(o => (
+                <option key={o} value={o} style={{ background: '#05060a' }}>{o}</option>
+              ))}
+            </select>
+            <span style={{
+              position: 'absolute', right: 12, top: '50%',
+              transform: 'translateY(-50%)',
+              color: '#a78bfa', pointerEvents: 'none', fontSize: 10,
+            }}>▾</span>
+          </div>
         </div>
-      </div>
 
-      <div>
-        <label style={labelStyle}>需求描述 <span style={{ color: '#f87171' }}>*</span></label>
-        <textarea
-          value={message}
-          onChange={e => setMessage(e.target.value)}
-          placeholder="簡單描述你想自動化的流程、目前遇到的問題，或任何想聊的方向都可以。"
-          required
-          rows={5}
-          style={{ ...inputStyle, resize: 'vertical', lineHeight: 1.7 }}
-          onFocus={e => { e.currentTarget.style.borderColor = 'rgba(167,139,250,0.5)' }}
-          onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)' }}
-        />
-      </div>
+        {/* Topic chips */}
+        <div>
+          <Label text="諮詢主題（可複選）" />
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {TOPICS.map(t => {
+              const on = topics.has(t)
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => toggleTopic(t)}
+                  style={{
+                    padding: '7px 14px', borderRadius: 999,
+                    background: on
+                      ? 'linear-gradient(135deg, rgba(124,92,255,0.35), rgba(96,165,250,0.25))'
+                      : 'rgba(2,3,10,0.4)',
+                    boxShadow: on
+                      ? 'inset 0 0 0 1px rgba(167,139,250,0.55), 0 0 18px rgba(124,92,255,0.35)'
+                      : 'inset 0 0 0 1px rgba(167,139,250,0.18)',
+                    border: 'none',
+                    color: on ? '#fff' : '#cbd5e1',
+                    fontSize: 12, fontWeight: 500,
+                    fontFamily: 'inherit', cursor: 'pointer',
+                    letterSpacing: '0.02em',
+                    transition: 'all 150ms',
+                  }}
+                >{t}</button>
+              )
+            })}
+          </div>
+        </div>
 
-      {status === 'error' && (
-        <p style={{ fontSize: 13, color: '#f87171', margin: 0 }}>
-          {errorMsg}
-          {sysError && (
-            <>
-              {' '}
-              <a
-                href="mailto:asdtodd42@gmail.com?subject=諮詢需求"
-                style={{ color: '#f87171', textDecoration: 'underline' }}
-              >
-                asdtodd42@gmail.com
-              </a>
-            </>
-          )}
-        </p>
-      )}
+        {/* Message */}
+        <div>
+          <Label text="想聊聊的內容" required />
+          <textarea
+            value={message}
+            onChange={e => setMessage(e.target.value)}
+            required
+            rows={4}
+            placeholder="簡單描述你想自動化的流程、目前遇到的問題，或任何想聊的方向都可以。"
+            style={{
+              ...INPUT_BASE, resize: 'vertical', lineHeight: 1.6,
+              boxShadow: msgFocused
+                ? 'inset 0 0 0 1px rgba(167,139,250,0.55), 0 0 0 3px rgba(124,92,255,0.08)'
+                : INPUT_BASE.boxShadow,
+            }}
+            onFocus={() => setMsgFocused(true)}
+            onBlur={() => setMsgFocused(false)}
+          />
+        </div>
 
-      <button
-        type="submit"
-        disabled={status === 'loading'}
-        style={{
-          padding: '13px 0',
-          borderRadius: 999,
-          border: 'none',
-          cursor: status === 'loading' ? 'not-allowed' : 'pointer',
-          fontFamily: 'inherit',
-          fontSize: 14,
-          fontWeight: 600,
-          color: '#fff',
-          background: 'linear-gradient(135deg, #2563eb 0%, #6366f1 50%, #8b5cf6 100%)',
-          boxShadow: '0 0 24px rgba(99,102,241,0.35)',
-          opacity: status === 'loading' ? 0.7 : 1,
-          transition: 'opacity 150ms, transform 150ms',
-          letterSpacing: '0.02em',
-        }}
-        onMouseEnter={e => { if (status !== 'loading') e.currentTarget.style.transform = 'scale(1.01)' }}
-        onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
-      >
-        {status === 'loading' ? '送出中…' : '送出需求'}
-      </button>
+        {status === 'error' && (
+          <p style={{ fontSize: 13, color: '#f87171', margin: 0 }}>
+            {errorMsg}
+            {sysError && (
+              <> · <a href="mailto:asdtodd42@gmail.com" style={{ color: '#f87171', textDecoration: 'underline' }}>asdtodd42@gmail.com</a></>
+            )}
+          </p>
+        )}
 
-      <p style={{ fontSize: 11, color: '#64748b', margin: 0, textAlign: 'center' }}>
-        初次諮詢免費 · 評估後再報價 · 24 小時內回覆
-      </p>
-    </form>
+        <div style={{
+          display: 'flex', alignItems: 'center',
+          justifyContent: 'space-between', gap: 16,
+          marginTop: 4,
+        }}>
+          <span style={{
+            fontFamily: 'ui-monospace, monospace',
+            fontSize: 10, letterSpacing: '0.18em',
+            color: 'rgba(148,163,184,0.6)',
+            textTransform: 'uppercase',
+          }}>RESPONSE · WITHIN 1–2 BUSINESS DAYS</span>
+          <button
+            type="submit"
+            disabled={status === 'loading'}
+            style={{
+              padding: '13px 28px', borderRadius: 999,
+              background: 'linear-gradient(135deg, #2563eb, #6366f1 50%, #8b5cf6)',
+              color: '#fff', border: 'none',
+              fontSize: 14, fontWeight: 600,
+              fontFamily: 'inherit', letterSpacing: '0.04em',
+              cursor: status === 'loading' ? 'not-allowed' : 'pointer',
+              display: 'inline-flex', alignItems: 'center', gap: 10,
+              boxShadow: '0 14px 38px -10px rgba(124,92,255,0.55), inset 0 1px 0 rgba(255,255,255,0.22)',
+              opacity: status === 'loading' ? 0.7 : 1,
+              transition: 'opacity 150ms, transform 150ms',
+              whiteSpace: 'nowrap',
+            }}
+            onMouseEnter={e => { if (status !== 'loading') (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.02)' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)' }}
+          >
+            {status === 'loading' ? '送出中…' : '送出訊息'}
+            {status !== 'loading' && (
+              <span aria-hidden style={{ fontFamily: 'ui-monospace, monospace' }}>→</span>
+            )}
+          </button>
+        </div>
+      </form>
+    </div>
   )
 }
