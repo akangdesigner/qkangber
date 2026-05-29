@@ -34,7 +34,7 @@ export default function AuthorCard() {
         </p>
         <div className="flex gap-4 text-xs">
           <a
-            href="https://www.threads.com/@cutekangber"
+            href="https://www.threads.com/@q_kangber"
             target="_blank"
             rel="noopener noreferrer"
             className="text-slate-500 hover:text-violet-400 transition-colors"
@@ -42,7 +42,7 @@ export default function AuthorCard() {
             Threads ↗
           </a>
           <a
-            href="https://www.instagram.com/cutekangber"
+            href="https://www.instagram.com/q_kangber"
             target="_blank"
             rel="noopener noreferrer"
             className="text-slate-500 hover:text-violet-400 transition-colors"

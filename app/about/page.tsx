@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 }
 
 const socialLinks = [
-  { href: 'https://www.threads.com/@cutekangber', label: 'Threads' },
-  { href: 'https://www.instagram.com/cutekangber', label: 'Instagram' },
+  { href: 'https://www.threads.com/@q_kangber', label: 'Threads' },
+  { href: 'https://www.instagram.com/q_kangber', label: 'Instagram' },
 ]
 
 const siteLinks = [
@@ -74,8 +74,8 @@ const personJsonLd = {
   jobTitle: 'n8n 自動化流程架構師',
   description: '專注於 n8n 與 AI 深度整合的流程架構師，Vibe Coding 實踐者。協助企業實現 AI 轉型與自動化、提供內部培訓，同時於職涯平台擔任培訓講師並舉辦實體講座。',
   sameAs: [
-    'https://www.threads.com/@cutekangber',
-    'https://www.instagram.com/cutekangber',
+    'https://www.threads.com/@q_kangber',
+    'https://www.instagram.com/q_kangber',
   ],
   knowsAbout: ['n8n workflow automation', 'AI application development', 'marketing automation', 'e-commerce automation', 'Vibe Coding', 'Claude Code', 'Claude AI', 'API integration'],
 }

@@ -17,8 +17,8 @@ const moreLinks = [
 ]
 
 const socialLinks = [
-  { href: 'https://www.threads.com/@cutekangber', label: 'Threads' },
-  { href: 'https://www.instagram.com/cutekangber', label: 'Instagram' },
+  { href: 'https://www.threads.com/@q_kangber', label: 'Threads' },
+  { href: 'https://www.instagram.com/q_kangber', label: 'Instagram' },
 ]
 
 function LogoMark({ size = 28 }: { size?: number }) {

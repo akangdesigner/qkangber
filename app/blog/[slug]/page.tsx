@@ -70,8 +70,8 @@ export default async function PostPage({ params }: Props) {
       name: 'Q kangber',
       url: 'https://aiqkangber.com/about',
       sameAs: [
-        'https://www.threads.com/@cutekangber',
-        'https://www.instagram.com/cutekangber',
+        'https://www.threads.com/@q_kangber',
+        'https://www.instagram.com/q_kangber',
       ],
     },
     publisher: {
