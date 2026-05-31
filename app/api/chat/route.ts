@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
 import { readFileSync } from 'fs'
 import { join } from 'path'
+import { checkRateLimit } from '@/lib/rate-limit'
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
@@ -32,8 +33,31 @@ ${getKnowledgeBase()}
 
 export async function POST(req: NextRequest) {
   try {
+    // 對外公開功能：限制呼叫頻率，避免被灌爆 Groq 帳單
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+    const rl = checkRateLimit(`chat:${ip}`, 20, 60_000)
+    if (!rl.success) {
+      return NextResponse.json(
+        { error: '訊息太頻繁了，請稍後再試' },
+        { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } },
+      )
+    }
+
     const { messages } = await req.json() as {
       messages: { role: 'user' | 'assistant'; content: string }[]
+    }
+
+    // 輸入防護：限制訊息則數與單則長度
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return NextResponse.json({ error: '無效的請求' }, { status: 400 })
+    }
+    if (messages.length > 30) {
+      return NextResponse.json({ error: '對話過長，請重新開始' }, { status: 400 })
+    }
+    for (const m of messages) {
+      if (typeof m?.content !== 'string' || m.content.length > 2000) {
+        return NextResponse.json({ error: '訊息內容無效或過長' }, { status: 400 })
+      }
     }
 
     const stream = await groq.chat.completions.create({

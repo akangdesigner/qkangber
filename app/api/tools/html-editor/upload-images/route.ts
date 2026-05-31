@@ -3,6 +3,11 @@ import type { NextRequest } from 'next/server'
 
 export const runtime = 'nodejs'
 
+function verifyAdmin(req: NextRequest) {
+  const s = req.cookies.get('admin_session')?.value
+  return !!s && s === process.env.PASSWORD
+}
+
 type ImageJob = {
   fullTag: string
   before: string
@@ -45,6 +50,10 @@ async function uploadToImgbb(data: string, apiKey: string): Promise<string> {
 }
 
 export async function POST(req: NextRequest) {
+  if (!verifyAdmin(req)) {
+    return NextResponse.json({ error: '請先登入管理後台（/admin/login）' }, { status: 401 })
+  }
+
   const apiKey = process.env.IMGBB_API_KEY
   if (!apiKey) {
     return NextResponse.json({ error: '請在 .env.local 設定 IMGBB_API_KEY' }, { status: 500 })
