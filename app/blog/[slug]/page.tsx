@@ -54,8 +54,12 @@ export default async function PostPage({ params }: Props) {
   const prevPost = idx < allPosts.length - 1 ? allPosts[idx + 1] : null
   const nextPost = idx > 0 ? allPosts[idx - 1] : null
 
-  const popularPosts = allPosts.filter((p) => p.featured).slice(0, 3)
   const latestPosts = allPosts.filter((p) => p.slug !== slug).slice(0, 1)
+  const latestSlug = latestPosts[0]?.slug
+  // 熱門看 featured、最新看日期——兩者標準不同，需排除當前文章與「最新」那篇，避免同一篇重複出現
+  const popularPosts = allPosts
+    .filter((p) => p.featured && p.slug !== slug && p.slug !== latestSlug)
+    .slice(0, 3)
 
   const jsonLd = {
     '@context': 'https://schema.org',
