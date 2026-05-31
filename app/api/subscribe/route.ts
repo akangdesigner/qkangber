@@ -1,10 +1,23 @@
 import { NextResponse } from 'next/server'
+import { headers } from 'next/headers'
 import { subscribeEmail } from '@/lib/convertkit'
+import { checkRateLimit } from '@/lib/rate-limit'
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export async function POST(request: Request) {
   try {
+    // 防機器人灌訂閱：同一 IP 10 分鐘最多 5 次
+    const headersList = await headers()
+    const ip = headersList.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+    const rl = checkRateLimit(`subscribe:${ip}`, 5, 10 * 60_000)
+    if (!rl.success) {
+      return NextResponse.json(
+        { error: '操作太頻繁，請稍後再試' },
+        { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } },
+      )
+    }
+
     const { email } = await request.json()
 
     if (!email || !emailRegex.test(email)) {
