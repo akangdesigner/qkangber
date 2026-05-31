@@ -74,7 +74,8 @@ export async function getNewsletterIssues(): Promise<NewsletterIssue[]> {
   const apiKey = process.env.GOOGLE_SHEETS_API_KEY
   if (!sheetId || !apiKey) return []
 
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/A:F?key=${apiKey}`
+  // 必須指定分頁名稱 工作表1，否則 Sheets 會預設抓「第一個分頁」（現為 EEAT），導致電子報讀不到
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent('工作表1')}!A:F?key=${apiKey}`
 
   try {
     const res = await fetch(url, { next: { revalidate: 300 } })
