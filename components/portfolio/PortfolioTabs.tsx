@@ -576,40 +576,9 @@ export default function PortfolioTabs() {
         style={{
           maxWidth: 1160,
           margin: '0 auto',
-          padding: '80px 24px 120px',
+          padding: '40px 24px 120px',
         }}
       >
-        {/* ── hero ── */}
-        <div style={{ marginBottom: 56 }}>
-          <p
-            style={{
-              fontFamily: 'var(--font-jetbrains), monospace',
-              fontSize: 11,
-              letterSpacing: '0.18em',
-              color: '#4f46e5',
-              textTransform: 'uppercase',
-              marginBottom: 12,
-            }}
-          >
-            PORTFOLIO
-          </p>
-          <h1
-            style={{
-              fontSize: 'clamp(36px, 6vw, 58px)',
-              fontWeight: 700,
-              color: '#fff',
-              letterSpacing: '-0.03em',
-              lineHeight: 1.08,
-              marginBottom: 14,
-            }}
-          >
-            作品集
-          </h1>
-          <p style={{ fontSize: 16, color: '#64748b', letterSpacing: '-0.01em' }}>
-            每個專案都是解決真實問題的工具
-          </p>
-        </div>
-
         {/* ── tab pills ── */}
         <div
           style={{

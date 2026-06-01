@@ -126,7 +126,29 @@
       "PowerShell(Select-String -Path \"D:\\\\qkangber\\\\components\\\\shared\\\\SubscribeForm.tsx\" -Pattern \".\" | Select-Object -First 5 | ForEach-Object {$_.Line})",
       "PowerShell(cmd /c \"findstr /n \"\"id=\"\"\\\\|anchor\\\\|section\"\" D:\\\\qkangber\\\\app\\\\page.tsx\")",
       "PowerShell(cmd /c \"dir /s /b D:\\\\qkangber\\\\app\\\\api\\\\\")",
-      "PowerShell(cmd /c \"dir /b D:\\\\qkangber\\\\lib\\\\\")"
+      "PowerShell(cmd /c \"dir /b D:\\\\qkangber\\\\lib\\\\\")",
+      "Bash(git diff *)",
+      "Bash(Select-String -Pattern \"icon|favicon|apple\")",
+      "PowerShell(Get-ChildItem *)",
+      "mcp__claude_ai_Google_Drive__search_files",
+      "Bash(git *)",
+      "PowerShell(git commit --amend -m $msg)",
+      "Bash(pip install *)",
+      "Bash(pip show *)",
+      "Bash(PYTHONIOENCODING=utf-8 python -c ' *)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(grep -iE \"^googleapis$|^google-auth|^jsonwebtoken$|^google-spreadsheet\")",
+      "PowerShell(Get-ChildItem -Path D:\\\\qkangber -Force -Filter \".env*\" | Select-Object Name; \"---\"; Get-ChildItem -Path D:\\\\qkangber -Force -Filter \"*.env\" -Recurse -Depth 1 -ErrorAction SilentlyContinue | Select-Object FullName)",
+      "PowerShell(node D:\\\\qkangber\\\\tmp-diag-newsletter.mjs 2>&1 | Select-Object -First 40)",
+      "PowerShell(node D:\\\\qkangber\\\\tmp-diag-newsletter.mjs 2>&1)",
+      "PowerShell(Remove-Item *)",
+      "Bash(npx -y qrcode -t svg -m 2 -o public/line-qr.svg \"https://line.me/ti/p/~skdxrytrmoon\")",
+      "PowerShell(npx tsc --noEmit 2>&1 | Select-Object -First 30)",
+      "PowerShell(npx next lint --file app/newsletter/archive/page.tsx --file components/page-hero/PageHero.tsx 2>&1 | Select-Object -First 30)",
+      "PowerShell(npx eslint app/newsletter/archive/page.tsx components/page-hero/PageHero.tsx 2>&1 | Select-Object -First 30)",
+      "PowerShell(npx tsc --noEmit 2>&1)",
+      "PowerShell(npx eslint app/newsletter/archive/page.tsx components/page-hero/PageHero.tsx components/page-hero/NewsletterSubscribe.tsx 2>&1)",
+      "PowerShell(npx eslint components/page-hero/PageHero.tsx 2>&1)"
     ]
   }
 }

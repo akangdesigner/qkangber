@@ -1,5 +1,6 @@
 ﻿import Link from 'next/link'
 import { getAllNewsletterIssues } from '@/lib/newsletter'
+import { NewsletterHero } from '@/components/page-hero/PageHero'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -7,24 +8,6 @@ export const metadata: Metadata = {
   description: '收錄每期 AI 趨勢、N8N 自動化、工具推薦與實戰心得——全部公開免費閱讀，不用訂閱也能看。',
   keywords: ['AI 自動化週報', 'N8N 電子報', 'AI 趨勢週報', '免費 AI 電子報'],
   alternates: { canonical: 'https://aiqkangber.com/newsletter/archive' },
-}
-
-function EyebrowLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-3">
-      <div className="h-px w-8 flex-shrink-0" style={{ background: 'linear-gradient(90deg, transparent, #7c5cff)' }} />
-      <span
-        className="text-[0.66rem] tracking-[0.28em] uppercase font-semibold"
-        style={{
-          background: 'linear-gradient(90deg,#a78bfa,#60a5fa)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-        }}
-      >
-        {children}
-      </span>
-    </div>
-  )
 }
 
 const jsonLd = [
@@ -66,28 +49,11 @@ export default async function ArchivePage() {
   const issues = await getAllNewsletterIssues()
 
   return (
-    <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+    <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-64 pointer-events-none -z-10"
-        style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(124,92,255,0.12), transparent 70%)' }}
-      />
+      <NewsletterHero />
 
-      <div className="mb-12">
-        <div className="mb-5">
-          <EyebrowLabel>Newsletter Archive</EyebrowLabel>
-        </div>
-        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-semibold text-white mb-4 tracking-[-0.02em]">
-          歷期電子報
-        </h1>
-        <p className="text-slate-400 leading-relaxed max-w-lg">
-          每週精選 AI 業界動態，全部公開閱讀。想直接收到信箱？
-          <Link href="/newsletter" className="text-violet-400 hover:text-violet-300 ml-1 transition-colors">
-            免費訂閱 →
-          </Link>
-        </p>
-      </div>
-
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-12 sm:pb-20">
       {issues.length === 0 ? (
         <div
           className="rounded-2xl border border-white/[0.06] p-12 text-center"
@@ -140,6 +106,7 @@ export default async function ArchivePage() {
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </>
   )
 }

@@ -179,6 +179,7 @@ export default function ChatWidget() {
             alt="Q kangber AI 助理"
             width={54}
             height={54}
+            priority
             style={{ objectFit: 'cover', width: '100%', height: '100%' }}
           />
           {unread && !open && (
