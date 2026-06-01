@@ -140,14 +140,21 @@ function SatelliteChip({
         display: 'flex', alignItems: 'center', gap: 8,
         padding: '8px 12px',
         borderRadius: 999,
+        // Borderless: dark veil sits behind the text (centre) and feathers out
+        // to fully transparent at the edges, so the chip dissolves into the dark
+        // space instead of reading as a bordered pill. Colour lives in the glow,
+        // not in an inset ring.
+        // No backdrop-filter: a backdrop blur gets clipped to the element's
+        // rounded-rect box and renders a crisp pill outline at the blur edge —
+        // the exact "card border" we're trying to kill. Legibility is carried by
+        // the centred dark veil + text-shadow instead.
         background: active
-          ? `radial-gradient(120% 180% at 50% 50%, ${color}33 0%, ${color}14 45%, rgba(2,3,10,0.5) 100%)`
-          : `radial-gradient(120% 180% at 50% 50%, ${color}1c 0%, rgba(2,3,10,0.55) 70%)`,
-        border: '1px solid transparent',
-        backdropFilter: 'blur(10px)',
+          ? `radial-gradient(120% 165% at 50% 50%, rgba(3,4,12,0.62) 0%, rgba(3,4,12,0.22) 40%, ${color}10 62%, transparent 84%)`
+          : `radial-gradient(115% 155% at 50% 50%, rgba(3,4,12,0.58) 0%, rgba(3,4,12,0.2) 44%, transparent 82%)`,
+        border: 'none',
         boxShadow: active
-          ? `inset 0 0 0 1px ${color}55, inset 0 1px 0 rgba(255,255,255,0.06), 0 18px 50px -18px ${color}cc, 0 0 60px -10px ${color}66`
-          : `inset 0 0 0 1px ${color}22, inset 0 1px 0 rgba(255,255,255,0.04), 0 14px 40px -16px rgba(0,0,0,0.6), 0 0 40px -10px ${color}33`,
+          ? `0 18px 50px -22px ${color}aa, 0 0 64px -10px ${color}80`
+          : `0 0 44px -14px ${color}4d`,
         opacity: 0,
         animation: `chipFloatIn 700ms ease-out ${delay}ms forwards, chipFloat 6s ease-in-out ${delay + 700}ms infinite`,
         zIndex: 3,
@@ -168,12 +175,16 @@ function SatelliteChip({
           animation: 'chipPulse 1.8s ease-out infinite',
         }} />
       </span>
-      <span style={{ fontSize: 11, fontWeight: 600, color: '#fff', letterSpacing: '0.04em' }}>{label}</span>
+      <span style={{
+        fontSize: 11, fontWeight: 600, color: '#fff', letterSpacing: '0.04em',
+        textShadow: '0 1px 8px rgba(2,3,10,0.85)',
+      }}>{label}</span>
       <span style={{
         fontFamily: 'ui-monospace, monospace',
         fontSize: 9,
         color: active ? color : 'rgba(148,163,184,0.75)',
         letterSpacing: '0.08em',
+        textShadow: '0 1px 8px rgba(2,3,10,0.85)',
         transition: 'color 200ms',
       }}>{sub}</span>
     </div>
@@ -296,13 +307,20 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
         background: 'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(124,92,255,0.22), transparent 65%), radial-gradient(ellipse 50% 40% at 80% 20%, rgba(34,211,238,0.10), transparent 60%)',
         height: 900,
       }} />
-      {/* dot grid */}
+      {/* dot grid — feathered on every edge (not just the bottom) so the
+          background field has no hard top/side line that reads as a card edge */}
       <div className="absolute inset-0 pointer-events-none" style={{
         backgroundImage: 'radial-gradient(circle, rgba(167,139,250,0.16) 1px, transparent 1px)',
         backgroundSize: '32px 32px',
         opacity: 0.35,
-        maskImage: 'linear-gradient(180deg, black, black 60%, transparent 100%)',
-        WebkitMaskImage: 'linear-gradient(180deg, black, black 60%, transparent 100%)',
+        maskImage: 'radial-gradient(125% 105% at 50% 18%, #000 38%, transparent 92%)',
+        WebkitMaskImage: 'radial-gradient(125% 105% at 50% 18%, #000 38%, transparent 92%)',
+      }} />
+      {/* edge feather — blend the top & right of the section into the page
+          background (#05060a), the same trick the services banner uses so the
+          hero dissolves into the page instead of sitting in a bounded card */}
+      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
+        background: 'linear-gradient(to bottom, #05060a 0%, rgba(5,6,10,0) 13%), linear-gradient(to right, rgba(5,6,10,0) 84%, #05060a 100%)',
       }} />
 
       <div className="relative max-w-6xl mx-auto px-6" style={{ paddingTop: 80, paddingBottom: 60 }}>
@@ -474,11 +492,16 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
               })}
             </svg>
 
-            {/* Globe with hover-driven hue tint */}
+            {/* Globe with hover-driven hue tint.
+                Radial mask vignettes the canvas so the globe's right-shifted
+                glow feathers out before the canvas edge — otherwise it gets
+                hard-clipped at the right (the lingering "right border"). */}
             <div style={{
               position: 'absolute', inset: 0,
               filter: `hue-rotate(${tintHue}deg) saturate(${tintSat})`,
               transition: 'filter 600ms cubic-bezier(.2,.7,.2,1)',
+              maskImage: 'radial-gradient(closest-side at 50% 50%, #000 68%, rgba(0,0,0,0.35) 88%, transparent 100%)',
+              WebkitMaskImage: 'radial-gradient(closest-side at 50% 50%, #000 68%, rgba(0,0,0,0.35) 88%, transparent 100%)',
             }}>
               <ParticleGlobe />
             </div>

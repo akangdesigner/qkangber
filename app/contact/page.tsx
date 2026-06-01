@@ -92,7 +92,7 @@ export default function ContactPage() {
           fontSize: 10, letterSpacing: '0.22em',
           color: 'rgba(148,163,184,0.7)',
           textTransform: 'uppercase',
-        }}>§ 05 / CONTACT</div>
+        }}>CONTACT</div>
         <div aria-hidden style={{
           position: 'absolute', top: 24, right: 24,
           fontFamily: 'ui-monospace, monospace',

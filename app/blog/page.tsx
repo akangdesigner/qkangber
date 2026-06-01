@@ -1,5 +1,6 @@
 import { getAllPosts } from '@/lib/mdx'
 import BlogFilter from '@/components/blog/BlogFilter'
+import { BlogHero } from '@/components/page-hero/PageHero'
 import type { Metadata } from 'next'
 
 export const revalidate = 60
@@ -51,27 +52,24 @@ export default async function BlogPage() {
     ...unique.filter((c) => !PREFERRED_CATEGORY_ORDER.includes(c)).sort(),
   ]
 
-  return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <div className="mb-14">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="h-px w-7 flex-shrink-0" style={{ background: 'linear-gradient(90deg, transparent, #7c5cff)' }} />
-          <span className="text-[0.66rem] tracking-[0.28em] uppercase font-semibold" style={{ background: 'linear-gradient(90deg,#a78bfa,#60a5fa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            Knowledge Base
-          </span>
-        </div>
-        <h1 className="text-3xl sm:text-5xl font-semibold text-white tracking-[-0.02em] mb-4">
-          AI × N8N 知識庫
-        </h1>
-        <p className="text-slate-400">{posts.length} 篇文章 · 持續更新中</p>
-      </div>
+  // Category rail for the hero: 全部 + top categories with real counts
+  const heroCategories = [
+    { name: '全部', count: posts.length },
+    ...sortedCategories.map((c) => ({ name: c, count: posts.filter((p) => p.category === c).length })),
+  ].slice(0, 5)
 
-      {posts.length === 0 ? (
-        <p className="text-slate-500">還沒有文章，敬請期待。</p>
-      ) : (
-        <BlogFilter posts={posts} categories={sortedCategories} />
-      )}
-    </div>
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <BlogHero categories={heroCategories} />
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-12 sm:pb-20">
+        {posts.length === 0 ? (
+          <p className="text-slate-500">還沒有文章，敬請期待。</p>
+        ) : (
+          <BlogFilter posts={posts} categories={sortedCategories} />
+        )}
+      </div>
+    </>
   )
 }

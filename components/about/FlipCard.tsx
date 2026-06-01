@@ -128,6 +128,7 @@ function CucumberAvatar({ size = 180 }: { size?: number }) {
         alt="Q kangber"
         width={size}
         height={size}
+        priority
         style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover', filter: 'drop-shadow(0 6px 20px rgba(34,211,238,0.4))' }}
       />
       <div aria-hidden style={{ position: 'absolute', inset: 0, borderRadius: '50%', boxShadow: 'inset 0 -20px 40px rgba(124,92,255,0.18)', pointerEvents: 'none' }} />

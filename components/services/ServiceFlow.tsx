@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { Service } from '@/types/content'
 
 /* ─── Stroke SVG Glyphs ─────────────────────────────────────── */
@@ -178,10 +178,10 @@ function TriggerNode() {
         TRIGGER
       </div>
       <div style={{ fontFamily: 'inherit', fontSize: 15, fontWeight: 600, color: '#fff', marginBottom: 4 }}>
-        Webhook 觸發
+        日常瑣事
       </div>
-      <div style={{ fontFamily: 'ui-monospace, monospace', fontSize: 11, color: '#94a3b8', letterSpacing: '0.04em' }}>
-        客戶事件 / Cron 排程
+      <div style={{ fontFamily: 'inherit', fontSize: 11, color: '#94a3b8', letterSpacing: '0.02em', lineHeight: 1.5 }}>
+        浪費時間又容易錯誤
       </div>
       <PortDot side="right" portId="trigger-out" color={COLOR} pulse />
     </div>
@@ -387,8 +387,15 @@ function ConnectorOverlay({ wrapperRef, version }: { wrapperRef: React.RefObject
         ))}
       </defs>
       {curves.map((c, i) => {
-        const dx = Math.max(70, Math.abs(c.to.x - c.from.x) * 0.55)
-        const d = `M ${c.from.x} ${c.from.y} C ${c.from.x + dx} ${c.from.y}, ${c.to.x - dx} ${c.to.y}, ${c.to.x} ${c.to.y}`
+        // Right side (service → portfolio) is a 1:1 mapping → straight line.
+        // Left side (trigger → services) fans one-to-many → keep the n8n S-curve
+        // with control handles at half the gap so they meet at the midpoint and
+        // never bulge (the old 0.55 factor + 70px floor caused the ugly swing).
+        const isFan = c.id.startsWith('t-')
+        const dx = Math.abs(c.to.x - c.from.x) * 0.5
+        const d = isFan
+          ? `M ${c.from.x} ${c.from.y} C ${c.from.x + dx} ${c.from.y}, ${c.to.x - dx} ${c.to.y}, ${c.to.x} ${c.to.y}`
+          : `M ${c.from.x} ${c.from.y} L ${c.to.x} ${c.to.y}`
         const pathId = `path-${c.id}`
         return (
           <g key={c.id}>
@@ -520,7 +527,7 @@ export default function ServiceFlow({ services }: { services: Service[] }) {
             <div style={{
               position: 'relative',
               display: 'grid',
-              gridTemplateColumns: 'auto 1fr auto',
+              gridTemplateColumns: 'auto 1fr',
               gap: '0 72px',
               alignItems: 'center',
               zIndex: 2,
@@ -530,17 +537,19 @@ export default function ServiceFlow({ services }: { services: Service[] }) {
                 <TriggerNode />
               </div>
 
-              {/* MIDDLE — Services */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 340, width: '100%', justifySelf: 'center' }}>
+              {/* RIGHT — Service ↔ Portfolio paired & row-aligned, so each
+                  connecting line is perfectly horizontal */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'minmax(0,340px) 280px',
+                columnGap: 72, rowGap: 20,
+                alignItems: 'center', justifyContent: 'center',
+              }}>
                 {rows.map(({ service, cfg }, i) => (
-                  <ServiceNode key={service.slug} service={service} cfg={cfg} idx={i} />
-                ))}
-              </div>
-
-              {/* RIGHT — Portfolio */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 20, width: 280 }}>
-                {rows.map(({ cfg }, i) => (
-                  <PortfolioNode key={`p-${i}`} entry={cfg.portfolio} idx={i} />
+                  <Fragment key={service.slug}>
+                    <ServiceNode service={service} cfg={cfg} idx={i} />
+                    <PortfolioNode entry={cfg.portfolio} idx={i} />
+                  </Fragment>
                 ))}
               </div>
             </div>
