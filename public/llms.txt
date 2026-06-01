@@ -1,0 +1,43 @@
+# Q kangber
+
+> Q kangber（aiqkangber.com）是專注於 n8n 工作流與 AI 深度整合的自動化品牌，由一位 n8n 流程架構師、Vibe Coding 實踐者經營。提供電商、行銷與企業內部的流程自動化服務（接案與顧問，非線上課程），把重複性工作交給 n8n，讓人專注在長遠的事。
+
+主理人經歷：電商出貨自動化專員 →（現任）行銷公司 AI 流程開發工程師、職涯培訓講師、企業 AI 轉型顧問。內容與服務皆來自真實落地經驗，而非純理論。核心技術：n8n、AI Agent 架構、RAG、Claude / GPT API 串接、Prompt Engineering、Vibe Coding（AI 輔助開發）。網站語言為繁體中文（zh-TW）。
+
+## 主要頁面
+
+- [首頁](https://aiqkangber.com/): n8n 自動化、AI Agent、電商流程工程的總覽與服務切入點
+- [服務項目](https://aiqkangber.com/services): 所有自動化服務的列表，每項服務有獨立說明頁
+- [作品集](https://aiqkangber.com/portfolio): n8n 流程、AI Agent 與 Vibe Coding 開發的真實專案（解決實際問題的工具，非 demo）
+- [AI × N8N 知識庫（部落格）](https://aiqkangber.com/blog): N8N 自動化、Vibe Coding、AI 趨勢、AI 工具實測與 Agent 整合的實戰文章
+- [歷期電子報](https://aiqkangber.com/newsletter/archive): 每週精選 AI 業界動態、N8N 自動化、工具推薦與實戰心得，全部公開免費閱讀
+- [AI × 自動化指南（FAQ）](https://aiqkangber.com/faq): n8n、AI Agent、RAG、Prompt Engineering 的實戰問答
+- [關於我](https://aiqkangber.com/about): 主理人背景、經歷與專業領域
+- [聯絡我們](https://aiqkangber.com/contact): 合作洽詢與聯絡方式
+
+## 服務項目
+
+- [電商訂單自動化](https://aiqkangber.com/services/ecommerce-automation): 用 n8n 把訂單到出貨全程自動化
+- [行銷漏斗自動化](https://aiqkangber.com/services/marketing-automation): 用 n8n 把潛客到成交全程自動跟進
+- [社群媒體自動化](https://aiqkangber.com/services/social-media-automation): n8n 跨平台排程、監控與數據回報
+- [數據報表自動化](https://aiqkangber.com/services/data-report-automation): n8n 自動抓取、計算、定時發送報表
+- [N8N + AI 混合流程](https://aiqkangber.com/services/n8n-ai-hybrid): 在自動化流程裡加入 AI 判斷與內容生成
+- [內部知識庫 AI 助理](https://aiqkangber.com/services/internal-ai-assistant): RAG 接公司文件，在 Slack 內問答
+- [客製化 AI 聊天機器人](https://aiqkangber.com/services/ai-chatbot): Claude API 串接，24 小時智慧客服
+- [客服 AI 自動回覆](https://aiqkangber.com/services/customer-service-bot): LINE / IG 訊息接到 GPT，FAQ 自動處理
+- [AI 提示詞工程顧問](https://aiqkangber.com/services/ai-prompt-consulting): 設計、測試、優化讓 AI 穩定輸出的提示詞
+- [AI 前端工具開發](https://aiqkangber.com/services/ai-frontend-tool): 把 AI 能力包成可直接使用的網頁工具
+- [品牌官網開發](https://aiqkangber.com/services/web-development): Vibe Coding AI 輔助快速建站
+
+## 免費工具
+
+- [社群貼文產生器](https://aiqkangber.com/tools/social-post): 輸入主題與風格，AI 生成 Threads / Instagram / Facebook 貼文與 hashtag，免註冊
+- [寵物溝通師](https://aiqkangber.com/tools/pet-talk): 上傳毛孩照片，AI 以「量子靈魂感應」偽科學趣味解讀牠的心聲，免註冊
+- [HTML 文章編輯器](https://aiqkangber.com/tools/html-editor): 貼入 HTML、上傳圖片自動轉 base64 嵌入，複製後可直接發布到方格子等平台
+- [工具站總覽](https://aiqkangber.com/tools): 所有免費 AI 小工具
+
+## Optional
+
+- [Sitemap](https://aiqkangber.com/sitemap.xml): 完整網站地圖，含所有文章與電子報期數
+- [Threads](https://www.threads.com/@q_kangber): 主理人 Threads
+- [Instagram](https://www.instagram.com/q_kangber): 主理人 Instagram

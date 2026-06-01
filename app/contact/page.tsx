@@ -1,6 +1,12 @@
+import Image from 'next/image'
 import ContactForm from '@/components/contact/ContactForm'
 import ConstellationBg from '@/components/contact/ConstellationBg'
 import type { Metadata } from 'next'
+
+type Method = {
+  label: string; value: string; sub: string; href: string; color: string
+  icon: React.ReactNode; qr?: string
+}
 
 export const metadata: Metadata = {
   title: '聯絡 Q kangber — n8n 自動化與 AI 開發需求諮詢',
@@ -8,15 +14,16 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://aiqkangber.com/contact' },
 }
 
-const METHODS = [
+const METHODS: Method[] = [
   {
-    label: 'Instagram', value: '@q_kangber', sub: '日常分享 · 私訊也可諮詢',
-    href: 'https://www.instagram.com/q_kangber', color: '#f0abfc',
+    label: 'Line', value: 'skdxrytrmoon', sub: '掃描 QR 或直接加入好友',
+    href: 'https://line.me/ti/p/~skdxrytrmoon', color: '#34d399',
+    qr: '/contact/line-qr.png',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="5" />
-        <circle cx="12" cy="12" r="4" />
-        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+        <rect x="3" y="4" width="18" height="14" rx="4" />
+        <path d="M8 18l-1 3 4-3" />
+        <path d="M7 10v3M7 10h2M10 10v3M14 10v3l3-3M14 13h3" />
       </svg>
     ),
   },
@@ -31,13 +38,13 @@ const METHODS = [
     ),
   },
   {
-    label: 'Line 客服', value: 'skdxrytrmoon', sub: '掃描 QR 或直接加入好友',
-    href: 'https://line.me/ti/p/~skdxrytrmoon', color: '#34d399',
+    label: 'Instagram', value: '@q_kangber', sub: '日常分享 · 私訊也可諮詢',
+    href: 'https://www.instagram.com/q_kangber', color: '#f0abfc',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="4" width="18" height="14" rx="4" />
-        <path d="M8 18l-1 3 4-3" />
-        <path d="M7 10v3M7 10h2M10 10v3M14 10v3l3-3M14 13h3" />
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
       </svg>
     ),
   },
@@ -172,8 +179,9 @@ export default function ContactPage() {
                   className="group"
                   style={{
                     display: 'grid',
-                    gridTemplateColumns: '40px 1fr',
-                    gap: 14, alignItems: 'start',
+                    gridTemplateColumns: m.qr ? '40px auto auto' : '40px 1fr',
+                    justifyContent: m.qr ? 'start' : undefined,
+                    gap: 14, alignItems: m.qr ? 'center' : 'start',
                     textDecoration: 'none', color: 'inherit',
                   }}>
                   <div style={{
@@ -181,7 +189,7 @@ export default function ContactPage() {
                     width: 40, height: 40, borderRadius: 10,
                     background: `${m.color}1c`,
                     boxShadow: `inset 0 0 0 1px ${m.color}44, 0 0 14px ${m.color}33`,
-                    marginTop: 2, color: m.color, flexShrink: 0,
+                    marginTop: m.qr ? 0 : 2, color: m.color, flexShrink: 0,
                   }}>
                     {m.icon}
                   </div>
@@ -199,6 +207,21 @@ export default function ContactPage() {
                       fontSize: 12, color: 'rgba(148,163,184,0.75)', marginTop: 3,
                     }}>{m.sub}</div>
                   </div>
+                  {m.qr && (
+                    <div style={{
+                      flexShrink: 0, padding: 5, borderRadius: 8, background: '#fff',
+                      boxShadow: `inset 0 0 0 1px ${m.color}55, 0 0 12px ${m.color}2e`,
+                      lineHeight: 0,
+                    }}>
+                      <Image
+                        src={m.qr}
+                        alt={`加 ${m.label} 好友 QR code`}
+                        width={60}
+                        height={60}
+                        style={{ display: 'block', width: 60, height: 60 }}
+                      />
+                    </div>
+                  )}
                 </a>
               )})}
             </div>
