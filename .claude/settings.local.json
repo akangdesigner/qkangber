@@ -148,7 +148,9 @@
       "PowerShell(npx eslint app/newsletter/archive/page.tsx components/page-hero/PageHero.tsx 2>&1 | Select-Object -First 30)",
       "PowerShell(npx tsc --noEmit 2>&1)",
       "PowerShell(npx eslint app/newsletter/archive/page.tsx components/page-hero/PageHero.tsx components/page-hero/NewsletterSubscribe.tsx 2>&1)",
-      "PowerShell(npx eslint components/page-hero/PageHero.tsx 2>&1)"
+      "PowerShell(npx eslint components/page-hero/PageHero.tsx 2>&1)",
+      "PowerShell(npx eslint app/contact/page.tsx 2>&1)",
+      "PowerShell(npx eslint app/contact/page.tsx 2>&1 | Select-Object -First 15; Write-Output \"exit=$LASTEXITCODE\")"
     ]
   }
 }
