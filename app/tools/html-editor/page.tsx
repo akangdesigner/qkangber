@@ -19,7 +19,7 @@ const TODAY = new Date().toISOString().slice(0, 10)
 
 type FilledSlot = { text: string; thumb: string }
 type Slot = { key: string; text: string }
-type AsyncState = { phase: 'idle' | 'loading' | 'ok' | 'err'; msg?: string }
+type AsyncState = { phase: 'idle' | 'loading' | 'ok' | 'err'; msg?: string; needsLogin?: boolean }
 type Meta = { slug: string; title: string; date: string; tags: string; category: string; coverImage: string; published: boolean }
 
 const SLOT_RE = /<div[^>]*>([^<]*📸[^<]*)<\/div>/gi
@@ -77,6 +77,12 @@ function buildPreviewDoc(body: string) {
 <body>${body}</body></html>`
 }
 
+// 部落格是深色底，磚紅 #c0392b 對比過低不易讀——發布前一律把重點色換成琥珀金 #fbbf24。
+// （投稿版是淺色底，維持紅色，但那是另一條流程，不經過這個工具。）
+function normalizeHighlightColor(html: string): string {
+  return html.replace(/#c0392b/gi, '#fbbf24')
+}
+
 // Try to extract article content + title from a full HTML draft file
 function extractFromFullHtml(raw: string): { content: string; title: string } | null {
   if (!/<html/i.test(raw)) return null
@@ -89,6 +95,31 @@ function extractFromFullHtml(raw: string): { content: string; title: string } | 
 }
 
 const inputCls = 'w-full px-3 py-2 rounded-lg text-sm text-white bg-white/[0.04] border border-white/[0.07] outline-none focus:border-violet-500/50 transition-colors placeholder-slate-700'
+
+// Red status strip for error states. When the error is a 401 (not logged in),
+// it appends a clickable link to the admin login page (opens in a new tab so
+// the in-progress draft isn't lost).
+function ErrorStrip({ state, onClose }: { state: AsyncState; onClose: () => void }) {
+  return (
+    <div className="mb-4 px-4 py-2.5 rounded-xl text-sm flex items-center gap-2.5"
+      style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)', color: '#f87171' }}>
+      <span>✕</span>
+      <span className="flex-1">
+        {state.msg}
+        {state.needsLogin && (
+          <>
+            {' '}
+            <Link href="/admin/login" target="_blank"
+              className="underline font-semibold text-red-300 hover:text-red-200">
+              前往登入 →
+            </Link>
+          </>
+        )}
+      </span>
+      <button onClick={onClose} className="text-red-900 hover:text-red-700 text-xs">✕</button>
+    </div>
+  )
+}
 
 export default function HtmlEditorPage() {
   const [html, setHtml] = useState(DEFAULT_HTML)
@@ -144,7 +175,7 @@ export default function HtmlEditorPage() {
 
       // Extract #article-content
       const extracted = extractFromFullHtml(rawHtml)
-      const content = extracted ? extracted.content : rawHtml
+      const content = normalizeHighlightColor(extracted ? extracted.content : rawHtml)
       const title = extracted?.title ?? ''
 
       setHtml(content)
@@ -160,7 +191,11 @@ export default function HtmlEditorPage() {
           body: JSON.stringify({ html: content }),
         })
         const json = await res.json()
-        if (!res.ok) throw new Error(json.error)
+        if (!res.ok) {
+          setUpload({ phase: 'err', msg: json.error, needsLogin: res.status === 401 })
+          setRightTab('publish')
+          return
+        }
         setHtml(json.html)
         setUpload({ phase: 'ok', msg: `${json.uploaded} 張截圖已上傳，網址已替換完成` })
       }
@@ -175,7 +210,7 @@ export default function HtmlEditorPage() {
     // Auto-extract when user pastes a full HTML draft file
     const extracted = extractFromFullHtml(value)
     if (extracted) {
-      setHtml(extracted.content)
+      setHtml(normalizeHighlightColor(extracted.content))
       setMeta((prev) => ({
         ...prev,
         title: prev.title || extracted.title,
@@ -243,7 +278,10 @@ export default function HtmlEditorPage() {
         body: JSON.stringify({ html }),
       })
       const json = await res.json()
-      if (!res.ok) throw new Error(json.error)
+      if (!res.ok) {
+        setUpload({ phase: 'err', msg: json.error, needsLogin: res.status === 401 })
+        return
+      }
       setHtml(json.html)
       setUpload({ phase: 'ok', msg: `${json.uploaded} 張截圖已上傳至 imgbb，網址已替換完成` })
     } catch (err) {
@@ -273,7 +311,10 @@ export default function HtmlEditorPage() {
         }),
       })
       const json = await res.json()
-      if (!res.ok) throw new Error(json.error)
+      if (!res.ok) {
+        setSync({ phase: 'err', msg: json.error, needsLogin: res.status === 401 })
+        return
+      }
       setSync({ phase: 'ok', msg: `文章已${json.action === 'updated' ? '更新' : '新增'}到 Google Sheets ✓` })
     } catch (err) {
       setSync({ phase: 'err', msg: err instanceof Error ? err.message : '同步失敗' })
@@ -376,11 +417,7 @@ export default function HtmlEditorPage() {
 
       {/* Status strips */}
       {folderState.phase === 'err' && (
-        <div className="mb-4 px-4 py-2.5 rounded-xl text-sm flex items-center gap-2.5"
-          style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)', color: '#f87171' }}>
-          <span>✕</span><span className="flex-1">{folderState.msg}</span>
-          <button onClick={() => setFolderState({ phase: 'idle' })} className="text-red-900 hover:text-red-700 text-xs">✕</button>
-        </div>
+        <ErrorStrip state={folderState} onClose={() => setFolderState({ phase: 'idle' })} />
       )}
       {upload.phase === 'ok' && (
         <div className="mb-4 px-4 py-2.5 rounded-xl text-sm flex items-center gap-2.5"
@@ -390,11 +427,7 @@ export default function HtmlEditorPage() {
         </div>
       )}
       {upload.phase === 'err' && (
-        <div className="mb-4 px-4 py-2.5 rounded-xl text-sm flex items-center gap-2.5"
-          style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)', color: '#f87171' }}>
-          <span>✕</span><span className="flex-1">{upload.msg}</span>
-          <button onClick={() => setUpload({ phase: 'idle' })} className="text-red-900 hover:text-red-700 text-xs">✕</button>
-        </div>
+        <ErrorStrip state={upload} onClose={() => setUpload({ phase: 'idle' })} />
       )}
 
       {/* Active-slot banner */}
@@ -697,7 +730,7 @@ export default function HtmlEditorPage() {
                     style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)', color: '#f87171' }}>
                     <span>✕</span>
                     <span className="flex-1">{sync.msg}</span>
-                    {sync.msg?.includes('登入') && (
+                    {sync.needsLogin && (
                       <a href="/admin/login" target="_blank" className="underline text-xs">前往登入 →</a>
                     )}
                   </div>
