@@ -8,8 +8,8 @@ import { getAllNewsletterIssues } from '@/lib/newsletter'
 
 export const metadata: Metadata = {
   title: 'Q kangber — 專注於 n8n 與 AI 深度整合的流程架構師',
-  description: '秉持「AI 不為取代判斷，而是精準表達想法」的核心理念，致力於設計從資料流到系統串接皆極致高效的自動化產出體系；作為 Vibe Coding 的實踐者，我熱衷於實作前沿工具如 Claude Code 與 Claude Design，在人機協作的黃金分工點上，將複雜想法轉化為精確的系統邏輯。',
-  keywords: ['N8N 自動化', '提示詞架構', 'AI Agent', 'RAG 資料庫'],
+  description: 'Q kangber 提供 n8n 工作流自動化、AI Agent 與電商／行銷流程整合的接案與顧問服務。實戰派 n8n 流程架構師操刀，把訂單、報表、客服等重複工作交給自動化，讓團隊專注在真正重要的事。',
+  keywords: ['n8n 自動化', '流程自動化', 'AI Agent', '電商流程工程'],
   alternates: { canonical: 'https://aiqkangber.com' },
 }
 

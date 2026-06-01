@@ -65,7 +65,7 @@ export default function PostCard({ post }: { post: Post }) {
           ))}
         </div>
 
-        <h2 className="text-[1.15rem] font-semibold text-white leading-snug mb-3 group-hover:text-violet-200 transition-colors duration-200 flex-1">
+        <h2 className="text-[1.15rem] font-semibold text-white leading-snug mb-3 group-hover:text-violet-200 transition-colors duration-200">
           {post.title}
         </h2>
 
@@ -73,7 +73,7 @@ export default function PostCard({ post }: { post: Post }) {
           {post.excerpt}
         </p>
 
-        <div className="flex items-center justify-between text-[11px] text-slate-500 pt-4 border-t border-white/[0.06]">
+        <div className="mt-auto flex items-center justify-between text-[11px] text-slate-500 pt-4 border-t border-white/[0.06]">
           <span>{formatDate(post.date)}</span>
           <span>{post.readingTime}</span>
         </div>

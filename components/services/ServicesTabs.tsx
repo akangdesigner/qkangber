@@ -236,9 +236,8 @@ export default function ServicesTabs({ automationServices, aiServices }: Props) 
         }}>READY</span>
       </div>
 
-      {/* n8n 自動化 content */}
-      {active === 'automation' && (
-        <>
+      {/* 兩個分頁都渲染進 HTML，用 hidden 切換顯示——讓不跑 JS 的爬蟲與 AI 引擎也讀得到 AI 服務清單與內鏈 */}
+      <div hidden={active !== 'automation'}>
           <div className="mb-14">
             <ServiceFlow services={automationServices} />
           </div>
@@ -259,12 +258,10 @@ export default function ServicesTabs({ automationServices, aiServices }: Props) 
               </div>
             )
           })}
-        </>
-      )}
+      </div>
 
       {/* AI 應用 content */}
-      {active === 'ai' && (
-        <>
+      <div hidden={active !== 'ai'}>
           <div className="mb-10 max-w-xl">
             <p className="text-slate-400 leading-relaxed">
               使用 Claude 系列模型，幫你把 AI 能力包進產品、流程與工具裡。不只是 Prompt，而是從需求到上線的完整交付。
@@ -281,8 +278,7 @@ export default function ServicesTabs({ automationServices, aiServices }: Props) 
               ))}
             </div>
           </div>
-        </>
-      )}
+      </div>
 
     </>
   )

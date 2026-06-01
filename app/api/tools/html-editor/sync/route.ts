@@ -15,6 +15,11 @@ function autoExcerpt(html: string, max = 120): string {
   return text.length > max ? text.slice(0, max) + '…' : text
 }
 
+// 部落格深色底上磚紅 #c0392b 對比過低，發布前一律換成琥珀金 #fbbf24（前端正規化的後端保險）
+function normalizeHighlightColor(html: string): string {
+  return html.replace(/#c0392b/gi, '#fbbf24')
+}
+
 function getAuth() {
   const raw = process.env.GOOGLE_SERVICE_ACCOUNT_JSON
   if (!raw) throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON 未設定於 .env.local')
@@ -99,8 +104,9 @@ export async function POST(req: NextRequest) {
     const auth = getAuth()
     const sheets = google.sheets({ version: 'v4', auth })
 
-    // 1. Upload images
-    const { html: cleanHtml, uploaded } = await replaceBase64WithDrive(rawHtml, auth)
+    // 1. Upload images + 正規化重點色（紅→琥珀金）
+    const { html: uploadedHtml, uploaded } = await replaceBase64WithDrive(rawHtml, auth)
+    const cleanHtml = normalizeHighlightColor(uploadedHtml)
 
     // 2. Build row (A–N: A=slug B=title C=date D=tags E=excerpt F=content G=featured H=published I–L=empty M=category N=coverImage)
     const excerpt = autoExcerpt(cleanHtml)

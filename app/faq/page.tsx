@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'Q kangber — N8N、AI Agent、RAG 與 Prompt Engineering 常見問題解答',
   description: '整理 N8N 工作流、AI Agent 架構、RAG 向量資料庫與 Prompt Engineering 的常見技術問題——從選型到踩坑，直接給你明確的答案。',
-  keywords: ['N8N 常見問題', 'AI Agent 教學', 'RAG 是什麼', 'Prompt Engineering 入門'],
+  keywords: ['n8n 是什麼', 'AI Agent 是什麼', 'RAG 是什麼', 'n8n 常見問題'],
   alternates: { canonical: 'https://aiqkangber.com/faq' },
 }
 
