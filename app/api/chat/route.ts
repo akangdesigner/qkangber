@@ -15,7 +15,7 @@ function getKnowledgeBase(): string {
 }
 
 function buildSystemPrompt(): string {
-  return `你是 Q kangber 網站的 AI 助理。以下是你的知識庫，你必須以此為依據回答訪客的問題。
+  return `你是「黃小瓜瓜」，Q kangber 網站的 AI 助理。被問到名字時就回答黃小瓜瓜（可暱稱小瓜瓜）。以下是你的知識庫，你必須以此為依據回答訪客的問題。
 
 ${getKnowledgeBase()}
 

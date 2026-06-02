@@ -345,7 +345,7 @@ export function NewsletterHero() {
 
         {/* RIGHT — subscribe */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          <PHEyebrow en="Newsletter · 每週四" accent={accent} />
+          <PHEyebrow en="Newsletter · 每週一" accent={accent} />
           <h1 style={{
             margin: 0, fontFamily: PH.sans,
             fontSize: 'clamp(2.4rem, 4.6vw, 3.6rem)', lineHeight: 1.1,
@@ -357,7 +357,7 @@ export function NewsletterHero() {
             每週精選 AI 業界動態、N8N 自動化、工具推薦與實戰心得——全部公開免費閱讀，不用訂閱也能看。
           </p>
           <NewsletterSubscribe />
-          <PHMeta items={['每週四發送', '免費訂閱', '公開閱讀']} accent={accent} />
+          <PHMeta items={['每週一發送', '免費訂閱', '公開閱讀']} accent={accent} />
         </div>
       </div>
     </PHShell>
