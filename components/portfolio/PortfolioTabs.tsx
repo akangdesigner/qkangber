@@ -158,6 +158,46 @@ function SparklesIcon({ active }: { active: boolean }) {
   )
 }
 
+function RankingIcon({ active }: { active: boolean }) {
+  return (
+    <svg viewBox="0 0 32 32" width={22} height={22} style={{ display: 'block' }}>
+      <defs>
+        <linearGradient id="p-rank-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#fb7185" />
+          <stop offset="100%" stopColor="#f59e0b" />
+        </linearGradient>
+      </defs>
+      {/* podium — 2nd place (left) */}
+      <rect x="4" y="18" width="7" height="9" rx="1.5"
+        fill={active ? 'rgba(251,113,133,0.25)' : 'none'}
+        stroke={active ? '#fb7185' : '#7f1d1d'}
+        strokeWidth="1.5"
+      />
+      {/* podium — 1st place (center) */}
+      <rect x="12.5" y="12" width="7" height="15" rx="1.5"
+        fill={active ? 'url(#p-rank-grad)' : 'none'}
+        stroke={active ? '#fff' : '#7f1d1d'}
+        strokeWidth="1.5"
+        opacity={active ? 0.85 : 1}
+      />
+      {/* podium — 3rd place (right) */}
+      <rect x="21" y="21" width="7" height="6" rx="1.5"
+        fill={active ? 'rgba(245,158,11,0.2)' : 'none'}
+        stroke={active ? '#f59e0b' : '#7f1d1d'}
+        strokeWidth="1.5"
+      />
+      {/* star on champion */}
+      <path
+        d="M16 3 L17 6.2 L20.3 6.2 L17.6 8.2 L18.6 11.4 L16 9.4 L13.4 11.4 L14.4 8.2 L11.7 6.2 L15 6.2 Z"
+        fill={active ? '#fbbf24' : 'none'}
+        stroke={active ? '#fbbf24' : '#7f1d1d'}
+        strokeWidth="1"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 /* ─── tab pill ─── */
 function TabPill({
   active,
@@ -527,7 +567,19 @@ function ComingSoon() {
 
 /* ─── main component ─── */
 export default function PortfolioTabs() {
-  const [active, setActive] = useState<'teaching' | 'monitoring' | 'marketing' | 'newsletter' | 'more'>('teaching')
+  const [active, setActive] = useState<'teaching' | 'monitoring' | 'marketing' | 'newsletter' | 'aicommand' | 'more'>('teaching')
+
+  const aicommandStack = [
+    'Next.js', 'TypeScript', 'Python', 'PostgreSQL', '多平台爬蟲', '資料 Pipeline',
+  ]
+
+  const aicommandFeatures = [
+    { emoji: '🌐', title: '六大社群來源', desc: 'Reddit、Hacker News、PTT、GitHub、Dcard、Threads 一次彙整真實討論' },
+    { emoji: '🔥', title: '熱度分數排名', desc: '結合討論量、情緒傾向、來源權重與週成長，算出每個工具的熱度' },
+    { emoji: '🔍', title: 'Vibe Search', desc: '依「氛圍」搜尋當下熱門工具，看開發者社群實際在討論什麼' },
+    { emoji: '🗂️', title: '分類追蹤', desc: '程式開發、寫作、生圖、生影片、自動化等類別分開排行' },
+    { emoji: '💬', title: '真實開發者聲音', desc: '附帶情緒標記的社群原始討論，不只看行銷話術' },
+  ]
 
   const monitoringStack = [
     'Node.js', 'Express', 'React', 'Vite', 'SQLite', 'Docker', 'RESTful API', 'LINE Messaging API',
@@ -615,6 +667,13 @@ export default function PortfolioTabs() {
             label="新聞電子報工作流"
             sub="n8n · 2026"
             onClick={() => setActive('newsletter')}
+          />
+          <TabPill
+            active={active === 'aicommand'}
+            icon={<RankingIcon active={active === 'aicommand'} />}
+            label="AICommand 排行榜"
+            sub="live · aicommand.aiqkangber.com"
+            onClick={() => setActive('aicommand')}
           />
           <TabPill
             active={active === 'more'}
@@ -1282,6 +1341,248 @@ export default function PortfolioTabs() {
                     style={{ objectFit: 'cover', objectPosition: 'top' }}
                     sizes="(max-width: 768px) 100vw, 860px"
                   />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {active === 'aicommand' && (
+          <div key="aicommand" style={{ animation: 'fade-in-up 300ms ease both' }}>
+
+            {/* row 1: title + leaderboard preview */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'minmax(0,45fr) minmax(0,55fr)',
+                gap: 48,
+                alignItems: 'start',
+                marginBottom: 40,
+              }}
+              className="portfolio-grid"
+            >
+              {/* left */}
+              <div style={{ order: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
+                  <StatusBadge status="已上線" />
+                  <a
+                    href="https://aicommand.aiqkangber.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 6,
+                      padding: '3px 10px', borderRadius: 999,
+                      fontSize: 11, fontFamily: 'var(--font-jetbrains), monospace',
+                      color: '#fda4af', letterSpacing: '0.04em',
+                      border: '1px solid rgba(244,63,94,0.35)',
+                      background: 'rgba(244,63,94,0.08)',
+                      textDecoration: 'none',
+                      transition: 'color 150ms, border-color 150ms',
+                    }}
+                    onMouseEnter={(e) => {
+                      const el = e.currentTarget as HTMLElement
+                      el.style.color = '#fff'
+                      el.style.borderColor = 'rgba(244,63,94,0.6)'
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget as HTMLElement
+                      el.style.color = '#fda4af'
+                      el.style.borderColor = 'rgba(244,63,94,0.35)'
+                    }}
+                  >
+                    ↗ aicommand.aiqkangber.com
+                  </a>
+                  <a
+                    href="https://github.com/akangdesigner/aicommand"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 6,
+                      padding: '3px 10px', borderRadius: 999,
+                      fontSize: 11, fontFamily: 'var(--font-jetbrains), monospace',
+                      color: '#94a3b8', letterSpacing: '0.04em',
+                      border: '1px solid rgba(255,255,255,0.08)',
+                      background: 'rgba(255,255,255,0.03)',
+                      textDecoration: 'none',
+                      transition: 'color 150ms, border-color 150ms',
+                    }}
+                    onMouseEnter={(e) => {
+                      const el = e.currentTarget as HTMLElement
+                      el.style.color = '#e2e8f0'
+                      el.style.borderColor = 'rgba(255,255,255,0.18)'
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget as HTMLElement
+                      el.style.color = '#94a3b8'
+                      el.style.borderColor = 'rgba(255,255,255,0.08)'
+                    }}
+                  >
+                    <svg viewBox="0 0 16 16" width={12} height={12} fill="currentColor">
+                      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                    </svg>
+                    GitHub
+                  </a>
+                </div>
+                <h2 style={{
+                  fontSize: 'clamp(22px, 3vw, 28px)', fontWeight: 700,
+                  color: '#fff', letterSpacing: '-0.02em', marginBottom: 8,
+                }}>
+                  AICommand · AI 工具排行榜
+                </h2>
+                <p style={{
+                  fontSize: 13, fontFamily: 'var(--font-jetbrains), monospace',
+                  color: '#fb7185', letterSpacing: '0.02em', marginBottom: 24,
+                }}>
+                  「從六大社群挖真實討論，幫 AI 工具排出熱度榜」
+                </p>
+                <div>
+                  <p style={{
+                    fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                    color: '#475569', letterSpacing: '0.1em', textTransform: 'uppercase' as const,
+                    marginBottom: 10,
+                  }}>TECH STACK</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 6 }}>
+                    {aicommandStack.map((t) => (
+                      <span key={t} style={{
+                        padding: '3px 10px', borderRadius: 6,
+                        fontSize: 11, fontFamily: 'var(--font-jetbrains), monospace',
+                        letterSpacing: '0.03em',
+                        border: '1px solid rgba(244,63,94,0.25)',
+                        background: 'rgba(244,63,94,0.06)',
+                        color: '#fda4af',
+                        whiteSpace: 'nowrap' as const,
+                      }}>{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* right: leaderboard preview frame */}
+              <div style={{ order: 1 }}>
+                <div style={{
+                  borderRadius: 12,
+                  border: '1px solid rgba(244,63,94,0.3)',
+                  overflow: 'hidden',
+                  boxShadow: '0 0 0 1px rgba(244,63,94,0.12), 0 24px 60px rgba(244,63,94,0.12), 0 4px 16px rgba(0,0,0,0.6)',
+                  background: '#0d0e1a',
+                }}>
+                  {/* browser title bar */}
+                  <div style={{
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '10px 14px',
+                    background: '#0d0e1a',
+                    borderBottom: '1px solid rgba(244,63,94,0.2)',
+                  }}>
+                    <div style={{ display: 'flex', gap: 5, flexShrink: 0 }}>
+                      {['#ff5f56', '#ffbd2e', '#27c93f'].map((c) => (
+                        <div key={c} style={{ width: 9, height: 9, borderRadius: '50%', background: c, opacity: 0.85 }} />
+                      ))}
+                    </div>
+                    <div style={{
+                      flex: 1,
+                      background: 'rgba(255,255,255,0.04)',
+                      border: '1px solid rgba(255,255,255,0.07)',
+                      borderRadius: 5, padding: '3px 10px',
+                      fontSize: 11, fontFamily: 'var(--font-jetbrains), monospace',
+                      color: '#475569', letterSpacing: '0.02em',
+                      overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                    }}>
+                      aicommand.aiqkangber.com · AI Tool Rankings
+                    </div>
+                  </div>
+                  {/* leaderboard body */}
+                  <div style={{ padding: '20px' }}>
+                    <p style={{
+                      fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                      color: '#fb7185', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
+                      marginBottom: 16,
+                    }}>{'// 本週熱門 · 程式開發'}</p>
+                    {[
+                      { rank: 1, name: 'Claude Code', cat: 'Agentic Coding', heat: 100 },
+                      { rank: 2, name: 'Cursor', cat: 'AI IDE', heat: 84 },
+                      { rank: 3, name: 'n8n', cat: 'Automation', heat: 67 },
+                      { rank: 4, name: 'ComfyUI', cat: 'Image Gen', heat: 52 },
+                    ].map((row) => (
+                      <div key={row.name} style={{
+                        display: 'flex', alignItems: 'center', gap: 12,
+                        padding: '10px 0',
+                        borderBottom: '1px solid rgba(255,255,255,0.04)',
+                      }}>
+                        <span style={{
+                          width: 22, flexShrink: 0,
+                          fontFamily: 'var(--font-jetbrains), monospace',
+                          fontSize: 13, fontWeight: 700,
+                          color: row.rank === 1 ? '#fbbf24' : '#64748b',
+                          textAlign: 'center',
+                        }}>{row.rank}</span>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 5 }}>
+                            <span style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0', whiteSpace: 'nowrap' }}>{row.name}</span>
+                            <span style={{
+                              fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                              color: '#475569', letterSpacing: '0.04em',
+                              overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                            }}>{row.cat}</span>
+                          </div>
+                          <div style={{ height: 5, borderRadius: 999, background: 'rgba(255,255,255,0.05)', overflow: 'hidden' }}>
+                            <div style={{
+                              width: `${row.heat}%`, height: '100%', borderRadius: 999,
+                              background: 'linear-gradient(90deg, #fb7185, #f59e0b)',
+                            }} />
+                          </div>
+                        </div>
+                        <span style={{
+                          width: 38, flexShrink: 0, textAlign: 'right',
+                          fontFamily: 'var(--font-jetbrains), monospace',
+                          fontSize: 12, fontWeight: 600, color: '#fda4af',
+                        }}>{row.heat.toFixed(1)}</span>
+                      </div>
+                    ))}
+                    <p style={{
+                      fontSize: 10, color: '#334155', marginTop: 14,
+                      fontFamily: 'var(--font-jetbrains), monospace', letterSpacing: '0.04em',
+                    }}>* 示意畫面，即時排行請見 aicommand.aiqkangber.com</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* row 2: core purpose + features */}
+            <div
+              style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}
+              className="portfolio-blocks"
+            >
+              <div style={{
+                padding: '28px', borderRadius: 16,
+                background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)',
+              }}>
+                <p style={{
+                  fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                  color: '#fb7185', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
+                  marginBottom: 14,
+                }}>{'// 核心用途'}</p>
+                <p style={{ fontSize: 14, color: '#e2e8f0', fontWeight: 600, lineHeight: 1.5, marginBottom: 12 }}>
+                  用真實社群討論排出 AI 工具熱度榜
+                </p>
+                <p style={{ fontSize: 13.5, color: '#94a3b8', lineHeight: 1.8, marginBottom: 16 }}>
+                  選 AI 工具時，行銷話術看不出真實口碑。AICommand 從 Reddit、Hacker News、PTT、GitHub、Dcard、Threads 六大社群抓取真實討論，量化成熱度分數與排行榜。
+                </p>
+                <p style={{ fontSize: 13.5, color: '#94a3b8', lineHeight: 1.8 }}>
+                  資料流由 Python 爬蟲 + Pipeline 持續抓取與清洗，存進 PostgreSQL，再由 Next.js 前端呈現排行、情緒標記與「Vibe Search」即時熱門。
+                </p>
+              </div>
+
+              <div style={{
+                padding: '28px', borderRadius: 16,
+                background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)',
+              }}>
+                <p style={{
+                  fontSize: 10, fontFamily: 'var(--font-jetbrains), monospace',
+                  color: '#fb7185', letterSpacing: '0.14em', textTransform: 'uppercase' as const,
+                  marginBottom: 14,
+                }}>{'// 重點功能'}</p>
+                <div>
+                  {aicommandFeatures.map((f) => <FeatureRow key={f.title} {...f} />)}
                 </div>
               </div>
             </div>

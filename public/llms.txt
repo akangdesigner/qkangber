@@ -36,6 +36,10 @@
 - [HTML 文章編輯器](https://aiqkangber.com/tools/html-editor): 貼入 HTML、上傳圖片自動轉 base64 嵌入，複製後可直接發布到方格子等平台
 - [工具站總覽](https://aiqkangber.com/tools): 所有免費 AI 小工具
 
+## 相關專案
+
+- [AICommand](https://aicommand.aiqkangber.com): 主理人開發的 AI 工具社群排行榜——從 Reddit、Hacker News、PTT、GitHub、Dcard、Threads 六大社群抓取真實討論，量化成熱度分數與排行，並提供「Vibe Search」即時熱門。技術棧 Next.js / TypeScript / Python 爬蟲 / PostgreSQL。原始碼：https://github.com/akangdesigner/aicommand
+
 ## Optional
 
 - [Sitemap](https://aiqkangber.com/sitemap.xml): 完整網站地圖，含所有文章與電子報期數

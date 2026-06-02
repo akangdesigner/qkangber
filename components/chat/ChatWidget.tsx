@@ -8,7 +8,7 @@ interface Message {
   content: string
 }
 
-const WELCOME = '嗨！我是 Q kangber 的 AI 助理 👋\n有任何關於服務、技術或作品的問題，直接問我就好。'
+const WELCOME = '嗨！我是黃小瓜瓜，Q kangber 的 AI 助理 👋\n有任何關於服務、技術或作品的問題，直接問我就好。'
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false)
@@ -148,7 +148,7 @@ export default function ChatWidget() {
             whiteSpace: 'nowrap',
           }}
         >
-          Q kangber 的智慧助理
+黃小瓜瓜 · Q kangber 智慧助理
         </div>
 
         <button
@@ -255,7 +255,7 @@ export default function ChatWidget() {
             </div>
             <div>
               <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0' }}>
-                Q kangber 助理
+黃小瓜瓜
               </div>
               <div
                 style={{
