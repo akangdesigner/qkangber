@@ -49,7 +49,7 @@ const METHODS: Method[] = [
     ),
   },
   {
-    label: 'Threads', value: 'threads.net/@q_kangber', sub: '日常更新 · 不定期分享',
+    label: 'Threads', value: 'threads.com/@q_kangber', sub: '日常更新 · 不定期分享',
     href: 'https://www.threads.com/@q_kangber', color: '#60a5fa',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none">

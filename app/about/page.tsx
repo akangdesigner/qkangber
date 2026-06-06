@@ -3,9 +3,9 @@ import Link from 'next/link'
 import FlipCard from '@/components/about/FlipCard'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Q kangber — 專注於 n8n 與 AI 深度整合的流程架構師' },
-  description: '專注於 n8n 與 AI 深度整合的流程架構師、Vibe Coding 實踐者。協助企業實現 AI 轉型與自動化、提供內部培訓，同時於職涯平台擔任培訓講師並舉辦實體講座。',
-  keywords: ['N8N 流程架構師', 'Vibe Coding', 'AI 轉型顧問', '企業 AI 培訓'],
+  title: { absolute: '關於 Q kangber — n8n 流程架構師與職涯培訓講師' },
+  description: '專注於 n8n 與 AI 深度整合的流程架構師。協助企業實現 AI 轉型與自動化、提供內部培訓，同時於職涯平台擔任職涯培訓講師並舉辦實體講座。',
+  keywords: ['N8N 流程架構師', '職涯培訓講師', 'AI 轉型顧問', '企業 AI 培訓'],
   alternates: { canonical: 'https://aiqkangber.com/about' },
 }
 
@@ -72,7 +72,7 @@ const personJsonLd = {
   url: 'https://aiqkangber.com/about',
   email: 'asdtodd42@gmail.com',
   jobTitle: 'n8n 自動化流程架構師',
-  description: '專注於 n8n 與 AI 深度整合的流程架構師，Vibe Coding 實踐者。協助企業實現 AI 轉型與自動化、提供內部培訓，同時於職涯平台擔任培訓講師並舉辦實體講座。',
+  description: '專注於 n8n 與 AI 深度整合的流程架構師。協助企業實現 AI 轉型與自動化、提供內部培訓，同時於職涯平台擔任職涯培訓講師並舉辦實體講座。',
   sameAs: [
     'https://www.threads.com/@q_kangber',
     'https://www.instagram.com/q_kangber',

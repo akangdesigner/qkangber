@@ -177,7 +177,7 @@ function FrontFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: num
           <Layer depth={2.3} drift={9} pointer={pointer} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 20 }}>
             <CucumberAvatar size={180} />
             <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.20em', textTransform: 'uppercase', color: '#5eead4' }}>
-              n8n · AI · Vibe Coding
+              n8n · AI · 職涯培訓
             </span>
           </Layer>
 
@@ -193,7 +193,7 @@ function FrontFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: num
                 AI 不為取代判斷，而是精準表達想法。
               </p>
               <p style={{ fontFamily: '"Noto Sans TC", sans-serif', fontSize: 14, lineHeight: 1.85, color: '#94a3b8', margin: '20px 0 0 0', maxWidth: 560 }}>
-                專注於 n8n 與 AI 深度整合的流程架構師，Vibe Coding 實踐者。
+                專注於 n8n 與 AI 深度整合的流程架構師、職涯培訓講師。
                 相信 AI 產出與人的協作配合，才能讓成果<span style={{ color: '#c4b5fd' }}>有溫度、有實際價值</span>——
                 協助企業 AI 轉型與內部培訓，並於職涯平台擔任培訓講師及舉辦實體講座。
               </p>
@@ -201,7 +201,7 @@ function FrontFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: num
 
             <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 20 }}>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, maxWidth: 380 }}>
-                {['N8N', 'Claude Code', 'Vibe Coding', 'API 整合', '流程架構'].map(t => (
+                {['N8N', 'Claude Code', '職涯培訓講師', 'API 整合', '流程架構'].map(t => (
                   <span key={t} style={{ display: 'inline-block', fontSize: 10, fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 999, background: 'rgba(255,255,255,0.04)', color: '#cbd5e1', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(6px)' }}>{t}</span>
                 ))}
               </div>

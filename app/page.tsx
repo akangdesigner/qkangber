@@ -23,7 +23,7 @@ const jsonLd = [
     description: 'Claude 系列、n8n、RAG、提示詞工程——找到 AI 與人類的完美協作點，設計從資料進到結果出的完整自動化體系。',
     email: 'asdtodd42@gmail.com',
     sameAs: [
-      'https://www.threads.net/@q_kangber',
+      'https://www.threads.com/@q_kangber',
       'https://www.instagram.com/q_kangber',
     ],
     founder: {
