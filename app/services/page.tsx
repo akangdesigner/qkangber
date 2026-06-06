@@ -5,9 +5,9 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Q kangber 服務 — N8N 自動化、AI Agent 開發與企業 AI 轉型',
-  description: '提供 N8N 工作流自動化、AI Agent 開發、聊天機器人建置與提示詞工程顧問——協助電商與行銷企業把 AI 真正導入日常營運。',
-  keywords: ['N8N 自動化服務', 'AI Agent 開發', '企業 AI 轉型', '行銷自動化'],
+  title: 'Q kangber 服務 — N8N 自動化、電商自動化與 AI Agent 開發',
+  description: '提供 N8N 工作流自動化、電商自動化、AI Agent 開發、聊天機器人建置與提示詞工程顧問——協助電商與行銷企業把 AI 真正導入日常營運。',
+  keywords: ['N8N 自動化服務', '電商自動化', 'AI Agent 開發', '企業 AI 轉型', '行銷自動化'],
   alternates: { canonical: 'https://aiqkangber.com/services' },
 }
 
@@ -33,24 +33,6 @@ const jsonLd = [
     ],
   },
 ]
-
-function EyebrowLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-3">
-      <div className="h-px w-8 flex-shrink-0" style={{ background: 'linear-gradient(90deg, transparent, #7c5cff)' }} />
-      <span
-        className="text-[0.66rem] tracking-[0.28em] uppercase font-semibold"
-        style={{
-          background: 'linear-gradient(90deg,#a78bfa,#60a5fa)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-        }}
-      >
-        {children}
-      </span>
-    </div>
-  )
-}
 
 export default async function ServicesPage() {
   const services = await getAllServices()

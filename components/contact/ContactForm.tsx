@@ -78,7 +78,11 @@ export default function ContactForm() {
   function toggleTopic(t: string) {
     setTopics(prev => {
       const next = new Set(prev)
-      next.has(t) ? next.delete(t) : next.add(t)
+      if (next.has(t)) {
+        next.delete(t)
+      } else {
+        next.add(t)
+      }
       return next
     })
   }

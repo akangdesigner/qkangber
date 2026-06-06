@@ -582,7 +582,7 @@ export default function HtmlEditorPage() {
                           <div className="flex-shrink-0 w-16 h-11 rounded-lg overflow-hidden"
                             style={{ boxShadow: '0 0 0 1px rgba(34,197,94,0.25)' }}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={slot.thumb} alt="" className="w-full h-full object-cover" />
+                            <img src={slot.thumb} alt="已貼入的截圖縮圖" className="w-full h-full object-cover" />
                           </div>
                         </div>
                       </div>
