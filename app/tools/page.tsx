@@ -3,8 +3,8 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Q kangber 工具站 — 免費 AI 工具，不用註冊直接用',
-  description: '提供社群貼文產生器、寵物溝通師等免費 AI 小工具——有趣的、實用的都有，不需要註冊，開啟就能用。',
-  keywords: ['免費 AI 工具', '社群貼文產生器', 'AI 行銷工具', '線上 AI 工具'],
+  description: '提供寵物溝通師等免費 AI 小工具——有趣又好玩，不需要註冊，開啟就能用。',
+  keywords: ['免費 AI 工具', '寵物溝通', 'AI 小工具', '線上 AI 工具'],
   alternates: { canonical: 'https://aiqkangber.com/tools' },
 }
 
@@ -13,7 +13,7 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: '免費 AI 工具站',
-    description: '電商與行銷人的免費 AI 工具。社群貼文產生器、寵物溝通師，不需要註冊，直接用。',
+    description: '電商與行銷人的免費 AI 工具。寵物溝通師，不需要註冊，直接用。',
     url: 'https://aiqkangber.com/tools',
     publisher: {
       '@type': 'Person',
@@ -23,23 +23,9 @@ const jsonLd = [
     hasPart: [
       {
         '@type': 'SoftwareApplication',
-        name: '社群貼文產生器',
-        url: 'https://aiqkangber.com/tools/social-post',
-        applicationCategory: 'UtilitiesApplication',
-        offers: { '@type': 'Offer', price: '0', priceCurrency: 'TWD' },
-      },
-      {
-        '@type': 'SoftwareApplication',
         name: '寵物溝通師',
         url: 'https://aiqkangber.com/tools/pet-talk',
         applicationCategory: 'EntertainmentApplication',
-        offers: { '@type': 'Offer', price: '0', priceCurrency: 'TWD' },
-      },
-      {
-        '@type': 'SoftwareApplication',
-        name: 'HTML 文章編輯器',
-        url: 'https://aiqkangber.com/tools/html-editor',
-        applicationCategory: 'UtilitiesApplication',
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'TWD' },
       },
     ],
@@ -56,25 +42,11 @@ const jsonLd = [
 
 const tools = [
   {
-    href: '/tools/social-post',
-    title: '社群貼文產生器',
-    desc: '輸入主題，AI 幫你寫好 Threads / Instagram / Facebook 貼文和標籤。',
-    tags: ['社群行銷', 'AI 寫作'],
-    icon: '✍️',
-  },
-  {
     href: '/tools/pet-talk',
     title: '寵物溝通師',
     desc: '上傳毛孩照片，AI 化身量子靈魂感應師，用極度嚴肅的偽科學（量子糾纏、超心理學）替你解讀牠的心聲。',
     tags: ['搞笑', '寵物', '偽科學'],
     icon: '🔬',
-  },
-  {
-    href: '/tools/html-editor',
-    title: 'HTML 文章編輯器',
-    desc: '貼入 HTML 文章、上傳圖片自動轉 base64 嵌入，複製後直接貼到方格子等內容平台，圖文一次搞定。',
-    tags: ['內容發布', 'HTML', '圖片嵌入'],
-    icon: '📝',
   },
 ]
 

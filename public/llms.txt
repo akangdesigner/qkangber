@@ -31,9 +31,7 @@
 
 ## 免費工具
 
-- [社群貼文產生器](https://aiqkangber.com/tools/social-post): 輸入主題與風格，AI 生成 Threads / Instagram / Facebook 貼文與 hashtag，免註冊
 - [寵物溝通師](https://aiqkangber.com/tools/pet-talk): 上傳毛孩照片，AI 以「量子靈魂感應」偽科學趣味解讀牠的心聲，免註冊
-- [HTML 文章編輯器](https://aiqkangber.com/tools/html-editor): 貼入 HTML、上傳圖片自動轉 base64 嵌入，複製後可直接發布到方格子等平台
 - [工具站總覽](https://aiqkangber.com/tools): 所有免費 AI 小工具
 
 ## 相關專案
