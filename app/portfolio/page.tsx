@@ -1,13 +1,13 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/metadata'
 import PortfolioTabs from '@/components/portfolio/PortfolioTabs'
 import { PortfolioHero } from '@/components/page-hero/PageHero'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Q kangber 作品集 — N8N 自動化與 AI 應用實戰案例',
   description: '收錄 N8N 自動化流程、AI Agent 應用、Vibe Coding 開發的真實專案——每個作品都是解決實際問題的工具，不是 demo。',
   keywords: ['N8N 作品案例', 'AI 應用開發', '自動化專案', 'Vibe Coding 作品'],
-  alternates: { canonical: 'https://aiqkangber.com/portfolio' },
-}
+  path: '/portfolio',
+})
 
 const jsonLd = [
   {

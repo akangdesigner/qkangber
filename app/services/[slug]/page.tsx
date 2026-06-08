@@ -7,6 +7,7 @@ import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import Tag from '@/components/shared/Tag'
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/metadata'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -21,12 +22,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const service = await getServiceBySlug(slug)
   if (!service) return {}
-  return {
+  return buildMetadata({
     title: service.title,
     description: service.description,
     ...(service.keywords ? { keywords: service.keywords } : {}),
-    alternates: { canonical: `${BASE_URL}/services/${slug}` },
-  }
+    path: `/services/${slug}`,
+  })
 }
 
 export default async function ServicePage({ params }: Props) {

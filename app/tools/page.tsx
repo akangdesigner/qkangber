@@ -1,12 +1,12 @@
-﻿import type { Metadata } from 'next'
+﻿import { buildMetadata } from '@/lib/metadata'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Q kangber 工具站 — 免費 AI 工具，不用註冊直接用',
   description: '提供寵物溝通師等免費 AI 小工具——有趣又好玩，不需要註冊，開啟就能用。',
   keywords: ['免費 AI 工具', '寵物溝通', 'AI 小工具', '線上 AI 工具'],
-  alternates: { canonical: 'https://aiqkangber.com/tools' },
-}
+  path: '/tools',
+})
 
 const jsonLd = [
   {

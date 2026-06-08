@@ -8,6 +8,7 @@ import PostNavigation from '@/components/blog/PostNavigation'
 import BlogSidebar from '@/components/blog/BlogSidebar'
 import Tag from '@/components/shared/Tag'
 import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/metadata'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
 
@@ -19,20 +20,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const post = await getPostBySlug(slug)
   if (!post) return {}
-  const ogImage = post.coverImage ? post.coverImage : '/opengraph-image'
-  return {
+  return buildMetadata({
     title: post.title,
     description: post.excerpt,
-    authors: [{ name: 'Q kangber' }],
-    alternates: { canonical: `https://aiqkangber.com/blog/${slug}` },
-    openGraph: {
-      type: 'article',
-      publishedTime: post.date,
-      authors: ['Q kangber'],
-      images: [{ url: ogImage, width: 1200, height: 630 }],
-    },
-    twitter: { card: 'summary_large_image', images: [ogImage] },
-  }
+    path: `/blog/${slug}`,
+    image: post.coverImage || undefined,
+    type: 'article',
+    publishedTime: post.date,
+    authors: ['Q kangber'],
+  })
 }
 
 function formatDate(dateStr: string) {

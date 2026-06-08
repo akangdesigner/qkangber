@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/metadata'
 import Hero from '@/components/home/Hero'
 import HomeCarousel from '@/components/home/HomeCarousel'
 import FeaturedPosts from '@/components/home/FeaturedPosts'
@@ -6,12 +6,12 @@ import HomeNewsletter from '@/components/home/HomeNewsletter'
 import { getAllPosts } from '@/lib/mdx'
 import { getAllNewsletterIssues } from '@/lib/newsletter'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Q kangber — 專注於 n8n 與 AI 深度整合的流程架構師',
   description: 'Q kangber 提供 n8n 工作流自動化、AI Agent 與電商／行銷流程整合的接案與顧問服務。實戰派 n8n 流程架構師操刀，把訂單、報表、客服等重複工作交給自動化，讓團隊專注在真正重要的事。',
   keywords: ['n8n 自動化', '流程自動化', 'AI Agent', '電商流程工程'],
-  alternates: { canonical: 'https://aiqkangber.com' },
-}
+  path: '/',
+})
 
 const jsonLd = [
   {

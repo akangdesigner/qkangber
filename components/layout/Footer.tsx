@@ -11,7 +11,6 @@ const mainLinks = [
 const moreLinks = [
   { href: '/contact', label: '聯絡我' },
   { href: '/newsletter', label: '訂閱電子報' },
-  { href: '/newsletter/archive', label: '歷期電子報' },
   { href: '/about', label: '關於我' },
   { href: '/faq', label: 'AI X 自動化指南' },
 ]

@@ -25,7 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   const newsletterEntries: MetadataRoute.Sitemap = newsletterIssues.map((issue) => ({
-    url: `${baseUrl}/newsletter/archive/${issue.slug}`,
+    url: `${baseUrl}/newsletter/${issue.slug}`,
     lastModified: new Date(issue.date),
     changeFrequency: 'never',
     priority: 0.5,
@@ -40,7 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/faq`, priority: 0.7, changeFrequency: 'monthly' },
     { url: `${baseUrl}/tools`, priority: 0.65, changeFrequency: 'monthly' },
     { url: `${baseUrl}/tools/pet-talk`, priority: 0.6, changeFrequency: 'monthly' },
-    { url: `${baseUrl}/newsletter/archive`, priority: 0.6, changeFrequency: 'weekly' },
+    { url: `${baseUrl}/newsletter`, priority: 0.6, changeFrequency: 'weekly' },
     ...serviceEntries,
     ...postEntries,
     ...newsletterEntries,

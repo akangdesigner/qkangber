@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getNewsletterIssue, getAllNewsletterIssues } from '@/lib/newsletter'
 import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/metadata'
 
 export const dynamicParams = true
 
@@ -16,16 +17,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const issue = await getNewsletterIssue(slug)
   if (!issue) return {}
-  return {
+  return buildMetadata({
     title: issue.subject,
-    description: issue.summary,
-    alternates: { canonical: `https://aiqkangber.com/newsletter/archive/${slug}` },
-    openGraph: {
-      type: 'article',
-      publishedTime: issue.date,
-      images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
-    },
-  }
+    description: issue.summary ?? issue.subject,
+    path: `/newsletter/${slug}`,
+    type: 'article',
+    publishedTime: issue.date,
+  })
 }
 
 function formatDate(dateStr: string) {
@@ -51,7 +49,7 @@ export default async function IssuePage({ params }: Props) {
       '@type': 'NewsArticle',
       headline: issue.subject,
       description: issue.summary ?? issue.subject,
-      url: `https://aiqkangber.com/newsletter/archive/${slug}`,
+      url: `https://aiqkangber.com/newsletter/${slug}`,
       datePublished: issue.date,
       dateModified: issue.date,
       author: {
@@ -67,7 +65,7 @@ export default async function IssuePage({ params }: Props) {
       isPartOf: {
         '@type': 'Periodical',
         name: 'Q kangber AI 自動化週報',
-        url: 'https://aiqkangber.com/newsletter/archive',
+        url: 'https://aiqkangber.com/newsletter',
       },
     },
     {
@@ -75,8 +73,8 @@ export default async function IssuePage({ params }: Props) {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '首頁', item: 'https://aiqkangber.com' },
-        { '@type': 'ListItem', position: 2, name: '電子報存檔', item: 'https://aiqkangber.com/newsletter/archive' },
-        { '@type': 'ListItem', position: 3, name: issue.subject, item: `https://aiqkangber.com/newsletter/archive/${slug}` },
+        { '@type': 'ListItem', position: 2, name: '電子報', item: 'https://aiqkangber.com/newsletter' },
+        { '@type': 'ListItem', position: 3, name: issue.subject, item: `https://aiqkangber.com/newsletter/${slug}` },
       ],
     },
   ]
@@ -86,7 +84,7 @@ export default async function IssuePage({ params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="mb-8">
         <Link
-          href="/newsletter/archive"
+          href="/newsletter"
           className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-white transition-colors duration-150"
         >
           ← 所有期數

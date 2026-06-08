@@ -1,13 +1,13 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import FlipCard from '@/components/about/FlipCard'
+import { buildMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: { absolute: '關於 Q kangber — n8n 流程架構師與職涯培訓講師' },
   description: '專注於 n8n 與 AI 深度整合的流程架構師。協助企業實現 AI 轉型與自動化、提供內部培訓，同時於職涯平台擔任職涯培訓講師並舉辦實體講座。',
   keywords: ['N8N 流程架構師', '職涯培訓講師', 'AI 轉型顧問', '企業 AI 培訓'],
-  alternates: { canonical: 'https://aiqkangber.com/about' },
-}
+  path: '/about',
+})
 
 const socialLinks = [
   { href: 'https://www.threads.com/@q_kangber', label: 'Threads' },
@@ -17,7 +17,7 @@ const socialLinks = [
 const siteLinks = [
   { href: '/services', label: '服務項目', desc: '電商與行銷自動化，每個服務獨立頁面說明' },
   { href: '/blog', label: 'AI × N8N 知識庫', desc: '自動化實戰心得、AI 工具應用與踩坑記錄' },
-  { href: '/newsletter/archive', label: '歷期電子報', desc: '每週 AI 業界動態精選，全部公開閱讀' },
+  { href: '/newsletter', label: '歷期電子報', desc: '每週 AI 業界動態精選，全部公開閱讀' },
 ]
 
 const experience = [

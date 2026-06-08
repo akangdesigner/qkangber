@@ -23,6 +23,13 @@ const nextConfig: NextConfig = {
       { source: '/:path*', headers: securityHeaders },
     ]
   },
+  async redirects() {
+    // 電子報網址從 /newsletter/archive 搬到 /newsletter，用 308 永久轉址保住舊網址的 SEO 權重
+    return [
+      { source: '/newsletter/archive/:slug', destination: '/newsletter/:slug', permanent: true },
+      { source: '/newsletter/archive', destination: '/newsletter', permanent: true },
+    ]
+  },
 }
 
 export default nextConfig

@@ -1,14 +1,14 @@
 ﻿import Link from 'next/link'
 import { getAllNewsletterIssues } from '@/lib/newsletter'
 import { NewsletterHero } from '@/components/page-hero/PageHero'
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = {
-  title: 'Q kangber 電子報存檔 — 每週 AI 與 N8N 自動化精選',
+export const metadata = buildMetadata({
+  title: 'Q kangber 電子報 — 每週 AI 與 N8N 自動化精選',
   description: '收錄每期 AI 趨勢、N8N 自動化、工具推薦與實戰心得——全部公開免費閱讀，不用訂閱也能看。',
   keywords: ['AI 自動化週報', 'N8N 電子報', 'AI 趨勢週報', '免費 AI 電子報'],
-  alternates: { canonical: 'https://aiqkangber.com/newsletter/archive' },
-}
+  path: '/newsletter',
+})
 
 const jsonLd = [
   {
@@ -16,7 +16,7 @@ const jsonLd = [
     '@type': 'CollectionPage',
     name: '歷期 AI 自動化週報',
     description: '歷期 Q kangber AI 與 n8n 自動化週報——每週精選業界動態，全部公開閱讀，免費無需訂閱。',
-    url: 'https://aiqkangber.com/newsletter/archive',
+    url: 'https://aiqkangber.com/newsletter',
     publisher: {
       '@type': 'Person',
       name: 'Q kangber',
@@ -28,7 +28,7 @@ const jsonLd = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: '首頁', item: 'https://aiqkangber.com' },
-      { '@type': 'ListItem', position: 2, name: '電子報存檔', item: 'https://aiqkangber.com/newsletter/archive' },
+      { '@type': 'ListItem', position: 2, name: '電子報', item: 'https://aiqkangber.com/newsletter' },
     ],
   },
 ]
@@ -45,7 +45,7 @@ function formatDate(dateStr: string) {
   }
 }
 
-export default async function ArchivePage() {
+export default async function NewsletterPage() {
   const issues = await getAllNewsletterIssues()
 
   return (
@@ -54,6 +54,9 @@ export default async function ArchivePage() {
       <NewsletterHero />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-12 sm:pb-20">
+      <h2 className="text-2xl sm:text-3xl font-semibold text-white tracking-[-0.01em] mb-6 sm:mb-8">
+        歷期電子報
+      </h2>
       {issues.length === 0 ? (
         <div
           className="rounded-2xl border border-white/[0.06] p-12 text-center"
@@ -66,7 +69,7 @@ export default async function ArchivePage() {
           {issues.map((issue, idx) => (
             <Link
               key={issue.slug}
-              href={`/newsletter/archive/${issue.slug}`}
+              href={`/newsletter/${issue.slug}`}
               className="group relative flex gap-6 rounded-2xl border border-white/[0.06] p-6 transition-all duration-200 hover:border-white/[0.12]"
               style={{ background: 'rgba(255,255,255,0.02)' }}
             >
