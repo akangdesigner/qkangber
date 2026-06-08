@@ -43,6 +43,10 @@ export default async function IssuePage({ params }: Props) {
   const issue = await getNewsletterIssue(slug)
   if (!issue) notFound()
 
+  // 信件內文本身帶一個 <h1>Q kangber 週報</h1>，會和頁面 <h1>{issue.subject}</h1> 重複（Multiple H1）。
+  // 頁面 h1 較獨特且有意義，予以保留；把預覽內文裡的 h1 降為 h2——email 寄出的原檔不動，只在網頁渲染時轉換。
+  const previewHtml = issue.htmlBody.replace(/<(\/?)h1(\b[^>]*)>/gi, '<$1h2$2>')
+
   const jsonLd = [
     {
       '@context': 'https://schema.org',
@@ -111,7 +115,7 @@ export default async function IssuePage({ params }: Props) {
           <span className="text-[0.65rem] text-slate-500 tracking-wide ml-1">郵件預覽</span>
         </div>
         <div
-          dangerouslySetInnerHTML={{ __html: issue.htmlBody }}
+          dangerouslySetInnerHTML={{ __html: previewHtml }}
           className="newsletter-html-body"
           style={{ background: '#ffffff' }}
         />
