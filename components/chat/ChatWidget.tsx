@@ -10,6 +10,16 @@ interface Message {
 
 const WELCOME = '嗨！我是黃小瓜瓜，Q kangber 的 AI 助理 👋\n有任何關於服務、技術或作品的問題，直接問我就好。'
 
+// 前台安全網：模型偶爾仍會吐 Markdown，顯示前先清掉符號（對話框是純文字、不渲染 Markdown）
+function stripMarkdown(s: string): string {
+  return s
+    .replace(/\*\*([^*]+?)\*\*/g, '$1')
+    .replace(/(^|[^*])\*(?!\*)([^*]+?)\*(?!\*)/g, '$1$2')
+    .replace(/`([^`]+?)`/g, '$1')
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/^\s*[-*]\s+/gm, '• ')
+}
+
 export default function ChatWidget() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
@@ -316,7 +326,7 @@ export default function ChatWidget() {
           >
             {messages.map((m, i) => (
               <div key={i} className={m.role === 'user' ? 'chat-msg-user' : 'chat-msg-bot'}>
-                {m.content}
+                {m.role === 'user' ? m.content : stripMarkdown(m.content)}
               </div>
             ))}
 
