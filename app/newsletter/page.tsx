@@ -5,7 +5,7 @@ import { buildMetadata } from '@/lib/metadata'
 
 export const metadata = buildMetadata({
   title: 'Q kangber 電子報 — 每週 AI 與 N8N 自動化精選',
-  description: '收錄每期 AI 趨勢、N8N 自動化、工具推薦與實戰心得——全部公開免費閱讀，不用訂閱也能看。',
+  description: 'Q kangber 電子報收錄每期 AI 趨勢、n8n 自動化教學、AI 工具推薦與接案實戰心得，全部公開免費閱讀、不用訂閱也能看；想每週一封直送信箱，也可以免費訂閱。',
   keywords: ['AI 自動化週報', 'N8N 電子報', 'AI 趨勢週報', '免費 AI 電子報'],
   path: '/newsletter',
 })

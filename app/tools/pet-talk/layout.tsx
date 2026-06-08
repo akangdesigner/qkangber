@@ -2,7 +2,7 @@ import { buildMetadata } from '@/lib/metadata'
 
 export const metadata = buildMetadata({
   title: '寵物溝通師 — AI 幫你解讀毛孩的內心世界',
-  description: '上傳毛孩照片，AI 化身量子靈魂感應師，用一本正經的偽科學替你解讀牠在想什麼——免費，不用註冊。',
+  description: '上傳毛孩照片，AI 化身量子靈魂感應師，用一本正經的偽科學替你解讀貓狗心裡在想什麼。完全免費、不用註冊，打開就能玩——送給每個好奇寵物心聲的鏟屎官。',
   keywords: ['寵物溝通師', 'AI 寵物', '毛孩心聲', '免費 AI 工具'],
   path: '/tools/pet-talk',
 })

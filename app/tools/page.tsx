@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata = buildMetadata({
   title: 'Q kangber 工具站 — 免費 AI 工具，不用註冊直接用',
-  description: '提供寵物溝通師等免費 AI 小工具——有趣又好玩，不需要註冊，開啟就能用。',
+  description: 'Q kangber 工具站收錄寵物溝通師等免費線上 AI 小工具，不用註冊、打開瀏覽器就能用。用輕鬆有趣的方式體驗 AI 能做什麼，也是認識 AI 自動化應用的第一站。',
   keywords: ['免費 AI 工具', '寵物溝通', 'AI 小工具', '線上 AI 工具'],
   path: '/tools',
 })
