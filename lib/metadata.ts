@@ -4,6 +4,17 @@ export const SITE_URL = 'https://aiqkangber.com'
 export const SITE_NAME = 'Q kangber'
 const DEFAULT_OG_IMAGE = '/opengraph-image'
 
+// Google 桌面約顯示 155-160 字元就截斷，Ahrefs 也把 >160 標為「too long」。
+// 統一在 155 收斂並補省略號，避免任何頁面（多見於電子報 summary／長 excerpt）描述過長。
+// 只影響 <head> 的 meta／OG，畫面上的摘要文字仍直接取自原始來源、不受影響。
+const MAX_DESCRIPTION = 155
+
+function clampDescription(text: string): string {
+  const chars = [...text] // 以 code point 切，避免切壞表情符號等代理對
+  if (chars.length <= MAX_DESCRIPTION) return text
+  return chars.slice(0, MAX_DESCRIPTION).join('').trimEnd() + '…'
+}
+
 type BuildMetadataInput = {
   /** 字串會套用 layout 的 title template；要繞過 template 就傳 { absolute } */
   title: string | { absolute: string }
@@ -38,6 +49,7 @@ export function buildMetadata({
 }: BuildMetadataInput): Metadata {
   const url = path === '/' ? SITE_URL : `${SITE_URL}${path}`
   const ogTitle = typeof title === 'string' ? title : title.absolute
+  const metaDescription = clampDescription(description)
 
   const openGraph = {
     type,
@@ -45,7 +57,7 @@ export function buildMetadata({
     url,
     siteName: SITE_NAME,
     title: ogTitle,
-    description,
+    description: metaDescription,
     images: [{ url: image, width: 1200, height: 630, alt: ogTitle }],
     ...(publishedTime ? { publishedTime } : {}),
     ...(authors ? { authors } : {}),
@@ -53,14 +65,14 @@ export function buildMetadata({
 
   return {
     title,
-    description,
+    description: metaDescription,
     ...(keywords ? { keywords } : {}),
     alternates: { canonical: url },
     openGraph,
     twitter: {
       card: 'summary_large_image',
       title: ogTitle,
-      description,
+      description: metaDescription,
       images: [image],
     },
   }
