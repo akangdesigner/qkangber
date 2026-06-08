@@ -1,12 +1,12 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/metadata'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'AI 是什麼？n8n 能做什麼？AI 自動化常見問題',
   description: '什麼是 AI、AI Agent、RAG？n8n 能幫企業做什麼？整理 AI 與自動化最常被問的問題，用白話一次說清楚——從觀念、實際應用到導入企業。',
   keywords: ['ai 是什麼', '人工智慧定義', 'n8n 是什麼', 'ai 應用', 'rag 是什麼', 'ai agent 是什麼'],
-  alternates: { canonical: 'https://aiqkangber.com/faq' },
-}
+  path: '/faq',
+})
 
 const BASE_URL = 'https://aiqkangber.com'
 

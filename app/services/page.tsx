@@ -2,14 +2,14 @@ import { getAllServices } from '@/lib/mdx'
 import ServicesTabs from '@/components/services/ServicesTabs'
 import HeroBanner from '@/components/services/HeroBanner'
 import Link from 'next/link'
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: 'Q kangber 服務 — N8N 自動化、電商自動化與 AI Agent 開發',
   description: '提供 N8N 工作流自動化、電商自動化、AI Agent 開發、聊天機器人建置與提示詞工程顧問——協助電商與行銷企業把 AI 真正導入日常營運。',
   keywords: ['N8N 自動化服務', '電商自動化', 'AI Agent 開發', '企業 AI 轉型', '行銷自動化'],
-  alternates: { canonical: 'https://aiqkangber.com/services' },
-}
+  path: '/services',
+})
 
 const jsonLd = [
   {

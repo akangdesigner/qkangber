@@ -1,18 +1,18 @@
 import Image from 'next/image'
 import ContactForm from '@/components/contact/ContactForm'
 import ConstellationBg from '@/components/contact/ConstellationBg'
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/metadata'
 
 type Method = {
   label: string; value: string; sub: string; href: string; color: string
   icon: React.ReactNode; qr?: string
 }
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: '聯絡 Q kangber — n8n 自動化與 AI 開發需求諮詢',
   description: '有 n8n 工作流、AI Agent 開發或自動化需求？填表告訴我，初次諮詢免費，評估後再報價。',
-  alternates: { canonical: 'https://aiqkangber.com/contact' },
-}
+  path: '/contact',
+})
 
 const METHODS: Method[] = [
   {

@@ -1,11 +1,11 @@
-import type { Metadata } from 'next'
+import { buildMetadata } from '@/lib/metadata'
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: '寵物溝通師 — AI 幫你解讀毛孩的內心世界',
   description: '上傳毛孩照片，AI 化身量子靈魂感應師，用一本正經的偽科學替你解讀牠在想什麼——免費，不用註冊。',
   keywords: ['寵物溝通師', 'AI 寵物', '毛孩心聲', '免費 AI 工具'],
-  alternates: { canonical: 'https://aiqkangber.com/tools/pet-talk' },
-}
+  path: '/tools/pet-talk',
+})
 
 const jsonLd = [
   {
