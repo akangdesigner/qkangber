@@ -1,0 +1,270 @@
+/* ============================================================
+   Q kangber — Button Design System
+   Pill-only family · 3 directions · full state + size matrix
+   Source: Claude Design handoff (button-system/buttons.css)
+   ------------------------------------------------------------
+   Directions
+     .btn--aurora   Neon glass, ambient glow      (reference look)
+     .btn--halo     Brand blue→violet gradient     (current, refined)
+     .btn--ink      Editorial high-contrast, calm  (anti-AI, designed)
+   ============================================================ */
+
+:root {
+  /* Brand spectrum */
+  --bx-blue:    #2563eb;
+  --bx-indigo:  #6366f1;
+  --bx-violet:  #8b5cf6;
+  --bx-violet2: #a78bfa;
+  --bx-mint:    #34d399;
+  --bx-green:   #22c55e;
+
+  /* Ink / surface */
+  --bx-ink:      #04060e;
+  --bx-paper:    #f3f1ea;   /* warm off-white for Ink direction */
+  --bx-paper-tx: #0a0c14;
+
+  /* Type — wired to the site's loaded fonts (Space Grotesk for Latin,
+     Noto Sans TC for CJK, JetBrains Mono for the mono chips) */
+  --bx-label: var(--font-space-grotesk), var(--font-noto), system-ui, sans-serif;
+  --bx-mono:  var(--font-jetbrains), ui-monospace, monospace;
+
+  /* Geometry */
+  --bx-radius: 999px;        /* pill */
+}
+
+/* ---------- Base ------------------------------------------- */
+.btn {
+  --_pad-y: 13px;
+  --_pad-x: 26px;
+  --_fz: 15px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: var(--_pad-y) var(--_pad-x);
+  border: 0;
+  border-radius: var(--bx-radius);
+  font-family: var(--bx-label);
+  font-size: var(--_fz);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  background: transparent;
+  color: #fff;
+  transition: transform .18s cubic-bezier(.2,.7,.3,1),
+              box-shadow .25s ease, background .25s ease,
+              border-color .25s ease, color .2s ease, opacity .2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:focus { outline: 0; }
+.btn .btn__icon { display: inline-flex; font-size: 1.05em; line-height: 0; }
+.btn .btn__arrow { transition: transform .22s cubic-bezier(.2,.7,.3,1); }
+.btn:hover .btn__arrow,
+.btn.is-hover .btn__arrow { transform: translateX(3px); }
+
+/* Sizes */
+.btn--sm { --_pad-y: 9px;  --_pad-x: 18px; --_fz: 13px; gap: 7px; }
+.btn--lg { --_pad-y: 17px; --_pad-x: 34px; --_fz: 17px; gap: 11px; }
+
+/* Icon-only — perfect circle */
+.btn--icon { --_pad-x: var(--_pad-y); aspect-ratio: 1; padding: var(--_pad-y); }
+.btn--icon.btn--sm { padding: 10px; }
+.btn--icon.btn--lg { padding: 16px; }
+
+/* Disabled & loading shared */
+.btn:disabled, .btn.is-disabled {
+  cursor: not-allowed; opacity: .42;
+  transform: none !important; box-shadow: none !important;
+  filter: saturate(.6);
+}
+.btn.is-loading { cursor: progress; color: transparent !important; }
+.btn.is-loading .btn__label, .btn.is-loading .btn__arrow,
+.btn.is-loading .btn__icon { visibility: hidden; }
+.btn.is-loading::after {
+  content: ""; position: absolute; width: 1.05em; height: 1.05em;
+  border-radius: 50%;
+  border: 2px solid currentColor; border-top-color: transparent;
+  color: #fff; opacity: .9;
+  animation: bx-spin .7s linear infinite;
+}
+@keyframes bx-spin { to { transform: rotate(360deg); } }
+
+/* ============================================================
+   DIRECTION A · AURORA  — neon glass + ambient glow
+   ============================================================ */
+.btn--aurora {
+  color: #eef2ff;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.02)) padding-box,
+    linear-gradient(140deg, rgba(99,102,241,.7), rgba(139,92,246,.25) 55%, rgba(37,99,235,.55)) border-box;
+  border: 1px solid transparent;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    inset 0 0 0 1px rgba(255,255,255,.03),
+    0 8px 30px -8px rgba(99,102,241,.55),
+    0 0 0 0 rgba(99,102,241,.0);
+}
+.btn--aurora:hover, .btn--aurora.is-hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.3),
+    0 10px 34px -6px rgba(124,92,255,.7),
+    0 0 26px 2px rgba(124,92,255,.35);
+}
+.btn--aurora:active, .btn--aurora.is-active {
+  transform: translateY(0) scale(.985);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.4), 0 4px 14px -6px rgba(99,102,241,.5);
+}
+.btn--aurora:focus-visible, .btn--aurora.is-focus {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.25),
+    0 8px 30px -8px rgba(99,102,241,.55),
+    0 0 0 3px rgba(167,139,250,.55);
+}
+/* Aurora secondary — translucent glass, no fill glow */
+.btn--aurora-ghost {
+  color: #c9d3f5;
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+}
+.btn--aurora-ghost:hover, .btn--aurora-ghost.is-hover {
+  color: #fff; border-color: rgba(167,139,250,.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 0 22px -4px rgba(124,92,255,.4);
+}
+.btn--aurora-ghost:active, .btn--aurora-ghost.is-active { transform: scale(.985); }
+.btn--aurora-ghost:focus-visible, .btn--aurora-ghost.is-focus { box-shadow: 0 0 0 3px rgba(167,139,250,.5); }
+/* Aurora "New" — green accent glow */
+.btn--aurora-new {
+  color: #04210f;
+  background: linear-gradient(180deg, #5ee9a4, #22c55e);
+  border: 1px solid rgba(255,255,255,.25);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.5),
+    0 8px 30px -6px rgba(34,197,94,.6),
+    0 0 28px 2px rgba(52,211,153,.4);
+}
+.btn--aurora-new:hover, .btn--aurora-new.is-hover {
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 12px 38px -6px rgba(34,197,94,.8), 0 0 34px 4px rgba(52,211,153,.55);
+}
+
+/* ============================================================
+   DIRECTION B · HALO  — brand gradient pill, soft drop glow
+   ============================================================ */
+.btn--halo {
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb, #6366f1 52%, #8b5cf6);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.28),
+    0 6px 22px -6px rgba(79,70,229,.7);
+}
+.btn--halo:hover, .btn--halo.is-hover {
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.32), 0 12px 30px -6px rgba(99,102,241,.85);
+}
+.btn--halo:active, .btn--halo.is-active {
+  transform: translateY(0) scale(.985);
+  box-shadow: inset 0 2px 8px rgba(0,0,0,.3), 0 4px 14px -6px rgba(79,70,229,.6);
+}
+.btn--halo:focus-visible, .btn--halo.is-focus {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.28), 0 6px 22px -6px rgba(79,70,229,.7), 0 0 0 3px rgba(167,139,250,.55);
+}
+/* Halo ghost — radial halo, borderless */
+.btn--halo-ghost {
+  color: #dbe2f5;
+  background: radial-gradient(120% 180% at 50% 50%, rgba(167,139,250,.16) 0%, rgba(4,6,14,.2) 70%);
+  border: 1px solid rgba(167,139,250,.22);
+}
+.btn--halo-ghost:hover, .btn--halo-ghost.is-hover {
+  color: #fff; border-color: rgba(167,139,250,.5);
+  background: radial-gradient(120% 180% at 50% 50%, rgba(167,139,250,.26) 0%, rgba(4,6,14,.2) 70%);
+}
+.btn--halo-ghost:active, .btn--halo-ghost.is-active { transform: scale(.985); }
+.btn--halo-ghost:focus-visible, .btn--halo-ghost.is-focus { box-shadow: 0 0 0 3px rgba(167,139,250,.5); }
+
+/* ============================================================
+   DIRECTION C · INK  — editorial, calm, high-contrast
+   ============================================================ */
+.btn--ink {
+  color: var(--bx-paper-tx);
+  background: var(--bx-paper);
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  box-shadow: 0 1px 0 rgba(255,255,255,.5) inset, 0 6px 18px -10px rgba(0,0,0,.8);
+}
+.btn--ink .btn__dot {
+  width: .42em; height: .42em; border-radius: 50%;
+  background: var(--bx-violet); flex: 0 0 auto;
+  box-shadow: 0 0 0 0 rgba(139,92,246,.5);
+  transition: box-shadow .25s ease, transform .2s ease;
+}
+.btn--ink:hover, .btn--ink.is-hover {
+  background: #fff; transform: translateY(-1px);
+}
+.btn--ink:hover .btn__dot, .btn--ink.is-hover .btn__dot {
+  box-shadow: 0 0 12px 1px rgba(139,92,246,.8); transform: scale(1.15);
+}
+.btn--ink:active, .btn--ink.is-active { transform: translateY(0) scale(.985); background: #e9e6dc; }
+.btn--ink:focus-visible, .btn--ink.is-focus { box-shadow: 0 0 0 3px rgba(167,139,250,.7); }
+/* Ink outline — text on dark, hairline border */
+.btn--ink-outline {
+  color: #e7e9f2;
+  background: transparent;
+  border: 1px solid rgba(231,233,242,.34);
+}
+.btn--ink-outline:hover, .btn--ink-outline.is-hover {
+  border-color: #fff; color: #fff; background: rgba(255,255,255,.04);
+}
+.btn--ink-outline:active, .btn--ink-outline.is-active { transform: scale(.985); }
+.btn--ink-outline:focus-visible, .btn--ink-outline.is-focus { box-shadow: 0 0 0 3px rgba(231,233,242,.4); }
+
+/* Ink loading spinner needs a dark stroke (button bg is warm white) */
+.btn--ink.is-loading::after { color: var(--bx-paper-tx); }
+
+/* ============================================================
+   CHIP / BADGE  — tiny pill (works across directions)
+   ============================================================ */
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 11px 4px 9px; border-radius: 999px;
+  font-family: var(--bx-mono);
+  font-size: 11px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; line-height: 1;
+}
+.chip__dot { width: 6px; height: 6px; border-radius: 50%; }
+.chip--brand {
+  color: #cdd7ff; background: rgba(99,102,241,.14);
+  border: 1px solid rgba(124,92,255,.32);
+}
+.chip--brand .chip__dot { background: var(--bx-violet2); box-shadow: 0 0 8px rgba(139,92,246,.9); }
+.chip--new {
+  color: #062b15; background: linear-gradient(180deg, #5ee9a4, #22c55e);
+  box-shadow: 0 0 18px -2px rgba(52,211,153,.6);
+}
+.chip--new .chip__dot { background: #043; box-shadow: none; }
+.chip--soft {
+  color: #aeb6c9; background: rgba(255,255,255,.045);
+  border: 1px solid rgba(255,255,255,.10);
+}
+.chip--soft .chip__dot { background: #8b94ad; }
+
+/* ============================================================
+   Anchor guard — keep label colours stable when a .btn is rendered
+   as <a> (Next.js <Link>). Beats the global `a` / `a:hover` colour
+   rules in globals.css, which would otherwise tint button text.
+   ============================================================ */
+a.btn--aurora, a.btn--aurora:hover, a.btn--aurora:focus { color: #eef2ff; }
+a.btn--aurora-ghost { color: #c9d3f5; }
+a.btn--aurora-ghost:hover, a.btn--aurora-ghost:focus { color: #fff; }
+a.btn--halo, a.btn--halo:hover, a.btn--halo:focus { color: #fff; }
+a.btn--halo-ghost { color: #dbe2f5; }
+a.btn--halo-ghost:hover, a.btn--halo-ghost:focus { color: #fff; }
+a.btn--ink, a.btn--ink:hover, a.btn--ink:focus { color: var(--bx-paper-tx); }
+a.btn--ink-outline { color: #e7e9f2; }
+a.btn--ink-outline:hover, a.btn--ink-outline:focus { color: #fff; }

@@ -1,6 +1,6 @@
 ﻿import type { Metadata } from 'next'
 import localFont from 'next/font/local'
-import { JetBrains_Mono } from 'next/font/google'
+import { JetBrains_Mono, Space_Grotesk } from 'next/font/google'
 import Script from 'next/script'
 import Nav from '@/components/layout/Nav'
 import Footer from '@/components/layout/Footer'
@@ -8,6 +8,7 @@ import CircuitBackdrop from '@/components/effects/CircuitBackdrop'
 import MouseSpotlight from '@/components/effects/MouseSpotlight'
 import ChatWidget from '@/components/chat/ChatWidget'
 import './globals.css'
+import './buttons.css'
 
 const notoSansTC = localFont({
   src: './fonts/NotoSansTC-VariableFont_wght.ttf',
@@ -18,6 +19,12 @@ const notoSansTC = localFont({
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-jetbrains',
+  display: 'swap',
+})
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
   display: 'swap',
 })
 
@@ -42,7 +49,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="zh-TW" className={`${notoSansTC.variable} ${jetbrainsMono.variable} h-full`}>
+    <html lang="zh-TW" className={`${notoSansTC.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} h-full`}>
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-J6T5R7BQFW" strategy="afterInteractive" />
       <Script id="ga4" strategy="afterInteractive">{`
         window.dataLayer = window.dataLayer || [];

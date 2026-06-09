@@ -63,15 +63,10 @@ export default async function ServicesPage() {
         <p className="text-xl font-semibold text-white mb-5 tracking-[-0.01em]">
           說說你的需求，我來評估怎麼用 AI 解決
         </p>
-        <Link
-          href="/contact"
-          className="inline-flex items-center gap-2 text-white text-sm font-medium px-6 py-3 rounded-full transition-all hover:scale-[1.02] active:scale-100"
-          style={{
-            background: 'linear-gradient(135deg, #2563eb 0%, #6366f1 50%, #8b5cf6 100%)',
-            boxShadow: '0 0 24px rgba(99,102,241,0.35)',
-          }}
-        >
-          免費諮詢 →
+        <Link href="/contact" className="btn btn--ink">
+          <span className="btn__dot" />
+          <span className="btn__label">免費諮詢</span>
+          <span className="btn__arrow">→</span>
         </Link>
       </div>
     </div>
