@@ -83,7 +83,7 @@ function HeroFocusStrip() {
 }
 
 function PartnerMarquee() {
-  const items = ['Shopify Co.', 'Hexschool', 'TechCrew', '六角學院', 'AI Lab', 'CoffeeOps', 'BrandX', 'Studio.tw', 'PromptHub', 'Channel A']
+  const items = ['電商品牌', 'AI 學院', '行銷 SEO 公司', '物流團隊', '內容創作者', '線上課程平台', '新創團隊', '餐飲連鎖', '顧問工作室', '自媒體經營者']
   const all = [...items, ...items]
   return (
     <div style={{
