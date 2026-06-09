@@ -42,14 +42,21 @@ function KpiHero({
   const others = kpis.filter(([label]) => label !== metric.label).slice(0, 2)
   return (
     <div style={{
-      display: 'grid',
-      gridTemplateColumns: 'auto 1fr',
-      gap: 18, alignItems: 'center',
-      padding: '14px 18px',
+      padding: '12px 18px 14px',
       borderRadius: 10,
       background: 'rgba(2,3,10,0.65)',
       boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.05)',
     }}>
+      <div style={{
+        fontFamily: '"JetBrains Mono", ui-monospace, monospace',
+        fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase',
+        color: '#475569', marginBottom: 12,
+      }}>預期效益估算</div>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'auto 1fr',
+        gap: 18, alignItems: 'center',
+      }}>
       <div>
         <div style={{
           fontFamily: '"JetBrains Mono", ui-monospace, monospace',
@@ -92,6 +99,7 @@ function KpiHero({
             }}>{after}</span>
           </div>
         ))}
+      </div>
       </div>
     </div>
   )
