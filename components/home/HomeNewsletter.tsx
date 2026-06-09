@@ -75,9 +75,9 @@ function NewsletterVisual({ issues, pointer, active }: {
       </svg>
 
       <div style={{ position: 'relative', width: '100%', maxWidth: 360, height: 280 }}>
-        <IssueCard tone="next" subject="本週準備中 · 主題 RAG 系列"
-          summary="把 Pinecone 換到 pgvector 的踩坑筆記，加上一個 n8n × Notion 內容工作流。"
-          date="本週四發送" offset={0} z={3} scale={1} />
+        <IssueCard tone="next" subject="AI 工具 · 趨勢 · n8n 自動化"
+          summary="每週整理當週值得關注的 AI 工具、產業趨勢與 n8n 自動化實作筆記。"
+          date="每週一更新" offset={0} z={3} scale={1} />
         {recent.map((iss, i) => (
           <IssueCard key={iss.slug} tone="past"
             subject={iss.subject}
@@ -162,7 +162,7 @@ export default function HomeNewsletter({ issues = [] }: { issues?: NewsletterIss
                     color: NL.c1, marginBottom: 24,
                   }}>
                     <span style={{ width: 6, height: 6, borderRadius: '50%', background: NL.c1, boxShadow: `0 0 8px ${NL.c1}` }} />
-                    NEWSLETTER · 每週四發送
+                    NEWSLETTER · 每週一更新
                   </div>
                   <h3 style={{ fontSize: 'clamp(2.2rem, 4.4vw, 3.4rem)', lineHeight: 1.05, fontWeight: 600, letterSpacing: '-0.025em', color: '#fff', margin: '0 0 14px 0' }}>
                     一週一封信
