@@ -156,15 +156,9 @@ export default async function ServicePage({ params }: Props) {
               </p>
             </div>
 
-            <Link
-              href="/contact"
-              className="block w-full text-center text-white font-medium text-sm py-3 rounded-full transition-all hover:scale-[1.02] active:scale-100 mb-3"
-              style={{
-                background: 'linear-gradient(135deg, #2563eb 0%, #6366f1 50%, #8b5cf6 100%)',
-                boxShadow: '0 0 20px rgba(99,102,241,0.3)',
-              }}
-            >
-              立即諮詢
+            <Link href="/contact" className="btn btn--ink w-full mb-3">
+              <span className="btn__dot" />
+              <span className="btn__label">立即諮詢</span>
             </Link>
 
             <p className="text-xs text-center text-slate-500">

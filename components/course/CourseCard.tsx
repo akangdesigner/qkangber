@@ -39,17 +39,10 @@ export default function CourseCard({ course }: { course: Course }) {
           {course.description}
         </p>
 
-        <a
-          href={course.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-white text-sm font-medium transition-all hover:scale-[1.02]"
-          style={{
-            background: `linear-gradient(135deg, ${accent.from}, ${accent.to})`,
-            boxShadow: `0 0 24px ${accent.from}44`,
-          }}
-        >
-          了解更多 →
+        <a href={course.link} target="_blank" rel="noopener noreferrer" className="btn btn--ink">
+          <span className="btn__dot" />
+          <span className="btn__label">了解更多</span>
+          <span className="btn__arrow">→</span>
         </a>
       </div>
     </div>

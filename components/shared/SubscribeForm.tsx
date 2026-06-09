@@ -41,7 +41,6 @@ export default function SubscribeForm({ className = '', small = false }: { class
   }
 
   const inputCls = `flex-1 ${small ? 'px-3 py-2 text-[13px]' : 'px-4 py-3 text-sm'} rounded-full border border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:outline-none focus:border-violet-400/60 focus:bg-white/[0.07] transition-colors backdrop-blur-sm`
-  const btnCls = `${small ? 'px-4 py-2 text-[13px]' : 'px-6 py-3 text-sm'} rounded-full font-medium text-white whitespace-nowrap transition-all disabled:opacity-60`
 
   return (
     <form onSubmit={handleSubmit} className={`flex flex-col sm:flex-row gap-2 ${className}`}>
@@ -56,13 +55,17 @@ export default function SubscribeForm({ className = '', small = false }: { class
       <button
         type="submit"
         disabled={status === 'loading'}
-        className={btnCls}
-        style={{
-          background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-          boxShadow: '0 0 24px rgba(124,92,255,0.35)',
-        }}
+        className={`btn btn--ink${small ? ' btn--sm' : ''}`}
       >
-        {status === 'loading' ? '訂閱中…' : '免費訂閱 →'}
+        {status === 'loading' ? (
+          <span className="btn__label">訂閱中…</span>
+        ) : (
+          <>
+            <span className="btn__dot" />
+            <span className="btn__label">免費訂閱</span>
+            <span className="btn__arrow">→</span>
+          </>
+        )}
       </button>
       {errorMsg && (
         <p className="text-sm text-red-400 mt-1">{errorMsg}</p>

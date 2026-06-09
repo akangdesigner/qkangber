@@ -286,28 +286,15 @@ export default function ContactForm() {
             color: 'rgba(148,163,184,0.6)',
             textTransform: 'uppercase',
           }}>RESPONSE · WITHIN 1–2 BUSINESS DAYS</span>
-          <button
-            type="submit"
-            disabled={status === 'loading'}
-            style={{
-              padding: '13px 28px', borderRadius: 999,
-              background: 'linear-gradient(135deg, #2563eb, #6366f1 50%, #8b5cf6)',
-              color: '#fff', border: 'none',
-              fontSize: 14, fontWeight: 600,
-              fontFamily: 'inherit', letterSpacing: '0.04em',
-              cursor: status === 'loading' ? 'not-allowed' : 'pointer',
-              display: 'inline-flex', alignItems: 'center', gap: 10,
-              boxShadow: '0 14px 38px -10px rgba(124,92,255,0.55), inset 0 1px 0 rgba(255,255,255,0.22)',
-              opacity: status === 'loading' ? 0.7 : 1,
-              transition: 'opacity 150ms, transform 150ms',
-              whiteSpace: 'nowrap',
-            }}
-            onMouseEnter={e => { if (status !== 'loading') (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.02)' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)' }}
-          >
-            {status === 'loading' ? '送出中…' : '送出訊息'}
-            {status !== 'loading' && (
-              <span aria-hidden style={{ fontFamily: 'ui-monospace, monospace' }}>→</span>
+          <button type="submit" disabled={status === 'loading'} className="btn btn--ink">
+            {status === 'loading' ? (
+              <span className="btn__label">送出中…</span>
+            ) : (
+              <>
+                <span className="btn__dot" />
+                <span className="btn__label">送出訊息</span>
+                <span aria-hidden className="btn__arrow">→</span>
+              </>
             )}
           </button>
         </div>

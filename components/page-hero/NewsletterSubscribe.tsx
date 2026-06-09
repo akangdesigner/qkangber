@@ -6,8 +6,6 @@
 import { useState } from 'react'
 
 const ACCENT = '#60a5fa'
-const VIOLET = '#a78bfa'
-const MONO = 'var(--font-jetbrains), ui-monospace, monospace'
 const SANS = 'var(--font-noto), "Noto Sans TC", sans-serif'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
@@ -79,21 +77,16 @@ export default function NewsletterSubscribe() {
             }}
           />
         </div>
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            background: `linear-gradient(135deg, ${VIOLET}, ${ACCENT})`,
-            color: '#06121a', border: 'none', borderRadius: 12,
-            padding: '14px 26px', fontSize: 14, fontWeight: 700,
-            fontFamily: SANS, cursor: loading ? 'default' : 'pointer', whiteSpace: 'nowrap',
-            display: 'inline-flex', alignItems: 'center', gap: 7,
-            boxShadow: `0 10px 28px ${ACCENT}55`,
-            opacity: loading ? 0.7 : 1,
-          }}
-        >
-          {loading ? '訂閱中…' : '立即訂閱'}
-          {!loading && <span style={{ fontFamily: MONO }}>→</span>}
+        <button type="submit" disabled={loading} className="btn btn--ink">
+          {loading ? (
+            <span className="btn__label">訂閱中…</span>
+          ) : (
+            <>
+              <span className="btn__dot" />
+              <span className="btn__label">立即訂閱</span>
+              <span className="btn__arrow">→</span>
+            </>
+          )}
         </button>
       </form>
       {status === 'error' && errorMsg && (

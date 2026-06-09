@@ -125,15 +125,10 @@ export default async function IssuePage({ params }: Props) {
         <p className="text-sm text-slate-500">
           喜歡這期內容？每週直送信箱，不漏看。
         </p>
-        <Link
-          href="/newsletter"
-          className="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-white text-sm font-medium transition-all hover:scale-[1.02] active:scale-100 flex-shrink-0"
-          style={{
-            background: 'linear-gradient(135deg, #2563eb 0%, #6366f1 50%, #8b5cf6 100%)',
-            boxShadow: '0 0 20px rgba(99,102,241,0.3)',
-          }}
-        >
-          免費訂閱 →
+        <Link href="/newsletter" className="btn btn--ink flex-shrink-0">
+          <span className="btn__dot" />
+          <span className="btn__label">免費訂閱</span>
+          <span className="btn__arrow">→</span>
         </Link>
       </div>
     </div>

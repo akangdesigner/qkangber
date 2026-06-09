@@ -370,55 +370,12 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
               display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 28,
               opacity: 0, animation: 'heroLineIn 700ms ease-out 700ms forwards',
             }}>
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-2"
-                style={{
-                  background: 'linear-gradient(135deg, #2563eb, #6366f1 50%, #8b5cf6)',
-                  color: '#fff', borderRadius: 999,
-                  padding: '13px 26px', fontSize: 14, fontWeight: 500,
-                  textDecoration: 'none',
-                  boxShadow: '0 10px 32px rgba(124,92,255,0.4), inset 0 1px 0 rgba(255,255,255,0.2)',
-                  transition: 'transform 200ms, box-shadow 200ms',
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.transform = 'translateY(-1px)'
-                  el.style.boxShadow = '0 14px 38px rgba(124,92,255,0.55), inset 0 1px 0 rgba(255,255,255,0.25)'
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.transform = 'translateY(0)'
-                  el.style.boxShadow = '0 10px 32px rgba(124,92,255,0.4), inset 0 1px 0 rgba(255,255,255,0.2)'
-                }}
-              >
-                免費訂閱電子報 →
+              <Link href="/services" className="btn btn--aurora">
+                <span className="btn__label">免費訂閱電子報</span>
+                <span className="btn__arrow">→</span>
               </Link>
-              <Link
-                href="/blog"
-                style={{
-                  background: 'radial-gradient(120% 180% at 50% 50%, rgba(167,139,250,0.12) 0%, rgba(2,3,10,0.3) 70%)',
-                  color: '#e2e8f0', border: '1px solid transparent',
-                  borderRadius: 999, padding: '13px 26px', fontSize: 14, fontWeight: 500,
-                  textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8,
-                  backdropFilter: 'blur(8px)',
-                  boxShadow: 'inset 0 0 0 1px rgba(167,139,250,0.18), inset 0 1px 0 rgba(255,255,255,0.04), 0 14px 40px -16px rgba(124,92,255,0.4)',
-                  transition: 'background 200ms, box-shadow 200ms, color 200ms',
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.background = 'radial-gradient(120% 180% at 50% 50%, rgba(167,139,250,0.22) 0%, rgba(2,3,10,0.3) 70%)'
-                  el.style.boxShadow = 'inset 0 0 0 1px rgba(167,139,250,0.4), inset 0 1px 0 rgba(255,255,255,0.06), 0 16px 50px -14px rgba(124,92,255,0.55)'
-                  el.style.color = '#fff'
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.background = 'radial-gradient(120% 180% at 50% 50%, rgba(167,139,250,0.12) 0%, rgba(2,3,10,0.3) 70%)'
-                  el.style.boxShadow = 'inset 0 0 0 1px rgba(167,139,250,0.18), inset 0 1px 0 rgba(255,255,255,0.04), 0 14px 40px -16px rgba(124,92,255,0.4)'
-                  el.style.color = '#e2e8f0'
-                }}
-              >
-                先看看文章
+              <Link href="/blog" className="btn btn--aurora-ghost">
+                <span className="btn__label">先看看文章</span>
               </Link>
             </div>
 

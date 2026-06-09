@@ -266,19 +266,9 @@ export default function HeroBanner() {
 
             {/* CTA */}
             <div style={{ marginTop: 30 }}>
-              <Link
-                href="/contact"
-                style={{
-                  display: 'inline-flex', alignItems: 'center',
-                  padding: '11px 28px', borderRadius: 6,
-                  background: 'transparent', color: '#fff',
-                  border: '1px solid rgba(255,255,255,0.6)',
-                  fontFamily: '"Noto Sans TC", sans-serif',
-                  fontSize: 14.5, fontWeight: 500,
-                  letterSpacing: '0.02em', textDecoration: 'none',
-                  whiteSpace: 'nowrap',
-                }}>
-                免費諮詢 →
+              <Link href="/contact" className="btn btn--ink-outline">
+                <span className="btn__label">免費諮詢</span>
+                <span className="btn__arrow">→</span>
               </Link>
             </div>
           </div>
