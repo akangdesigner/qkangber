@@ -1,14 +1,12 @@
 import { MetadataRoute } from 'next'
 import { getAllPosts, getAllServices } from '@/lib/mdx'
-import { getAllNewsletterIssues } from '@/lib/newsletter'
 
 const baseUrl = 'https://aiqkangber.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [posts, services, newsletterIssues] = await Promise.all([
+  const [posts, services] = await Promise.all([
     getAllPosts(),
     getAllServices(),
-    getAllNewsletterIssues(),
   ])
 
   const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
@@ -24,13 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }))
 
-  const newsletterEntries: MetadataRoute.Sitemap = newsletterIssues.map((issue) => ({
-    url: `${baseUrl}/newsletter/${issue.slug}`,
-    lastModified: new Date(issue.date),
-    changeFrequency: 'never',
-    priority: 0.5,
-  }))
-
+  // 電子報期數頁已設 noindex（新聞摘要彙整、無搜尋價值），不進 sitemap；/newsletter 主頁保留
   return [
     { url: baseUrl, priority: 1.0, changeFrequency: 'weekly' },
     { url: `${baseUrl}/services`, priority: 0.95, changeFrequency: 'weekly' },
@@ -44,6 +36,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/newsletter`, priority: 0.6, changeFrequency: 'weekly' },
     ...serviceEntries,
     ...postEntries,
-    ...newsletterEntries,
   ]
 }
