@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# RWD 稽核截圖（本地產物，23MB+）
+.rwd-audit/

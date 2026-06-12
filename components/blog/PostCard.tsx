@@ -35,8 +35,8 @@ export default function PostCard({ post }: { post: Post }) {
       className="mtc group relative flex flex-col h-full rounded-2xl border border-white/[0.07] bg-white/[0.025] hover:bg-white/[0.04] transition-colors duration-300 overflow-hidden backdrop-blur-sm"
       style={{ transition: 'transform 180ms ease-out, background-color 300ms', transformStyle: 'preserve-3d', willChange: 'transform' }}
     >
-      {post.coverImage && (
-        <div className="relative w-full aspect-video overflow-hidden">
+      <div className="relative w-full aspect-video overflow-hidden">
+        {post.coverImage ? (
           <Image
             src={post.coverImage}
             alt={post.title}
@@ -44,8 +44,15 @@ export default function PostCard({ post }: { post: Post }) {
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-        </div>
-      )}
+        ) : (
+          <div
+            className="w-full h-full flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, rgba(124,92,255,0.16), rgba(96,165,250,0.08) 55%, rgba(13,14,26,0.55))' }}
+          >
+            <span className="text-[0.7rem] tracking-[0.3em] uppercase font-bold text-white/25">Q kangber</span>
+          </div>
+        )}
+      </div>
 
       <div className="relative p-6 flex flex-col flex-1">
         {post.category && (
@@ -65,11 +72,11 @@ export default function PostCard({ post }: { post: Post }) {
           ))}
         </div>
 
-        <h2 className="text-[1.15rem] font-semibold text-white leading-snug mb-3 group-hover:text-violet-200 transition-colors duration-200">
+        <h2 className="text-[1.15rem] font-semibold text-white leading-snug mb-3 line-clamp-2 min-h-[3.2rem] group-hover:text-violet-200 transition-colors duration-200">
           {post.title}
         </h2>
 
-        <p className="text-sm text-slate-400 leading-relaxed line-clamp-2 mb-6">
+        <p className="text-sm text-slate-400 leading-relaxed line-clamp-2 min-h-[2.8rem] mb-6">
           {post.excerpt}
         </p>
 
