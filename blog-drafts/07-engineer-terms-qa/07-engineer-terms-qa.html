@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>工程師術語聽不懂？用 AI 寫程式必懂的 20 個開發行話 QA 大補帖（環境變數、CI/CD、git rebase）</title>
+  <meta name="description" content="用 AI 寫程式卻聽不懂工程師術語？本篇整理 vibe coding 必懂的 20 個開發行話 QA：環境變數、CI/CD、PR、git rebase、Linter 全部白話解釋，讓你聽得懂、答得上、不再點頭裝懂。">
+</head>
+<body>
+  <h1>工程師術語聽不懂？用 AI 寫程式必懂的 20 個開發行話 QA 大補帖（環境變數、CI/CD、git rebase）</h1>
+
+  <h2>前言</h2>
+  <p><strong>工程師術語</strong>是用 <strong>AI 寫程式</strong>的人最明顯的斷層：網站做得出來，但 PR、rebase、CI/CD 一出現就接不上話。這篇把 <strong>vibe coding</strong> 路上最常撞到的 20 個術語做成 QA，分成前後端觀念、環境與部署、版本控制、程式碼品質四大類。搞懂它們不只提升專業度，更是建立對 AI 產出程式碼的初步控管能力——看得懂它在做什麼，而不是盲目相信。我從行銷背景轉做 AI 工程師、<a href="https://aiqkangber.com/services" target="_blank" rel="noopener">幫客戶建自動化系統</a>時，也是這樣一個詞一個詞查懂的；想看更正式的定義，可搭配 <a href="https://git-scm.com/book/zh-tw/v2" target="_blank" rel="noopener">Pro Git 中文版</a>對照著讀。</p>
+
+  <p><strong>文章目錄</strong></p>
+  <ul>
+    <li><a href="#cat-1">前後端與架構觀念篇（Q1–Q5）</a></li>
+    <li><a href="#cat-2">環境與部署篇（Q6–Q10）</a></li>
+    <li><a href="#cat-3">版本控制篇（Q11–Q16）</a></li>
+    <li><a href="#cat-4">程式碼品質篇（Q17–Q20）</a></li>
+  </ul>
+
+  <h2 id="cat-1">前後端與架構觀念篇：AI 寫程式之前，先搞懂網站怎麼分工</h2>
+
+  <h3 id="q1">Q1：前端跟後端差在哪？AI 幫我寫的程式哪些算前端、哪些算後端？</h3>
+  <p>把網站想成一間餐廳：客人看得到的菜單、裝潢、服務生是<strong>前端</strong>；廚房裡的食材、火候、出餐流程是<strong>後端</strong>。前端是跑在你瀏覽器裡的畫面與互動，後端是跑在伺服器上的邏輯與資料。你請 Claude Code「把按鈕改成圓角」是前端的事；「做一個會員登入驗證」就進廚房了，是後端的事。</p>
+  <table>
+    <thead>
+      <tr><th></th><th>前端</th><th>後端</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>跑在哪</td><td>使用者的瀏覽器</td><td>雲端伺服器</td></tr>
+      <tr><td>管什麼</td><td>畫面、按鈕、互動</td><td>資料、邏輯、權限</td></tr>
+      <tr><td>常見語言</td><td>HTML／CSS／JavaScript</td><td>JavaScript／Python／PHP</td></tr>
+      <tr><td>改壞了會怎樣</td><td>跑版、按鈕沒反應</td><td>資料錯亂、登入失效、資料外洩</td></tr>
+    </tbody>
+  </table>
+  <p>分不清前後端最大的風險，是<span style="color:#c0392b;">把該藏在後端的祕密（金鑰、密碼、計價邏輯）寫到前端，等於攤開給全世界看</span>。後面的 Q4 和 Q6 會再回來講這件事。</p>
+  <figure>
+    <img src="https://i.ibb.co/VphW0C4T/map-frontend-backend.webp" alt="前端與後端分工示意圖：瀏覽器負責畫面互動，伺服器負責邏輯資料，中間用 API 溝通">
+    <figcaption>前端管畫面、後端管資料與邏輯，中間靠 API 溝通</figcaption>
+  </figure>
+
+  <h3 id="q2">Q2：API 是什麼？為什麼工程師整天說「打 API」？</h3>
+  <p>延續餐廳的比喻：你不會自己衝進廚房炒菜，而是照菜單格式點餐，廚房照單出菜。這個「約定好的點餐窗口」就是 <strong>API</strong>（程式之間講好的溝通格式：你照規定送出請求，我照規定回你資料）。「打 API」就是送出一筆請求。你在 n8n 串 Google Sheets、讓 Claude Code 接氣象資料，其實每天都在打 API，只是工具把過程包裝得很友善。</p>
+
+  <h3 id="q3">Q3：PHP 是什麼？2026 年還有人在用嗎？跟 JavaScript、Python 差在哪？</h3>
+  <p><strong>PHP</strong> 是一個資歷很深的後端程式語言——全球大量網站背後都有它，因為市占率最高的架站系統 WordPress 就是 PHP 寫的。網路上常拿它開玩笑，但它更像水電工等級的基礎建設：不時髦，卻到處都是。簡單區分：JavaScript 前後端都能寫、Python 是 AI 與自動化的強項、PHP 幾乎只住在後端。你現階段不用學它，但接案遇到客戶的 WordPress 網站時，至少要聽得懂對方在說什麼。</p>
+
+  <h3 id="q4">Q4：「前端零信任原則」是什麼？為什麼不能相信使用者送來的資料？</h3>
+  <p>想像店門口的自助點餐機：客人可以亂按、甚至有人會拆機改造，所以收銀系統不能相信點餐機送來的任何數字，結帳前廚房一定自己再算一次。這就是<strong>前端零信任原則</strong>——所有從瀏覽器送到後端的資料，都要當成「可能被改過」，後端必須重新驗證。原因很單純：前端程式碼跑在使用者的瀏覽器裡，任何人打開開發者工具都能動它。後端至少要自己驗這四件事：</p>
+  <ul>
+    <li><strong>身分</strong>：這個請求真的是登入中的那個人發的嗎？</li>
+    <li><strong>權限</strong>：他有資格做這個操作嗎？（一般會員不能進後台）</li>
+    <li><strong>資料</strong>：格式、範圍對嗎？尤其是價格、金額這種會被改的數字</li>
+    <li><strong>次數</strong>：同一支程式狂打一萬次怎麼辦？要有限制</li>
+  </ul>
+  <p>我幫客戶做表單系統時就發現，AI 預設常常只做前端檢查——畫面上擋住了，後端卻照單全收。記住一句話：<span style="color:#c0392b;">前端的檢查只是使用者體驗，後端的檢查才是安全</span>。</p>
+  <p>📖 <strong>延伸閱讀</strong>：<a href="https://aiqkangber.com/blog/security-vulnerabilities-in-vibe-coding">Vibe Coding 的 5 種常見資安漏洞：用 Claude Code 一次健檢全找出來</a></p>
+
+  <h3 id="q5">Q5：框架（Framework）是什麼？Next.js、Laravel 是語言還是工具？</h3>
+  <p>蓋房子可以從燒磚開始，也可以用預鑄工法——水電、結構都先做好，你專心隔間和擺傢俱。<strong>框架</strong>就是把網站開發中重複又繁瑣的部分先寫好的骨架。所以 Next.js、Laravel 都不是語言：Next.js 是用 JavaScript 寫成的框架，Laravel 是用 PHP 寫成的框架。當 Claude Code 起新專案時跟你說「我用 Next.js 來做」，意思就是它選了一套現成骨架，而不是從燒磚開始。</p>
+
+  <h2 id="cat-2">環境與部署篇：環境變數、CI/CD、Rollback 到底在講什麼？</h2>
+
+  <h3 id="q6">Q6：環境變數是什麼？為什麼 API Key 不能直接寫在程式碼裡？</h3>
+  <p><strong>環境變數</strong>就像一張貼在後台的小抄：程式跑起來時偷看一眼，拿到密碼和設定，但小抄本身不裝訂進程式碼裡。要換場地（從你的電腦搬到正式主機），只要換一張小抄，程式一行都不用改。為什麼 API Key 不能直接寫死在程式碼？</p>
+  <ul>
+    <li>程式碼會上傳 GitHub——寫死金鑰等於<span style="color:#c0392b;">把家裡鑰匙影印之後發給全世界</span>，爬蟲每天都在掃公開倉庫裡的金鑰</li>
+    <li>本機和正式環境的設定不同，寫死就得改來改去，遲早改錯</li>
+    <li>金鑰外洩要換新時，不用動程式碼、不用重寫，只要換小抄</li>
+  </ul>
+  <p>實務上的固定姿勢：本機把祕密放在 <code>.env</code> 檔、部署平台（像 Zeabur）的後台填正式值，而且 <code>.env</code> 一定要排除在上傳清單外。Claude Code 通常會主動幫你用環境變數，但你要看得懂它在做什麼，才能在它偷懶時抓出來。</p>
+
+  <h3 id="q7">Q7：開發環境、測試環境、正式環境差在哪？為什麼不能直接改線上的程式？</h3>
+  <p>把它想成彩排舞台和正式演出：<strong>開發環境</strong>是你自己電腦上的排練室（網址通常是 localhost），<strong>測試環境</strong>是內部彩排場，<strong>正式環境</strong>是觀眾正在看的那個舞台。直接改線上的程式，等於正式演出中途換佈景——一失手全場都看見，而且沒有重來的機會。部署平台給你的 preview 預覽網址就是彩排場，先在那裡看過再上正式，是最便宜的保險。</p>
+
+  <h3 id="q8">Q8：部署（Deploy）是什麼？網站「上線」的瞬間發生了什麼事？</h3>
+  <p>在家試做成功的菜，要搬進真正的餐廳開賣，中間有一段搬運、備料、開火的過程——<strong>部署</strong>就是把程式碼從你電腦搬到雲端伺服器、裝好需要的套件、套上環境變數、對外開放網址的整段流程。聽起來繁瑣，但現在的部署平台把這件事變得很省力：我自己最常用 <strong>Zeabur</strong> 部署新服務，把專案連上 GitHub 倉庫之後，每次 push 程式碼它就自動同步更新，<strong>Vercel</strong> 這類平台也是同樣的玩法；要架 n8n、資料庫這些常見服務，甚至有現成模板可以一鍵套用，連程式碼都不用寫。所以部署失敗時，最常見的原因往往不是程式錯，而是 Q6 講的環境變數沒填齊。</p>
+
+  <h3 id="q9">Q9：CI/CD 是什麼？程式怎麼自動測試、自動上線？</h3>
+  <p>想像一條工廠自動化產線加品管站：原料（程式碼）一進廠就自動檢查、自動測試、合格才自動出貨上架，不合格直接退回，全程不用人搬。<strong>CI</strong>（持續整合）指的是每次改完程式就自動跑檢查和測試；<strong>CD</strong>（持續部署）指的是通過檢查後自動部署上線。典型流程長這樣：</p>
+  <ol>
+    <li>你（或 AI）把程式碼 push 上 GitHub</li>
+    <li>自動觸發品管：跑 Linter、跑測試（這兩個詞 Q17、Q20 會講）</li>
+    <li>全部通過 → 自動部署到正式環境</li>
+    <li>有一關沒過 → 擋下來、通知你，正式環境毫髮無傷</li>
+  </ol>
+  <p>好消息是：如果你的部署平台已經連了 GitHub、push 之後網站自動更新，你其實已經在用最簡版的 CD 了。我第一次對這套機制有感，是 push 上去之後 build 失敗、網站遲遲沒更新——當下只覺得煩，後來才回過神：那一版根本跑不起來，要是沒這道關卡直接蓋上去，線上就白屏了。<span style="color:#c0392b;">在門口被擋下來，永遠比上線之後才發現便宜。</span></p>
+  <figure>
+    <img src="https://i.ibb.co/9k4hqBxB/flow-deploy-cicd.webp" alt="CI/CD 自動化流程圖：push 程式碼到 GitHub 後自動執行檢查與測試，通過才部署上線，失敗則退回通知">
+    <figcaption>CI/CD 流程：push 之後自動檢查、測試，通過才上線</figcaption>
+  </figure>
+
+  <h3 id="q10">Q10：Rollback 是什麼？改壞了怎麼把網站救回上一版？</h3>
+  <p>就是遊戲的「讀檔」：這關打壞了，讀回上一個存檔點再來。<strong>Rollback</strong>（回滾）是把網站退回上一個正常版本——多數部署平台都能一鍵重新部署舊版本，或者用 Git 回到舊紀錄再部署一次。重點是順序：改版後首頁白屏、客戶在線上等的時候，<span style="color:#c0392b;">先 rollback 把網站救回來，再慢慢查哪裡壞，不要反過來</span>。邊修邊讓網站躺著，是新手最常付的學費。</p>
+
+  <h2 id="cat-3">版本控制篇：Git、PR、rebase——工程師術語最密集的地方</h2>
+
+  <h3 id="q11">Q11：Git 跟 GitHub 差在哪？一個是工具、一個是網站？</h3>
+  <p>對，就是這麼簡單：<strong>Git</strong> 是裝在你電腦裡的時光機，記錄程式碼每一次改動，沒網路也能用；<strong>GitHub</strong> 是把時光機紀錄放上雲端的倉庫網站，方便備份、協作、給別人看（同類服務還有 GitLab）。Claude Code 幫你「commit」是在本機時光機蓋章，「push」才是把紀錄上傳到 GitHub。</p>
+  <p>📖 <strong>延伸閱讀</strong>：<a href="https://aiqkangber.com/blog/git-repository">git 倉庫是什麼？文組開發者血淚經驗分享：我被 AI 改爛專案後，才終於搞懂版本控制</a></p>
+
+  <h3 id="q12">Q12：commit、push、pull 是什麼？這三個動作的順序怎麼記？</h3>
+  <p>用寫日記來記：<strong>commit</strong> 是寫完一篇日記蓋章存檔（存在本機）、<strong>push</strong> 是把日記同步上雲端、<strong>pull</strong> 是把雲端最新的日記抓下來。一個人開發的順序是「改程式 → commit → push」；多人協作（或多台電腦）就在動工前先 pull，確保自己拿的是最新版。被 AI 改爛過專案的人都懂：每一個老老實實蓋章的 commit，都是未來救你一命的存檔點。</p>
+
+  <h3 id="q13">Q13：分支（Branch）是什麼？為什麼不能大家都改同一份程式碼？</h3>
+  <p>想改一份重要文件時，你會先影印一份草稿來改，確認沒問題才謄回正本——<strong>分支</strong>就是那份影印稿，正本（通常叫 <code>main</code>）永遠保持乾淨可用。想實驗新功能，開一條分支讓 AI 放手去試，搞砸了把分支整條刪掉就好，main 毫髮無傷。所有人直接改正本的下場，就是誰也說不清哪一筆是誰改壞的。</p>
+
+  <h3 id="q14">Q14：PR（Pull Request）是什麼？跟直接 push 差在哪？</h3>
+  <p>分支上改好之後，不是直接謄回正本，而是把草稿放進「待審核匣」，附上一張說明：「我改了這些，原因是什麼，請過目後合併」——這張申請單就是 <strong>PR</strong>（Pull Request，合併請求）。它跟直接 push 進 main 的差別：</p>
+  <table>
+    <thead>
+      <tr><th></th><th>開 PR 審核後合併</th><th>直接 push 進 main</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>有沒有人把關</td><td>有，合併前一定有人看過</td><td>沒有，改了就是上了</td></tr>
+      <tr><td>出錯的代價</td><td>在審核階段被擋下</td><td>直接污染正式版本</td></tr>
+      <tr><td>留下的紀錄</td><td>改了什麼、為什麼改、誰核准的</td><td>只有一筆改動紀錄</td></tr>
+      <tr><td>適合場景</td><td>正式專案、多人協作、AI 產出的程式</td><td>個人小實驗、急救</td></tr>
+    </tbody>
+  </table>
+  <p>就算整個專案只有你一個人，PR 也值得用：讓 AI 開 PR、你自己當審核者，看過它到底改了哪幾行再放行。<span style="color:#c0392b;">AI 產程式碼的速度越快，合併前的人工把關就越重要——PR 就是那道最後防線</span>。</p>
+  <figure>
+    <img src="https://i.ibb.co/67hBXSFm/flow-git-pr.webp" alt="Git 協作流程圖：從開分支、commit、push 到開 PR 審核，通過後合併進 main 主分支">
+    <figcaption>從分支到 PR 審核再合併進 main 的標準流程</figcaption>
+  </figure>
+
+  <h3 id="q15">Q15：git rebase 是什麼？跟 merge 差在哪？</h3>
+  <p>兩本日記要合成一本，有兩種做法。<strong>merge</strong> 是把兩本直接訂在一起，再補一頁「某月某日合併」的說明——歷史完整，但翻起來岔路很多。<strong>git rebase</strong> 是把你那幾篇日記撕下來，照順序重抄到對方日記的最後面——成品像一條直線，乾淨好讀，但代價是你「改寫了歷史」：那幾篇日記的時間戳記跟原本不一樣了。</p>
+  <table>
+    <thead>
+      <tr><th></th><th>merge</th><th>rebase</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>歷史長相</td><td>保留所有岔路，多一筆合併紀錄</td><td>重新接成一條直線</td></tr>
+      <tr><td>原始紀錄</td><td>原封不動</td><td>被改寫（產生新紀錄）</td></tr>
+      <tr><td>風險</td><td>低，隨時可用</td><td><span style="color:#c0392b;">已經 push 出去、別人拿得到的分支，千萬不要 rebase</span></td></tr>
+      <tr><td>適合</td><td>多人共用的分支</td><td>還在自己手上的本機分支</td></tr>
+    </tbody>
+  </table>
+  <p>AI 工具有時會自作主張 rebase，失敗了留給你滿手衝突——看得懂這張表，你至少知道它剛剛想做什麼、該叫它退回哪一步。</p>
+  <figure>
+    <img src="https://i.ibb.co/gLPtqbWT/compare-rebase-merge.webp" alt="git rebase 與 merge 的分支線圖比較：merge 保留分岔並新增合併節點，rebase 把分支改動重接成一條直線">
+    <figcaption>merge 保留岔路、rebase 重接成直線——一張圖看懂差別</figcaption>
+  </figure>
+
+  <h3 id="q16">Q16：合併衝突（Merge Conflict）是什麼？遇到了怎麼辦？</h3>
+  <p>兩個人同時改了同一份文件的同一句話，系統不知道該聽誰的，只好把兩個版本並排擺出來請你裁決——這就是<strong>合併衝突</strong>。處理步驟其實很固定：</p>
+  <ol>
+    <li>打開有衝突的檔案，找到 <code>&lt;&lt;&lt;&lt;</code>、<code>====</code>、<code>&gt;&gt;&gt;&gt;</code> 夾出來的兩段版本</li>
+    <li>決定留哪一段（或兩段手動融合）</li>
+    <li>刪掉標記、存檔、commit，衝突就解了</li>
+  </ol>
+  <p>實戰上你甚至不用自己動手：跟 AI 說「幫我解這個 conflict，保留某某功能的邏輯」，多數情況一次就過。可怕的從來不是衝突本身，是不知道那堆符號是什麼的慌張。</p>
+
+  <h2 id="cat-4">程式碼品質篇：Linter、Code Review、技術債——讓 AI 寫的程式碼能被接手</h2>
+
+  <h3 id="q17">Q17：Linter 是什麼？為什麼程式還沒跑就被畫紅線？</h3>
+  <p>就是程式界的 Word 拼字檢查：你還沒按執行，它已經把錯字和病句畫上紅線。<strong>Linter</strong>（如 ESLint）會靜態掃描程式碼，抓出風格不一致、沒用到的變數、容易出 bug 的寫法。它常常是 CI 品管線的第一關——紅線不清掉就上不了線。所以「跑一下 lint、把錯誤修掉」是請 AI 收尾時的固定指令，花十秒，省掉部署失敗來回查半小時。</p>
+
+  <h3 id="q18">Q18：Code Review 是什麼？AI 寫的程式也需要人審嗎？</h3>
+  <p>文章送印刷廠前要二校：抓錯字（bug）、順語氣（風格）、確認沒離題（架構）——<strong>Code Review</strong> 就是程式碼的二校，通常在 PR 上逐行留言討論。AI 寫的程式不但需要審，而且更需要：AI 很會寫出「能跑、但藏著隱患」的程式碼，例如 Q4 講的只驗前端不驗後端。自己看不動的話，有個務實解法——讓另一個 AI 當審稿人。我自己就固定用 Claude Code 的程式碼審查指令當第二雙眼睛，抓到的問題比我肉眼掃過去多得多。</p>
+  <p>📖 <strong>延伸閱讀</strong>：<a href="https://aiqkangber.com/blog/ai-coding-downsides">AI 寫程式的缺點有哪些？2026 vibe coding 實測，8 個 AI 生成程式碼的致命問題</a></p>
+
+  <h3 id="q19">Q19：重構（Refactor）跟技術債是什麼？程式能跑為什麼還要改？</h3>
+  <p>房間能住人，但雜物越堆越多，每次找東西都多花十分鐘——那十分鐘就是<strong>技術債</strong>的利息：當初為了快而留下的爛攤子，之後每一次改動都在付利息。<strong>重構</strong>則是大掃除加重新收納：東西沒變多、功能沒改變，但內部結構整理過，以後拿什麼都快。vibe coding 特別容易堆債，因為 AI 的預設行為是「再加一段程式碼解決眼前的問題」，很少主動回頭整理舊的。所以<span style="color:#c0392b;">程式能跑，不代表程式健康</span>——專案養大之後，定期丟一句「幫我重構這個部分，不要改變功能」給 AI，就是在還債。我接手過一個被 AI 連續加料三個月的專案，同一段邏輯複製貼上了七次，改一個價格要改七個地方——那就是債滾出來的樣子。</p>
+
+  <h3 id="q20">Q20：單元測試（Unit Test）是什麼？寫完程式為什麼還要寫「測試的程式」？</h3>
+  <p>出貨前的逐項檢查清單：每顆零件單獨測過、打勾，才裝箱。<strong>單元測試</strong>就是用程式自動測程式的最小零件——寫一次，之後每次改動都能一鍵重測全部。它的價值在「改舊功能」的時候最明顯：有測試在，AI 改壞了什麼會立刻亮紅燈；沒測試，你只能上線後等客戶來告訴你。CI 流程裡自動跑的「測試」，多半指的就是它。</p>
+
+  <h2>總結</h2>
+  <p>這 20 個詞串起來其實是一條完整的路：先搞懂前後端怎麼分工，再用環境變數和部署流程把網站安全地送上線，接著用 Git、分支、PR 管好每一次改動，最後靠 Linter、Code Review、測試守住品質。聽懂工程師術語的意義從來不是變成科班工程師，而是把專業度補上來，建立對程式碼的初步控管能力：對 AI 下指令時問得出對的問題、驗收時看得懂它改了什麼、該踩煞車的時候踩得下去——而不是它說什麼都照單全收。</p>
+  <p><span style="color:#c0392b;">vibe coding 的天花板往往不是 AI 的能力，而是你聽不聽得懂它正在對你說什麼。</span>這 20 個詞不用背，但觀念要真的懂——它們不是冷知識，是你每次部署、每次驗收 AI 程式碼都會再撞到的日常。每搞懂一個觀念，就少一個只能點頭的時刻。</p>
+  <p>如果你想每週收到一篇這樣把技術講成人話的實戰心得，歡迎訂閱我的<a href="https://aiqkangber.com/newsletter">電子報，每週一更新 AI 自動化與 vibe coding 實戰筆記</a>。</p>
+</body>
+</html>
