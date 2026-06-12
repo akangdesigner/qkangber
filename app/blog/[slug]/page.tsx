@@ -10,6 +10,8 @@ import Tag from '@/components/shared/Tag'
 import type { Metadata } from 'next'
 import { buildMetadata } from '@/lib/metadata'
 import { lazifyContentImages } from '@/lib/html-images'
+import { extractToc } from '@/lib/html-toc'
+import TableOfContents from '@/components/blog/TableOfContents'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
 
@@ -44,6 +46,11 @@ export default async function PostPage({ params }: Props) {
   const { slug } = await params
   const post = await getPostBySlug(slug)
   if (!post) notFound()
+
+  const isHtmlPost = post.content.trimStart().startsWith('<')
+  const { html: contentHtml, toc } = isHtmlPost
+    ? extractToc(lazifyContentImages(post.content))
+    : { html: '', toc: [] }
 
   const allPosts = await getAllPosts()
   const idx = allPosts.findIndex((p) => p.slug === slug)
@@ -114,9 +121,10 @@ export default async function PostPage({ params }: Props) {
             </div>
           </header>
 
+          {isHtmlPost && <TableOfContents toc={toc} />}
           <div className="prose max-w-none">
-            {post.content.trimStart().startsWith('<') ? (
-              <div dangerouslySetInnerHTML={{ __html: lazifyContentImages(post.content) }} />
+            {isHtmlPost ? (
+              <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
             ) : (
               <MDXRemote
                 source={post.content}
