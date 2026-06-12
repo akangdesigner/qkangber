@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code 做出來的網頁充滿 AI 味？Claude Design 協同設計讓網站 UI/UX 質感飛躍</title>
+  <meta name="description" content="Claude Code 做的網頁總是充滿 AI 味、一看就是 AI 生的？這篇用我自己的網站當案例，實測怎麼讓 Claude Design 與 Claude Code 協同設計，從千篇一律、彼此撞臉的罐頭版型救成有個性的 UI/UX，並誠實講限制與最新的額度變動。">
+</head>
+<body>
+
+<h1>Claude Code 做出來的網頁充滿 AI 味？Claude Design 協同設計讓網站 UI/UX 質感飛躍</h1>
+
+<h2>前言</h2>
+<p>用 <strong>Claude Code</strong> 把網站做出來，能跑、功能也對，但畫面一看就知道是 AI 生的——圓角卡片、清一色的預設 icon、漸層按鈕，全都長一個樣（還不熟 Claude Code 能做到什麼的話，可以先看我寫的 <a href="https://aiqkangber.com/blog/claude-mcp" target="_blank" rel="noopener">MCP 核心功能詳解</a>）。這篇講我怎麼拉 <strong>Claude Design</strong> 進來「協同設計」，<span style="color:#c0392b;">把自己的網站從滿滿 AI 味救回有質感的樣子</span>，也誠實講它做不到的地方，還有一個很多人搞錯的重點——現在用 Claude Design，會直接吃掉你 Claude Code 的 token 額度。</p>
+
+<h2>為什麼 Claude Code 做的網頁，一看就是「AI 做的」？</h2>
+<p>先說結論：這不是 Claude Code 笨，而是<span style="color:#c0392b;">大型語言模型的本質是「機率預測」</span>，它永遠在找統計上的「最大公約數」。當你只丟一句「幫我做一個現代感的 Landing Page」、卻沒給具體風格時，模型只能從訓練資料裡，撈出最符合「現代、流行、高評價」的那批程式碼來填。</p>
+<p>而近年最紅的前端元件庫——<strong>Tailwind CSS、Shadcn UI、Magic UI</strong>——在它資料庫裡的權重最高、最不容易出錯。於是這些庫「開箱即用」的那套預設樣式，就成了 AI 的萬用解答——你叫它做網站，它就端出同一套。<span style="color:#c0392b;">所以 AI 不是「挑了醜的」，而是挑了那張最安全、卻最沒有你的牌</span>。這裡要先講清楚：AI 味跟「哪種顏色、哪種風格好不好看」完全無關，它真正的問題是——<strong>它給你的「變化」其實是假的：同一套 feature 卡片版型，只把兩格換成三格、配一批到處都有的廉價 icon，每個 AI 網站都這樣</strong>。</p>
+
+<h3>真正的問題：你在「無意識」中把設計決定權讓了出去</h3>
+<p>關鍵不在這些元素好不好看，而在<span style="color:#c0392b;">它們全都不是「你決定的」</span>。當你只輸入「幫我做一個記帳網站的個人主頁」，AI 就得自己把所有設計細節填滿：</p>
+<ul>
+  <li><strong>佈局</strong>：三欄式卡片是最容易呈現「功能特點」、又保證 RWD 不破版的 Safe 結構，於是它每次都這樣排。</li>
+  <li><strong>視覺</strong>：細線圖示（像 Lucide Icons）程式碼短、好調用、百搭，成了它的萬用貼圖。</li>
+  <li><strong>結果</strong>：你驚嘆「5 秒就生出一個完整網頁」，卻沒發現色彩、間距、結構<span style="color:#c0392b;">全是公版</span>。</li>
+</ul>
+<figure>
+  <img src="https://i.ibb.co/8nDJvCRN/claude-design-01-ai-samey-layouts.png" alt="六張 AI 生成的 feature 區塊並排，全是同一套 icon 卡片版型：只差在兩格、三格、四格、2x2、橫排這種排列，icon 和配色都一樣">
+  <figcaption>AI 口中的「不同版型」其實長這樣——同一套 feature 卡片，只是兩格變三格變四格，配同一批到處都有的廉價 icon。變化是假的，那股 AI 味才是真的。</figcaption>
+</figure>
+<p>你可能會想：「那我請它換一種風格總可以了吧？」我特地做了個實驗——讓 AI 生六個<strong>完全不同產業</strong>的網站（記帳工具、法律科技、寵物健康、咖啡訂閱、健身 App、工程師作品集），風格隨它自由發揮。它確實端出了六種「流派」：深色紫光、淺色乾淨、Bento 格子、玻璃擬態、粉彩分欄、個人品牌公版。乍看真的不一樣，但瞇著眼再掃一次——<span style="color:#c0392b;">徽章、漸層字、藥丸按鈕、卡片三連發，同一批零件換了六套衣服</span>，每一張你都有「我在哪看過」的既視感。</p>
+<figure>
+  <img src="https://i.ibb.co/gF3gYSXD/claude-design-06-ai-slop-six-styles.png" alt="六個不同產業的 AI 生成 landing page 並排對照：深色紫光 SaaS 記帳工具、淺色乾淨 SaaS 法律科技、Bento 格子寵物健康、玻璃擬態咖啡訂閱、左右分欄粉彩健身 App、個人品牌工程師作品集，風格不同但都用徽章、漸層字、藥丸按鈕同一批零件">
+  <figcaption>六個產業、六種「流派」，全是 AI 自由發揮的結果。風格像是換了，但徽章、漸層字、藥丸按鈕從來沒缺席——換湯不換藥，這才是 AI 味的真面目。</figcaption>
+</figure>
+<p>所以「AI 味」的本質，是<span style="color:#c0392b;">設計決定權的無意識讓渡</span>——你以為你在「做網站」，其實是把長相整個外包給了統計平均值。反過來說，只要是你「<strong>刻意決定</strong>」的風格（哪怕你選的剛好跟大家撞），那就是你的設計，不再是 AI 味。差別從來不是好不好看，是「有沒有人做選擇」。問題只剩一個：一個不會設計的工程師，要怎麼做這些選擇？這就是 Claude Design 進場的地方。</p>
+
+<h2>Claude Code 與 Claude Design 怎麼分工？</h2>
+<p>很多人把這兩個搞混，以為是同一個工具的兩個名字。其實它們分工很清楚：<strong>Claude Code 負責「寫出能跑的程式」，Claude Design 負責「做設計決策與視覺」</strong>。一個是工程，一個是美感，剛好補上彼此的弱項。</p>
+<table>
+  <thead>
+    <tr><th>比較項</th><th>Claude Code</th><th>Claude Design</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>主要工作</td><td>把需求變成可執行的程式碼</td><td>產生版面、配色、排版等設計決策</td></tr>
+    <tr><td>擅長</td><td>邏輯、功能、串接、修 bug</td><td>視覺層級、間距、風格、畫面質感</td></tr>
+    <tr><td>輸出</td><td>真的能跑的網站／元件</td><td>可互動的設計稿（Prototype）、可交付給 Code 的規格</td></tr>
+    <tr><td>弱項</td><td>沒給方向就走 AI 味預設版型</td><td>不直接產出生產級程式碼</td></tr>
+    <tr><td>什麼時候用</td><td>實作、上線、之後維護</td><td>實作前先把「長什麼樣」定下來</td></tr>
+  </tbody>
+</table>
+<p>協同設計的核心觀念只有一句：<span style="color:#c0392b;">先把設計決策定下來，再叫 Code 去實作，而不是讓 Code 邊寫邊隨便決定畫面長怎樣</span>。AI 味之所以出現，就是因為「設計」這一步被跳過、被 Code 自動代填了。把這一步交還給 Claude Design，畫面就有了主見。</p>
+
+<h2>我的協同流程：先用 Claude Design 定設計，再讓 Claude Code 實作</h2>
+<p>講概念太虛，直接用我自己的網站 <strong>aiqkangber.com</strong> 示範我實際的流程。我不是設計師，整個站都是我用 AI 一起做出來的，所以這套流程是真的在跑、不是紙上談兵。</p>
+
+<h3>流程拆解：從定方向到交付實作</h3>
+
+<p><strong>① 先餵它「你的底」。</strong>開始前 Claude Design 有個「Set up your design system」步驟——可以<span style="color:#c0392b;">接上你的 GitHub repo、從電腦拖入現有程式碼，或上傳設計檔（.fig）跟公司文件</span>。這一步是它生出來「像你、而不是通用 AI 版型」的源頭：先學會你既有的設計語言，後面才不會端出一套陌生公版。</p>
+<figure>
+  <img src="https://i.ibb.co/wZYywfXH/claude-design-setup-design-system.png" alt="Claude Design 的「Set up your design system」設定畫面：可填公司簡介、用 GitHub 連結程式碼、從電腦拖入資料夾、或上傳 .fig 設計檔">
+  <figcaption>開始前先餵它「你的底」：接 GitHub、拖程式碼、丟 .fig 或公司文件，它就照你既有的設計系統生，而不是端出一套陌生的通用版型。</figcaption>
+</figure>
+
+<p><strong>② 它會先反問你方向，再生視覺。</strong>有趣的是，Claude Design 不會悶頭丟設計——它常常<span style="color:#c0392b;">先丟幾個方向的問題反問你</span>（畫面左側那行「Claude has some questions」），確認清楚才動手，右側才給你可挑的方案。我這次請它重做按鈕，它一口氣給了三套路線（Aurora／Halo／Ink）讓我選；過程都由我下指令調間距、層級、配色——設計決定權握在自己手上，不讓它走預設。</p>
+<figure>
+  <img src="https://i.ibb.co/zWLMGhLc/claude-design-02-claude-design-canvas.png" alt="Claude Design 介面截圖：左側對話出現「Claude has some questions」、它先問設計方向再動手，右側畫布渲染出 Button Design System 三個方向（Aurora／Halo／Ink）的按鈕設計">
+  <figcaption>真實畫面：左側那行「Claude has some questions」是重點——它不是悶頭丟設計，而是<span style="color:#c0392b;">先反問你幾個方向才動手</span>；右側才給你可挑的方案（這次是三套按鈕路線：Aurora／Halo／Ink）。</figcaption>
+</figure>
+
+<p><strong>③ 卡關時，先去 Dribbble 撿參考。</strong>如果你「也說不清楚自己要什麼」，下指令前先去 <strong>Dribbble</strong> 或 <strong>Pinterest</strong> 搜想要的風格元素，把<span style="color:#c0392b;">看上眼的截圖＋連結貼回 Claude Design 當參考</span>。它讀懂之後給的草案品質會跳一級——比你憑空想一堆形容詞讓它猜，又快又準。</p>
+<figure>
+  <img src="https://i.ibb.co/4nDwmtPh/claude-design-dribbble-reference.png" alt="在 Dribbble 搜尋 button、切到 Web Design 分類的畫面，一整排不同風格的按鈕設計參考縮圖">
+  <figcaption>實際做法：在 Dribbble 搜你想要的元素（這裡搜 button、切到 Web Design），把看上眼的截圖＋連結一起貼回 Claude Design，它就會照著那個風格給你草案。</figcaption>
+</figure>
+
+<p><strong>④ 一鍵交付給 Claude Code 實作。</strong>方向定了、視覺也順了，按右上角 <strong>Share →「Send to…」</strong>，目的地清單裡就有 Claude Code，旁邊那行說明寫得很直白——「Hand off the project to your terminal」，把整個專案交接到你的終端機。它不是丟一張圖或一段提示，而是<span style="color:#c0392b;">打包成一個結構化「交付包」</span>——含元件規格、實際用到的 design tokens（顏色、間距、字級）、版面層級跟素材。Claude Code 直接讀這份規格、不用從像素猜，照著寫成程式碼，再來回微調幾輪就收斂。</p>
+<figure>
+  <img src="https://i.ibb.co/fYwmDkW9/claude-design-03-send-to-claude-code.png" alt="Claude Design 右上角 Share 面板切到 Send to... 分頁，Your destinations 清單列出 Claude Code（Hand off the project to your terminal）與 Canva，畫布上是 Button Design System 的三條路線設計稿">
+  <figcaption>交付只要三步（照圖上紅框）：① 右上角 Share → ② 切到「Send to…」→ ③ Claude Code 按下 Send。交出去的是含規格與 design tokens 的結構化交付包，不是一張截圖，所以 Code 接手時不用猜。（這張就是我重做按鈕系統那次的真實畫面）</figcaption>
+</figure>
+<p>📖 <strong>延伸閱讀</strong>：<a href="https://aiqkangber.com/blog/claude-mcp">MCP 是什麼？Claude Code 核心功能詳解：以 Figma、n8n 為例打造會動手的 AI</a></p>
+
+<h2>實際對照：AI 公版 vs 我的網站，首頁、服務頁、電子報頁一次看</h2>
+<p>講再多不如直接看。下面第一張，是我特地做的一個<strong>典型「AI 公版」hero</strong>——置中大標、漸層字、底下三張線條圖卡片。它不醜，但你一定有「好像在哪看過」的既視感，因為每個 AI SaaS 落地頁都長這樣。</p>
+<figure>
+  <img src="https://i.ibb.co/pj9m5Dt9/claude-design-04-before-ai-generic.png" alt="典型 AI 公版 hero 示範：深色底加紫藍光暈、置中漸層大標、徽章、兩顆藥丸按鈕，底下三張線條圖示卡片，整體像每個 AI SaaS 落地頁">
+  <figcaption>改版前／典型 AI 公版：置中大標＋漸層字＋三張線條圖卡片。不醜，但匿名——換成任何一家公司都成立。</figcaption>
+</figure>
+<p>下面是我自己的網站 <strong>aiqkangber.com</strong>。一樣是深色、一樣有漸層，但首頁主視覺換成了一顆「整合中樞」的<strong>粒子地球</strong>，四顆衛星節點對應我實際在用的工具（Figma、Cursor、n8n、pgvector），底下還有一條 agent 即時動作的狀態列。</p>
+<figure>
+  <img src="https://i.ibb.co/PvY150RK/claude-design-05-after-aiqkangber.png" alt="aiqkangber.com 首頁實際畫面：左側兩行標題『把 AI 接進你的工作流程，讓自動化真正發生』，右側是粒子地球整合中樞，四顆衛星節點標示 Design、Code、n8n、Database">
+  <figcaption>改版後／我的網站：同樣深色與漸層，但主視覺是別人複製不走的粒子地球整合中樞。差別不是顏色，是<strong>有沒有人替它做一個專屬的決定</strong>。</figcaption>
+</figure>
+<p>注意看，這兩張的<span style="color:#c0392b;">配色其實是同一個色系</span>——所以「有沒有 AI 味」從來不是看顏色，是看那個主視覺是「隨手生的公版」，還是「為你而做的東西」。</p>
+<p>而且這個對比不只首頁，內頁更明顯。下面兩組都是「上：AI 公版、下：我的實頁」。公版服務頁你閉著眼睛都背得出來——置中漸層大標＋三張等寬的 ✓ 清單卡；公版電子報頁則永遠是一張置中訂閱卡＋漸層按鈕＋「10,000+ 訂閱者」三件套。我的服務頁拿斜置的工作流卡片當主視覺、底下接一條真的在跑的終端機狀態列；電子報頁則放了一隻太空人、直接攤開歷期內容。<span style="color:#c0392b;">每一頁都有自己的記憶點，這就是公版給不了的東西</span>。</p>
+<figure>
+  <img src="https://i.ibb.co/CKJQprqJ/claude-design-07-services-before-after.png" alt="服務頁對比圖：上半是 AI 公版服務頁，置中漸層標題加三張等寬勾選清單服務卡；下半是 aiqkangber.com 實際服務頁，左側標題右側斜置工作流卡片，底部有終端機狀態列">
+  <figcaption>服務頁對比。上／AI 公版：置中大標＋三張等寬 ✓ 清單卡，換哪家公司都成立；下／我的服務頁：斜置工作流卡＋終端機狀態列，看一眼就知道這個人是做自動化的。</figcaption>
+</figure>
+<figure>
+  <img src="https://i.ibb.co/hFMB1d5L/claude-design-08-newsletter-before-after.png" alt="電子報頁對比圖：上半是 AI 公版訂閱頁，置中訂閱卡配信封圖示、漸層訂閱按鈕與一萬訂閱者社會證明；下半是 aiqkangber.com 實際電子報頁，太空人插畫加歷期電子報列表">
+  <figcaption>電子報頁對比。上／AI 公版：置中訂閱卡＋漸層按鈕＋「10,000+ 訂閱者」三件套；下／我的電子報頁：一隻太空人＋直接攤開歷期內容。同樣是要你訂閱，記憶點完全不同。</figcaption>
+</figure>
+<p>但我得誠實講它的限制，免得你期待過高。<span style="color:#c0392b;">Claude Design 做不出複雜的圖</span>——它擅長的是版面、排版、配色，圖示這塊它很愛用 <strong>SVG 線條圖、簡單幾何形狀</strong>那種「向量、乾淨」的格式。要真實照片、複雜插畫、有質感的主視覺，它生不出來，那些還是得你自己準備（拍照、找素材、或用別的生圖工具）。所以協同設計救的是「版面與質感」，不是「幫你變出美術素材」——把期待放對地方，你才不會失望。</p>
+
+<h2>兩個一起用，額度燒更快——Claude Design 已併入共用額度，怎麼省？</h2>
+<p>這裡要破一個很多人（包括我一開始）都搞錯的迷思。Claude Design 剛推出時是<strong>獨立額度</strong>，用它不影響你的 chat 和 Claude Code。但<span style="color:#c0392b;">從 2026 年 5 月底起，Anthropic 把 Claude Design 的額度併進了共用池</span>，官方說法是「Claude Design now shares usage limits with Claude.ai and Claude Code」——也就是說，現在 chat、Claude Code、Claude Design 三個吃的是<strong>同一份額度</strong>。這個改動是伺服器端逐步推送、還沒大張旗鼓公告，所以四月那批教學文很多還停在「獨立額度」的舊資訊。</p>
+<p>對協同設計的影響很直接：你一邊用 Claude Design 反覆調畫面、一邊用 Claude Code 實作，<span style="color:#c0392b;">兩邊都在咬同一份額度，會比你想的更快見底</span>，重度使用者尤其有感。所以「怎麼省」變成這套流程能不能持續跑的關鍵。</p>
+
+<h3>省額度的輕量替代做法</h3>
+<p>我自己在用的幾個省法，從最該做的開始：</p>
+<ul>
+  <li><strong>設計方向先想清楚再 handoff</strong>：別把 Claude Design 當塗鴉板無限迭代，先在腦中或紙上定好調性，進去就是收斂，不是亂試。</li>
+  <li><strong>把 Claude Design 留給關鍵頁</strong>：首頁、服務頁這種門面才動用它；內頁、重複版型讓 Claude Code 沿用既有 tokens 就好。</li>
+  <li><strong>在 prompt 直接下 design tokens</strong>：把配色、字級、間距用文字明確告訴 Claude Code，它就不會走 AI 味預設，這招完全不花 Design 額度。</li>
+  <li><strong>套用 anti-slop 的 skill</strong>：社群有專門對抗 AI 味的前端 skill，放進 Claude Code 就能讓它寫前端時帶點品味。</li>
+  <li><strong>非關鍵視覺用免費工具</strong>：像 Google Stitch 這類也能補一部分版面，把貴的額度省下來。</li>
+</ul>
+<p>📖 <strong>延伸閱讀</strong>：<a href="https://aiqkangber.com/blog/ai-coding-downsides">AI 寫程式的缺點有哪些？2026 vibe coding 實測，8 個 AI 生成程式碼的致命問題</a></p>
+
+<h2>常見問題 FAQ</h2>
+
+<h3>Q1：Claude Design 免費能用嗎？費用怎麼算？</h3>
+<p>免費帳號用不了。Claude Design 包含在 <strong>Pro、Max、Team、Enterprise</strong> 訂閱方案裡，不用額外加購方案就能用。但要注意，<span style="color:#c0392b;">它的用量從 2026 年 5 月底起已經併入和 chat、Claude Code 共用的額度池</span>，Pro 額度少、Max 多（約 5 倍），額度不夠時可以另外加購 credits。</p>
+
+<h3>Q2：Claude Design 出的設計能直接變成程式碼嗎？</h3>
+<p>能，這正是它最強的地方。透過 Share →「Send to…」選 Claude Code，它會把設計打包成含元件規格與 design tokens 的<strong>結構化交付包</strong>，Claude Code 直接讀這份規格實作，<span style="color:#c0392b;">不用從截圖去猜版面</span>。這是同個模型家族之間的交接，比「丟一張設計圖叫工程師照著刻」精準很多。</p>
+
+<h3>Q3：我沒有設計底子，也能用 Claude Design 嗎？</h3>
+<p>可以，而且它正是為不會設計的人準備的。你不需要懂配色理論或排版規則，<span style="color:#c0392b;">用對話描述你要的感覺，它幫你把設計決策補上</span>。你要做的不是「會設計」，而是「會判斷哪個版本比較順眼」並把方向講清楚——這比從零學 Figma 低門檻太多。</p>
+
+<h3>Q4：Claude Code 跟 Claude Design 一定要一起用嗎？</h3>
+<p>不一定。如果你會在 prompt 裡明確下 design tokens（顏色、字級、間距），<span style="color:#c0392b;">光用 Claude Code 也能擺脫不少 AI 味</span>。Claude Design 的價值在於「幫你把設計方向視覺化、再無縫交給 Code」，當你對畫面沒把握、或想要更高的視覺完成度時，兩個一起用的效果才明顯。</p>
+
+<h3>Q5：Claude Design 和 Figma 差在哪？我該用哪個？</h3>
+<p>Figma 是給設計師的專業工具，自由度高但學習曲線陡。Claude Design 是<span style="color:#c0392b;">用對話做設計、而且能直接交給 Claude Code 變程式碼</span>，主打「不會設計也能用」和「設計到開發一條龍」。如果你是工程師、想快速把畫面做順又不想學 Figma，Claude Design 更適合；需要像素級精修、團隊協作設計規範，Figma 還是更專業。</p>
+
+<h2>總結</h2>
+<p>Claude Code 做的網頁有 AI 味，從來不是技術不行，而是<span style="color:#c0392b;">「設計決策」這一步被跳過、被模型用安全牌代填了</span>。把這一步交還給 Claude Design——先定方向、再用交付包無縫交給 Code 實作——畫面就從「某個 AI 隨手生的」變回「某個人的品牌」。我用自己的網站走過一遍，最有感的不是某個按鈕變漂亮，而是整個站終於不再撞臉。</p>
+<p>記住三件事就夠了：<span style="color:#c0392b;">先做設計決策再寫程式、把有限的額度花在門面頁、對 AI 生不出複雜美術素材這件事放對期待</span>。握住這三條，你不用變成設計師，也能做出讓人覺得「有質感」的網站。</p>
+<p>如果你也想把自己的網站門面或工作流程交給 AI 重新打理、卻不知道從哪開始，歡迎<a href="https://aiqkangber.com/contact" target="_blank">直接聯絡我</a>聊聊你的需求。</p>
+
+<h2>參考資料</h2>
+<ul>
+  <li><a href="https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work" target="_blank" rel="noopener">Anthropic Support — How do usage and length limits work</a></li>
+  <li><a href="https://support.claude.com/en/articles/14667344-claude-design-subscription-usage-and-pricing" target="_blank" rel="noopener">Anthropic Support — Claude Design subscription usage and pricing</a></li>
+  <li><a href="https://www.hot3c.com/read.asp?class=22&amp;id=27113" target="_blank" rel="noopener">hot3c — Claude Design 額度併入共用池說明（2026/5/29）</a></li>
+</ul>
+
+</body>
+</html>

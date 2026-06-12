@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 架構是什麼？搞懂 AI Agent 怎麼從「會聊天」變成「會自己做事」</title>
+  <meta name="description" content="AI 架構是什麼？這篇用四個元件白話拆解，帶你看懂 AI Agent 怎麼從會聊天進化到會自己做事，並用實際做過的系統教你判斷：你的需求到底該不該用 AI Agent。">
+</head>
+<body>
+
+<h1>AI 架構是什麼？搞懂 AI Agent 怎麼從「會聊天」變成「會自己做事」</h1>
+
+<h2>前言</h2>
+<p>一搜「<a href="https://aiqkangber.com/blog/ai-architecture" target="_blank" rel="noopener"><strong>AI 架構</strong></a>」，你會看到兩種完全不同的解釋：一種在講 GPU 叢集、資料中心；另一種在講<strong>AI Agent</strong>怎麼自己查資料、自己做事。這篇要講的是後者——<span style="color:#c0392b;">不用會寫程式，也能看懂的那種 AI 架構</span>。我會用四個元件把它拆開，再用我自己實際做過的幾套系統，帶你看懂 AI 從「會聊天」變成「會自己做事」中間到底發生了什麼，以及最重要的：你的需求該不該用 AI Agent。</p>
+
+<h2>大家都在講 AI 架構，它到底在講什麼？</h2>
+<p>會搞混很正常，因為「AI 架構」這四個字被兩群人拿去用，講的根本不是同一件事。一群是雲端大廠和硬體商，他們口中的 AI 架構是<strong>基礎建設</strong>：要多少張顯示卡、資料放哪、模型怎麼大規模訓練。那是給有 MLOps 團隊的大企業煩惱的，跟多數人無關。</p>
+<p>另一群——也是這篇要講的——講的是<strong>應用層的架構</strong>：怎麼把一個會做事的 AI <span style="color:#c0392b;">「組」起來</span>。它不是買一台更強的機器，而是像組一個會幹活的團隊：誰負責思考、誰負責動手、誰記得事情、誰決定什麼時候開工。兩者差在哪，一張表就清楚：</p>
+
+<table>
+  <thead>
+    <tr><th>比較項</th><th>大廠講的「AI 基礎建設」</th><th>這篇講的「AI 應用架構」</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>關注層級</td><td>硬體、算力、資料中心</td><td>應用層：怎麼組一個會做事的 AI</td></tr>
+    <tr><td>誰要煩惱這個</td><td>雲端供應商、大企業 MLOps 團隊</td><td>接案者、小團隊、個人開發者</td></tr>
+    <tr><td>要不要會寫程式</td><td>要，還要懂基礎設施</td><td>多數用無程式碼工具就能組</td></tr>
+    <tr><td>代表例子</td><td>NVIDIA GPU 叢集、Azure／AWS 的 AI 平台、訓練 GPT 的算力中心</td><td>ChatGPT、Cursor、Perplexity、AI 客服、自動發文機器人</td></tr>
+  </tbody>
+</table>
+
+<p>看出來了嗎？大廠那一欄離你很遠，但右邊那一欄你天天在用。<span style="color:#c0392b;">搞懂應用層的 AI 架構，比學會某一個工具更值錢</span>——因為工具會換，但「怎麼把元件組起來」這個判斷力不會過期。你能判斷一件事該怎麼搭，就不會每次看到新工具都從零開始。</p>
+
+<h2>AI 架構的四個元件：大腦、手腳、記憶、排程</h2>
+<p>一套會做事的 AI，其實就是四個元件組出來的。理解這四塊，你就有了一副拆解任何 AI 系統的眼鏡——看到一個產品，你會自動問「它的大腦是誰？有沒有手腳？記不記得事？誰按下開工鍵？」</p>
+
+<figure>
+  <img src="https://i.ibb.co/7d8Lkn8t/bf7a302f9c4e.jpg" alt="AI 架構四個元件示意圖：大腦（LLM）、手腳（工具）、記憶（知識）、排程（任務）組合成一個會做事的 AI">
+  <figcaption>一套會做事的 AI＝大腦＋手腳＋記憶＋排程，四個元件缺一就少一種能力。</figcaption>
+</figure>
+
+<h3>大腦（LLM）：負責理解與生成，但光有大腦只會聊天</h3>
+<p>第一塊是大腦，也就是<strong>大型語言模型（LLM）</strong>，像 GPT、Claude、Groq 上跑的那些模型。它負責讀懂你的話、生出回應。但這裡有個關鍵——<span style="color:#c0392b;">光有大腦的 AI，只會「聊天」</span>。它能跟你對答如流，卻不知道你公司的事，也不能幫你真的去做任何動作——就像一個反應很快的新人，腦袋靈光，但剛報到、內部的事都還沒交接，你問他細節他一問三不知。</p>
+
+<h3>記憶（知識）：讓 AI 講「你的事」而不是通則</h3>
+<p>第二塊是記憶。要讓 AI 不再只會講通則、開始講「你的事」，就得餵它知識。做法是把一份知識庫塞進它每次回答前要讀的內容裡——這就是大家常聽到的<strong>RAG（檢索增強）</strong>的入門版。我網站上那隻 AI 助理「黃小瓜瓜」就是這樣組的：一個跑在 Groq 上的語言模型當大腦，外加一份我親手寫的知識庫當記憶。所以它答得出「Q kangber 有哪些服務」，不是因為模型本來就認識我，而是<span style="color:#c0392b;">它每次回答前都先讀過那份我餵的知識</span>。加上記憶這塊，AI 才從「百科全書」變成「你的同事」。</p>
+
+<figure>
+  <img src="https://i.ibb.co/tTDRfZJF/4620e3a2b226.jpg" alt="網站 AI 助理黃小瓜瓜的實際對話截圖：訪客問「Q kangber 提供哪些服務」，它讀取知識庫後回答 n8n 自動化與 AI 應用開發等服務">
+  <figcaption>黃小瓜瓜的實際對話：問它服務，它答得出「兩大類：流程自動化與 AI 應用開發」——這就是大腦（語言模型）＋記憶（知識庫）。</figcaption>
+</figure>
+
+<h3>手腳（工具）：讓 AI 能查、能動，不被訓練資料困住</h3>
+<p>第三塊是手腳。模型的知識停在它被訓練的那一刻，問它今天的新聞它不會知道。<strong>工具</strong>就是給 AI 裝上手腳，讓它能去查即時資料、能呼叫外部服務。我有一套幫文章找資料的流程，裡面的 AI Agent 會<span style="color:#c0392b;">先自己呼叫 Tavily 搜尋工具去查最新資料</span>，查完才往下寫。這一步很關鍵——從「只會用腦袋裡舊知識講」變成「會自己出去查了再講」，AI 就跨過了從「會講」到「會查」的門檻。</p>
+
+<figure>
+  <img src="https://i.ibb.co/gZh7nnPR/a8ab17cc4962.jpg" alt="真實的 n8n 工作流畫布：兩個 AI Agent 節點各自透過 Tool 端口連接 tavily Tool 搜尋工具">
+  <figcaption>我工作流裡的真實畫面：AI Agent 節點透過 Tool 端口掛著「tavily Tool」——那個吊在下面的搜尋工具，就是 AI 的「手腳」。</figcaption>
+</figure>
+<p>📖 <strong>延伸閱讀</strong>：<a href="https://aiqkangber.com/blog/claude-mcp">MCP 是什麼？Claude Code 核心功能詳解：以 Figma、n8n 為例打造會動手的 AI</a></p>
+
+<h3>排程（任務）：誰來觸發、按什麼順序跑</h3>
+<p>第四塊是排程，也就是任務管理：這套 AI 是你開口它才動，還是時間到了自己開工？要按什麼順序做哪幾步？我那套監控社群的系統，就是<strong>定時自動撈取</strong>新貼文，不需要我盯著。排程這塊決定了一件事——AI 是被動等你的工具，還是主動幫你跑的助手。四個元件湊齊，一覽如下：</p>
+
+<table>
+  <thead>
+    <tr><th>元件</th><th>負責什麼</th><th>少了它會怎樣</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>大腦（LLM）</td><td>理解語言、生成回應</td><td>連話都聽不懂，沒有 AI</td></tr>
+    <tr><td>記憶（知識）</td><td>讓回答貼合你的情境</td><td>只會講通則，答不出你的事</td></tr>
+    <tr><td>手腳（工具）</td><td>查即時資料、呼叫外部服務</td><td>被舊知識困住，不能做事</td></tr>
+    <tr><td>排程（任務）</td><td>決定何時觸發、跑哪幾步</td><td>永遠被動等指令，不會主動</td></tr>
+  </tbody>
+</table>
+
+<h2>從「會回答」到「會自己做事」：AI Agent 在架構光譜的哪一端？</h2>
+<p>有了四個元件當底，現在可以回答最核心的問題：<strong>AI Agent</strong> 到底是什麼？很多人以為它是跟「AI 架構」平行的另一個名詞，其實不是——<span style="color:#c0392b;">AI Agent 是架構長到某個程度後的形態</span>，是這條光譜最右邊那一格。</p>
+
+<figure>
+  <img src="https://i.ibb.co/Zz5KRdCW/ec69afeb9a28.jpg" alt="AI 自主程度光譜示意圖：從純問答、知識增強、會調工具、會自己規劃，到多代理人協作，越往右越像 AI Agent">
+  <figcaption>從純問答到多代理人協作，越往右自主程度越高；AI Agent 站在「會自己決定下一步」這一端。</figcaption>
+</figure>
+
+<h3>自主程度是一條光譜，不是有或沒有</h3>
+<p>很多人把 AI Agent 想成一個開關——是 agent 或不是。其實它是一條<strong>自主程度的光譜</strong>：最左邊是純問答（只有大腦），往右是知識增強（加了記憶），再往右是會自己調工具（長出手腳），再往右是會自己規劃多個步驟，最右邊是多個 AI 互相協作。<span style="color:#c0392b;">越往右走，自主程度越高、越像 AI Agent</span>，不是非黑即白。</p>
+
+<h3>關鍵分水嶺：會不會「自己決定下一步」</h3>
+<p>那分水嶺在哪？在於系統會不會<span style="color:#c0392b;">自己決定下一步該做什麼</span>。一般的 AI 功能是你問一句、它答一句，路線是你定的。AI Agent 不一樣——你給它一個目標，它會自己想「我得先查資料、查完發現不夠、再查一次、然後整理、最後輸出」。這種「想一下、做一步、看結果、再想下一步」的循環，就是 agent 的靈魂。它不是照你寫死的步驟走，而是邊做邊判斷。</p>
+
+<h3>所以 AI Agent ＝ 四元件到齊 ＋ 一個會自己跑的決策循環</h3>
+<p>把前面串起來，AI Agent 的定義就清楚了：<span style="color:#c0392b;">四個元件到齊，再加上一個會自己跑的決策循環</span>。大腦負責判斷、記憶提供背景、手腳去執行、排程啟動它，而那個決策循環讓它不必每一步都等你下令。理解到這裡，你會發現「AI 架構」和「AI Agent」根本是同一件事的兩個視角——架構講的是元件怎麼組，agent 講的是組到會自己行動的那個結果。</p>
+
+<h2>AI Agent 跟「有接了 AI 的系統」差在哪？</h2>
+<p>這是最多人搞混、也最值得講清楚的一點。現在幾乎每個產品都說自己「有 AI」，但<span style="color:#c0392b;">有用 AI，不等於是 AI Agent</span>。差別不在有沒有用模型，而在「誰決定流程」。</p>
+
+<h3>很多系統只是把 AI 當成管線裡的一個節點</h3>
+<p>我做過一個 AI 工具排行榜網站，它的流程是：先去 Reddit、GitHub、Hacker News 等地方<strong>爬取</strong>大家在討論哪些工具，再用一個語言模型把每則討論<strong>抽取</strong>成結構化資料（提到哪個工具、評價正負面），最後算分數排名。這裡確實用了 AI，但它<span style="color:#c0392b;">不是 agent</span>——流程是我寫死的，模型只是管線中間負責「抽取」的那一個節點，它不會自己決定要不要多爬一輪、也不會改變流程。這叫<strong>資料管線（pipeline）</strong>，AI 是其中一站，不是主導者。</p>
+
+<figure>
+  <img src="https://i.ibb.co/RG7r1NfW/0fe69e06d64b.jpg" alt="AICommand AI 工具排行榜網站實際畫面，彙整 Reddit、Hacker News、GitHub 等社群討論並依熱度排名 AI 工具">
+  <figcaption>AICommand 把多個社群的討論爬下來、用模型抽取成結構化資料再排名——AI 是管線中的一站，流程是寫死的，不是它自己決定的。</figcaption>
+</figure>
+
+<h3>真正的 Agent 會自己判斷，甚至會停下來等人</h3>
+<p>對照另一套我做的社群監控系統就很清楚。它會自動撈取相關貼文，用模型<strong>判斷</strong>每則該不該回、適合怎麼回，把建議的回覆寫成候選清單——然後<span style="color:#c0392b;">停下來，等我按核准，它才真的發出去</span>。這就有 agent 的味道了：它自己做了判斷（哪些值得回）、自己擬了行動（草擬回覆），但我刻意在「真的發出去」前留了一道人工閘門。這道閘門不是技術做不到全自動，而是一個架構決定——對外發言這種事，我寧可慢一點也要有人把關。</p>
+
+<figure>
+  <img src="https://i.ibb.co/KjhnScdh/e63ec20600c3.jpg" alt="真實的 n8n「Threads 海巡 A」工作流畫布截圖：定時排程、Threads 關鍵字搜尋、Groq 分類、寫入候選表、LINE 通知共 13 個節點依序串接">
+  <figcaption>我海巡系統的 n8n 真實畫布：撈取→Groq 判斷→寫候選→通知我，<strong>流程到此為止</strong>，人工核准後才由工作流 B 發送。</figcaption>
+</figure>
+
+<p>把「管線型」和「agent 型」並排，差別一目了然：</p>
+<table>
+  <thead>
+    <tr><th>比較項</th><th>管線型（有接 AI）</th><th>Agent 型</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>誰決定流程</td><td>人事先寫死</td><td>AI 依目標自己決定下一步</td></tr>
+    <tr><td>能不能中途改主意</td><td>不行，固定路線</td><td>可以，邊做邊判斷</td></tr>
+    <tr><td>AI 的角色</td><td>管線裡的一個節點</td><td>整套流程的主導者</td></tr>
+    <tr><td>適合的任務</td><td>固定、重複、要穩</td><td>多變、要查、要判斷</td></tr>
+  </tbody>
+</table>
+
+<h2>你的需求該用哪種架構？不是每件事都需要 AI Agent</h2>
+<p>講到這裡，最實用的收穫來了——<span style="color:#c0392b;">不是每件事都該上 AI Agent</span>。agent 聽起來厲害，但它也更難控制、更貴、更容易在你沒看著的時候出包。挑對架構，比挑最厲害的架構重要。</p>
+
+<h3>任務固定、要穩 → 一條管線就夠</h3>
+<p>如果你的需求是「每天固定把 A 資料整理成 B 格式」這種重複又明確的事，<span style="color:#c0392b;">一條寫死的管線最穩</span>，別硬上 agent。給 agent 太多自由，它反而可能在簡單任務上想太多、繞遠路，還增加失控風險。我那個排行榜網站就是這樣——流程固定，用管線最可靠。</p>
+
+<h3>任務多變、要查要決策 → 才需要 Agent</h3>
+<p>反過來，如果任務每次都不一樣、需要邊做邊查、要根據查到的東西決定下一步，這才是 agent 的主場。例如「幫我研究這個主題並寫成文章」，你沒辦法事先寫死要查幾次、查什麼，<span style="color:#c0392b;">這種「過程無法預先規劃」的任務，才值得讓 AI 自己跑</span>。</p>
+
+<h3>高風險動作 → 一定留一道人在迴路的閘門</h3>
+<p>只要 AI 的動作會<strong>對外</strong>（發文、寄信）或<strong>花錢</strong>，不管它多聰明，都該留一道人工核准的閘門。這就是業界說的<strong>人在迴路（human-in-the-loop）</strong>。我的社群監控系統堅持「人核准才發送」，就是這個道理——<span style="color:#c0392b;">自動化的目的是省力，不是把判斷權整個交出去</span>。在幫客戶實際跑流程後我更確定：留一個人把關，換來的是晚上能安心睡覺。</p>
+
+<h3>三個問題，決定你該用哪種架構</h3>
+<p>不確定自己的需求該怎麼搭，問自己這三題就好：</p>
+<ol>
+  <li><strong>流程能不能事先寫死？</strong>能 → 管線就夠；不能、每次都不一樣 → 考慮 agent。</li>
+  <li><strong>過程中需不需要查外部資料或臨機應變？</strong>需要 → 往 agent 那端靠。</li>
+  <li><strong>它的動作會不會對外或花錢？</strong>會 → 不管哪種架構，都加一道人工核准。</li>
+</ol>
+<p>📖 <strong>延伸閱讀</strong>：<a href="https://aiqkangber.com/blog/ai-coding-downsides">AI 寫程式的缺點有哪些？2026 vibe coding 實測，8 個 AI 生成程式碼的致命問題</a></p>
+
+<h2>一個我猶豫很久的設計決定</h2>
+<p>做社群監控系統時，我其實掙扎過要不要做成全自動——撈到、判斷完、直接回覆，完全不用我管，聽起來多爽。我甚至已經把全自動的版本接起來測了。直到有一次測試，模型把一則只是隨口抱怨的貼文判斷成「適合推薦服務」，還擬了一段很熱情的回覆。<span style="color:#c0392b;">還好那是測試環境</span>——如果是正式的，它就真的用我的帳號把這段發出去了。</p>
+<p>我把這個顧慮丟給 Claude Code 一起想，最後的結論很簡單：把流程拆成兩段，撈取與判斷自動跑，但「發送」獨立成另一段、卡在人工核准後面。這個決定讓系統慢了一點，卻換來我對它的信任。<span style="color:#c0392b;">AI 不是用來取代我的判斷，而是把我的判斷放大、讓我能更快表達想法</span>——這道人工閘門，就是我守住判斷權的方式。</p>
+
+<h2>常見問題 FAQ</h2>
+
+<h3>Q1：我沒有工程師背景，搞得懂 AI 架構嗎？</h3>
+<p>可以。這篇從頭到尾沒要你寫一行程式碼。AI 架構的核心是<span style="color:#c0392b;">「怎麼把四個元件組起來」這個判斷</span>，不是寫程式的技巧。你只要記得大腦、手腳、記憶、排程這四塊，看到任何 AI 產品都能拆解它在做什麼。真的要動手組，現在也有很多無程式碼工具能幫你把元件串起來，門檻比你想的低很多。</p>
+
+<h3>Q2：AI 架構和 AI Agent 到底是不是同一件事？</h3>
+<p>是同一件事的兩個視角。AI 架構講的是「元件怎麼組」，AI Agent 講的是「組到會自己行動的那個結果」。換句話說，<span style="color:#c0392b;">AI Agent 是 AI 架構光譜上最靠近「自主」那一端的形態</span>，不是另一個平行的概念。理解架構，你就自動理解了 agent 是怎麼來的。</p>
+
+<h3>Q3：那我做東西到底要不要用 AI Agent？</h3>
+<p>看任務。流程固定、重複、要穩的事，一條寫死的管線最可靠，別硬上 agent；任務多變、需要邊做邊查邊決定的事，才輪到 agent 出場。記住一句話：<span style="color:#c0392b;">挑對架構，比挑最厲害的架構重要</span>。agent 更強，但也更難控制、更貴。</p>
+
+<h3>Q4：讓 AI 自己做事，會不會失控？</h3>
+<p>會，所以才需要設計。最實用的防線是<strong>人在迴路</strong>：只要 AI 的動作會對外（發文、寄信）或花錢，就在動作前加一道人工核准。我自己的系統就是這樣設計的——AI 負責判斷和擬草稿，但<span style="color:#c0392b;">真正按下發送的永遠是人</span>。自動化是省力，不是把判斷權整個交出去。</p>
+
+<h3>Q5：要先學到什麼程度才能開始做自己的 AI Agent？</h3>
+<p>不用先學完再開始。建議從光譜最左邊做起——先做一個「大腦＋記憶」的問答助理（餵它一份知識庫），跑順了再加「手腳」（讓它會查資料），最後才加「排程」讓它自己開工。<span style="color:#c0392b;">一格一格往右走，每一步都看得到成果</span>，比一開始就想做全自動 agent 實際得多。</p>
+
+<h2>總結</h2>
+<p>一套會做事的 AI，說到底就是大腦、手腳、記憶、排程四個元件的組合，而 AI Agent 不過是這些元件組到「會自己決定下一步」時的形態。從會聊天到會自己做事，中間隔的就是這幾塊元件和一個決策循環。看懂了這條光譜，你看任何 AI 產品都不會再被名詞唬住，而是直接看穿它的骨架。</p>
+<p>但這篇真正想留給你的，不是名詞解釋，而是一個判斷力：<span style="color:#c0392b;">不是每件事都需要全自主的 AI Agent，挑對位置才是真本事</span>。固定的事用管線、多變的事用 agent、對外的動作一定留一道人工閘門——握住這三條，你就握住了設計一套好 AI 系統的關鍵。</p>
+<p>想看這四個元件組起來實際長什麼樣子，可以到我的<a href="https://aiqkangber.com/portfolio" target="_blank">作品集</a>看幾套真實上線的自動化與 AI 系統案例。</p>
+
+<h2>參考資料</h2>
+<ul>
+  <li><a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Anthropic — Building Effective Agents</a></li>
+  <li><a href="https://learn.microsoft.com/zh-tw/azure/architecture/ai-ml/" target="_blank" rel="noopener">Microsoft Azure Architecture Center — AI 架構設計</a></li>
+  <li><a href="https://docs.aws.amazon.com/zh_tw/prescriptive-guidance/latest/agentic-ai-serverless/designing-serverless-ai-architectures.html" target="_blank" rel="noopener">AWS — Designing Serverless Agentic AI Architectures</a></li>
+</ul>
+
+</body>
+</html>

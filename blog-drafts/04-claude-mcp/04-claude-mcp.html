@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCP 是什麼？Claude Code 核心功能詳解：以 Figma、n8n 為例打造會動手的 AI</title>
+  <meta name="description" content="MCP 是什麼？這篇用白話帶你詳解 Claude Code 最核心的功能——Model Context Protocol，以 Figma、n8n 為例打造會動手的 AI；並分享我實際試玩後的心得：Figma MCP 到底適合哪種團隊、設計師現階段需不需要跟進。">
+</head>
+<body>
+
+<h1>MCP 是什麼？Claude Code 核心功能詳解：以 Figma、n8n 為例打造會動手的 AI</h1>
+
+<h2>前言</h2>
+
+<p><a href="https://aiqkangber.com/blog/claude-mcp" target="_blank" rel="noopener"><strong>MCP</strong></a>（Model Context Protocol）是 <strong>Claude Code 最核心的功能</strong>之一，也是讓 AI 從「只能出一張嘴」變成「能動手」的關鍵——它是一條讓 AI 直接接上你手邊工具的通道。搞懂這個核心功能，AI 就能自己讀你的 <strong>Figma</strong>、幫你搭 <strong>n8n</strong> 流程，不用你再把畫面一張張截圖、把資料一段段複製貼上。</p>
+
+<p>這篇會用白話帶你詳解 MCP 是什麼、它在 Claude Code 裡怎麼運作，以及我實際以 Figma、n8n 為例試玩後的真實心得。想看官方定義可參考 <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener">MCP 官方文件</a>，想找能接的工具可逛我整理的 <a href="https://aicommand.aiqkangber.com/" target="_blank" rel="noopener">AI 工具排行榜</a>。</p>
+
+<h2>AI 再聰明，也碰不到你的 Figma 和 n8n</h2>
+
+<p>你一定遇過這個情況：AI 對話框很聰明，但它住在一個玻璃箱裡。你問它「幫我看這張設計稿的間距對不對」，它看不到你的 Figma；你說「幫我把這個流程加一個節點」，它也碰不到你的 n8n。它能做的，只有等你把東西<span style="color:#c0392b;">一段一段複製、一張一張截圖</span>餵進去，然後它再吐一段文字回給你，你再手動貼回工具裡。</p>
+
+<p>這中間的搬運成本，才是真正吃掉時間的地方。我自己在幫客戶建自動化流程時最有感：明明 AI 已經想好流程該怎麼設計，但我還是得自己一個節點一個節點點進 n8n 拉好、再把跑出來的結果複製回對話框讓它檢查。AI 出一張嘴，所有手工活還是落在我身上。<strong>MCP</strong> 要解決的，正是這個「AI 看得到、卻碰不到」的斷層。</p>
+
+<h2>MCP 是什麼？讓 AI 接上所有工具的「萬用轉接頭」</h2>
+
+<p><strong>MCP</strong>（全名 <strong>Model Context Protocol</strong>，模型上下文協定）是 Anthropic 在 2024 年底推出的一套開放標準，目的是讓 AI 模型能用一種統一的方式，連到外部的工具、檔案和資料。你可以把它想成 <span style="color:#c0392b;">AI 世界的萬用轉接頭</span>。</p>
+
+<figure>
+  <img src="https://i.ibb.co/tp4RZQw2/44f70bd170b2.jpg" alt="MCP 概念示意圖：Claude 居中，透過 MCP 統一接口放射狀連到 Figma、n8n、Google Drive、GitHub、資料庫等多種工具">
+  <figcaption>MCP 就像 AI 世界的萬用轉接頭：一套標準接口，讓 Claude 連到各式各樣的工具。</figcaption>
+</figure>
+
+<h3>白話解釋：MCP 就像 AI 世界的 USB-C</h3>
+
+<p>USB-C 出現之前，每種裝置都有自己的接頭，充電線一條配一條，亂成一團。USB-C 統一之後，一條線什麼都能插。<strong>MCP</strong> 對 AI 做的就是同一件事：在它出現之前，每接一個工具都要寫一套專屬的對接程式；有了 MCP 這個共通規格之後，工具只要照規格做好一次，<span style="color:#c0392b;">任何支援 MCP 的 AI 都能直接用</span>，不用每家各做一套。</p>
+
+<h3>MCP server 與 MCP client 的分工</h3>
+
+<p>MCP 的世界分成兩個角色。<strong>MCP server</strong>（伺服器）是「工具那一端」——每個工具（Figma、n8n、Google Drive……）都有一個對應的 MCP server，它的工作是把這個工具會的事情，翻譯成 AI 聽得懂的指令清單。<strong>MCP client</strong>（用戶端）則是「AI 那一端」，例如 Claude Desktop 或 Claude Code，它負責去呼叫這些 server。你只要把 server 接上 client，Claude 就多了一項新技能。</p>
+
+<h3>為什麼變成開放標準，連 OpenAI、Google 都跟進</h3>
+
+<p>MCP 雖然是 Anthropic 帶頭做的，但它從一開始就是<strong>開放標準</strong>，任何人都能照規格做自己的 server。也因為這樣，整個生態長得很快——後來 OpenAI、Google 等也陸續宣布支援同一套協定。對使用者的好處很實際：<span style="color:#c0392b;">你今天為 Claude 接好的工具，未來換別的 AI 也大多能共用</span>，不會白做工。這也是我會建議大家現在就花點時間搞懂它的原因。</p>
+
+<p>📖 <strong>延伸閱讀</strong>：<a href="https://aiqkangber.com/blog/post-produce">n8n + Claude Code 自動產生社群貼文：AI 小編生成器製作教學</a></p>
+
+<h2>整體架構：Claude 是大腦、MCP 是接線、工具各司其職</h2>
+
+<p>把整套東西拆開來看，其實只有三層：<strong>Claude</strong> 當大腦負責思考、<strong>MCP</strong> 當接線負責傳遞、<strong>各種工具</strong>負責真正動手。理解這三層怎麼分工，後面設定就不會卡住。</p>
+
+<figure>
+  <img src="https://i.ibb.co/S7QhStfM/1beeaba30cb0.jpg" alt="Claude 串接 MCP 整體架構圖：上層 Claude 大腦、中層多個 MCP server 接線、下層 Figma 與 n8n 等實際工具，呈現三層分工">
+  <figcaption>三層架構：Claude 負責理解需求、MCP server 負責翻譯傳遞、底層工具負責實際執行。</figcaption>
+</figure>
+
+<h3>Claude：負責聽懂你要什麼、決定呼叫哪個工具</h3>
+
+<p>不管是桌面版的 <strong>Claude Desktop</strong>，還是終端機裡的 <strong>Claude Code</strong>，它們扮演的都是「大腦」。你用白話描述需求，例如「幫我看一下這個 n8n 流程哪裡會出錯」，Claude 會自己判斷該動用哪個工具、要查什麼，然後透過 MCP 把指令送出去。你不需要告訴它技術細節，<span style="color:#c0392b;">你只要把想做的事說清楚</span>，剩下的它會接手。</p>
+
+<h3>MCP server：一個工具一個，把工具能力翻譯給 Claude</h3>
+
+<p>每一個你想接的工具，都對應一個 <strong>MCP server</strong>。Figma 有 Figma 的 server、n8n 有 n8n 的 server。它就像一位翻譯，把「Claude 想做的事」轉成「這個工具實際能執行的動作」，再把結果翻回來給 Claude。你接得越多 server，Claude 的雙手就越多。</p>
+
+<h3>這篇文章實際串了哪些工具</h3>
+
+<p>講具體一點。我平常這套 <strong>Claude Code</strong> 裡，同時掛著好幾個 MCP server，各司其職：<strong>n8n</strong> 那個讓它能查我有哪些自動化流程、每個節點該怎麼設定，甚至直接幫我搭一條新流程出來；<strong>Figma</strong> 那個讓它讀得到我的設計稿；還有 Google Drive 負責找檔案。一行指令就能列出目前接了哪些、連線正不正常：</p>
+
+<figure>
+  <img src="https://i.ibb.co/gbHSPdn1/8e1ce5b4bb8d.jpg" alt="Claude Code 執行 mcp list 指令的畫面，列出 n8n-mcp、figma、google-drive 三個 MCP server 都顯示 Connected 已連線">
+  <figcaption>在 Claude Code 用一行指令列出已接上的 MCP server，每個都顯示連線狀態與負責的工作。</figcaption>
+</figure>
+
+<p>重點不在接了幾個，而是<span style="color:#c0392b;">這些工具我本來就在用，差別只是現在 Claude 能直接伸手進去動</span>——以 n8n 來說，我不用再自己打開後台一個個點節點，直接用白話請它幫我查、幫我搭，省下的就是這些手工時間。</p>
+
+<h2>動手設定：如何幫 Claude 裝上第一個 MCP server</h2>
+
+<p>概念講完，來看怎麼真的接上。好消息是，現在接一個 MCP server 比你想像的簡單，重點只有「告訴 Claude 去哪裡找這個 server」這件事。</p>
+
+<h3>兩種接法：Claude Desktop 設定檔 vs Claude Code 指令</h3>
+
+<p>第一種是 <strong>Claude Desktop</strong>（桌面 App）：它有一個設定檔，你把要接的 server 資訊寫進去、重開 App 就生效，適合喜歡點圖形介面的人。第二種是 <strong>Claude Code</strong>（終端機版）：它更直接，用一行指令就能把 server 加進來，適合已經習慣打指令的人。兩種背後接的是<span style="color:#c0392b;">同一套 MCP 協定</span>，能接的工具完全一樣，你挑順手的就好。</p>
+
+<h3>設定要填什麼</h3>
+
+<p>不管哪一種接法，需要你提供的資訊其實就那幾項。與其貼一堆看不懂的設定碼，不如直接看這張表，知道每一格是幹嘛的：</p>
+
+<table style="width:100%;table-layout:fixed;border-collapse:collapse;word-break:break-word;">
+  <thead>
+    <tr><th>欄位</th><th>填什麼</th><th>白話說明</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>名稱</td><td>自己取，例如 <code>figma</code>、<code>n8n</code></td><td>給這個 server 取個代號，方便你之後辨認</td></tr>
+    <tr><td>啟動指令</td><td>該 server 的執行指令（官方文件會給）</td><td>告訴 Claude 怎麼把這個工具叫起來</td></tr>
+    <tr><td>金鑰／網址</td><td>該工具的 API key 或服務網址</td><td>證明「你有權限用這個工具」的通行證</td></tr>
+  </tbody>
+</table>
+
+<p>以接 n8n 為例，要填的「金鑰」和「網址」其實就藏在 n8n 後台的設定裡。打開 n8n 的<strong>設定 → n8n API</strong>，按「Create an API Key」產生一把金鑰，再搭配你的 n8n <strong>部署網址</strong>，這兩樣就是讓 Claude 能操控你 n8n 的鑰匙：</p>
+
+<figure>
+  <img src="https://i.ibb.co/BH8CjkjK/e83f5d42dcaf.jpg" alt="n8n 後台設定的 n8n API 頁面，左側選單選取 n8n API，畫面標出要按 Create an API Key 產生金鑰、以及複製 API 金鑰，搭配部署網址填進 Claude Code 的 MCP 設定">
+  <figcaption>在 n8n 的「設定 → n8n API」產生並複製 API 金鑰，再搭配你的部署網址，填進 Claude Code 的 MCP 設定即可。</figcaption>
+</figure>
+
+<h3>Figma 的接法不一樣：開啟內建的 Dev Mode MCP Server</h3>
+
+<p>Figma 不用像 n8n 那樣自己產金鑰，因為它官方在桌面版 App 裡<strong>內建了一個 Dev Mode MCP Server</strong>。你只要打開 Figma 桌面版，到<strong>偏好設定（Preferences）</strong>裡勾選「Enable Dev Mode MCP Server」，Figma 就會在你的電腦本機跑起一個 server，並給你一個本機網址（localhost）。接著回到 Claude，把這個<span style="color:#c0392b;">本機網址當成要接的 server 加進去</span>就好——這裡不用填金鑰，因為 server 跑在你自己電腦上，本來就只有你能存取。</p>
+
+<p>有一點要先講清楚：這個官方 Dev Mode MCP Server <span style="color:#c0392b;">需要 Figma 的 Dev 或完整付費席次</span>才能開啟。確切的開啟位置與要貼進 Claude 的網址，Figma 官方說明頁會直接給你，照著貼即可：<a href="https://help.figma.com/hc/en-us/articles/32132100833559" target="_blank" rel="noopener">Figma Dev Mode MCP Server 官方指南</a>。</p>
+
+<p>大部分官方或社群做好的 MCP server，都會在說明頁附上可以直接複製的設定範例，你通常只要把<span style="color:#c0392b;">自己的金鑰那一格換成你的</span>就好，不用從零寫起。</p>
+
+<h3>怎麼確認接成功了</h3>
+
+<p>接好、重開之後，最簡單的驗證方法就是直接問 Claude：「你現在可以用哪些工具？」如果它列出了你剛接的那個（例如 n8n），代表接通了。再進一步，你可以丟一個小任務測試，例如請它「列出我 n8n 裡的工作流程」，看它有沒有真的回報出資料。<span style="color:#c0392b;">有資料回來，就代表 Claude 的手真的伸進你的工具裡了</span>。</p>
+
+<h2>實戰：串 Figma、n8n，還能串什麼</h2>
+
+<p>接通之後，真正好玩的才開始。這裡先深入講大家最常問的 Figma 和 n8n，最後再把整個生態攤開來，讓你看看還有多少東西可以接。</p>
+
+<h3>Figma MCP：讓 Claude 看懂設計稿、直接轉成程式碼</h3>
+
+<p><strong>Figma MCP</strong> 接上之後，Claude 就能直接讀你的設計稿——它看得到畫面上的元件、顏色、間距、文字。最實用的場景是<span style="color:#c0392b;">把設計稿變成程式碼</span>：你給它一個 Figma 連結，請它照著做出對應的網頁畫面，它能參考真實的設計細節，而不是憑你的口頭描述瞎猜。</p>
+
+<p>不過實際試玩過幾次之後，我得誠實講一個初步心得：<span style="color:#c0392b;">Figma MCP 現階段比較適合大型、而且已經有成熟設計系統的團隊</span>，它的價值才吃得滿。具體來說，適合與不適合的分界大概是這樣：</p>
+
+<ul>
+  <li><strong>用得上的團隊</strong>：已經建立完整的 <strong>Code Connect</strong>、<strong>Design Token</strong>，設計稿和程式碼的對齊度高，而且設計師、工程師合作緊密——這種團隊接上之後，AI 才能照著既有規範精準產出。</li>
+  <li><strong>暫時用不上的</strong>：小團隊、設計系統還不完整，或習慣傳統工作流程的話，<span style="color:#c0392b;">現階段的學習成本，很可能大於實際收益</span>。</li>
+</ul>
+
+<p>說白一點，MCP 的甜蜜點落在「設計與工程的交界」，但這正是它的限制——設計師通常不熟工程那套流程，工程師的設計美感又常常差一點，所以<span style="color:#c0392b;">除非你是兩者兼具的設計工程師、或身處分工夠成熟的大型團隊</span>，不然這項工具現階段能幫上的忙有限。（也歡迎工程師們跟我分享你們實際使用的心得！）</p>
+
+<p>📖 <strong>延伸閱讀</strong>：<a href="https://aiqkangber.com/blog/codetools">Next.js 內部工具開發實錄：工程師為什麼該自己做工具箱｜開發工具箱 1</a></p>
+
+<h3>n8n MCP：讓 Claude 幫你查節點、搭工作流（我寫這篇就在用）</h3>
+
+<p><strong>n8n MCP</strong> 是我自己最常用的一個。接上之後，Claude 能幫我查 n8n 有哪些節點、每個節點要怎麼設定，甚至直接幫我建立一整條工作流程、跑測試、抓出設定錯誤的地方。以前我要自己翻文件、一個個試節點，現在我用白話描述「我想做一個每天抓競品貼文、分類後寫進表格的流程」，它就能把骨架搭出來給我調整。<span style="color:#c0392b;">這等於把搭流程的雜活外包給 AI，我只留下做判斷的部分</span>。</p>
+
+<p>📖 <strong>延伸閱讀</strong>：<a href="https://aiqkangber.com/blog/codetools-4">n8n 自動產生 SEO 推薦文：51 個節點打造競品分析＋自動寫稿｜開發工具箱 4</a></p>
+
+<h3>其他熱門 MCP：幾乎你用的工具都能接</h3>
+
+<p>Figma 和 n8n 只是開頭。MCP 生態成長得很快，從檔案、文件、開發到資料庫、瀏覽器，幾乎都有對應的 server。這張表幫你快速看懂各類可以接什麼：</p>
+
+<table style="width:100%;table-layout:fixed;border-collapse:collapse;word-break:break-word;">
+  <thead>
+    <tr><th>類別</th><th>常見可接的工具</th><th>接上之後 Claude 能幫你做什麼</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>設計</td><td>Figma</td><td>讀設計稿、轉成網頁程式碼</td></tr>
+    <tr><td>自動化</td><td>n8n、Zapier</td><td>查節點、搭工作流程、跑測試</td></tr>
+    <tr><td>文件／檔案</td><td>Google Drive、Notion</td><td>找文件、讀內容、整理筆記</td></tr>
+    <tr><td>開發協作</td><td>GitHub、Slack</td><td>看程式碼、查 issue、發訊息</td></tr>
+    <tr><td>資料庫</td><td>PostgreSQL 等</td><td>用白話查資料、整理報表</td></tr>
+    <tr><td>瀏覽器</td><td>Playwright 等</td><td>自動開網頁、抓資料、截圖</td></tr>
+  </tbody>
+</table>
+
+<figure>
+  <img src="https://i.ibb.co/3mpHZrpX/2127a18788c2.jpg" alt="MCP 生態系分類示意圖：以卡片呈現設計、自動化、文件、開發、資料庫、瀏覽器六大類各自可接的工具">
+  <figcaption>MCP 生態一覽：從設計、自動化到資料庫與瀏覽器，幾乎你日常在用的工具都找得到對應的 MCP server。</figcaption>
+</figure>
+
+<p>看到這張表，你大概就懂我一開始說的「萬用轉接頭」是什麼意思了——重點不是某一個工具特別強，而是<span style="color:#c0392b;">你可以把它們全部接到同一個 Claude 上，讓它變成一個橫跨各種工具的助手</span>。</p>
+
+<h2>用下來最大的感受：AI 真正值錢的是「能動手」</h2>
+
+<p>把這些工具接上 Claude、實際拿去接了幾輪案子之後，我最深的感受其實很簡單：<span style="color:#c0392b;">AI 真正幫我省時間的，不是它「懂很多」，而是它「能動手」</span>。最有感的一次是幫客戶搭一條有點雜的 n8n 流程——把每天進來的詢價自動分類、再分派給對應的窗口。我沒有自己埋頭拉節點，而是把整段需求用白話講給 Claude 聽，請它透過 MCP 直接把骨架搭出來，我再順著它的成果調細節、補上客戶要的條件。那種「我在出題、它在動手」的分工，跟一個人埋頭做苦工完全是兩回事。</p>
+
+<p>也是從這裡開始，我的角色變了：<span style="color:#c0392b;">從一個埋頭執行的人，變成出題的人</span>——把需求講清楚、確認它搭的方向對不對、最後為品質把關。對我來說，這才是 MCP 帶來的真正改變：它沒有讓我變得更輕鬆，而是讓我能把力氣花在判斷和把關上，把那些雜活放心交出去。</p>
+
+<h2>常見問題 FAQ</h2>
+
+<h3>Q1：我沒有工程師背景，也能用 Claude 串接 MCP 嗎？</h3>
+<p>可以。串接 MCP 最難的部分其實不是寫程式，而是「照著官方說明把設定填對」。大部分做好的 MCP server 都會附上可以直接複製的設定範例，你通常只要把自己的金鑰換進去就行。<span style="color:#c0392b;">真正需要的不是寫程式能力，而是願意照步驟試一次的耐心</span>。卡住的時候，你甚至可以直接把錯誤訊息貼給 Claude，請它幫你看哪裡填錯。</p>
+
+<h3>Q2：MCP 是什麼？跟一般直接問 AI 有什麼不同？</h3>
+<p>差別在於「AI 能不能碰到你的東西」。一般問 AI，它只能根據你貼進去的文字回答；接上 MCP 之後，它能直接讀你的 Figma、操作你的 n8n、查你的檔案。簡單說，沒有 MCP 的 AI 是「顧問」，只能出主意；接上 MCP 的 AI 是「助理」，能實際幫你動手做。</p>
+
+<h3>Q3：Claude Desktop 和 Claude Code 哪個比較適合接 MCP？</h3>
+<p>看你習慣。喜歡圖形介面、想點選操作的人，用 Claude Desktop 把設定寫進設定檔即可；已經習慣在終端機打指令的人，Claude Code 用一行指令就能加好 server，更快。兩者背後是同一套 MCP 協定，能接的工具一模一樣，沒有誰功能比較少的問題。</p>
+
+<h3>Q4：接 MCP 安全嗎？會不會讓 AI 亂改我的東西？</h3>
+<p>這是好問題。MCP server 的權限取決於你給它的金鑰權限，所以建議<span style="color:#c0392b;">一開始先用唯讀或測試用的帳號接</span>，確認 Claude 的行為符合預期再放寬。另外，重要操作（例如刪除、發布）大多會需要你確認，不會無聲無息地動手。只接你信任來源的 server，不要隨便接來路不明的，就能避開大部分風險。</p>
+
+<h3>Q5：n8n 要先學到什麼程度，才能用 MCP 跟 Claude 一起搭流程？</h3>
+<p>你只要知道 n8n 的基本概念——節點、觸發、工作流程大概是什麼——就可以開始了。你不需要記得每個節點怎麼設定，因為那正是 Claude 接上 MCP 後能幫你的事。實務上很多人是「邊用邊學」：請 Claude 搭出流程，再回頭看它怎麼接，反而學得比看教學還快。</p>
+
+<h3>Q6：我是設計師，現階段需要搞懂 MCP 嗎？</h3>
+<p>就我幾次實際試玩的結論：<span style="color:#c0392b;">Figma MCP 目前還不足以改變多數設計師的日常流程</span>，所以不用急著把它塞進工作裡。但「認識它、試著理解它」很值得——當真正好用的 AI 設計功能出現時，有了這些基礎概念，你會更容易判斷它能不能用、該怎麼用。</p>
+<p>原因前面也提過：MCP 的價值落在「設計與工程的交界」，而設計師通常不熟工程流程、工程師的設計美感又常差一點，所以除非你是兩者兼具的設計工程師、或在分工成熟的大型團隊，現階段收益就有限。最後想提醒一句：<span style="color:#c0392b;">別被新工具綁架</span>，工具的價值在於解決實際問題，不是為了用新技術而用——如果你現在的流程很順，沒必要為了追新而改。無論工具怎麼進化，設計的核心都不會變：理解問題、創造解決方案、持續改善使用者體驗，並達成你的設計目標。</p>
+
+<h2>總結</h2>
+
+<p>回頭看，<strong>MCP</strong> 真正改變的不是 AI 有多聰明，而是它從「只能出一張嘴」變成「能伸手幫你做事」。搞懂 <strong>Claude Code 這個核心功能</strong>，等於幫你的 AI 助理裝上一雙手，讓它能直接讀 Figma、搭 n8n、查資料、開網頁——而你要做的，只是把想做的事說清楚，再把工具接上去。</p>
+
+<p>如果你只想先跨出第一步，我會建議從你最常用、最常複製貼上的那個工具開始接起，先體會一次「AI 真的幫我動手」的感覺。<span style="color:#c0392b;">真正的關鍵不是學會所有設定，而是想清楚你要它幫你做什麼</span>——這正是 AI 不取代判斷、只精準執行想法的精神所在。</p>
+
+<p>如果你也想把 AI 接進自己的工作流程、卻不知道該從哪個工具開始串，歡迎看看我提供的 <a href="https://aiqkangber.com/services" target="_blank" rel="noopener">n8n 自動化與 AI 應用開發服務</a>，從需求訪談開始幫你把流程接起來。</p>
+
+</body>
+</html>

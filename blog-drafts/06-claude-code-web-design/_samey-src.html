@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+  body{background:#06060c;padding:32px;}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1380px;margin:0 auto;}
+  .panel{position:relative;height:262px;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);background:#0a0a14;padding:20px;}
+  .panel::before{content:'';position:absolute;inset:0;background:radial-gradient(70% 60% at 50% -10%, rgba(124,92,255,.16),transparent 70%);pointer-events:none;}
+  .tag{position:absolute;top:10px;right:12px;font-size:9px;color:rgba(255,255,255,.32);font-weight:600;z-index:3;}
+  .h{position:relative;font-size:14px;font-weight:800;color:#fff;text-align:center;margin-bottom:16px;}
+  .h small{display:block;font-size:8px;font-weight:500;color:#7d8499;margin-top:3px;}
+  .cards{position:relative;display:grid;gap:11px;}
+  .g3{grid-template-columns:repeat(3,1fr);}
+  .g2{grid-template-columns:repeat(2,1fr);}
+  .g4{grid-template-columns:repeat(4,1fr);}
+  .g2x2{grid-template-columns:repeat(2,1fr);gap:9px;}
+  .g2x2 .card{padding:9px 9px;}
+  .g2x2 .ic{width:26px;height:26px;border-radius:7px;margin-bottom:6px;}
+  .g2x2 .ic svg{width:14px;height:14px;}
+  .g2x2 .ct{font-size:10px;margin-bottom:2px;}
+  .g2x2 .cs{font-size:7.5px;}
+  .card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:13px 11px;}
+  .ic{width:34px;height:34px;border-radius:9px;background:rgba(124,92,255,.16);display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+  .ic svg{width:17px;height:17px;stroke:#a78bfa;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .ct{font-size:11px;font-weight:700;color:#fff;margin-bottom:3px;}
+  .cs{font-size:8px;color:#828aa0;line-height:1.4;}
+  /* centered variant */
+  .center .card{text-align:center;}
+  .center .ic{margin:0 auto 10px;}
+  /* compact 4-col */
+  .g4 .card{padding:11px 8px;}
+  .g4 .ic{width:28px;height:28px;border-radius:8px;}
+  .g4 .ct{font-size:9px;}
+  .g4 .cs{display:none;}
+  /* horizontal list */
+  .list{display:flex;flex-direction:column;gap:10px;}
+  .list .card{display:flex;align-items:center;gap:11px;padding:11px 13px;}
+  .list .ic{margin-bottom:0;flex:none;}
+</style>
+</head>
+<body>
+  <div class="grid" id="grid"></div>
+  <script>
+    const I = {
+      zap:'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+      shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+      chart:'<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+      rocket:'<path d="M5 13c0-4 3-9 7-11 4 2 7 7 7 11l-3 3H8l-3-3z"/><circle cx="12" cy="9" r="1.6"/>',
+      star:'<polygon points="12 2 15 9 22 9 16 14 18 21 12 17 6 21 8 14 2 9 9 9 12 2"/>',
+      lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+      globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+      gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+      check:'<path d="M20 6 9 17l-5-5"/>',
+      layers:'<polygon points="12 2 22 8 12 14 2 8 12 2"/><polyline points="2 16 12 22 22 16"/>'
+    };
+    const card=(ic,t,s)=>`<div class="card"><div class="ic"><svg viewBox="0 0 24 24">${I[ic]}</svg></div><div class="ct">${t}</div><div class="cs">${s}</div></div>`;
+    const panels=[
+      {tag:'Nexus',  h:'Features',            sub:'Everything you need to scale', cls:'g3',   items:[['zap','Fast','blazing performance'],['shield','Secure','enterprise-grade'],['chart','Analytics','real-time insights']]},
+      {tag:'FlowOps',h:'Why choose us',       sub:'Built for modern teams',       cls:'g2',   items:[['rocket','Scalable','grows with you'],['star','Premium','best in class']]},
+      {tag:'Datawave',h:'Everything you need',sub:'One platform, every tool',      cls:'g4',   items:[['globe','Global',''],['lock','Private',''],['gear','Flexible',''],['check','Reliable','']]},
+      {tag:'Volt',   h:'Built for teams',     sub:'Powerful, yet simple',         cls:'g2x2', items:[['zap','Fast','low latency'],['shield','Safe','SOC2 ready'],['layers','Integrated','works anywhere'],['gear','Custom','your way']]},
+      {tag:'Shipd',  h:'Capabilities',        sub:'All in one place',             cls:'list', items:[['rocket','Deploy instantly','ship in seconds'],['globe','Edge network','190+ regions'],['lock','End-to-end','encrypted by default']]},
+      {tag:'Aurora', h:'Powerful features',   sub:'Designed to impress',          cls:'g3 center', items:[['star','Beautiful','pixel perfect'],['zap','Quick','setup in 1 min'],['check','Trusted','99.9% uptime']]},
+    ];
+    document.getElementById('grid').innerHTML = panels.map(p=>`
+      <div class="panel">
+        <span class="tag">${p.tag}</span>
+        <div class="h">${p.h}<small>${p.sub}</small></div>
+        <div class="cards ${p.cls}">${p.items.map(it=>card(it[0],it[1],it[2])).join('')}</div>
+      </div>`).join('');
+  </script>
+</body>
+</html>
