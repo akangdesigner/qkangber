@@ -323,7 +323,7 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
         background: 'linear-gradient(to bottom, #05060a 0%, rgba(5,6,10,0) 13%), linear-gradient(to right, rgba(5,6,10,0) 84%, #05060a 100%)',
       }} />
 
-      <div className="relative max-w-6xl mx-auto px-6" style={{ paddingTop: 80, paddingBottom: 60 }}>
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-10 sm:pb-[60px]">
         <div className="grid lg:grid-cols-[1.15fr_1fr] gap-8 items-center" style={{ minHeight: 560 }}>
           {/* Left — copy */}
           <div>

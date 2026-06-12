@@ -42,7 +42,7 @@ export default function Nav() {
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#05060a]/80 border-b border-white/[0.06]">
-      <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
         <Link href="/" className="flex items-center gap-2.5 select-none" onClick={() => setMobileOpen(false)}>
           <LogoMark size={26} />
           <span className="font-semibold text-white text-[1.02rem] tracking-[-0.01em]">
@@ -91,7 +91,7 @@ export default function Nav() {
       {/* Mobile menu dropdown */}
       {mobileOpen && (
         <nav className="md:hidden border-t border-white/[0.06] bg-[#05060a]/95 backdrop-blur-xl">
-          <div className="max-w-6xl mx-auto px-6 py-3 flex flex-col">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-col">
             {links.map(({ href, label }) => {
               const isActive = pathname === href || pathname.startsWith(href + '/')
               return (

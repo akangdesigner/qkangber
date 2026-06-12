@@ -23,7 +23,7 @@ function EyebrowLabel({ children, ruleWidth = 24 }: { children: React.ReactNode;
 
 export default function NewsletterBanner() {
   return (
-    <section className="relative max-w-6xl mx-auto px-6 py-24">
+    <section className="relative max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-24">
       <div
         className="relative overflow-hidden rounded-3xl border border-white/[0.08] p-6 sm:p-10 lg:p-16"
         style={{

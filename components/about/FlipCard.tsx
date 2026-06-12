@@ -57,15 +57,15 @@ function useTilt({ max = 7, lerp = 0.14, scale = 1.005, perspective = 1600 } = {
 }
 
 // ── Visual helpers ─────────────────────────────────────────────
-function Layer({ depth = 1, drift = 0, pointer = { nx: 0, ny: 0 }, style = {}, children }: {
+function Layer({ depth = 1, drift = 0, pointer = { nx: 0, ny: 0 }, style = {}, className, children }: {
   depth?: number; drift?: number; pointer?: { nx: number; ny: number }
-  style?: React.CSSProperties; children: React.ReactNode
+  style?: React.CSSProperties; className?: string; children: React.ReactNode
 }) {
   const z = depth * 22
   const dx = pointer.nx * drift
   const dy = pointer.ny * drift
   return (
-    <div style={{ transform: `translate3d(${dx.toFixed(2)}px,${dy.toFixed(2)}px,${z}px)`, transformStyle: 'preserve-3d', willChange: 'transform', ...style }}>
+    <div className={className} style={{ transform: `translate3d(${dx.toFixed(2)}px,${dy.toFixed(2)}px,${z}px)`, transformStyle: 'preserve-3d', willChange: 'transform', ...style }}>
       {children}
     </div>
   )
@@ -114,10 +114,10 @@ function DotGrid({ opacity = 0.08 }: { opacity?: number }) {
   )
 }
 
-function CucumberAvatar({ size = 180 }: { size?: number }) {
+function CucumberAvatar({ className = 'w-[180px] h-[180px]' }: { className?: string }) {
   return (
-    <div style={{
-      width: size, height: size, borderRadius: '50%',
+    <div className={className} style={{
+      borderRadius: '50%',
       position: 'relative', flexShrink: 0,
       boxShadow: '0 0 50px rgba(34,211,238,0.35), 0 0 0 1px rgba(94,234,212,0.45), inset 0 1px 0 rgba(255,255,255,0.18)',
       background: 'radial-gradient(circle at 30% 25%, rgba(94,234,212,0.18), rgba(15,23,42,0.6) 65%)',
@@ -126,8 +126,8 @@ function CucumberAvatar({ size = 180 }: { size?: number }) {
       <Image
         src="/cucumber-avatar.png"
         alt="Q kangber"
-        width={size}
-        height={size}
+        width={180}
+        height={180}
         priority
         style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover', filter: 'drop-shadow(0 6px 20px rgba(34,211,238,0.4))' }}
       />
@@ -139,8 +139,9 @@ function CucumberAvatar({ size = 180 }: { size?: number }) {
 // ── Card faces ─────────────────────────────────────────────────
 function CardFaceWrapper({ children, back = false }: { children: React.ReactNode; back?: boolean }) {
   return (
-    <div style={{
-      position: 'absolute', inset: 0, borderRadius: 'inherit',
+    // 正面在行動版走文流撐出卡片高度，背面永遠疊在上方；lg 以上兩面都絕對定位（固定高 460 的翻牌排版）
+    <div className={back ? 'absolute inset-0' : 'relative lg:absolute lg:inset-0'} style={{
+      borderRadius: 'inherit',
       transform: back ? 'rotateY(180deg)' : 'none',
       WebkitBackfaceVisibility: 'hidden',
       backfaceVisibility: 'hidden',
@@ -161,9 +162,9 @@ function CardFaceWrapper({ children, back = false }: { children: React.ReactNode
 function FrontFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: number }; active: boolean; onFlip: () => void }) {
   return (
     <>
-      <div style={{ position: 'absolute', inset: 0, padding: '44px 56px', transformStyle: 'preserve-3d' }}>
+      <div className="relative p-6 sm:p-8 lg:absolute lg:inset-0 lg:p-0" style={{ transformStyle: 'preserve-3d' }}>
         {/* Eyebrow */}
-        <Layer depth={0.4} drift={3} pointer={pointer} style={{ position: 'absolute', top: 44, left: 56, right: 56, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Layer depth={0.4} drift={3} pointer={pointer} className="flex justify-between items-center lg:absolute lg:top-11 lg:left-14 lg:right-14">
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ height: 1, width: 32, flexShrink: 0, background: 'linear-gradient(90deg, transparent, #7c5cff)' }} />
             <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.24em', textTransform: 'uppercase', background: 'linear-gradient(90deg, #a78bfa, #60a5fa)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>About · Q kangber</span>
@@ -172,10 +173,10 @@ function FrontFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: num
         </Layer>
 
         {/* Two-column layout */}
-        <div style={{ position: 'absolute', top: 96, left: 56, right: 56, bottom: 56, display: 'grid', gridTemplateColumns: '180px 1fr', gap: 44, alignItems: 'stretch', transformStyle: 'preserve-3d' }}>
+        <div className="mt-8 grid grid-cols-1 gap-8 lg:mt-0 lg:absolute lg:top-24 lg:left-14 lg:right-14 lg:bottom-14 lg:grid-cols-[180px_1fr] lg:gap-11 lg:items-stretch" style={{ transformStyle: 'preserve-3d' }}>
           {/* Left: avatar */}
           <Layer depth={2.3} drift={9} pointer={pointer} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 20 }}>
-            <CucumberAvatar size={180} />
+            <CucumberAvatar className="w-28 h-28 sm:w-36 sm:h-36 lg:w-[180px] lg:h-[180px]" />
             <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.20em', textTransform: 'uppercase', color: '#5eead4' }}>
               n8n · AI · 職涯培訓
             </span>
@@ -184,7 +185,7 @@ function FrontFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: num
           {/* Right: content */}
           <Layer depth={1.4} drift={5} pointer={pointer} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 0 }}>
             <div>
-              <h1 style={{ fontFamily: '"Noto Sans TC", sans-serif', fontSize: 52, lineHeight: 1.05, fontWeight: 600, color: '#fff', letterSpacing: '-0.025em', margin: 0 }}>
+              <h1 className="text-[1.9rem] sm:text-[2.5rem] lg:text-[52px]" style={{ fontFamily: '"Noto Sans TC", sans-serif', lineHeight: 1.05, fontWeight: 600, color: '#fff', letterSpacing: '-0.025em', margin: 0 }}>
                 歡迎來到{' '}
                 <span style={{ background: 'linear-gradient(90deg, #c4b5fd, #93c5fd)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Q kangber</span>
                 <br />的 AI 世界
@@ -199,7 +200,7 @@ function FrontFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: num
               </p>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 20 }}>
+            <div className="mt-7 flex flex-col items-start gap-5 lg:mt-0 lg:flex-row lg:items-end lg:justify-between">
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, maxWidth: 380 }}>
                 {['N8N', 'Claude Code', '職涯培訓講師', 'API 整合', '流程架構'].map(t => (
                   <span key={t} style={{ display: 'inline-block', fontSize: 10, fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 999, background: 'rgba(255,255,255,0.04)', color: '#cbd5e1', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(6px)' }}>{t}</span>
@@ -225,8 +226,8 @@ function FrontFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: num
 function BackFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: number }; active: boolean; onFlip: () => void }) {
   return (
     <>
-      <div style={{ position: 'absolute', inset: 0, padding: '44px 56px', transformStyle: 'preserve-3d' }}>
-        <Layer depth={0.4} drift={3} pointer={pointer} style={{ position: 'absolute', top: 44, left: 56, right: 56, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="relative p-6 sm:p-8 lg:absolute lg:inset-0 lg:p-0" style={{ transformStyle: 'preserve-3d' }}>
+        <Layer depth={0.4} drift={3} pointer={pointer} className="flex justify-between items-center lg:absolute lg:top-11 lg:left-14 lg:right-14">
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ height: 1, width: 32, flexShrink: 0, background: 'linear-gradient(90deg, transparent, #7c5cff)' }} />
             <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.24em', textTransform: 'uppercase', background: 'linear-gradient(90deg, #a78bfa, #60a5fa)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Philosophy · 我的核心理念</span>
@@ -234,15 +235,15 @@ function BackFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: numb
           <span style={{ fontSize: 10, color: '#64748b', letterSpacing: '0.20em' }}>EST. 2024</span>
         </Layer>
 
-        <Layer depth={1.4} drift={5} pointer={pointer} style={{ position: 'absolute', top: 100, left: 56, right: 56 }}>
-          <h2 style={{ fontFamily: '"Noto Sans TC", sans-serif', fontSize: 32, lineHeight: 1.2, fontWeight: 600, color: '#fff', letterSpacing: '-0.02em', margin: 0 }}>
+        <Layer depth={1.4} drift={5} pointer={pointer} className="mt-8 lg:mt-0 lg:absolute lg:top-[100px] lg:left-14 lg:right-14">
+          <h2 className="text-2xl sm:text-[1.75rem] lg:text-[32px]" style={{ fontFamily: '"Noto Sans TC", sans-serif', lineHeight: 1.2, fontWeight: 600, color: '#fff', letterSpacing: '-0.02em', margin: 0 }}>
             AI 產出 × 人的協作——<br />
             <span style={{ background: 'linear-gradient(90deg, #c4b5fd, #93c5fd)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>讓你的東西有溫度，也有真正的價值。</span>
           </h2>
         </Layer>
 
-        <Layer depth={0.9} drift={3} pointer={pointer} style={{ position: 'absolute', top: 220, left: 56, right: 56, bottom: 100 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 36, fontFamily: '"Noto Sans TC", sans-serif', fontSize: 14, lineHeight: 1.85, color: '#cbd5e1' }}>
+        <Layer depth={0.9} drift={3} pointer={pointer} className="mt-6 lg:mt-0 lg:absolute lg:top-[220px] lg:left-14 lg:right-14 lg:bottom-[100px]">
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-9" style={{ fontFamily: '"Noto Sans TC", sans-serif', fontSize: 14, lineHeight: 1.85, color: '#cbd5e1' }}>
             <p style={{ margin: 0 }}>
               純 AI 產出速度快，但少了靈魂；純人工有溫度，但太慢。最好的成果，是<span style={{ color: '#c4b5fd' }}>你的判斷力 × AI 的執行力</span>——兩者精準配合，才能輸出真正有價值的東西。
             </p>
@@ -252,7 +253,7 @@ function BackFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: numb
           </div>
         </Layer>
 
-        <Layer depth={1.0} drift={3} pointer={pointer} style={{ position: 'absolute', left: 56, right: 56, bottom: 44, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Layer depth={1.0} drift={3} pointer={pointer} className="mt-8 flex flex-wrap items-center justify-between gap-3 lg:mt-0 lg:absolute lg:left-14 lg:right-14 lg:bottom-11">
           <span style={{ fontSize: 11, color: '#94a3b8', letterSpacing: '0.10em' }}>— Q kangber, on building with AI</span>
           <button
             onClick={(e) => { e.stopPropagation(); onFlip() }}
@@ -282,14 +283,15 @@ export default function FlipCard() {
 
       <div
         ref={ref}
-        style={{ width: '100%', maxWidth: 1040, height: 460, margin: '0 auto', position: 'relative', perspective: 1600 }}
+        className="lg:h-[460px]"
+        style={{ width: '100%', maxWidth: 1040, margin: '0 auto', position: 'relative', perspective: 1600 }}
       >
         <div style={{ ...tiltStyle, width: '100%', height: '100%', borderRadius: 24, position: 'relative', transformStyle: 'preserve-3d' }}>
-          {/* Flipper */}
+          {/* Flipper：行動版由正面內容撐高，lg 以上填滿固定高的卡片 */}
           <div
             onClick={() => setFlipped(f => !f)}
             style={{
-              position: 'absolute', inset: 0, borderRadius: 'inherit',
+              position: 'relative', width: '100%', height: '100%', borderRadius: 'inherit',
               transformStyle: 'preserve-3d',
               transform: `rotateY(${flipped ? 180 : 0}deg)`,
               transition: 'transform 900ms cubic-bezier(.6,.05,.3,1)',
