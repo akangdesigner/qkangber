@@ -9,6 +9,7 @@ import BlogSidebar from '@/components/blog/BlogSidebar'
 import Tag from '@/components/shared/Tag'
 import type { Metadata } from 'next'
 import { buildMetadata } from '@/lib/metadata'
+import { lazifyContentImages } from '@/lib/html-images'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
 
@@ -115,7 +116,7 @@ export default async function PostPage({ params }: Props) {
 
           <div className="prose max-w-none">
             {post.content.trimStart().startsWith('<') ? (
-              <div dangerouslySetInnerHTML={{ __html: post.content }} />
+              <div dangerouslySetInnerHTML={{ __html: lazifyContentImages(post.content) }} />
             ) : (
               <MDXRemote
                 source={post.content}
