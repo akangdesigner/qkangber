@@ -43,7 +43,7 @@ export default function Footer() {
         style={{ background: 'linear-gradient(90deg, transparent, rgba(124,92,255,0.5), transparent)' }}
       />
 
-      <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
         <div className="md:col-span-1">
           <div className="flex items-center gap-2.5 mb-4">
             <LogoMark size={26} />

@@ -12,7 +12,7 @@ export default function PostNavigation({ prev, next }: Props) {
   if (!prev && !next) return null
 
   return (
-    <nav className="mt-12 mb-2 grid grid-cols-2 gap-4 border-t border-white/[0.06] pt-10">
+    <nav className="mt-12 mb-2 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-white/[0.06] pt-10">
       <div>
         {prev && (
           <Link

@@ -142,8 +142,9 @@ export default function ChatWidget() {
           gap: 8,
         }}
       >
-        {/* name badge */}
+        {/* name badge：行動版只留圓形按鈕，名牌會蓋住表單與連結 */}
         <div
+          className="hidden sm:block"
           style={{
             padding: '6px 14px',
             borderRadius: 999,
@@ -213,13 +214,13 @@ export default function ChatWidget() {
       {/* ── chat window ── */}
       {open && (
         <div
+          className="w-[calc(100vw-48px)] max-w-[340px]"
           style={{
             position: 'fixed',
             bottom: 96,
             right: 24,
             zIndex: 9997,
-            width: 340,
-            maxHeight: 500,
+            maxHeight: 'min(500px, calc(100dvh - 120px))',
             borderRadius: 18,
             border: '1px solid rgba(99,102,241,0.3)',
             background: 'rgba(8,9,18,0.97)',

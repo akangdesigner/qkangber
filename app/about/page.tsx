@@ -92,7 +92,7 @@ export default function AboutPage() {
       <div aria-hidden className="absolute inset-0 pointer-events-none -z-10" style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(124,92,255,0.18), transparent 60%)' }} />
       <div aria-hidden className="absolute inset-0 pointer-events-none -z-10" style={{ backgroundImage: 'radial-gradient(circle, rgba(167,139,250,0.18) 1px, transparent 1px)', backgroundSize: '32px 32px', opacity: 0.45 }} />
 
-      <div className="max-w-[1080px] mx-auto px-6 pt-20">
+      <div className="max-w-[1080px] mx-auto px-4 sm:px-6 pt-12 sm:pt-20">
         {/* Eyebrow + subtitle */}
         <div className="mb-4">
           <div className="flex items-center gap-3">
