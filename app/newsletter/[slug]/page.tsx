@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getNewsletterIssue, getAllNewsletterIssues } from '@/lib/newsletter'
 import type { Metadata } from 'next'
 import { buildMetadata } from '@/lib/metadata'
+import { lazifyContentImages } from '@/lib/html-images'
 
 export const dynamicParams = true
 
@@ -17,13 +18,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const issue = await getNewsletterIssue(slug)
   if (!issue) return {}
-  return buildMetadata({
-    title: issue.subject,
-    description: issue.summary ?? issue.subject,
-    path: `/newsletter/${slug}`,
-    type: 'article',
-    publishedTime: issue.date,
-  })
+  return {
+    ...buildMetadata({
+      title: issue.subject,
+      description: issue.summary ?? issue.subject,
+      path: `/newsletter/${slug}`,
+      type: 'article',
+      publishedTime: issue.date,
+    }),
+    // 期數頁是新聞摘要彙整，搜尋零價值（GSC 三個月 1 曝光 0 點擊）卻稀釋站級品質訊號；
+    // noindex 不進索引、follow 讓站內連結權重照傳，訂閱者開連結不受影響
+    robots: { index: false, follow: true },
+  }
 }
 
 function formatDate(dateStr: string) {
@@ -45,7 +51,7 @@ export default async function IssuePage({ params }: Props) {
 
   // 信件內文本身帶一個 <h1>Q kangber 週報</h1>，會和頁面 <h1>{issue.subject}</h1> 重複（Multiple H1）。
   // 頁面 h1 較獨特且有意義，予以保留；把預覽內文裡的 h1 降為 h2——email 寄出的原檔不動，只在網頁渲染時轉換。
-  const previewHtml = issue.htmlBody.replace(/<(\/?)h1(\b[^>]*)>/gi, '<$1h2$2>')
+  const previewHtml = lazifyContentImages(issue.htmlBody.replace(/<(\/?)h1(\b[^>]*)>/gi, '<$1h2$2>'))
 
   const jsonLd = [
     {
@@ -84,7 +90,7 @@ export default async function IssuePage({ params }: Props) {
   ]
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-16">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="mb-8">
         <Link
