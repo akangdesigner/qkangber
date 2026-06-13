@@ -42,3 +42,6 @@ next-env.d.ts
 
 # RWD 稽核截圖（本地產物，23MB+）
 .rwd-audit/
+
+# Claude Code 本機設定（含權限白名單，可能含 token，不進版控）
+.claude/settings.local.json
