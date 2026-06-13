@@ -57,10 +57,9 @@ export default function CountUp({ value, grouping, duration = 1100, className, s
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
     if (reduce) return // 尊重減少動態偏好，維持最終值
 
-    // 進場前先歸零，等捲到可視範圍再跳動
-    setDisplay(format(0))
-
     let raf = 0
+    // 進場前先歸零（用 rAF 推遲，避免在 effect body 同步 setState）
+    const zeroRaf = requestAnimationFrame(() => setDisplay(format(0)))
     const run = () => {
       const t0 = performance.now()
       const tick = (now: number) => {
@@ -86,6 +85,7 @@ export default function CountUp({ value, grouping, duration = 1100, className, s
     return () => {
       io.disconnect()
       cancelAnimationFrame(raf)
+      cancelAnimationFrame(zeroRaf)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [target, duration])
