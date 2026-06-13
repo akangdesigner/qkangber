@@ -1,5 +1,6 @@
 import { buildMetadata } from '@/lib/metadata'
 import PortfolioTabs from '@/components/portfolio/PortfolioTabs'
+import PortfolioMarquee from '@/components/portfolio/PortfolioMarquee'
 import { PortfolioHero } from '@/components/page-hero/PageHero'
 
 export const metadata = buildMetadata({
@@ -37,7 +38,10 @@ export default function PortfolioPage() {
     <div style={{ minHeight: '100vh', background: '#05060a' }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <PortfolioHero />
-      <PortfolioTabs />
+      <PortfolioMarquee />
+      <div id="portfolio-detail">
+        <PortfolioTabs />
+      </div>
     </div>
   )
 }
