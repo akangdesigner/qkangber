@@ -8,9 +8,10 @@ import ServiceFlow from './ServiceFlow'
 type Props = {
   automationServices: Service[]
   aiServices: Service[]
+  shopeeServices: Service[]
 }
 
-type TabId = 'automation' | 'ai'
+type TabId = 'automation' | 'ai' | 'shopee'
 
 function N8nIcon({ size = 22, active = false }: { size?: number; active?: boolean }) {
   return (
@@ -51,6 +52,33 @@ function AiIcon({ size = 22, active = false }: { size?: number; active?: boolean
       />
       <circle cx="25" cy="7"  r="1.5" fill={active ? '#fff' : '#67e8f9'} />
       <circle cx="6"  cy="26" r="1"   fill={active ? '#fff' : '#a78bfa'} />
+    </svg>
+  )
+}
+
+function ShopIcon({ size = 22, active = false }: { size?: number; active?: boolean }) {
+  return (
+    <svg viewBox="0 0 32 32" width={size} height={size} style={{ display: 'block' }}>
+      <defs>
+        <linearGradient id="st-shop-grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#fbbf24" />
+          <stop offset="100%" stopColor="#fb7185" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M8 11 L24 11 L22.5 26 A1.5 1.5 0 0 1 21 27.3 L11 27.3 A1.5 1.5 0 0 1 9.5 26 Z"
+        fill={active ? 'url(#st-shop-grad)' : 'none'}
+        stroke={active ? '#fff' : '#fbbf24'}
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 13 L12 9 A4 4 0 0 1 20 9 L20 13"
+        fill="none"
+        stroke={active ? '#fff' : '#fbbf24'}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
     </svg>
   )
 }
@@ -148,10 +176,11 @@ function HoloPill({
   )
 }
 
-export default function ServicesTabs({ automationServices, aiServices }: Props) {
+export default function ServicesTabs({ automationServices, aiServices, shopeeServices }: Props) {
   const [active, setActive] = useState<TabId>('automation')
 
   const automationCategories = [...new Set(automationServices.map((s) => s.category))]
+  const shopeeCategories = [...new Set(shopeeServices.map((s) => s.category))]
 
   return (
     <>
@@ -193,6 +222,15 @@ export default function ServicesTabs({ automationServices, aiServices }: Props) 
           label="AI 應用"
           sub="LINE Bot · RAG · Agents"
         />
+        {shopeeServices.length > 0 && (
+          <HoloPill
+            active={active === 'shopee'}
+            onClick={() => setActive('shopee')}
+            icon={<ShopIcon size={22} active={active === 'shopee'} />}
+            label="服務"
+            sub={`蝦皮入門 · ${shopeeServices.length} Items`}
+          />
+        )}
       </div>
 
       {/* Status console bar */}
@@ -226,7 +264,9 @@ export default function ServicesTabs({ automationServices, aiServices }: Props) 
         }}>
           {active === 'automation'
             ? 'loaded: workflow.json · 4 nodes · 12 connections'
-            : 'loaded: ai.config.json · claude-3.5 · 6 endpoints'}
+            : active === 'ai'
+            ? 'loaded: ai.config.json · claude-3.5 · 6 endpoints'
+            : `loaded: shopee.catalog · ${shopeeServices.length} items · ready-to-buy`}
         </span>
         <div style={{ flex: 1 }} />
         <span style={{
@@ -279,6 +319,33 @@ export default function ServicesTabs({ automationServices, aiServices }: Props) 
             </div>
           </div>
       </div>
+
+      {/* 服務（蝦皮入門 SKU）content */}
+      {shopeeServices.length > 0 && (
+        <div hidden={active !== 'shopee'}>
+          <div className="mb-10 max-w-xl">
+            <p className="text-slate-400 leading-relaxed">
+              產品化的入門方案——範圍固定、價格透明、可直接在蝦皮下單。想先低門檻試水，從這裡開始；要完整客製，回上面的 n8n 自動化與 AI 應用。
+            </p>
+          </div>
+          {shopeeCategories.map((cat) => {
+            const catServices = shopeeServices.filter((s) => s.category === cat)
+            return (
+              <div key={cat} className="mb-14">
+                <h2 className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-500 mb-6 flex items-center gap-3">
+                  <span>{cat}</span>
+                  <span className="h-px flex-1 bg-white/[0.06]" />
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {catServices.map((service) => (
+                    <ServiceCard key={service.slug} service={service} />
+                  ))}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      )}
 
     </>
   )
