@@ -1,7 +1,5 @@
 import { buildMetadata } from '@/lib/metadata'
-import PortfolioTabs from '@/components/portfolio/PortfolioTabs'
-import PortfolioMarquee from '@/components/portfolio/PortfolioMarquee'
-import { PortfolioHero } from '@/components/page-hero/PageHero'
+import PortfolioV2 from '@/components/portfolio/PortfolioV2'
 
 export const metadata = buildMetadata({
   title: 'Q kangber 作品集 — N8N 自動化與 AI 應用實戰案例',
@@ -35,13 +33,9 @@ const jsonLd = [
 
 export default function PortfolioPage() {
   return (
-    <div style={{ minHeight: '100vh', background: '#05060a' }}>
+    <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <PortfolioHero />
-      <PortfolioMarquee />
-      <div id="portfolio-detail">
-        <PortfolioTabs />
-      </div>
-    </div>
+      <PortfolioV2 />
+    </>
   )
 }
