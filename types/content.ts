@@ -28,7 +28,7 @@ export interface ServiceFrontmatter {
   icon: string
   featured: boolean
   published: boolean
-  serviceType?: 'automation' | 'ai'
+  serviceType?: 'automation' | 'ai' | 'shopee'
   faq?: { q: string; a: string }[]
   subtitle?: string
   accent?: string
