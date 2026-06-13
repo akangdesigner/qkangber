@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 import type { Service } from '@/types/content'
+import CountUp from './CountUp'
 
 function PulseBadge() {
   return (
@@ -77,7 +78,7 @@ function KpiHero({
           WebkitBackgroundClip: 'text', backgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           letterSpacing: '-0.02em', lineHeight: 1,
-        }}>{metric.after}</div>
+        }}><CountUp value={metric.after} /></div>
       </div>
       <div style={{
         borderLeft: '1px dashed rgba(255,255,255,0.08)',
@@ -268,7 +269,7 @@ export default function ServiceCard({ service }: { service: Service }) {
               <span style={{
                 fontFamily: '"JetBrains Mono", ui-monospace, monospace',
                 fontSize: 22, fontWeight: 600, color: '#fff',
-              }}>{service.price.toLocaleString()}</span>
+              }}><CountUp value={service.price} grouping /></span>
               {service.priceNote && (
                 <span style={{
                   fontFamily: '"Noto Sans TC", sans-serif',
