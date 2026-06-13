@@ -51,6 +51,12 @@ export default async function PostPage({ params }: Props) {
   const { html: contentHtml, toc } = isHtmlPost
     ? extractToc(lazifyContentImages(post.content))
     : { html: '', toc: [] }
+  // QA 大補帖那種「每題 H3 都是獨立搜尋單位」的文章，目錄才展開到 H3。
+  // 一般長文同樣有很多 H3（論述小節），所以不能只看數量——靠標題或「多數 H3 是 QN 問句」判斷。
+  const h3s = toc.filter((t) => t.level === 3)
+  const qNumbered = h3s.filter((t) => /^Q\s*\d+/i.test(t.text)).length
+  const tocShowSubitems =
+    /QA|Q&A|大補帖/i.test(post.title) || (h3s.length > 0 && qNumbered / h3s.length >= 0.6)
 
   const allPosts = await getAllPosts()
   const idx = allPosts.findIndex((p) => p.slug === slug)
@@ -121,7 +127,7 @@ export default async function PostPage({ params }: Props) {
             </div>
           </header>
 
-          {isHtmlPost && <TableOfContents toc={toc} />}
+          {isHtmlPost && <TableOfContents toc={toc} showSubitems={tocShowSubitems} />}
           <div className="prose max-w-none">
             {isHtmlPost ? (
               <div dangerouslySetInnerHTML={{ __html: contentHtml }} />

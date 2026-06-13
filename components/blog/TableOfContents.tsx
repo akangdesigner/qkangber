@@ -13,7 +13,9 @@ function groupToc(toc: TocItem[]): TocGroup[] {
   return groups
 }
 
-export default function TableOfContents({ toc }: { toc: TocItem[] }) {
+// showSubitems：QA 大補帖那種「每個 H3 是獨立搜尋單位」的文章才展開到 H3；
+// 一般長文的 H3 是論述小節，列進目錄只是雜訊，預設只到 H2。
+export default function TableOfContents({ toc, showSubitems = false }: { toc: TocItem[]; showSubitems?: boolean }) {
   const groups = groupToc(toc)
   if (groups.length < 2) return null
   return (
@@ -51,7 +53,7 @@ export default function TableOfContents({ toc }: { toc: TocItem[] }) {
                 </span>
                 <span>{g.h2.text}</span>
               </a>
-              {g.children.length > 0 && (
+              {showSubitems && g.children.length > 0 && (
                 <ul className="mt-3 ml-[5px] pl-6 border-l border-white/[0.1] flex flex-col gap-2">
                   {g.children.map((c) => (
                     <li key={c.id}>
