@@ -261,7 +261,7 @@ export default function HeroBanner() {
               fontFamily: '"Noto Sans TC", sans-serif',
               fontSize: 15, lineHeight: 1.8, color: '#94a3b8', maxWidth: 440,
             }}>
-              n8n 流程自動化、Claude AI 應用開發——從重複性作業到智慧判斷，每個環節都可以設計得更好。
+              專為蝦皮賣家做的自動化——拍照建檔、生成商品圖、每日訂單統計，把上架與對帳的重複工作交給 AI 與 n8n。
             </p>
 
             {/* CTA */}
