@@ -7,7 +7,7 @@
 ## 主要頁面
 
 - [首頁](https://aiqkangber.com/): n8n 自動化、AI Agent、電商流程工程的總覽與服務切入點
-- [服務項目](https://aiqkangber.com/services): 蝦皮賣家自動化服務列表，每項服務有獨立說明頁
+- [服務項目](https://aiqkangber.com/services): 所有自動化服務的列表，每項服務有獨立說明頁
 - [作品集](https://aiqkangber.com/portfolio): n8n 流程、AI Agent 與 Vibe Coding 開發的真實專案（解決實際問題的工具，非 demo）
 - [AI × N8N 知識庫（部落格）](https://aiqkangber.com/blog): N8N 自動化、Vibe Coding、AI 趨勢、AI 工具實測與 Agent 整合的實戰文章
 - [歷期電子報](https://aiqkangber.com/newsletter/archive): 每週精選 AI 業界動態、N8N 自動化、工具推薦與實戰心得，全部公開免費閱讀
@@ -17,8 +17,19 @@
 
 ## 服務項目
 
-- [拍照辨識建檔、生成蝦皮商品圖](https://aiqkangber.com/services/shopee-listing-from-photo): 用手機拍商品標籤，AI 自動辨識品名規格、寫進 Google Sheets，並生成可直接上架的蝦皮商品圖
-- [每日蝦皮訂單自動統計](https://aiqkangber.com/services/shopee-daily-order-report): 用 n8n 每天自動抓蝦皮訂單，算好筆數、營業額與熱賣排行寫進 Google Sheets，並把當日摘要推到手機
+- [電商訂單自動化](https://aiqkangber.com/services/ecommerce-automation): 用 n8n 把訂單到出貨全程自動化
+- [行銷漏斗自動化](https://aiqkangber.com/services/marketing-automation): 用 n8n 把潛客到成交全程自動跟進
+- [社群媒體自動化](https://aiqkangber.com/services/social-media-automation): n8n 跨平台排程、監控與數據回報
+- [數據報表自動化](https://aiqkangber.com/services/data-report-automation): n8n 自動抓取、計算、定時發送報表
+- [N8N + AI 混合流程](https://aiqkangber.com/services/n8n-ai-hybrid): 在自動化流程裡加入 AI 判斷與內容生成
+- [內部知識庫 AI 助理](https://aiqkangber.com/services/internal-ai-assistant): RAG 接公司文件，在 Slack 內問答
+- [客製化 AI 聊天機器人](https://aiqkangber.com/services/ai-chatbot): Claude API 串接，24 小時智慧客服
+- [客服 AI 自動回覆](https://aiqkangber.com/services/customer-service-bot): LINE / IG 訊息接到 GPT，FAQ 自動處理
+- [AI 提示詞工程顧問](https://aiqkangber.com/services/ai-prompt-consulting): 設計、測試、優化讓 AI 穩定輸出的提示詞
+- [AI 前端工具開發](https://aiqkangber.com/services/ai-frontend-tool): 把 AI 能力包成可直接使用的網頁工具
+- [品牌官網開發](https://aiqkangber.com/services/web-development): Vibe Coding AI 輔助快速建站
+- [拍照辨識建檔、自動生成商品圖（產品包）](https://aiqkangber.com/services/shopee-listing-from-photo): 拍商品標籤，AI 辨識品名規格寫進 Google Sheets 並生成可直接上架的商品圖，範圍固定的現成自動化產品包
+- [每日訂單自動統計（產品包）](https://aiqkangber.com/services/shopee-daily-order-report): n8n 每天自動算好筆數、營業額與熱賣排行寫進 Google Sheets 並推摘要到手機，範圍固定的現成自動化產品包
 
 ## 免費工具
 
