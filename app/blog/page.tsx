@@ -6,7 +6,7 @@ import { buildMetadata } from '@/lib/metadata'
 export const revalidate = 60
 
 export const metadata = buildMetadata({
-  title: 'Q kangber 知識庫 — AI 趨勢、N8N 工作流與 Agent 整合實戰文章',
+  title: 'AI × N8N 知識庫 — AI 趨勢、N8N 工作流與 Agent 整合實戰文章',
   description: '收錄 N8N 自動化、Vibe Coding、最新 AI 趨勢、AI 工具實測與 Agent 整合應用——想跟上 AI 時代，這裡都找得到。',
   keywords: ['N8N 教學', 'AI Agent 整合', 'AI 工具推薦', '自動化工作流'],
   path: '/blog',

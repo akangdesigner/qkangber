@@ -9,7 +9,7 @@ type Method = {
 }
 
 export const metadata = buildMetadata({
-  title: '聯絡 Q kangber — n8n 自動化與 AI 開發需求諮詢',
+  title: '聯絡與需求諮詢 — n8n 自動化與 AI 開發',
   description: '有 n8n 工作流自動化、AI Agent 開發或流程整合的需求嗎？填表告訴我你的流程痛點，初次諮詢免費，我會先評估可行性與做法再報價，不必先付費也不綁約。',
   path: '/contact',
 })
