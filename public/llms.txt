@@ -27,7 +27,7 @@
 - [客服 AI 自動回覆](https://aiqkangber.com/services/customer-service-bot): LINE / IG 訊息接到 GPT，FAQ 自動處理
 - [AI 提示詞工程顧問](https://aiqkangber.com/services/ai-prompt-consulting): 設計、測試、優化讓 AI 穩定輸出的提示詞
 - [AI 前端工具開發](https://aiqkangber.com/services/ai-frontend-tool): 把 AI 能力包成可直接使用的網頁工具
-- [品牌官網開發](https://aiqkangber.com/services/web-development): Vibe Coding AI 輔助快速建站
+- [軟體開發](https://aiqkangber.com/services/web-development): Vibe Coding AI 輔助，網站與網頁工具快速交付
 - [拍照辨識建檔、自動生成商品圖（產品包）](https://aiqkangber.com/services/shopee-listing-from-photo): 拍商品標籤，AI 辨識品名規格寫進 Google Sheets 並生成可直接上架的商品圖，範圍固定的現成自動化產品包
 - [每日訂單自動統計（產品包）](https://aiqkangber.com/services/shopee-daily-order-report): n8n 每天自動算好筆數、營業額與熱賣排行寫進 Google Sheets 並推摘要到手機，範圍固定的現成自動化產品包
 
