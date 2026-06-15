@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { buildMetadata } from '@/lib/metadata'
 
 export const metadata = buildMetadata({
-  title: 'Q kangber 服務 — N8N 自動化、電商自動化與 AI Agent 開發',
+  title: '服務 — N8N 自動化、電商自動化與 AI Agent 開發',
   description: '提供 N8N 工作流自動化、電商自動化、AI Agent 開發、聊天機器人建置與提示詞工程顧問——協助電商與行銷企業把 AI 真正導入日常營運。',
   keywords: ['N8N 自動化服務', '電商自動化', 'AI Agent 開發', '企業 AI 轉型', '行銷自動化'],
   path: '/services',
