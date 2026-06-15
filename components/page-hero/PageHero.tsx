@@ -7,7 +7,7 @@
 // Chosen variants:
 //   Blog       = Big-Index (cyan)
 //   Portfolio  = Split (pink)
-//   Newsletter = image-left astronaut + subscribe-right (blue)
+//   Newsletter = subscribe-left + astronaut-RIGHT (blue)
 // ─────────────────────────────────────────────────────────────
 import Image from 'next/image'
 import NewsletterSubscribe from './NewsletterSubscribe'
@@ -195,7 +195,8 @@ function PHStyles() {
       }
       .ph-grid-bigindex  { grid-template-columns: minmax(0,1.15fr) minmax(0,0.85fr); gap: 56px; }
       .ph-grid-split     { grid-template-columns: minmax(0,1.05fr) minmax(0,1fr); gap: 48px; }
-      .ph-grid-newsletter { grid-template-columns: minmax(0,1fr) minmax(0,1.04fr); gap: 48px; }
+      /* 訂閱欄在左（略寬）、太空人在右 */
+      .ph-grid-newsletter { grid-template-columns: minmax(0,1.04fr) minmax(0,1fr); gap: 48px; }
 
       @media (max-width: 860px) {
         .ph-inner { grid-template-columns: 1fr !important; gap: 32px; padding-top: 96px; padding-bottom: 56px; }
@@ -261,10 +262,10 @@ export function BlogHero({ categories }: { categories: Category[] }) {
             fontSize: 'clamp(2.6rem, 7vw, 6rem)', lineHeight: 0.98,
             fontWeight: 600, letterSpacing: '-0.04em', color: PH.white,
           }}>
-            AI × N8N<br />知識庫
+            AI × n8n<br />知識庫
           </h1>
           <p style={{ margin: 0, fontFamily: PH.sans, fontSize: 15, lineHeight: 1.85, color: PH.mute, maxWidth: 420 }}>
-            收錄 N8N 自動化、Vibe Coding、最新 AI 趨勢與 Agent 整合應用——想跟上 AI 時代，這裡都找得到。
+            收錄 n8n 自動化、Vibe Coding、最新 AI 趨勢與 Agent 整合應用——想跟上 AI 時代，這裡都找得到。
           </p>
         </div>
         <div className="ph-rail" style={{ position: 'relative' }}>
@@ -276,11 +277,9 @@ export function BlogHero({ categories }: { categories: Category[] }) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// 歷期電子報 — image LEFT (neon astronaut over a glowing orbit disc)
-// · subscribe RIGHT. Signature accent: blue. Astronaut is a static
-// transparent PNG; the "float/walk" is the pure-CSS `astroWalk`
-// keyframe (see PHStyles). Per the Claude Design "Newsletter Split
-// + Astronaut" handoff.
+// 歷期電子報 — subscribe LEFT · astronaut RIGHT (neon astronaut over a
+// glowing orbit disc). Signature accent: blue. Astronaut is a static
+// transparent PNG; the "float/walk" is the pure-CSS `astroWalk` keyframe.
 // ─────────────────────────────────────────────────────────────
 
 // Glowing disc + dashed orbit ring (traveling dot) with the astronaut
@@ -338,12 +337,7 @@ export function NewsletterHero() {
   return (
     <PHShell sectionEn="NEWSLETTER" accent={accent} motif={<PHAurora accent={accent} />}>
       <div className="ph-inner ph-grid-newsletter">
-        {/* LEFT — astronaut illustration */}
-        <div className="ph-illustration" style={{ position: 'relative', height: '100%', display: 'flex', alignItems: 'center' }}>
-          <NLIllustrationDisc accent={accent} />
-        </div>
-
-        {/* RIGHT — subscribe */}
+        {/* LEFT — subscribe */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           <PHEyebrow en="Newsletter · 每週一" accent={accent} />
           <h1 style={{
@@ -354,10 +348,15 @@ export function NewsletterHero() {
             隨時隨地，<br />收到最新內容
           </h1>
           <p style={{ margin: 0, fontFamily: PH.sans, fontSize: 15.5, lineHeight: 1.8, color: PH.mute, maxWidth: 420 }}>
-            每週精選 AI 業界動態、N8N 自動化、工具推薦與實戰心得——全部公開免費閱讀，不用訂閱也能看。
+            每週精選 AI 業界動態、n8n 自動化、工具推薦與實戰心得——全部公開免費閱讀，不用訂閱也能看。
           </p>
           <NewsletterSubscribe />
           <PHMeta items={['每週一發送', '免費訂閱', '公開閱讀']} accent={accent} />
+        </div>
+
+        {/* RIGHT — astronaut illustration */}
+        <div className="ph-illustration" style={{ position: 'relative', height: '100%', display: 'flex', alignItems: 'center' }}>
+          <NLIllustrationDisc accent={accent} />
         </div>
       </div>
     </PHShell>
@@ -448,7 +447,7 @@ export function PortfolioHero() {
             }}>Selected Works</span>
           </h1>
           <p style={{ margin: 0, fontFamily: PH.sans, fontSize: 15, lineHeight: 1.85, color: PH.mute, maxWidth: 440 }}>
-            收錄 N8N 自動化流程、AI Agent 應用與 Vibe Coding 開發的真實專案——每個作品都是解決實際問題的工具，不是 demo。
+            收錄 n8n 自動化流程、AI Agent 應用與 Vibe Coding 開發的真實專案——每個作品都是解決實際問題的工具，不是 demo。
           </p>
           <PHMeta items={['4 個專案', '持續累積', '非 demo']} accent={accent} />
         </div>
