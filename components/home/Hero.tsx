@@ -344,7 +344,7 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
                 opacity: 0, transform: 'translateY(18px)',
                 animation: 'heroLineIn 700ms cubic-bezier(.2,.7,.2,1) 180ms forwards',
               }}>
-                把 AI 接進你的工作流程，
+                把 AI 導入你的工作流程，
               </span>
               <span style={{
                 display: 'block', fontStyle: 'italic',
@@ -363,7 +363,7 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
               margin: '0 0 36px 0',
               opacity: 0, animation: 'heroLineIn 700ms ease-out 540ms forwards',
             }}>
-              專注於 N8N 工作流、AI Agent、RAG 與提示詞架構。把 LLM 從 demo 帶進你日常營運的 production 流程裡。
+              透過 N8N、AI Agent 與 RAG，把原本需要人工處理的工作流程，轉變成可穩定運行的 AI 系統。
             </p>
 
             <div style={{

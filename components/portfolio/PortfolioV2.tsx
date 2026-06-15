@@ -184,14 +184,15 @@ function PV2Hero() {
       <div>
         <p className={ic(shown)} style={{ margin: '0 0 26px', fontFamily: MONO, fontSize: 11, letterSpacing: '0.22em', color: '#f0abfc', textTransform: 'uppercase', transitionDelay: '.05s' }}>{'// PORTFOLIO — 作品集'}</p>
         <h1 className={ic(shown)} style={{ margin: 0, fontFamily: DISP, fontWeight: 700, fontSize: 'clamp(52px, 6.4vw, 84px)', lineHeight: 0.98, letterSpacing: '-0.035em', color: '#ffffff', transitionDelay: '.13s' }}>
-          <span style={{ display: 'block' }}>Real-World</span>
-          <span style={{ display: 'block' }}>Projects<span style={{ color: '#f0abfc' }}>.</span></span>
-          <span aria-hidden="true" style={{ display: 'block', color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.32)' }}>No Demos.</span>
+          作品集<span style={{ color: '#f0abfc' }}>.</span>
         </h1>
-        <p className={ic(shown)} style={{ margin: '30px 0 0', maxWidth: 440, fontSize: 14, lineHeight: 1.9, color: '#64748b', fontFamily: SANS, textWrap: 'pretty', transitionDelay: '.24s' } as CSS}>
+        <p className={ic(shown)} style={{ margin: '24px 0 0', fontFamily: SANS, fontWeight: 600, fontSize: 'clamp(18px, 2.2vw, 26px)', lineHeight: 1.4, letterSpacing: '-0.01em', color: '#e2e8f0', transitionDelay: '.2s' }}>
+          N8N 自動化與 AI 應用實戰案例
+        </p>
+        <p className={ic(shown)} style={{ margin: '20px 0 0', maxWidth: 440, fontSize: 14, lineHeight: 1.9, color: '#64748b', fontFamily: SANS, textWrap: 'pretty', transitionDelay: '.24s' } as CSS}>
           收錄 N8N 自動化流程、AI Agent 應用與 Vibe Coding 開發的真實專案。每一個都在解決實際問題、在 production 上運作。
         </p>
-        <p className={ic(shown)} style={{ margin: '22px 0 0', fontFamily: MONO, fontSize: 11, letterSpacing: '0.1em', color: '#475569', transitionDelay: '.32s' }}>5 projects&ensp;·&ensp;4 live&ensp;·&ensp;1 in dev&ensp;·&ensp;since 2025</p>
+        <p className={ic(shown)} style={{ margin: '22px 0 0', fontFamily: MONO, fontSize: 11, letterSpacing: '0.1em', color: '#475569', transitionDelay: '.32s' }}>5 個專案&ensp;·&ensp;4 個上線&ensp;·&ensp;1 個開發中&ensp;·&ensp;始於 2025</p>
       </div>
 
       <aside aria-label="系統狀態" className={ic(shown)} style={{ borderRadius: 16, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)', overflow: 'hidden', boxShadow: '0 24px 70px -30px rgba(0,0,0,0.8)', transitionDelay: '.2s' }}>
