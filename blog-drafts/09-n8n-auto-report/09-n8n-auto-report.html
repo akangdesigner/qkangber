@@ -54,7 +54,7 @@
 <p>這是最容易忽略的一點：服務帳號<strong>建好不等於就能讀資料</strong>。它就像一個新員工，你得分別在 GSC、GA4、那張 Google Sheets 三個地方，把它加進去、給它檢視或編輯的權限。少加一個，那一邊就會吃閉門羹。我一開始以為設定一次就全通，結果 GA 那邊一直讀不到，回頭才發現是忘了在 GA 把它加進去。</p>
 
 <figure>
-  <img src="https://i.ibb.co/Y4XqFBmn/b948dce1eeb0.jpg" alt="Google Search Console 使用者和權限頁面：①左側設定②新增使用者，把服務帳號 email 加進來給完整權限">
+  <img src="https://i.ibb.co/Myfcf6mV/da1e868d0359.jpg" alt="Google Search Console 使用者和權限頁面：①左側設定②新增使用者，把服務帳號 email 加進來給完整權限">
   <figcaption>以 GSC 為例：①進左側<strong>設定 → 使用者和權限</strong>，②按<strong>新增使用者</strong>，把服務帳號的 email 加進來、給「完整」權限（GA4、Google Sheets 也比照各自加一次）。</figcaption>
 </figure>
 
@@ -145,9 +145,7 @@
 
 <h2>總結</h2>
 
-<p>n8n 自動報表說到底，不是為了炫技，而是把「每週登三個後台、複製貼上一堆數字」這種純體力的事交給系統，把人留下來做真正需要判斷的解讀和策略。核心就三件事：用一把服務帳號接遍 GSC、GA4、Google Sheets，遇到原生節點吃不了服務帳號就改用 HTTP Request 直接打 API，再用排程讓它每週一早上自己生出整合報告和趨勢兩張表。</p>
-
-<p>過程裡最花時間的不是串工具，<span style="color:#c0392b;">是搞懂「帳戶 ID 不等於資源 ID」「token 會默默過期」這些不踩過不會知道的細節</span>。跑通一次之後，它每週都在幫你省下那半天的搬運時間。想把這類重複的行銷數據整理交給自動化、又不知道從哪開始的話，可以看看我這邊的<a href="https://aiqkangber.com/services">n8n 自動化建置服務</a>，順便把這條整合週報工作流免費載回去對照著用。</p>
+<p>n8n 自動報表的核心就三件事：一把服務帳號接遍 GSC、GA4、Google Sheets，原生節點吃不了服務帳號就改用 HTTP Request 直接打 API，再用排程每週一早上自動生出整合報告和趨勢兩張表。<span style="color:#c0392b;">最花時間的不是串工具，是搞懂「帳戶 ID 不等於資源 ID」這種小細節</span>；跑通一次，它每週都幫你省下半天搬運。想交給自動化又不知從哪開始，可以看看我的<a href="https://aiqkangber.com/services">n8n 自動化建置服務</a>，順便把工作流免費載回去用。</p>
 
 </body>
 </html>
