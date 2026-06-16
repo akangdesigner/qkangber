@@ -50,7 +50,10 @@ function useInView(threshold = 0.4) {
 function useCountUp(target: number, inView: boolean, { duration = 1500, delay = 0 } = {}) {
   const [val, setVal] = useState(0)
   useEffect(() => {
-    if (!inView) { setVal(0); return }
+    if (!inView) {
+      const r = requestAnimationFrame(() => setVal(0))
+      return () => cancelAnimationFrame(r)
+    }
     let raf = 0
     const begin = performance.now() + delay
     const step = (now: number) => {

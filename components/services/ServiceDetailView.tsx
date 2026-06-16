@@ -11,7 +11,7 @@
 // switcher is dropped (each service is its own route → prev/next nav).
 // ─────────────────────────────────────────────────────────────
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import type { ServiceDetail } from '@/lib/services-detail'
 
@@ -163,12 +163,16 @@ function Dashboard({ svc }: { svc: ServiceDetail }) {
 function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const [maxH, setMaxH] = useState(0)
+  useEffect(() => {
+    setMaxH(open ? ref.current?.scrollHeight ?? 400 : 0)
+  }, [open])
   return (
     <div className="svc-faq__item" data-open={open}>
       <button className="svc-faq__q" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
         <span>{q}</span><Plus className="svc-faq__icon" />
       </button>
-      <div className="svc-faq__a" ref={ref} style={{ maxHeight: open ? ref.current?.scrollHeight ?? 400 : 0 }}>
+      <div className="svc-faq__a" ref={ref} style={{ maxHeight: maxH }}>
         <p>{a}</p>
       </div>
     </div>

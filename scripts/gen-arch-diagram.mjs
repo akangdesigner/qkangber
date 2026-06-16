@@ -1,6 +1,5 @@
 // 重畫 multi-platform-posting 架構圖（新流程：AI 產圖文→登記 Sheets→LINE 審核→n8n 分流發→三平台→成功通知）
 // 用法：node scripts/gen-arch-diagram.mjs
-import fs from 'fs'
 import path from 'path'
 import sharp from 'sharp'
 import { chromium } from 'playwright'
