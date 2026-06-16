@@ -55,24 +55,26 @@ export default function PostCard({ post }: { post: Post }) {
       </div>
 
       <div className="relative p-6 flex flex-col flex-1">
-        {post.category && (
-          <span className="flex items-center gap-2 mb-3 self-start">
+        {/* 分類列：永遠保留高度，沒分類的卡片才不會把下面往上頂 */}
+        <span className="flex items-center gap-2 mb-3 self-start min-h-[1.75rem]">
+          {post.category && (
             <span className="text-[9px] tracking-[0.22em] uppercase font-bold px-2.5 py-1 rounded-md bg-violet-500/20 text-violet-300 border border-violet-500/30">
               {post.category}
             </span>
-            {post.subCategory && (
-              <span className="text-[9px] tracking-[0.18em] uppercase font-semibold text-slate-400">
-                {post.subCategory}
-              </span>
-            )}
-          </span>
-        )}
+          )}
+          {post.subCategory && (
+            <span className="text-[9px] tracking-[0.18em] uppercase font-semibold text-slate-400">
+              {post.subCategory}
+            </span>
+          )}
+        </span>
 
-        <div className="flex flex-wrap gap-1.5 mb-5">
-          {post.tags.map((tag) => (
+        {/* tags 列：固定單行高度＋裁切，tag 再多也不會換行把標題往下擠 */}
+        <div className="flex flex-nowrap items-center gap-1.5 mb-5 h-6 overflow-hidden">
+          {post.tags.slice(0, 4).map((tag) => (
             <span
               key={tag}
-              className="text-[10px] tracking-[0.16em] uppercase font-semibold px-2.5 py-0.5 rounded-full border border-white/10 bg-white/[0.04] text-slate-300 backdrop-blur-sm"
+              className="shrink-0 text-[10px] tracking-[0.16em] uppercase font-semibold px-2.5 py-0.5 rounded-full border border-white/10 bg-white/[0.04] text-slate-300 backdrop-blur-sm whitespace-nowrap"
             >
               {tag}
             </span>
