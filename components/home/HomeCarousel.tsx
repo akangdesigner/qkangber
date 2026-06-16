@@ -14,7 +14,7 @@ const SLIDES = [
     visual: 'rag' as const,
   },
   {
-    key: 'N8N',
+    key: 'n8n',
     chinese: '工作流自動化',
     tagline: '把日常重複的事情，交給一條會自我癒合的工作流。',
     desc: 'Webhook、Cron、Self-hosted。從 Shopify × 物流、Lead → CRM、到內容批次發佈，每條工作流都附監控與重試機制。',

@@ -5,6 +5,7 @@ export interface PostFrontmatter {
   excerpt: string
   coverImage?: string
   category?: string
+  subCategory?: string
   featured?: boolean
 }
 

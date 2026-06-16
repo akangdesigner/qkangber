@@ -21,6 +21,7 @@ export type SheetPost = {
   published: boolean
   coverImage: string
   category: string
+  subCategory: string
 }
 
 export async function getBlogPostsFromSheets(): Promise<SheetPost[]> {
@@ -28,7 +29,7 @@ export async function getBlogPostsFromSheets(): Promise<SheetPost[]> {
   const apiKey = process.env.GOOGLE_SHEETS_API_KEY
   if (!sheetId || !apiKey) return []
 
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/posts!A:N?key=${apiKey}`
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/posts!A:O?key=${apiKey}`
 
   try {
     const res = await fetch(url, { next: { revalidate: 60 } })
@@ -52,6 +53,7 @@ export async function getBlogPostsFromSheets(): Promise<SheetPost[]> {
         published: row[7]?.toLowerCase() === 'true',
         category: row[12]?.trim() ?? '',
         coverImage: row[13]?.trim() ?? '',
+        subCategory: row[14]?.trim() ?? '',
       }))
       .filter((p) => p.published && p.slug)
       .sort((a, b) => (a.date > b.date ? -1 : 1))

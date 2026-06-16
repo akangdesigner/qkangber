@@ -1,18 +1,18 @@
 ---
-title: 電商訂單自動化 — 用 N8N 把訂單到出貨全程自動化
-description: 從訂單成立、庫存確認、金流對帳到出貨與物流通知，用 N8N 串接你的電商平台與第三方物流，全程自動化處理，減少人工抄寫、降低出錯率，讓你專心把東西賣得更好。
-keywords: [電商自動化, 訂單自動化, N8N 電商, Shopify 自動化]
+title: 電商訂單自動化 — 用 n8n 把訂單到出貨全程自動化
+description: 從訂單成立、庫存確認、金流對帳到出貨與物流通知，用 n8n 串接你的電商平台與第三方物流，全程自動化處理，減少人工抄寫、降低出錯率，讓你專心把東西賣得更好。
+keywords: [電商自動化, 訂單自動化, n8n 電商, 蝦皮自動化, SHOPLINE 自動化, 91App 自動化]
 price: 9000
 priceNote: 起
 category: 電商
-tags: [電商, 訂單管理, Shopify, WooCommerce]
+tags: [電商, 訂單管理, SHOPLINE, 蝦皮]
 icon: 🛒
 featured: true
 published: true
-subtitle: 用 N8N 把訂單到出貨全程自動化
+subtitle: 用 n8n 把訂單到出貨全程自動化
 accent: '#67e8f9'
 accent2: '#a78bfa'
-platforms: [Shopify, WooCommerce, 黑貓物流]
+platforms: [SHOPLINE, 蝦皮, 91App, Cyberbiz, 黑貓物流]
 previewImage: /services/preview/cover-ecommerce-automation-data.webp
 metric:
   before: 每筆 10 分鐘
@@ -20,11 +20,11 @@ metric:
   label: 處理時間
 kpis:
   - [處理時間, 10 分, '< 30 秒']
-  - [出錯率, 3-5%, '< 0.1%']
+  - [人工抄寫, 每筆手 key, 0]
   - [客服詢問, 基準, −40%]
 faq:
-  - q: 支援哪些電商平台？
-    a: 支援 Shopify、WooCommerce、91App，其他平台只要有 API 或 Webhook 都可以評估串接。
+  - q: 支援哪些電商平台？只能用國外平台嗎？
+    a: 不綁定特定平台，台灣常用的 SHOPLINE、蝦皮、91App、Cyberbiz、meepShop 都可以串。沒有公開 API 的平台（如蝦皮）就用每日匯出的訂單檔自動處理；國外的 Shopify、WooCommerce 也支援。只要平台能匯出資料或有 API / Webhook 就能評估。
   - q: 訂單量很少，值得自動化嗎？
     a: 月訂單 100 筆以上通常回本很快。100 筆以下可以先從最耗時的單一流程（如通知或報表）切入，不一定要全套。
   - q: 上線後如果平台改版 API 壞掉怎麼辦？
@@ -37,7 +37,7 @@ faq:
 
 ## 自動化流程
 
-1. **訂單觸發** — 新訂單成立，n8n 立即接收通知（支援 Shopify / WooCommerce / 91App）
+1. **訂單觸發** — 新訂單成立，n8n 立即接收通知（SHOPLINE / 蝦皮 / 91App / Cyberbiz，Shopify、WooCommerce 等國外平台也支援）
 2. **庫存核對** — 自動檢查庫存狀態，不足時通知採購
 3. **物流對接** — 自動建立黑貓 / 7-11 / 新竹物流出貨單
 4. **客戶通知** — 發送出貨確認信 + LINE 推播，附帶追蹤連結
@@ -68,5 +68,7 @@ faq:
 ## 費用說明
 
 **NT$ 9,000 起**（依整合系統數量與複雜度調整）
+
+以上為基礎方案價格，一次付清買斷，非月費或訂閱制。實際費用依你的需求範圍報價。
 
 初次洽詢免費，會先評估你的現有系統再報價。

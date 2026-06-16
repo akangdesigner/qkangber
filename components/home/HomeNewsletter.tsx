@@ -75,8 +75,8 @@ function NewsletterVisual({ issues, pointer, active }: {
       </svg>
 
       <div style={{ position: 'relative', width: '100%', maxWidth: 360, height: 280 }}>
-        <IssueCard tone="next" subject="AI 工具 · 趨勢 · n8n 自動化"
-          summary="每週整理當週值得關注的 AI 工具、產業趨勢與 n8n 自動化實作筆記。"
+        <IssueCard tone="next" subject="AI · Agent · Claude · n8n"
+          summary="用開發者與接案者角度，精選本週真正值得關注的 AI、Agent、n8n 與實戰案例。"
           date="每週一更新" offset={0} z={3} scale={1} />
         {recent.map((iss, i) => (
           <IssueCard key={iss.slug} tone="past"
@@ -173,13 +173,13 @@ export default function HomeNewsletter({ issues = [] }: { issues?: NewsletterIss
                     AI 不負責思考，但會幫你省下整週時間。
                   </p>
                   <p style={{ fontSize: 14, lineHeight: 1.85, color: '#94a3b8', margin: '20px 0 0 0', maxWidth: 460 }}>
-                    每週精選：一個 N8N 工作流案例、一個 AI Agent 拆解，加上一個值得思考的觀點。寫給想用 AI 把日常工作做得更好的人。
+                    用開發者與接案者的角度，幫你從 AI、Agent、Claude、OpenAI、n8n 與實戰案例裡篩出真正值得關注的，5 分鐘看完，每週省下數小時整理時間。
                   </p>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 6 }}>
-                    {['n8n 案例', 'Agent 拆解', '提示詞', '一週觀點'].map(c => (
+                    {['AI', 'Agent', 'Claude', 'OpenAI', 'n8n', '實戰案例'].map(c => (
                       <span key={c} style={{
                         display: 'inline-block', fontSize: 11, fontWeight: 500, letterSpacing: '0.04em',
                         padding: '5px 11px', borderRadius: 999,

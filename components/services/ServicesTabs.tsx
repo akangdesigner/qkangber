@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { Service } from '@/types/content'
 import ServiceCard from './ServiceCard'
 import ServiceFlow from './ServiceFlow'
@@ -171,6 +171,42 @@ export default function ServicesTabs({ automationServices, aiServices, productSe
 
   const automationCategories = [...new Set(automationServices.map((s) => s.category))]
 
+  // 文章的 /services#free-download 連結進來時，自動切到「自動化產品包」分頁並捲到免費領取區
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash === '#free-download') {
+      requestAnimationFrame(() => {
+        setActive('product')
+        setTimeout(() => {
+          document.getElementById('free-download')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 120)
+      })
+    }
+  }, [])
+
+  const freeWorkflows = [
+    {
+      title: '多平台發文自動化 · n8n 工作流範本',
+      desc: '一篇定稿自動發到 FB、IG、Threads 的完整 n8n 工作流，可直接 import。敏感資料（token、試算表）都清空成佔位符，填上你自己的就能用。',
+      tags: ['n8n', 'Facebook', 'Instagram', 'Threads', 'Google Sheets'],
+      file: 'multi-platform-posting-n8n.json',
+      blog: 'multi-platform-posting',
+    },
+    {
+      title: '行銷整合週報 · n8n 工作流範本',
+      desc: '每週一自動抓 GSC＋GA4＋Threads，整理成 Google Sheet 一張整合報告＋趨勢表。金鑰、網域、試算表 ID 都清成佔位符，填上自己的就能跑。',
+      tags: ['n8n', 'GSC', 'GA4', 'Threads', 'Google Sheets'],
+      file: 'marketing-weekly-report.json',
+      blog: 'n8n-auto-report',
+    },
+    {
+      title: 'Threads token 自動續期 · n8n 工作流範本',
+      desc: '每月自動 refresh Threads token，避免約 60 天到期後社群數據突然抓不到。匯進你的 n8n、填上自己的 token 就能用。',
+      tags: ['n8n', 'Threads', 'Google Sheets'],
+      file: 'threads-token-auto-refresh.json',
+      blog: 'multi-platform-posting',
+    },
+  ]
+
   return (
     <>
       <style>{`
@@ -314,6 +350,70 @@ export default function ServicesTabs({ automationServices, aiServices, productSe
               已經打包好、範圍固定、做到能跑就交付的現成自動化——不用從零開規格，挑一個直接導入。附操作教學，需要再客製也可以延伸。
             </p>
           </div>
+
+          {/* 免費領取 */}
+          <div id="free-download" className="mb-14 scroll-mt-24">
+            <h2 className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-500 mb-6 flex items-center gap-3">
+              <span>免費領取</span>
+              <span className="h-px flex-1 bg-white/[0.06]" />
+            </h2>
+            <div className="space-y-5">
+              {freeWorkflows.map((wf) => (
+                <div
+                  key={wf.file}
+                  className="relative rounded-2xl overflow-hidden p-7 sm:p-8"
+                  style={{
+                    background: 'rgba(8,9,16,0.55)',
+                    boxShadow: 'inset 0 0 0 1px rgba(52,211,153,0.22), 0 18px 40px -24px rgba(0,0,0,0.5)',
+                  }}
+                >
+                  <div aria-hidden style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 3, background: 'linear-gradient(90deg, #34d399, #67e8f9)' }} />
+                  <div className="flex items-center gap-3 mb-4">
+                    <span style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 6,
+                      padding: '4px 10px', borderRadius: 999,
+                      fontFamily: '"JetBrains Mono", ui-monospace, monospace',
+                      fontSize: 10, letterSpacing: '0.16em', color: '#6ee7b7',
+                      background: 'rgba(52,211,153,0.10)', boxShadow: 'inset 0 0 0 1px rgba(52,211,153,0.30)',
+                    }}>
+                      <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 6px rgba(52,211,153,0.9)' }} />
+                      FREE · 免費
+                    </span>
+                    <span className="text-[10px] font-mono tracking-[0.18em] uppercase text-slate-500">n8n workflow · .json</span>
+                  </div>
+
+                  <h3 className="text-white text-xl sm:text-2xl font-semibold tracking-[-0.01em] mb-2">
+                    {wf.title}
+                  </h3>
+                  <p className="text-slate-400 text-sm leading-relaxed max-w-2xl mb-5">
+                    {wf.desc}
+                  </p>
+
+                  <div className="flex flex-wrap gap-1.5 mb-6">
+                    {wf.tags.map((p) => (
+                      <span key={p} className="px-2.5 py-1 rounded-md font-mono text-[10.5px] text-slate-300 tracking-[0.02em]"
+                        style={{ background: 'rgba(255,255,255,0.035)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.06)' }}>{p}</span>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-4">
+                    <a
+                      href={`/downloads/${wf.file}`}
+                      download
+                      className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-[14px] text-[#03130d]"
+                      style={{ background: 'linear-gradient(135deg, #34d399, #22d3ee)', boxShadow: '0 12px 30px -12px rgba(52,211,153,0.6)' }}
+                    >
+                      <span>↓</span> 免費下載工作流（.json）
+                    </a>
+                    <a href={`/blog/${wf.blog}`} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-emerald-300/90 hover:text-emerald-200">
+                      看完整教學文 <span>→</span>
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="mb-14">
             <h2 className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-500 mb-6 flex items-center gap-3">
               <span>現成產品包</span>

@@ -44,7 +44,7 @@ function ChangelogPill({ title, slug }: { title: string; slug: string }) {
 }
 
 function HeroFocusStrip() {
-  const words = ['N8N 工作流', 'AI Agent', 'RAG 檢索增強', 'Vibe Coding']
+  const words = ['n8n 工作流', 'AI Agent', 'RAG 檢索增強', 'Vibe Coding']
   const [idx, setIdx] = useState(0)
   useEffect(() => {
     const t = setInterval(() => setIdx(i => (i + 1) % words.length), 2200)
@@ -117,7 +117,7 @@ function PartnerMarquee() {
 const SATS = [
   { idx: 0, label: 'Design',   sub: 'Figma',    x: 10, y: 20, color: '#a78bfa', slideKey: 'VIBE',   hue:  0  },
   { idx: 1, label: 'Code',     sub: 'Cursor',   x: 92, y: 22, color: '#60a5fa', slideKey: 'CLAUDE', hue: -18 },
-  { idx: 2, label: 'n8n',      sub: 'Workflow', x: 92, y: 78, color: '#22d3ee', slideKey: 'N8N',    hue: -50 },
+  { idx: 2, label: 'n8n',      sub: 'Workflow', x: 92, y: 78, color: '#22d3ee', slideKey: 'n8n',    hue: -50 },
   { idx: 3, label: 'Database', sub: 'pgvector', x: 10, y: 78, color: '#f0abfc', slideKey: 'RAG',    hue:  40 },
 ]
 
@@ -363,7 +363,7 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
               margin: '0 0 36px 0',
               opacity: 0, animation: 'heroLineIn 700ms ease-out 540ms forwards',
             }}>
-              透過 N8N、AI Agent 與 RAG，把原本需要人工處理的工作流程，轉變成可穩定運行的 AI 系統。
+              透過 n8n、AI Agent 與 RAG，把原本需要人工處理的工作流程，轉變成可穩定運行的 AI 系統。
             </p>
 
             <div style={{

@@ -187,10 +187,10 @@ function PV2Hero() {
           作品集<span style={{ color: '#f0abfc' }}>.</span>
         </h1>
         <p className={ic(shown)} style={{ margin: '24px 0 0', fontFamily: SANS, fontWeight: 600, fontSize: 'clamp(18px, 2.2vw, 26px)', lineHeight: 1.4, letterSpacing: '-0.01em', color: '#e2e8f0', transitionDelay: '.2s' }}>
-          N8N 自動化與 AI 應用實戰案例
+          n8n 自動化與 AI 應用實戰案例
         </p>
         <p className={ic(shown)} style={{ margin: '20px 0 0', maxWidth: 440, fontSize: 14, lineHeight: 1.9, color: '#64748b', fontFamily: SANS, textWrap: 'pretty', transitionDelay: '.24s' } as CSS}>
-          收錄 N8N 自動化流程、AI Agent 應用與 Vibe Coding 開發的真實專案。每一個都在解決實際問題、在 production 上運作。
+          收錄 n8n 自動化流程、AI Agent 應用與 Vibe Coding 開發的真實專案。每一個都在解決實際問題、在 production 上運作。
         </p>
         <p className={ic(shown)} style={{ margin: '22px 0 0', fontFamily: MONO, fontSize: 11, letterSpacing: '0.1em', color: '#475569', transitionDelay: '.32s' }}>5 個專案&ensp;·&ensp;4 個上線&ensp;·&ensp;1 個開發中&ensp;·&ensp;始於 2025</p>
       </div>
@@ -429,7 +429,7 @@ const PV2_DETAILS: Detail[] = [
     gallery: null,
   },
   {
-    id: 'marketing', index: '03', tone: 'live', light: 'active', env: 'N8N · 2026',
+    id: 'marketing', index: '03', tone: 'live', light: 'active', env: 'n8n · 2026',
     title: '行銷文章生成工作流', tagline: '「輸入關鍵字，n8n 自動找資料、生文章、改寫成各平台格式」', links: [],
     media: { src: '/works/marketing-workflow.png', bar: 'workflow.json · Marketing Article Generator', aspect: '16/7', pos: 'center' },
     purpose: {
@@ -459,7 +459,7 @@ const PV2_DETAILS: Detail[] = [
     gallery: { label: '輸出範例', items: [{ src: '/works/marketing-instagram.png', label: 'Instagram' }, { src: '/works/marketing-twitter.png', label: 'Threads' }] },
   },
   {
-    id: 'newsletter', index: '04', tone: 'live', light: 'active', env: 'N8N · CRON',
+    id: 'newsletter', index: '04', tone: 'live', light: 'active', env: 'n8n · CRON',
     title: '新聞趨勢整合電子報工作流', tagline: '「每日自動搜尋 AI 議題，整合成可讀新聞摘要寄出」', links: [],
     media: { src: '/works/newsletter-workflow.png', bar: '電子報 · workflow.json', aspect: '16/7' },
     purpose: {

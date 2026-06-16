@@ -2,9 +2,9 @@ import { buildMetadata } from '@/lib/metadata'
 import PortfolioV2 from '@/components/portfolio/PortfolioV2'
 
 export const metadata = buildMetadata({
-  title: '作品集 — N8N 自動化與 AI 應用實戰案例',
-  description: '收錄 N8N 自動化流程、AI Agent 應用、Vibe Coding 開發的真實專案——每個作品都是解決實際問題的工具，不是 demo。',
-  keywords: ['N8N 作品案例', 'AI 應用開發', '自動化專案', 'Vibe Coding 作品'],
+  title: '作品集 — n8n 自動化與 AI 應用實戰案例',
+  description: '收錄 n8n 自動化流程、AI Agent 應用、Vibe Coding 開發的真實專案——每個作品都是解決實際問題的工具，不是 demo。',
+  keywords: ['n8n 作品案例', 'AI 應用開發', '自動化專案', 'Vibe Coding 作品'],
   path: '/portfolio',
 })
 

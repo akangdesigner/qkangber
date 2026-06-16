@@ -4,9 +4,9 @@ import { NewsletterHero } from '@/components/page-hero/PageHero'
 import { buildMetadata } from '@/lib/metadata'
 
 export const metadata = buildMetadata({
-  title: '電子報 — 每週 AI 與 N8N 自動化精選',
-  description: '每期收錄 AI 趨勢、n8n 自動化教學、AI 工具推薦與接案實戰心得，全部公開免費閱讀、不用訂閱也能看；想每週一封直送信箱，也可以免費訂閱。',
-  keywords: ['AI 自動化週報', 'N8N 電子報', 'AI 趨勢週報', '免費 AI 電子報'],
+  title: '電子報 — 每週 5 分鐘掌握重要 AI 資訊',
+  description: '以開發者與接案者的角度精選 AI、Agent、Claude、OpenAI、n8n 與實戰案例，幫你判斷哪些資訊值得關注、每週省下數小時整理時間，5 分鐘看完。全部公開免費閱讀，也可免費訂閱直送信箱。',
+  keywords: ['AI 自動化週報', 'n8n 電子報', 'AI 趨勢週報', '免費 AI 電子報'],
   path: '/newsletter',
 })
 
@@ -15,7 +15,7 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: '歷期 AI 自動化週報',
-    description: '歷期 Q kangber AI 與 n8n 自動化週報——每週精選業界動態，全部公開閱讀，免費無需訂閱。',
+    description: '歷期 Q kangber AI 自動化週報——以開發者與接案者角度精選 AI、Agent、Claude、OpenAI、n8n 與實戰案例，全部公開閱讀，免費無需訂閱。',
     url: 'https://aiqkangber.com/newsletter',
     publisher: {
       '@type': 'Person',

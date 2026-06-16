@@ -1,0 +1,273 @@
+{
+  "name": "多平台發文自動化（FB / IG / Threads）— Q kangber 免費範本",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "YOUR_SHEET_NAME_OR_GID",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [-768, 80],
+      "id": "dc60792d-6771-42af-82f5-01f1b3bd3e55",
+      "name": "讀取上架文章表單"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nitems.sort((a, b) => {\n  return Number(b.json.row_number) - Number(a.json.row_number);\n});\n\nreturn [items[0]];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-448, 80],
+      "id": "d3432e44-6b2a-4b9b-bc48-acc2c8a33222",
+      "name": "抓最新一篇"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "cbcf1ed2-b621-4560-b9f3-6767dbd1e161", "name": "access_token", "value": "YOUR_META_ACCESS_TOKEN", "type": "string" },
+            { "id": "69987fe1-aab3-49f4-813e-e5ee9181d869", "name": "threads_access_token", "value": "YOUR_THREADS_ACCESS_TOKEN", "type": "string" },
+            { "id": "c6a53c5b-df22-4ec0-8107-81720295a36c", "name": "fb_id", "value": "YOUR_FB_PAGE_ID", "type": "string" }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-224, 240],
+      "id": "e0f7ea0a-4fa5-4771-8e91-665d301f42ec",
+      "name": "發文token"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v21.0/{{ $json.fb_id }}/photos",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            { "name": "url", "value": "={{ $('抓最新一篇').item.json['FB圖片位址'] || $('抓最新一篇').item.json['雲端圖片位址(轉化後)'] }}" },
+            { "name": "caption", "value": "={{ $('抓最新一篇').item.json['文章內容'] }}" },
+            { "name": "access_token", "value": "={{ $json.access_token }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7b11fec1-e766-4a48-8a08-c76817605f6c",
+      "name": "fb發文",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [0, 240]
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v21.0/{{ $('發文token').item.json.fb_id }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "fields", "value": "instagram_business_account" },
+            { "name": "access_token", "value": "={{ $('發文token').item.json.access_token }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "16b00e53-6a19-408c-8021-e3464f9f8fce",
+      "name": "抓ig的id",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [176, 240]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v25.0/{{ $json.instagram_business_account.id }}/media",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "image_url", "value": "={{ $('抓最新一篇').item.json['雲端圖片位址(轉化後)'] || $('抓最新一篇').item.json['圖片位址'] }}" },
+            { "name": "caption", "value": "={{ $('抓最新一篇').item.json['文章內容'] }}" },
+            { "name": "access_token", "value": "={{ $('發文token').item.json.access_token }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5e379b0d-f6d8-4b8b-9260-fa41c1b82d39",
+      "name": "IG 建立媒體容器",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [448, 240]
+    },
+    {
+      "parameters": { "amount": 10 },
+      "id": "d06083ea-1bb3-4360-8b12-7059ea163fc2",
+      "name": "Wait IG Media",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [592, 240],
+      "webhookId": "981fb98c-f242-49c4-a3fb-74dd1415ecd6"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v21.0/{{ $('抓ig的id').item.json.instagram_business_account.id }}/media_publish",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            { "name": "creation_id", "value": "={{ $json.id }}" },
+            { "name": "access_token", "value": "={{ $('發文token').item.json.access_token }}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b0fdb6e3-e339-4a4f-90c8-8cc6fd1faa29",
+      "name": "IG發文",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [768, 240]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.threads.net/v1.0/me/threads",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{ $('發文token').item.json.threads_access_token }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"media_type\": \"IMAGE\",\n  \"image_url\": \"{{ $('抓最新一篇').item.json['雲端圖片位址(轉化後)'] || $('抓最新一篇').item.json['圖片位址'] }}\",\n  \"text\": {{ JSON.stringify($('抓最新一篇').item.json['文章內容']) }}\n}",
+        "options": {}
+      },
+      "id": "f6dac6d3-2e96-4db3-bd35-4116ed66416a",
+      "name": "Threads 建立容器",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [0, 496]
+    },
+    {
+      "parameters": { "amount": 10 },
+      "id": "b36b8154-0722-4a53-aa68-e039c12154fc",
+      "name": "Wait Threads Media",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [208, 496],
+      "webhookId": "496da3f9-ae42-4b14-bb4e-a5ab9854a5db"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.threads.net/v1.0/me/threads_publish",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{ $('發文token').item.json.threads_access_token }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"creation_id\": \"{{ $json.id }}\"\n}",
+        "options": {}
+      },
+      "id": "c0d44f14-6317-44c2-ab16-7d4c140e18a7",
+      "name": "Threads 發文",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [432, 496]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [976, 320],
+      "id": "afeee682-6ce4-4921-80fb-18e64563af66",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.line.me/v2/bot/message/push",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "Bearer YOUR_LINE_CHANNEL_ACCESS_TOKEN" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"to\": \"YOUR_LINE_USER_ID\",\n  \"messages\": [\n    {\n      \"type\": \"text\",\n      \"text\": \"✨ 文章發佈成功\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1152, 320],
+      "id": "d930f676-3e75-4108-b0bc-f12c3d4387ed",
+      "name": "通知完成"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "YOUR_SHEET_NAME_OR_GID",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "是否發布": "是",
+            "文章標題": "={{ $json['文章標題'] }}"
+          },
+          "matchingColumns": ["文章標題"],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [0, 0],
+      "id": "bca71cbd-8c9f-4b9b-acb2-3b49b04f7a1b",
+      "name": "回寫是否發布"
+    }
+  ],
+  "connections": {
+    "讀取上架文章表單": { "main": [[{ "node": "抓最新一篇", "type": "main", "index": 0 }]] },
+    "抓最新一篇": { "main": [[{ "node": "回寫是否發布", "type": "main", "index": 0 }, { "node": "發文token", "type": "main", "index": 0 }]] },
+    "發文token": { "main": [[{ "node": "fb發文", "type": "main", "index": 0 }, { "node": "Threads 建立容器", "type": "main", "index": 0 }]] },
+    "fb發文": { "main": [[{ "node": "抓ig的id", "type": "main", "index": 0 }]] },
+    "抓ig的id": { "main": [[{ "node": "IG 建立媒體容器", "type": "main", "index": 0 }]] },
+    "IG 建立媒體容器": { "main": [[{ "node": "Wait IG Media", "type": "main", "index": 0 }]] },
+    "Wait IG Media": { "main": [[{ "node": "IG發文", "type": "main", "index": 0 }]] },
+    "IG發文": { "main": [[{ "node": "Merge1", "type": "main", "index": 0 }]] },
+    "Threads 建立容器": { "main": [[{ "node": "Wait Threads Media", "type": "main", "index": 0 }]] },
+    "Wait Threads Media": { "main": [[{ "node": "Threads 發文", "type": "main", "index": 0 }]] },
+    "Threads 發文": { "main": [[{ "node": "Merge1", "type": "main", "index": 1 }]] },
+    "Merge1": { "main": [[{ "node": "通知完成", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "pinData": {},
+  "meta": {
+    "description": "多平台發文自動化範本：從 Google Sheets 讀取定稿，分流發佈到 Facebook、Instagram、Threads，完成後 LINE 通知。使用前請填入 發文token 節點的 access_token / threads_access_token / fb_id，設定 Google Sheets 憑證與試算表，並填入 通知完成 節點的 LINE token 與 user id。教學文：https://aiqkangber.com/blog/multi-platform-posting"
+  }
+}

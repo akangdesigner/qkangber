@@ -202,7 +202,7 @@ function FrontFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: num
 
             <div className="mt-7 flex flex-col items-start gap-5 lg:mt-0 lg:flex-row lg:items-end lg:justify-between">
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, maxWidth: 380 }}>
-                {['N8N', 'Claude Code', '職涯培訓講師', 'API 整合', '流程架構'].map(t => (
+                {['n8n', 'Claude Code', '職涯培訓講師', 'API 整合', '流程架構'].map(t => (
                   <span key={t} style={{ display: 'inline-block', fontSize: 10, fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 999, background: 'rgba(255,255,255,0.04)', color: '#cbd5e1', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(6px)' }}>{t}</span>
                 ))}
               </div>

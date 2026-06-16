@@ -119,8 +119,8 @@ function Dashboard({ svc }: { svc: ServiceDetail }) {
             <>
               <span className="svc-w__tag" style={{ color: '#6ee7b7' }}>方案費用 · Project</span>
               <div style={{ margin: '12px 0 0' }}><Big val={svc.price} unit="起" /></div>
-              <span className="svc-w-hero__title">專案制 · 一次建置</span>
-              <span className="svc-w-hero__desc">{svc.priceNote}</span>
+              <span className="svc-w-hero__title">一次付清買斷 · 專案制</span>
+              <span className="svc-w-hero__desc">基礎方案價格，非月費／訂閱。{svc.priceNote}。</span>
             </>
           )}
         </div>
@@ -186,6 +186,10 @@ function PlanBlock({ svc }: { svc: ServiceDetail }) {
           <span className="svc-plan__from">起</span>
         </div>
         <p className="svc-plan__note">{svc.priceNote}</p>
+        <p className="svc-plan__oneoff">
+          <span className="svc-plan__oneoff-pill">一次付清買斷</span>
+          以上為基礎方案價格，非月費或訂閱制。實際費用依你的需求範圍報價。
+        </p>
         <Link href="/contact" className="svc-plan__cta">
           <span>立即諮詢</span>
           <ArrowR className="btn__arrow" />
@@ -350,6 +354,9 @@ export default function ServiceDetailView({
                 ))}
               </tbody>
             </table>
+            <p style={{ margin: '12px 2px 0', fontFamily: 'var(--sans)', fontSize: 12.5, lineHeight: 1.6, color: '#475569' }}>
+              以上為實際導入的典型成效，實際數字依產業、流程與資料狀況而異。
+            </p>
           </section>
         )}
 
@@ -536,6 +543,8 @@ const SERVICE_DETAIL_CSS = `
 .svc-plan__num { font-family: var(--disp); font-size: 2.7rem; font-weight: 700; color: #fff; letter-spacing: -0.02em; }
 .svc-plan__from { font-family: var(--sans); font-size: 1rem; color: #94a3b8; }
 .svc-plan__note { margin: 8px 0 0; font-family: var(--sans); font-size: 0.88rem; line-height: 1.55; color: #94a3b8; }
+.svc-plan__oneoff { margin: 12px 0 0; font-family: var(--sans); font-size: 0.82rem; line-height: 1.6; color: #94a3b8; }
+.svc-plan__oneoff-pill { display: inline-block; margin-right: 8px; padding: 2px 9px; border-radius: 999px; font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; color: var(--acc); background: var(--acc-dim); box-shadow: inset 0 0 0 1px rgba(52,211,153,0.3); vertical-align: middle; }
 .svc-plan__inc-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(148,163,184,0.7); margin-bottom: 13px; }
 .svc-plan__inc { display: grid; gap: 10px; margin: 0; padding: 0; }
 .svc-plan__inc li { list-style: none; display: flex; align-items: flex-start; gap: 11px; font-family: var(--sans); font-size: 0.95rem; line-height: 1.45; color: #cbd5e1; }

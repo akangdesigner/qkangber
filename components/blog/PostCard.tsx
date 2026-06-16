@@ -56,8 +56,15 @@ export default function PostCard({ post }: { post: Post }) {
 
       <div className="relative p-6 flex flex-col flex-1">
         {post.category && (
-          <span className="text-[9px] tracking-[0.22em] uppercase font-bold px-2.5 py-1 rounded-md bg-violet-500/20 text-violet-300 border border-violet-500/30 mb-3 self-start">
-            {post.category}
+          <span className="flex items-center gap-2 mb-3 self-start">
+            <span className="text-[9px] tracking-[0.22em] uppercase font-bold px-2.5 py-1 rounded-md bg-violet-500/20 text-violet-300 border border-violet-500/30">
+              {post.category}
+            </span>
+            {post.subCategory && (
+              <span className="text-[9px] tracking-[0.18em] uppercase font-semibold text-slate-400">
+                {post.subCategory}
+              </span>
+            )}
           </span>
         )}
 
