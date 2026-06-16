@@ -345,13 +345,13 @@ export function NewsletterHero() {
             fontSize: 'clamp(2.4rem, 4.6vw, 3.6rem)', lineHeight: 1.1,
             fontWeight: 600, letterSpacing: '-0.03em', color: PH.white,
           }}>
-            隨時隨地，<br />收到最新內容
+            每週精選<br />最值得關注的<br />AI 動態
           </h1>
-          <p style={{ margin: 0, fontFamily: PH.sans, fontSize: 15.5, lineHeight: 1.8, color: PH.mute, maxWidth: 420 }}>
-            每週精選 AI 業界動態、n8n 自動化、工具推薦與實戰心得——全部公開免費閱讀，不用訂閱也能看。
+          <p style={{ margin: 0, fontFamily: PH.sans, fontSize: 15.5, lineHeight: 1.8, color: PH.mute, maxWidth: 440 }}>
+            我用開發者與接案者的角度，幫你判斷哪些資訊真正值得關注，每週省下數小時 AI 資訊整理時間。精選 AI、Agent、Claude、OpenAI、n8n 與實戰案例。
           </p>
           <NewsletterSubscribe />
-          <PHMeta items={['每週一發送', '免費訂閱', '公開閱讀']} accent={accent} />
+          <PHMeta items={['5 分鐘讀完', '開發者視角', '免費訂閱']} accent={accent} />
         </div>
 
         {/* RIGHT — astronaut illustration */}

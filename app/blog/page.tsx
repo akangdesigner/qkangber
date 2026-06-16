@@ -6,20 +6,20 @@ import { buildMetadata } from '@/lib/metadata'
 export const revalidate = 60
 
 export const metadata = buildMetadata({
-  title: 'AI × N8N 知識庫 — AI 趨勢、N8N 工作流與 Agent 整合實戰文章',
-  description: '收錄 N8N 自動化、Vibe Coding、最新 AI 趨勢、AI 工具實測與 Agent 整合應用——想跟上 AI 時代，這裡都找得到。',
-  keywords: ['N8N 教學', 'AI Agent 整合', 'AI 工具推薦', '自動化工作流'],
+  title: 'AI × n8n 知識庫 — n8n 自動化與 AI 開發實戰文章',
+  description: '依主題集群整理的實戰文章庫：n8n 自動化（行銷／社群數據／AI 客服）與 AI 開發、Vibe Coding——每篇都真實踩過才寫。',
+  keywords: ['n8n 自動化', '行銷自動化', 'AI 客服', 'Vibe Coding'],
   path: '/blog',
 })
 
-const PREFERRED_CATEGORY_ORDER = ['開發日記', '工具教學', '最新AI趨勢']
+const PREFERRED_CATEGORY_ORDER = ['n8n 自動化', 'AI 開發與 Vibe Coding']
 
 const jsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'AI × N8N 知識庫',
-    description: 'AI 與 N8N 自動化實戰知識庫。工作流架構、AI Agent 開發、電商行銷自動化——全都真實踩過才寫出來。',
+    name: 'AI × n8n 知識庫',
+    description: 'AI 與 n8n 自動化實戰知識庫。工作流架構、AI Agent 開發、電商行銷自動化——全都真實踩過才寫出來。',
     url: 'https://aiqkangber.com/blog',
     publisher: {
       '@type': 'Person',
@@ -37,7 +37,7 @@ const jsonLd = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: '首頁', item: 'https://aiqkangber.com' },
-      { '@type': 'ListItem', position: 2, name: 'AI × N8N 知識庫', item: 'https://aiqkangber.com/blog' },
+      { '@type': 'ListItem', position: 2, name: 'AI × n8n 知識庫', item: 'https://aiqkangber.com/blog' },
     ],
   },
 ]

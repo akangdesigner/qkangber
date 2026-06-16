@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 
-const BUDGET_OPTIONS = ['10 萬以下', '10–30 萬', '30–80 萬', '80 萬以上', '想先聊聊']
-const TOPICS = ['N8N 工作流', 'AI Agent', 'RAG 檢索', '提示詞架構', '顧問諮詢', '其他']
+const BUDGET_OPTIONS = ['NT$5,000 以下', 'NT$5,000–10,000', 'NT$10,000–20,000', 'NT$20,000 以上', '還不確定，想先免費診斷']
+const TOPICS = ['訂單・出貨自動化', '每日報表自動化', '客服・LINE 自動回覆', '社群・貼文自動化', '潛客跟進自動化', '其他 / 還不確定']
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
@@ -171,7 +171,10 @@ export default function ContactForm() {
           <h2 style={{
             margin: 0, fontSize: 22, fontWeight: 600,
             letterSpacing: '-0.01em', color: '#fff',
-          }}>跟我們聊聊</h2>
+          }}>說說你的需求</h2>
+          <p style={{ margin: '8px 0 0', fontSize: 13, lineHeight: 1.6, color: '#94a3b8' }}>
+            免費診斷你的流程，評估可行性與做法後再報價——不必先付費，也不綁約。
+          </p>
         </div>
         <div style={{
           fontFamily: 'ui-monospace, monospace',

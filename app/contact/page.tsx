@@ -10,7 +10,7 @@ type Method = {
 
 export const metadata = buildMetadata({
   title: '聯絡與需求諮詢 — n8n 自動化與 AI 開發',
-  description: '有 n8n 工作流自動化、AI Agent 開發或流程整合的需求嗎？填表告訴我你的流程痛點，初次諮詢免費，我會先評估可行性與做法再報價，不必先付費也不綁約。',
+  description: '每天被訂單、報表、客服、社群貼文這些重複工作綁住嗎？這些都能用 n8n 自動化處理。把你想省下的流程告訴我，初次免費診斷可行性與做法再報價，不必先付費也不綁約。',
   path: '/contact',
 })
 
@@ -165,7 +165,7 @@ export default function ContactPage() {
             <p style={{
               margin: 0, fontSize: 14, lineHeight: 1.85, color: '#cbd5e1',
             }}>
-              對 N8N 工作流、AI Agent、RAG 或提示詞架構有任何想法、合作需求或專案邀約，歡迎透過下方表單或任何管道直接聯繫。我們會在 1–2 個工作天內回覆。
+              每天被重複的工作綁住嗎？訂單一筆筆手動處理、報表月底熬夜趕、客人同樣的問題回不完——這些都能交給自動化。把你想省下的流程說給我聽，我會先免費幫你診斷可不可行、大概怎麼做，覺得適合再談，不必先付費、也不綁約。通常 1–2 個工作天內回覆。
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>

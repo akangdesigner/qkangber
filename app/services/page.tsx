@@ -5,9 +5,9 @@ import Link from 'next/link'
 import { buildMetadata } from '@/lib/metadata'
 
 export const metadata = buildMetadata({
-  title: '服務 — N8N 自動化、電商自動化與 AI Agent 開發',
-  description: '提供 N8N 工作流自動化、電商自動化、AI Agent 開發、聊天機器人建置與提示詞工程顧問——協助電商與行銷企業把 AI 真正導入日常營運。',
-  keywords: ['N8N 自動化服務', '電商自動化', 'AI Agent 開發', '企業 AI 轉型', '行銷自動化'],
+  title: '服務 — n8n 自動化、電商與行銷自動化、AI 客服與知識庫建置',
+  description: 'n8n 工作流自動化、電商訂單與報表自動化、行銷與社群自動化，以及 AI 客服機器人、RAG 知識庫建置與網站開發——協助電商與行銷團隊把自動化真正導入日常營運。',
+  keywords: ['n8n 自動化服務', '電商自動化', '行銷自動化', 'AI 客服機器人', '報表自動化'],
   path: '/services',
 })
 
@@ -16,7 +16,7 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'AI 自動化與應用服務',
-    description: '電商訂單、行銷漏斗自動化，以及 Claude AI 應用開發、聊天機器人、提示詞工程顧問——一站式 AI 服務。',
+    description: '電商訂單、行銷漏斗、報表與社群自動化，以及 AI 客服機器人、RAG 知識庫建置與網站開發——一站式自動化與 AI 服務。',
     url: 'https://aiqkangber.com/services',
     provider: {
       '@type': 'Person',

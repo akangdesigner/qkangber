@@ -41,6 +41,7 @@ export const getAllPosts = cache(async (): Promise<Post[]> => {
       excerpt: data.excerpt ?? '',
       coverImage: data.coverImage,
       category: data.category,
+      subCategory: data.subCategory,
       featured: data.featured ?? false,
       readingTime: readingTime(content),
     } satisfies Post
@@ -57,6 +58,7 @@ export const getAllPosts = cache(async (): Promise<Post[]> => {
     readingTime: readingTime(p.content),
     coverImage: p.coverImage || undefined,
     category: p.category || undefined,
+    subCategory: p.subCategory || undefined,
   }))
 
   // Sheets takes priority over MDX for same slug
@@ -83,6 +85,7 @@ export const getPostBySlug = cache(async (slug: string): Promise<PostWithContent
       content: sheetPost.content,
       coverImage: sheetPost.coverImage || undefined,
       category: sheetPost.category || undefined,
+      subCategory: sheetPost.subCategory || undefined,
     }
   }
 
@@ -103,6 +106,7 @@ export const getPostBySlug = cache(async (slug: string): Promise<PostWithContent
     excerpt: data.excerpt ?? '',
     coverImage: data.coverImage,
     category: data.category,
+    subCategory: data.subCategory,
     featured: data.featured ?? false,
     readingTime: readingTime(content),
     content: sanitizeForMdx(content),

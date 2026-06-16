@@ -1,0 +1,198 @@
+{
+  "name": "行銷整合週報（純 n8n：GSC＋GA4＋Threads → 一張表）by Q kangber",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 1"
+            }
+          ]
+        }
+      },
+      "id": "trigger",
+      "name": "每週一早上8點",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.googleapis.com/webmasters/v3/sites/sc-domain%3AYOUR_DOMAIN.com/searchAnalytics/query",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ startDate: $today.minus({ days: 9 }).toFormat('yyyy-MM-dd'), endDate: $today.minus({ days: 3 }).toFormat('yyyy-MM-dd'), dimensions: ['query'], rowLimit: 25 }) }}",
+        "options": {}
+      },
+      "id": "gsc",
+      "name": "GSC 查詢",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [224, 0],
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://analyticsdata.googleapis.com/v1beta/properties/YOUR_GA4_PROPERTY_ID:runReport",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ dateRanges: [{ startDate: '7daysAgo', endDate: 'yesterday' }], dimensions: [{ name: 'sessionDefaultChannelGroup' }], metrics: [{ name: 'sessions' }, { name: 'totalUsers' }, { name: 'screenPageViews' }] }) }}",
+        "options": {}
+      },
+      "id": "gahttp",
+      "name": "GA4 查詢",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [448, 0],
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "https://graph.threads.net/v1.0/YOUR_THREADS_USER_ID/threads_insights",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "metric",
+              "value": "views,likes,replies,reposts,quotes,followers_count"
+            },
+            {
+              "name": "since",
+              "value": "={{ Math.floor($today.minus({ days: 7 }).toSeconds()) }}"
+            },
+            {
+              "name": "until",
+              "value": "={{ Math.floor($today.toSeconds()) }}"
+            },
+            {
+              "name": "access_token",
+              "value": "YOUR_THREADS_ACCESS_TOKEN"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "thfollow",
+      "name": "Threads 粉絲",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [672, 0],
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// ← 換成你「行銷整合報告」分頁的 gid（看試算表網址 #gid=... 那串數字）\nconst SHEET_ID = 0;\nconst gscRows = ($('GSC 查詢').first().json.rows) || [];\nconst gscClicks = gscRows.reduce((s, r) => s + (r.clicks || 0), 0);\nconst gscImpr = gscRows.reduce((s, r) => s + (r.impressions || 0), 0);\nconst gscPos = gscRows.length ? gscRows.reduce((s, r) => s + (r.position || 0), 0) / gscRows.length : 0;\nconst gaRows = ($('GA4 查詢').first().json.rows) || [];\nconst gn = (g, i) => Number((g.metricValues && g.metricValues[i]) ? g.metricValues[i].value : 0);\nconst gaSess = gaRows.reduce((s, g) => s + gn(g, 0), 0);\nconst gaUsers = gaRows.reduce((s, g) => s + gn(g, 1), 0);\nconst gaViews = gaRows.reduce((s, g) => s + gn(g, 2), 0);\nconst th = ($('Threads 粉絲').first().json.data) || [];\nconst tm = (n) => { const m = th.find((d) => d.name === n); if (!m) return 0; if (m.total_value && m.total_value.value != null) return Number(m.total_value.value); if (Array.isArray(m.values)) return m.values.reduce((s, v) => s + Number(v.value || 0), 0); return 0; };\nconst followers = tm('followers_count');\nconst thViews = tm('views');\nconst thEng = tm('likes') + tm('replies') + tm('reposts') + tm('quotes');\nconst end = $today.minus({ days: 1 }).toFormat('yyyy-MM-dd');\nconst start = $today.minus({ days: 7 }).toFormat('yyyy-MM-dd');\nconst rows = [];\nconst sec = [], hdr = [], sub = [];\nconst p = (a, b, c, d) => rows.push([a == null ? '' : a, b == null ? '' : b, c == null ? '' : c, d == null ? '' : d]);\np(`📊 行銷整合週報   ${start} – ${end}`);\np('');\nsec.push(rows.length); p('🔍 搜尋成效（Google 搜尋）');\nhdr.push(rows.length); p('關鍵字', '點擊', '曝光', '排名');\nfor (const r of gscRows) p((r.keys && r.keys[0]) || '', r.clicks, r.impressions, r.position != null ? Number(r.position.toFixed(1)) : '');\nsub.push(rows.length); p('▸ 小計', gscClicks, gscImpr, Number(gscPos.toFixed(1)));\np('');\nsec.push(rows.length); p('🌐 網站流量（GA4）');\nhdr.push(rows.length); p('流量來源', '造訪次數', '訪客人數', '瀏覽頁數');\nfor (const g of gaRows) p((g.dimensionValues && g.dimensionValues[0] ? g.dimensionValues[0].value : ''), gn(g, 0), gn(g, 1), gn(g, 2));\nsub.push(rows.length); p('▸ 小計', gaSess, gaUsers, gaViews);\np('');\nsec.push(rows.length); p('🧵 Threads（脆）');\nhdr.push(rows.length); p('粉絲', '瀏覽', '互動');\np(followers, thViews, thEng);\nwhile (rows.length < 200) p('');\nconst white = { red: 1, green: 1, blue: 1 };\nconst grey = { red: 0.93, green: 0.93, blue: 0.93 };\nconst cols = [{ red: 0.27, green: 0.45, blue: 0.77 }, { red: 0.30, green: 0.60, blue: 0.36 }, { red: 0.50, green: 0.36, blue: 0.66 }];\nconst band = (i, bg, bold, wht) => ({ repeatCell: { range: { sheetId: SHEET_ID, startRowIndex: i, endRowIndex: i + 1, startColumnIndex: 0, endColumnIndex: 4 }, cell: { userEnteredFormat: { backgroundColor: bg, textFormat: { bold: !!bold, foregroundColor: wht ? { red: 1, green: 1, blue: 1 } : { red: 0.13, green: 0.13, blue: 0.13 } } } }, fields: 'userEnteredFormat(backgroundColor,textFormat)' } });\nconst req = [];\nreq.push({ repeatCell: { range: { sheetId: SHEET_ID, startRowIndex: 0, endRowIndex: 200, startColumnIndex: 0, endColumnIndex: 4 }, cell: { userEnteredFormat: { backgroundColor: white, textFormat: { bold: false, foregroundColor: { red: 0.13, green: 0.13, blue: 0.13 } }, horizontalAlignment: 'LEFT' } }, fields: 'userEnteredFormat(backgroundColor,textFormat,horizontalAlignment)' } });\nreq.push({ repeatCell: { range: { sheetId: SHEET_ID, startRowIndex: 1, endRowIndex: 200, startColumnIndex: 1, endColumnIndex: 4 }, cell: { userEnteredFormat: { horizontalAlignment: 'RIGHT' } }, fields: 'userEnteredFormat.horizontalAlignment' } });\nreq.push({ repeatCell: { range: { sheetId: SHEET_ID, startRowIndex: 0, endRowIndex: 1, startColumnIndex: 0, endColumnIndex: 4 }, cell: { userEnteredFormat: { textFormat: { bold: true, fontSize: 13 } } }, fields: 'userEnteredFormat.textFormat' } });\nsec.forEach((i, k) => req.push(band(i, cols[k], true, true)));\nhdr.forEach((i) => req.push(band(i, grey, true, false)));\nsub.forEach((i) => req.push({ repeatCell: { range: { sheetId: SHEET_ID, startRowIndex: i, endRowIndex: i + 1, startColumnIndex: 0, endColumnIndex: 4 }, cell: { userEnteredFormat: { textFormat: { bold: true } } }, fields: 'userEnteredFormat.textFormat' } }));\nreq.push({ updateSheetProperties: { properties: { sheetId: SHEET_ID, gridProperties: { frozenRowCount: 1 } }, fields: 'gridProperties.frozenRowCount' } });\nreq.push({ updateDimensionProperties: { range: { sheetId: SHEET_ID, dimension: 'COLUMNS', startIndex: 0, endIndex: 1 }, properties: { pixelSize: 240 }, fields: 'pixelSize' } });\nreq.push({ updateDimensionProperties: { range: { sheetId: SHEET_ID, dimension: 'COLUMNS', startIndex: 1, endIndex: 4 }, properties: { pixelSize: 95 }, fields: 'pixelSize' } });\nreturn [{ json: { values: rows, requests: req } }];"
+      },
+      "id": "combine",
+      "name": "整合彙總",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [896, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://sheets.googleapis.com/v4/spreadsheets/YOUR_GOOGLE_SHEET_ID/values:batchUpdate",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ valueInputOption: 'RAW', data: [{ range: '行銷整合報告!A1', values: $json.values }] }) }}",
+        "options": {}
+      },
+      "id": "writevals",
+      "name": "寫入報告值",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1120, 0],
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://sheets.googleapis.com/v4/spreadsheets/YOUR_GOOGLE_SHEET_ID:batchUpdate",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ requests: $('整合彙總').first().json.requests }) }}",
+        "options": {}
+      },
+      "id": "fmt",
+      "name": "套色排版",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1344, 0],
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "https://sheets.googleapis.com/v4/spreadsheets/YOUR_GOOGLE_SHEET_ID/values/%E8%B6%A8%E5%8B%A2!1:1",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleApi",
+        "options": {}
+      },
+      "id": "readtrend",
+      "name": "讀趨勢",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [1568, 0],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const gscRows = ($('GSC 查詢').first().json.rows) || [];\nconst clicks = gscRows.reduce((s, r) => s + (r.clicks || 0), 0);\nconst impr = gscRows.reduce((s, r) => s + (r.impressions || 0), 0);\nconst pos = gscRows.length ? gscRows.reduce((s, r) => s + (r.position || 0), 0) / gscRows.length : 0;\nconst gaRows = ($('GA4 查詢').first().json.rows) || [];\nconst gn = (g, i) => Number((g.metricValues && g.metricValues[i]) ? g.metricValues[i].value : 0);\nconst sess = gaRows.reduce((s, g) => s + gn(g, 0), 0);\nconst users = gaRows.reduce((s, g) => s + gn(g, 1), 0);\nconst views = gaRows.reduce((s, g) => s + gn(g, 2), 0);\nconst th = ($('Threads 粉絲').first().json.data) || [];\nconst tm = (n) => { const m = th.find((d) => d.name === n); if (!m) return 0; if (m.total_value && m.total_value.value != null) return Number(m.total_value.value); if (Array.isArray(m.values)) return m.values.reduce((s, v) => s + Number(v.value || 0), 0); return 0; };\nconst followers = tm('followers_count');\nconst thViews = tm('views');\nconst thEng = tm('likes') + tm('replies') + tm('reposts') + tm('quotes');\nconst end = $today.minus({ days: 1 }).toFormat('yyyy-MM-dd');\nconst start = $today.minus({ days: 7 }).toFormat('yyyy-MM-dd');\nconst weekLabel = `${start} – ${end}`;\nconst labels = ['指標', '搜尋點擊', '搜尋曝光', '平均排名', '造訪次數', '訪客人數', '瀏覽頁數', '脆粉絲', '脆瀏覽', '脆互動'];\nconst vals = [weekLabel, clicks, impr, Number(pos.toFixed(1)), sess, users, views, followers, thViews, thEng];\nconst readJson = $('讀趨勢').first().json || {};\nconst row1 = ((readJson.values) || [])[0] || [];\nconst existing = row1.slice(1);\nconst idx = existing.indexOf(weekLabel);\nconst colIndex = idx >= 0 ? (1 + idx) : (1 + existing.length);\nconst colToA1 = (n) => { let s = ''; n++; while (n > 0) { const m = (n - 1) % 26; s = String.fromCharCode(65 + m) + s; n = Math.floor((n - 1) / 26); } return s; };\nconst colLetter = colToA1(colIndex);\nreturn [{ json: { labelsRange: '趨勢!A1', labelsValues: labels.map((x) => [x]), weekRange: `趨勢!${colLetter}1`, weekValues: vals.map((x) => [x]) } }];"
+      },
+      "id": "buildtrend",
+      "name": "組趨勢",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1792, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://sheets.googleapis.com/v4/spreadsheets/YOUR_GOOGLE_SHEET_ID/values:batchUpdate",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ valueInputOption: 'RAW', data: [{ range: $json.labelsRange, values: $json.labelsValues }, { range: $json.weekRange, values: $json.weekValues }] }) }}",
+        "options": {}
+      },
+      "id": "writetrend",
+      "name": "寫趨勢",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [2016, 0],
+      "retryOnFail": true
+    }
+  ],
+  "connections": {
+    "每週一早上8點": { "main": [[{ "node": "GSC 查詢", "type": "main", "index": 0 }]] },
+    "GSC 查詢": { "main": [[{ "node": "GA4 查詢", "type": "main", "index": 0 }]] },
+    "GA4 查詢": { "main": [[{ "node": "Threads 粉絲", "type": "main", "index": 0 }]] },
+    "Threads 粉絲": { "main": [[{ "node": "整合彙總", "type": "main", "index": 0 }]] },
+    "整合彙總": { "main": [[{ "node": "寫入報告值", "type": "main", "index": 0 }]] },
+    "寫入報告值": { "main": [[{ "node": "套色排版", "type": "main", "index": 0 }]] },
+    "套色排版": { "main": [[{ "node": "讀趨勢", "type": "main", "index": 0 }]] },
+    "讀趨勢": { "main": [[{ "node": "組趨勢", "type": "main", "index": 0 }]] },
+    "組趨勢": { "main": [[{ "node": "寫趨勢", "type": "main", "index": 0 }]] }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Taipei"
+  },
+  "meta": {
+    "description": "純 n8n 行銷整合週報：每週一早上 8 點自動抓 GSC（搜尋成效）＋GA4（網站流量）＋Threads（社群），整理成 Google Sheet 一張分區整合報告，並把週數據往趨勢分頁右邊加一欄看成長。使用前請：①接一把 Google 服務帳號憑證（scope: webmasters.readonly + analytics.readonly + spreadsheets）並分別授權給 GSC／GA4／試算表 ②把 YOUR_DOMAIN.com、YOUR_GA4_PROPERTY_ID（資源 ID 非帳戶 ID）、YOUR_GOOGLE_SHEET_ID、整合彙總節點裡的 SHEET_ID（分頁 gid）、Threads 的 YOUR_THREADS_USER_ID 與 YOUR_THREADS_ACCESS_TOKEN 全部換成自己的。免費分享 by Q kangber｜aiqkangber.com",
+    "templateCredsSetupCompleted": false
+  }
+}

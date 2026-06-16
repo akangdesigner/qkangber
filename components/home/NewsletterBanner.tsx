@@ -43,7 +43,7 @@ export default function NewsletterBanner() {
             letterSpacing: '-0.04em',
           }}
         >
-          N8N
+          n8n
         </span>
 
         <div className="relative max-w-md">
@@ -64,7 +64,7 @@ export default function NewsletterBanner() {
             </span>
           </h2>
           <p className="text-sm text-slate-400 leading-relaxed mb-8">
-            每週精選本週最值得關注的 AI 動態——新模型、新工具、產業消息——過濾雜訊，只留值得你花時間的。
+            每週精選最值得關注的 AI 動態——用開發者與接案者的角度，幫你從 AI、Agent、Claude、OpenAI、n8n 與實戰案例裡篩出真正重要的，5 分鐘看完，省下數小時整理時間。
           </p>
           <SubscribeForm />
           <p className="text-[11px] text-slate-500 mt-4 tracking-wide">免費 · 不賣資料 · 隨時退訂</p>

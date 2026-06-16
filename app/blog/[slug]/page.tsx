@@ -5,6 +5,7 @@ import { mdxComponents } from '@/components/mdx/MDXComponents'
 import Breadcrumbs from '@/components/shared/Breadcrumbs'
 import AuthorCard from '@/components/shared/AuthorCard'
 import PostNavigation from '@/components/blog/PostNavigation'
+import RelatedPosts from '@/components/blog/RelatedPosts'
 import BlogSidebar from '@/components/blog/BlogSidebar'
 import Tag from '@/components/shared/Tag'
 import type { Metadata } from 'next'
@@ -63,6 +64,17 @@ export default async function PostPage({ params }: Props) {
   const prevPost = idx < allPosts.length - 1 ? allPosts[idx + 1] : null
   const nextPost = idx > 0 ? allPosts[idx - 1] : null
 
+  // 同集群互鏈：先抓同副分類（最相關的 spoke），不足 3 篇再用同主分類補滿，排除自己
+  const others = allPosts.filter((p) => p.slug !== slug)
+  const sameSub = post.subCategory
+    ? others.filter((p) => p.subCategory === post.subCategory)
+    : []
+  const sameMain = post.category
+    ? others.filter((p) => p.category === post.category && !sameSub.includes(p))
+    : []
+  const relatedPosts = [...sameSub, ...sameMain].slice(0, 3)
+  const relatedLabel = post.subCategory || post.category
+
   const latestPosts = allPosts.filter((p) => p.slug !== slug).slice(0, 1)
   const latestSlug = latestPosts[0]?.slug
   // 熱門看 featured、最新看日期——兩者標準不同，需排除當前文章與「最新」那篇，避免同一篇重複出現
@@ -105,7 +117,7 @@ export default async function PostPage({ params }: Props) {
         <article>
           <Breadcrumbs crumbs={[
             { label: '首頁', href: '/' },
-            { label: 'AI × N8N 知識庫', href: '/blog' },
+            { label: 'AI × n8n 知識庫', href: '/blog' },
             { label: post.title },
           ]} />
           <header className="mb-10">
@@ -146,6 +158,7 @@ export default async function PostPage({ params }: Props) {
             )}
           </div>
 
+          <RelatedPosts posts={relatedPosts} category={relatedLabel} />
           <PostNavigation prev={prevPost} next={nextPost} />
           <AuthorCard />
         </article>
