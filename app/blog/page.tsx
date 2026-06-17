@@ -6,20 +6,20 @@ import { buildMetadata } from '@/lib/metadata'
 export const revalidate = 60
 
 export const metadata = buildMetadata({
-  title: 'AI × n8n 知識庫 — n8n 自動化與 AI 開發實戰文章',
-  description: '依主題集群整理的實戰文章庫：n8n 自動化（行銷／社群數據／AI 客服）與 AI 開發、Vibe Coding——每篇都真實踩過才寫。',
-  keywords: ['n8n 自動化', '行銷自動化', 'AI 客服', 'Vibe Coding'],
+  title: 'AI × n8n 知識庫 — 行銷／電商自動化、AI Agent 與 AI 軟體開發實戰',
+  description: '依主題整理的實戰文章庫：行銷自動化、電商自動化、AI Agent（RAG／MCP／客服）、AI 軟體開發與 AI 趨勢觀點——每篇都真實做過、踩過才寫。',
+  keywords: ['n8n 自動化', '行銷自動化', 'AI Agent', 'AI 軟體開發'],
   path: '/blog',
 })
 
-const PREFERRED_CATEGORY_ORDER = ['n8n 自動化', 'AI 開發與 Vibe Coding']
+const PREFERRED_CATEGORY_ORDER = ['行銷自動化', '電商自動化', 'AI Agent', 'AI 軟體開發', 'AI 趨勢觀點']
 
 const jsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'AI × n8n 知識庫',
-    description: 'AI 與 n8n 自動化實戰知識庫。工作流架構、AI Agent 開發、電商行銷自動化——全都真實踩過才寫出來。',
+    description: 'AI 與 n8n 自動化實戰知識庫。行銷／電商自動化、AI Agent、AI 軟體開發與 AI 趨勢觀點——全都真實做過才寫出來。',
     url: 'https://aiqkangber.com/blog',
     publisher: {
       '@type': 'Person',
