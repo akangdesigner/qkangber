@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useIsMobile } from '@/hooks/useMediaQuery'
 
 function DotWaveBg() {
   const dots: React.ReactNode[] = []
@@ -183,6 +184,7 @@ function PlatformRing() {
 }
 
 export default function HeroBanner() {
+  const isMobile = useIsMobile()
   return (
     <section style={{ position: 'relative', width: '100%' }}>
       <style>{`
@@ -211,11 +213,11 @@ export default function HeroBanner() {
           position: 'relative',
           maxWidth: 1180, margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 1fr)',
+          gridTemplateColumns: isMobile ? '1fr' : 'minmax(0, 1.05fr) minmax(0, 1fr)',
           alignItems: 'center',
-          gap: 40,
-          padding: '80px 44px',
-          minHeight: 520,
+          gap: isMobile ? 28 : 40,
+          padding: isMobile ? '56px 20px' : '80px 44px',
+          minHeight: isMobile ? 0 : 520,
         }}>
           {/* LEFT: copy */}
           <div style={{ position: 'relative', zIndex: 2 }}>
@@ -273,7 +275,9 @@ export default function HeroBanner() {
             </div>
           </div>
 
-          {/* RIGHT: floating screens */}
+          {/* RIGHT: floating screens (desktop only — fixed-px mockups don't
+              scale cleanly on mobile, so the mobile banner is a clean text layout) */}
+          {!isMobile && (
           <div style={{ position: 'relative', height: 380, display: 'grid', placeItems: 'center' }}>
             <PlatformRing />
             <div style={{ position: 'relative', width: 380, height: 280 }}>
@@ -285,6 +289,7 @@ export default function HeroBanner() {
               </div>
             </div>
           </div>
+          )}
         </div>
       </div>
     </section>

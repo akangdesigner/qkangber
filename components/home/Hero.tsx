@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import ParticleGlobe from './ParticleGlobe'
+import { useIsMobile } from '@/hooks/useMediaQuery'
 
 function ChangelogPill({ title, slug }: { title: string; slug: string }) {
   return (
@@ -9,6 +10,7 @@ function ChangelogPill({ title, slug }: { title: string; slug: string }) {
       href={`/blog/${slug}`}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 10,
+        maxWidth: '100%',
         padding: '6px 6px 6px 14px',
         borderRadius: 999,
         background: 'rgba(124,92,255,0.06)',
@@ -32,13 +34,14 @@ function ChangelogPill({ title, slug }: { title: string; slug: string }) {
       }}
     >
       <span style={{
+        flexShrink: 0,
         padding: '2px 8px', borderRadius: 999,
         background: 'linear-gradient(135deg, #2563eb, #8b5cf6)',
         color: '#fff', fontSize: 10, fontWeight: 600, letterSpacing: '0.1em',
         textTransform: 'uppercase',
       }}>NEW</span>
-      <span>{title}</span>
-      <span style={{ color: '#a78bfa', marginRight: 12 }}>→</span>
+      <span style={{ minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{title}</span>
+      <span style={{ flexShrink: 0, color: '#a78bfa', marginRight: 12 }}>→</span>
     </Link>
   )
 }
@@ -275,6 +278,7 @@ function AgentStatusTicker() {
 
 export default function Hero({ latestPost }: { latestPost?: { title: string; slug: string } }) {
   const [hoveredSat, setHoveredSat] = useState<number | null>(null)
+  const isMobile = useIsMobile()
 
   function jumpToSlide(key: string) {
     if (typeof window !== 'undefined' && (window as unknown as Record<string, unknown>).__jumpToSlide) {
@@ -291,7 +295,7 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
   const tintSat = hoveredSat !== null ? 1.15 : 1
 
   return (
-    <section className="relative overflow-hidden min-h-screen flex flex-col justify-center">
+    <section className="relative overflow-hidden lg:min-h-screen flex flex-col justify-center">
       <style>{`
         @keyframes heroLineIn { to { opacity: 1; transform: translateY(0); } }
         @keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
@@ -324,9 +328,9 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
       }} />
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-10 sm:pb-[60px]">
-        <div className="grid lg:grid-cols-[1.15fr_1fr] gap-8 items-center" style={{ minHeight: 560 }}>
+        <div className="grid lg:grid-cols-[1.15fr_1fr] gap-8 items-center" style={{ minHeight: isMobile ? 0 : 560 }}>
           {/* Left — copy */}
-          <div>
+          <div className="min-w-0">
             {latestPost && (
               <div style={{ opacity: 0, transform: 'translateY(10px)', animation: 'heroLineIn 600ms ease-out 60ms forwards' }}>
                 <ChangelogPill title={latestPost.title} slug={latestPost.slug} />
@@ -334,8 +338,8 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
             )}
 
             <h1 style={{
-              fontSize: 'clamp(2.4rem, 5.4vw, 4.4rem)',
-              lineHeight: 1.08, fontWeight: 600,
+              fontSize: 'clamp(1.85rem, 7vw, 4.4rem)',
+              lineHeight: 1.12, fontWeight: 600,
               letterSpacing: '-0.03em', color: '#fff',
               margin: '0 0 24px 0',
             }}>
@@ -384,7 +388,10 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
             </div>
           </div>
 
-          {/* Right — particle globe as integration hub */}
+          {/* Right — particle globe as integration hub (desktop only; the
+              bespoke globe + absolute-positioned chips don't scale cleanly on
+              mobile, so the mobile hero is a dedicated text-only layout) */}
+          {!isMobile && (
           <div className="relative lg:-mr-20" style={{
             height: 'clamp(420px, 52vw, 580px)',
             opacity: 0, animation: 'heroLineIn 1000ms ease-out 400ms forwards',
@@ -495,6 +502,7 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
             {/* Bottom status ticker */}
             <AgentStatusTicker />
           </div>
+          )}
         </div>
 
         <PartnerMarquee />

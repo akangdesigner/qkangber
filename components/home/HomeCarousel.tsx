@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useTilt } from '@/hooks/useTilt'
+import { useIsMobile } from '@/hooks/useMediaQuery'
 
 const SLIDES = [
   {
@@ -299,10 +300,12 @@ function SlideCard({
   slide,
   pointer,
   active,
+  isMobile,
 }: {
   slide: typeof SLIDES[number]
   pointer: { nx: number; ny: number }
   active: boolean
+  isMobile: boolean
 }) {
   const [c1, c2] = slide.accent
   return (
@@ -325,9 +328,10 @@ function SlideCard({
       <div style={{
         position: 'relative', height: '100%',
         display: 'grid',
-        gridTemplateColumns: '1.05fr 1fr',
-        gap: 36,
-        padding: 44,
+        gridTemplateColumns: isMobile ? '1fr' : '1.05fr 1fr',
+        gap: isMobile ? 0 : 36,
+        padding: isMobile ? 24 : 44,
+        alignContent: isMobile ? 'center' : 'stretch',
       }}>
         {/* Left copy */}
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minWidth: 0 }}>
@@ -398,6 +402,7 @@ function SlideCard({
 
         {/* Right visual */}
         <div style={{
+          display: isMobile ? 'none' : 'block',
           position: 'relative',
           borderRadius: 18,
           background: 'rgba(2,3,10,0.4)',
@@ -467,6 +472,7 @@ export default function HomeCarousel() {
   const [idx, setIdx] = useState(0)
   const [paused, setPaused] = useState(false)
   const [highlight, setHighlight] = useState(false)
+  const isMobile = useIsMobile()
   const len = SLIDES.length
   const next = () => setIdx(i => (i + 1) % len)
   const prev = () => setIdx(i => (i - 1 + len) % len)
@@ -504,9 +510,9 @@ export default function HomeCarousel() {
   }
 
   return (
-    <section id="skills" style={{ position: 'relative', padding: '60px 0 100px', scrollMarginTop: 24 }}>
+    <section id="skills" style={{ position: 'relative', padding: isMobile ? '40px 0 64px' : '60px 0 100px', scrollMarginTop: 24 }}>
       <style>{`@keyframes dotFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }`}</style>
-      <div style={{ maxWidth: 1180, margin: '0 auto', padding: '0 24px' }}>
+      <div style={{ maxWidth: 1180, margin: '0 auto', padding: isMobile ? '0 16px' : '0 24px' }}>
         {/* Section header */}
         <div style={{
           display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
@@ -543,7 +549,7 @@ export default function HomeCarousel() {
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           style={{
-            position: 'relative', height: 460,
+            position: 'relative', height: isMobile ? 420 : 460,
             boxShadow: highlight ? `0 0 0 2px ${c1}cc, 0 0 60px ${c1}66` : 'none',
             borderRadius: 28,
             transition: 'box-shadow 700ms ease-out',
@@ -566,14 +572,18 @@ export default function HomeCarousel() {
                   transition: 'opacity 700ms cubic-bezier(.2,.7,.2,1), transform 700ms cubic-bezier(.2,.7,.2,1)',
                   pointerEvents: isActive ? 'auto' : 'none',
                 }}>
-                  <SlideCard slide={s} pointer={pointer} active={active} />
+                  <SlideCard slide={s} pointer={pointer} active={active} isMobile={isMobile} />
                 </div>
               )
             })}
           </div>
 
-          <SideHint side="left" slide={SLIDES[(idx - 1 + len) % len]} onClick={prev} />
-          <SideHint side="right" slide={SLIDES[(idx + 1) % len]} onClick={next} />
+          {!isMobile && (
+            <>
+              <SideHint side="left" slide={SLIDES[(idx - 1 + len) % len]} onClick={prev} />
+              <SideHint side="right" slide={SLIDES[(idx + 1) % len]} onClick={next} />
+            </>
+          )}
         </div>
 
         {/* Dot indicators */}
