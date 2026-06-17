@@ -84,6 +84,7 @@ const SERVICE_CONFIG = [
       nodes: 12,
       resultShort: '−90% 人工作業',
       color: '#22d3ee',
+      caseId: 'monitoring',
     },
   },
   {
@@ -97,6 +98,7 @@ const SERVICE_CONFIG = [
       nodes: 18,
       resultShort: '+35% 轉換率',
       color: '#a78bfa',
+      caseId: 'marketing',
     },
   },
   {
@@ -110,6 +112,7 @@ const SERVICE_CONFIG = [
       nodes: 15,
       resultShort: '報表 0 hr/週',
       color: '#60a5fa',
+      caseId: 'newsletter',
     },
   },
   {
@@ -123,6 +126,7 @@ const SERVICE_CONFIG = [
       nodes: 10,
       resultShort: '−5hr/週',
       color: '#f0abfc',
+      caseId: 'marketing',
     },
   },
 ]
@@ -267,7 +271,7 @@ function PortfolioNode({ entry, idx }: {
   const { color, Glyph } = entry
   return (
     <a
-      href="/portfolio"
+      href={`/portfolio?case=${entry.caseId}`}
       data-portfolio-card
       style={{
         position: 'relative', display: 'block',

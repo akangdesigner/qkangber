@@ -241,14 +241,6 @@ export default function ServicesTabs({ automationServices, aiServices, productSe
 
   const automationCategories = [...new Set(automationServices.map((s) => s.category))]
 
-  // 自動化服務卡 → 最相關的作品集內頁（作品頁用 ?case=<caseId> deep-link 自動開 overlay）
-  const portfolioCaseBySlug: Record<string, string> = {
-    'data-report-automation': 'newsletter',   // 排程抓取→整合→定時寄送報表
-    'ecommerce-automation': 'monitoring',      // 電商產品 / 價格 / 庫存監控
-    'marketing-automation': 'marketing',       // 行銷文章生成工作流
-    'social-media-automation': 'marketing',    // 多平台社群發布改寫
-  }
-
   // 文章的 /services#free-download 連結進來時，自動切到「自動化產品包」分頁並捲到免費領取區
   useEffect(() => {
     if (typeof window !== 'undefined' && window.location.hash === '#free-download') {
@@ -392,17 +384,9 @@ export default function ServicesTabs({ automationServices, aiServices, productSe
                   <span className="h-px flex-1 bg-white/[0.06]" />
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  {catServices.map((service) => {
-                    const caseId = portfolioCaseBySlug[service.slug]
-                    return (
-                      <ServiceCard
-                        key={service.slug}
-                        service={service}
-                        href={caseId ? `/portfolio?case=${caseId}` : undefined}
-                        ctaLabel={caseId ? '看實際案例' : undefined}
-                      />
-                    )
-                  })}
+                  {catServices.map((service) => (
+                    <ServiceCard key={service.slug} service={service} />
+                  ))}
                 </div>
               </div>
             )
