@@ -106,7 +106,7 @@ function KpiHero({
   )
 }
 
-export default function ServiceCard({ service }: { service: Service }) {
+export default function ServiceCard({ service, href, ctaLabel }: { service: Service; href?: string; ctaLabel?: string }) {
   const [hover, setHover] = useState(false)
   const accent = service.accent ?? '#a78bfa'
   const accent2 = service.accent2 ?? '#67e8f9'
@@ -115,7 +115,7 @@ export default function ServiceCard({ service }: { service: Service }) {
     <>
       <style>{`@keyframes specPulse { 0%,100% { opacity:1 } 50% { opacity:0.4 } }`}</style>
       <Link
-        href={`/services/${service.slug}`}
+        href={href ?? `/services/${service.slug}`}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         style={{
@@ -283,7 +283,7 @@ export default function ServiceCard({ service }: { service: Service }) {
               color: accent,
               display: 'inline-flex', alignItems: 'center', gap: 6,
             }}>
-              了解詳情
+              {ctaLabel ?? '了解詳情'}
               <span style={{
                 display: 'inline-block',
                 transition: 'transform 200ms',
