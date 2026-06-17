@@ -239,7 +239,7 @@ function PV2CardTeaching({ onOpen }: { onOpen: OpenFn }) {
         </div>
       </div>
       <div aria-hidden="true" style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '50%', zIndex: 1 }}>
-        <Image src="/works/teaching-preview.jpg" alt="" fill sizes="(max-width: 980px) 50vw, 380px" style={{ objectFit: 'cover', objectPosition: 'left top', opacity: 0.85, maskImage: 'linear-gradient(to right, transparent 0%, black 38%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 38%)' } as CSS} />
+        <Image src="/works/teaching-preview.jpg" alt="" fill priority sizes="(max-width: 980px) 50vw, 380px" style={{ objectFit: 'cover', objectPosition: 'left top', opacity: 0.85, maskImage: 'linear-gradient(to right, transparent 0%, black 38%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 38%)' } as CSS} />
       </div>
     </article>
   )
@@ -798,15 +798,47 @@ function PV2DetailOverlay({ openId, onClose, onOpen }: { openId: string | null; 
 /* ════════ page ════════ */
 export default function PortfolioV2() {
   const [openId, setOpenId] = useState<string | null>(null)
+
+  // 進站時若網址帶 ?case=<id>（例如服務頁卡片深連 /portfolio?case=marketing），自動開對應作品內頁。
+  // 用 window.location.search（非 useSearchParams）讀取：頁面維持靜態預渲染、不影響 SEO，
+  // 也避開 App Router soft navigation 不帶 hash 的問題。mount 讀一次 + rAF 補讀 + popstate 監聽返回鍵。
+  useEffect(() => {
+    const fromUrl = () => {
+      const id = new URLSearchParams(window.location.search).get('case')
+      if (id && PV2_DETAILS.some((d) => d.id === id)) setOpenId(id)
+    }
+    fromUrl()
+    const raf = requestAnimationFrame(fromUrl)
+    window.addEventListener('popstate', fromUrl)
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('popstate', fromUrl)
+    }
+  }, [])
+
+  // overlay 開關同步到網址 ?case=，支援返回鍵與分享（canonical 仍指向乾淨 /portfolio）
+  const open = (id: string) => {
+    setOpenId(id)
+    const url = new URL(window.location.href)
+    url.searchParams.set('case', id)
+    window.history.replaceState(null, '', url.pathname + url.search)
+  }
+  const close = () => {
+    setOpenId(null)
+    const url = new URL(window.location.href)
+    url.searchParams.delete('case')
+    window.history.replaceState(null, '', url.pathname + (url.search || ''))
+  }
+
   return (
     <div style={{ position: 'relative', minHeight: '100vh', background: '#02030a', color: '#e2e8f0', overflow: 'hidden' }}>
       <PV2Styles />
       <div aria-hidden="true" style={{ position: 'absolute', inset: 0, height: 680, pointerEvents: 'none', background: 'radial-gradient(ellipse 100% 55% at 50% -10%, rgba(124,92,255,0.10), transparent 70%)' }} />
       <main style={{ position: 'relative', zIndex: 1 }}>
         <PV2Hero />
-        <PV2Bento onOpen={setOpenId} />
+        <PV2Bento onOpen={open} />
       </main>
-      <PV2DetailOverlay openId={openId} onClose={() => setOpenId(null)} onOpen={setOpenId} />
+      <PV2DetailOverlay openId={openId} onClose={close} onOpen={open} />
     </div>
   )
 }

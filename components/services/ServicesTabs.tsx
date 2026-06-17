@@ -166,10 +166,88 @@ function HoloPill({
   )
 }
 
+type FreeWorkflow = {
+  title: string
+  desc: string
+  tags: string[]
+  file: string
+  blog: string
+}
+
+function FreeCard({ wf }: { wf: FreeWorkflow }) {
+  const [downloaded, setDownloaded] = useState(false)
+  return (
+    <div
+      className="relative flex flex-col rounded-2xl overflow-hidden p-6"
+      style={{
+        background: 'rgba(8,9,16,0.55)',
+        boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.07), 0 18px 40px -24px rgba(0,0,0,0.5)',
+      }}
+    >
+      <div aria-hidden style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 3, background: 'linear-gradient(90deg, #34d399, #67e8f9)' }} />
+      <div className="flex items-center gap-3 mb-4">
+        <span style={{
+          display: 'inline-flex', alignItems: 'center', gap: 6,
+          padding: '4px 10px', borderRadius: 999,
+          fontFamily: '"JetBrains Mono", ui-monospace, monospace',
+          fontSize: 10, letterSpacing: '0.16em', color: '#6ee7b7',
+          background: 'rgba(52,211,153,0.10)', boxShadow: 'inset 0 0 0 1px rgba(52,211,153,0.30)',
+        }}>
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 6px rgba(52,211,153,0.9)' }} />
+          FREE · 免費
+        </span>
+        <span className="text-[10px] font-mono tracking-[0.18em] uppercase text-slate-500">.json</span>
+      </div>
+
+      <h3 className="text-white text-lg font-semibold tracking-[-0.01em] mb-2 leading-snug">
+        {wf.title}
+      </h3>
+      <p className="text-slate-400 text-[13px] leading-relaxed mb-5">
+        {wf.desc}
+      </p>
+
+      <div className="flex flex-wrap gap-1.5 mb-6">
+        {wf.tags.map((p) => (
+          <span key={p} className="px-2 py-0.5 rounded-md font-mono text-[10px] text-slate-300 tracking-[0.02em]"
+            style={{ background: 'rgba(255,255,255,0.035)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.06)' }}>{p}</span>
+        ))}
+      </div>
+
+      <div className="mt-auto pt-4 flex items-center justify-between border-t border-white/[0.06]">
+        <a
+          href={`/downloads/${wf.file}`}
+          download
+          onClick={() => setDownloaded(true)}
+          className="inline-flex items-center gap-1.5 text-[13px] font-medium text-emerald-300 hover:text-emerald-200 transition-colors"
+        >
+          <span>↓</span> 下載 .json
+        </a>
+        <a href={`/blog/${wf.blog}`} className="inline-flex items-center gap-1 text-[13px] text-slate-400 hover:text-slate-200 transition-colors">
+          查看教學文 <span>→</span>
+        </a>
+      </div>
+
+      {downloaded && (
+        <p className="mt-4 pt-4 border-t border-emerald-400/15 text-[12.5px] leading-relaxed text-emerald-100/80">
+          想了解更多？我每週也會用 5 分鐘幫你精選值得關注的 AI 趨勢，<a href="/newsletter" className="font-medium text-emerald-300 underline decoration-emerald-400/40 underline-offset-2 hover:text-emerald-200">點此訂閱電子報</a>。
+        </p>
+      )}
+    </div>
+  )
+}
+
 export default function ServicesTabs({ automationServices, aiServices, productServices }: Props) {
   const [active, setActive] = useState<TabId>('automation')
 
   const automationCategories = [...new Set(automationServices.map((s) => s.category))]
+
+  // 自動化服務卡 → 最相關的作品集內頁（作品頁用 ?case=<caseId> deep-link 自動開 overlay）
+  const portfolioCaseBySlug: Record<string, string> = {
+    'data-report-automation': 'newsletter',   // 排程抓取→整合→定時寄送報表
+    'ecommerce-automation': 'monitoring',      // 電商產品 / 價格 / 庫存監控
+    'marketing-automation': 'marketing',       // 行銷文章生成工作流
+    'social-media-automation': 'marketing',    // 多平台社群發布改寫
+  }
 
   // 文章的 /services#free-download 連結進來時，自動切到「自動化產品包」分頁並捲到免費領取區
   useEffect(() => {
@@ -314,9 +392,17 @@ export default function ServicesTabs({ automationServices, aiServices, productSe
                   <span className="h-px flex-1 bg-white/[0.06]" />
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  {catServices.map((service) => (
-                    <ServiceCard key={service.slug} service={service} />
-                  ))}
+                  {catServices.map((service) => {
+                    const caseId = portfolioCaseBySlug[service.slug]
+                    return (
+                      <ServiceCard
+                        key={service.slug}
+                        service={service}
+                        href={caseId ? `/portfolio?case=${caseId}` : undefined}
+                        ctaLabel={caseId ? '看實際案例' : undefined}
+                      />
+                    )
+                  })}
                 </div>
               </div>
             )
@@ -353,63 +439,27 @@ export default function ServicesTabs({ automationServices, aiServices, productSe
 
           {/* 免費領取 */}
           <div id="free-download" className="mb-14 scroll-mt-24">
-            <h2 className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-500 mb-6 flex items-center gap-3">
-              <span>免費領取</span>
-              <span className="h-px flex-1 bg-white/[0.06]" />
-            </h2>
-            <div className="space-y-5">
+            <div className="mb-7">
+              <div className="flex items-center gap-3 mb-2">
+                <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-[-0.01em]">免費領取</h2>
+                <span style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  padding: '4px 10px', borderRadius: 999,
+                  fontFamily: '"JetBrains Mono", ui-monospace, monospace',
+                  fontSize: 10, letterSpacing: '0.16em', color: '#6ee7b7',
+                  background: 'rgba(52,211,153,0.10)', boxShadow: 'inset 0 0 0 1px rgba(52,211,153,0.30)',
+                }}>
+                  <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 6px rgba(52,211,153,0.9)' }} />
+                  FREE
+                </span>
+              </div>
+              <p className="text-slate-400 text-sm leading-relaxed max-w-xl">
+                直接下載、匯入你的 n8n、填上自己的金鑰就能跑。附完整教學文。
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {freeWorkflows.map((wf) => (
-                <div
-                  key={wf.file}
-                  className="relative rounded-2xl overflow-hidden p-7 sm:p-8"
-                  style={{
-                    background: 'rgba(8,9,16,0.55)',
-                    boxShadow: 'inset 0 0 0 1px rgba(52,211,153,0.22), 0 18px 40px -24px rgba(0,0,0,0.5)',
-                  }}
-                >
-                  <div aria-hidden style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 3, background: 'linear-gradient(90deg, #34d399, #67e8f9)' }} />
-                  <div className="flex items-center gap-3 mb-4">
-                    <span style={{
-                      display: 'inline-flex', alignItems: 'center', gap: 6,
-                      padding: '4px 10px', borderRadius: 999,
-                      fontFamily: '"JetBrains Mono", ui-monospace, monospace',
-                      fontSize: 10, letterSpacing: '0.16em', color: '#6ee7b7',
-                      background: 'rgba(52,211,153,0.10)', boxShadow: 'inset 0 0 0 1px rgba(52,211,153,0.30)',
-                    }}>
-                      <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 6px rgba(52,211,153,0.9)' }} />
-                      FREE · 免費
-                    </span>
-                    <span className="text-[10px] font-mono tracking-[0.18em] uppercase text-slate-500">n8n workflow · .json</span>
-                  </div>
-
-                  <h3 className="text-white text-xl sm:text-2xl font-semibold tracking-[-0.01em] mb-2">
-                    {wf.title}
-                  </h3>
-                  <p className="text-slate-400 text-sm leading-relaxed max-w-2xl mb-5">
-                    {wf.desc}
-                  </p>
-
-                  <div className="flex flex-wrap gap-1.5 mb-6">
-                    {wf.tags.map((p) => (
-                      <span key={p} className="px-2.5 py-1 rounded-md font-mono text-[10.5px] text-slate-300 tracking-[0.02em]"
-                        style={{ background: 'rgba(255,255,255,0.035)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.06)' }}>{p}</span>
-                    ))}
-                  </div>
-
-                  <div className="flex flex-wrap items-center gap-4">
-                    <a
-                      href={`/downloads/${wf.file}`}
-                      download
-                      className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-medium text-[14px] text-[#03130d]"
-                      style={{ background: 'linear-gradient(135deg, #34d399, #22d3ee)', boxShadow: '0 12px 30px -12px rgba(52,211,153,0.6)' }}
-                    >
-                      <span>↓</span> 免費下載工作流（.json）
-                    </a>
-                    <a href={`/blog/${wf.blog}`} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-emerald-300/90 hover:text-emerald-200">
-                      看完整教學文 <span>→</span>
-                    </a>
-                  </div>
-                </div>
+                <FreeCard key={wf.file} wf={wf} />
               ))}
             </div>
           </div>
