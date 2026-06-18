@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import type { Service } from '@/types/content'
 import ServiceCard from './ServiceCard'
 import ServiceFlow from './ServiceFlow'
@@ -218,9 +219,11 @@ function FreeCard({ wf }: { wf: FreeWorkflow }) {
           href={`/downloads/${wf.file}`}
           download
           onClick={() => setDownloaded(true)}
-          className="inline-flex items-center gap-1.5 text-[13px] font-medium text-emerald-300 hover:text-emerald-200 transition-colors"
+          className="btn btn--ink btn--sm"
         >
-          <span>↓</span> 下載 .json
+          <span className="btn__dot" />
+          <span className="btn__label">下載 .json</span>
+          <span className="btn__arrow">↓</span>
         </a>
         <a href={`/blog/${wf.blog}`} className="inline-flex items-center gap-1 text-[13px] text-slate-400 hover:text-slate-200 transition-colors">
           查看教學文 <span>→</span>
@@ -229,7 +232,7 @@ function FreeCard({ wf }: { wf: FreeWorkflow }) {
 
       {downloaded && (
         <p className="mt-4 pt-4 border-t border-emerald-400/15 text-[12.5px] leading-relaxed text-emerald-100/80">
-          想了解更多？我每週也會用 5 分鐘幫你精選值得關注的 AI 趨勢，<a href="/newsletter" className="font-medium text-emerald-300 underline decoration-emerald-400/40 underline-offset-2 hover:text-emerald-200">點此訂閱電子報</a>。
+          想了解更多？我每週也會用 5 分鐘幫你精選值得關注的 AI 趨勢，<Link href="/newsletter" className="font-medium text-emerald-300 underline decoration-emerald-400/40 underline-offset-2 hover:text-emerald-200">點此訂閱電子報</Link>。
         </p>
       )}
     </div>
