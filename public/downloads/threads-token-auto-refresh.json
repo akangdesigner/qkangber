@@ -117,7 +117,9 @@
           "mappingMode": "defineBelow",
           "value": {
             "key": "={{ $('讀取 Token').item.json.key }}",
-            "value": "={{ $json.access_token }}"
+            "value": "={{ $json.access_token }}",
+            "到期日": "={{ $now.plus({ seconds: $json.expires_in }).toFormat('yyyy/MM/dd') }}",
+            "更新時間": "={{ $now.toFormat('yyyy/MM/dd HH:mm') }}"
           },
           "matchingColumns": ["key"],
           "schema": [
@@ -140,10 +142,30 @@
               "displayName": "value",
               "defaultMatch": false,
               "canBeUsedToMatch": true
+            },
+            {
+              "id": "到期日",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "到期日",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "更新時間",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "更新時間",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
             }
           ],
           "attemptToConvertTypes": false,
-          "convertFieldsToString": false
+          "convertFieldsToString": true
         },
         "options": {}
       },
@@ -201,6 +223,6 @@
     "executionOrder": "v1"
   },
   "meta": {
-    "description": "每月 1 日自動 refresh Threads long-lived access token，避免約 60 天到期後社群報表突然抓不到資料。token 存在 Google Sheet「設定」分頁（欄位 key / value，key=threads_access_token），refresh 後寫回同一格。使用前請：①填入自己的 Google Sheet ID ②設定 Google Sheets 與 HTTP 憑證 ③（選配）填入 LINE token 與 user id。免費分享 by Q kangber｜aiqkangber.com"
+    "description": "每月 1 日自動 refresh Threads long-lived access token，避免約 60 天到期後社群報表突然抓不到資料。前提：先把『個人短期 token』手動換成長期 token（th_exchange_token，做一次），填進 Google Sheet「設定」分頁（欄位 key / value / 到期日 / 更新時間，key=threads_access_token），之後這條每月自動 refresh、寫回同一列並更新到期日。使用前請：①先換好長期 token 填進 Sheet ②填入自己的 Google Sheet ID ③設定 Google Sheets 與 HTTP 憑證 ④（選配）填入 LINE token 與 user id。完整步驟見同資料夾 README。你的 token 只存在你自己的 Sheet 與 n8n，不會外流。免費分享 by Q kangber｜aiqkangber.com"
   }
 }
