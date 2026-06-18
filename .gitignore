@@ -43,5 +43,8 @@ next-env.d.ts
 # RWD 稽核截圖（本地產物，23MB+）
 .rwd-audit/
 
+# 文章草稿與其圖片（本機作業用，發布走 Sheets/posts；不進版控避免 repo 變肥）
+blog-drafts/
+
 # Claude Code 本機設定（含權限白名單，可能含 token，不進版控）
 .claude/settings.local.json
