@@ -197,7 +197,7 @@ function FreeCard({ wf }: { wf: FreeWorkflow }) {
           <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 6px rgba(52,211,153,0.9)' }} />
           FREE · 免費
         </span>
-        <span className="text-[10px] font-mono tracking-[0.18em] uppercase text-slate-500">.json</span>
+        <span className="text-[10px] font-mono tracking-[0.18em] uppercase text-slate-500">.zip</span>
       </div>
 
       <h3 className="text-white text-lg font-semibold tracking-[-0.01em] mb-2 leading-snug">
@@ -222,7 +222,7 @@ function FreeCard({ wf }: { wf: FreeWorkflow }) {
           className="btn btn--ink btn--sm"
         >
           <span className="btn__dot" />
-          <span className="btn__label">下載 .json</span>
+          <span className="btn__label">下載 .zip</span>
           <span className="btn__arrow">↓</span>
         </a>
         <a href={`/blog/${wf.blog}`} className="inline-flex items-center gap-1 text-[13px] text-slate-400 hover:text-slate-200 transition-colors">
@@ -259,23 +259,23 @@ export default function ServicesTabs({ automationServices, aiServices, productSe
   const freeWorkflows = [
     {
       title: '多平台發文自動化 · n8n 工作流範本',
-      desc: '一篇定稿自動發到 FB、IG、Threads 的完整 n8n 工作流，可直接 import。敏感資料（token、試算表）都清空成佔位符，填上你自己的就能用。',
+      desc: '一篇定稿自動發到 FB、IG、Threads 的完整 n8n 工作流，可直接 import。敏感資料（token、試算表）都清空成佔位符，填上你自己的就能用。內附中文 README 設定教學。',
       tags: ['n8n', 'Facebook', 'Instagram', 'Threads', 'Google Sheets'],
-      file: 'multi-platform-posting-n8n.json',
+      file: 'multi-platform-posting-n8n.zip',
       blog: 'multi-platform-posting',
     },
     {
       title: '行銷整合週報 · n8n 工作流範本',
-      desc: '每週一自動抓 GSC＋GA4＋Threads，整理成 Google Sheet 一張整合報告＋趨勢表。金鑰、網域、試算表 ID 都清成佔位符，填上自己的就能跑。',
+      desc: '每週一自動抓 GSC＋GA4＋Threads，整理成 Google Sheet 一張整合報告＋趨勢表。金鑰、網域、試算表 ID 都清成佔位符，填上自己的就能跑。內附中文 README 設定教學。',
       tags: ['n8n', 'GSC', 'GA4', 'Threads', 'Google Sheets'],
-      file: 'marketing-weekly-report.json',
+      file: 'marketing-weekly-report.zip',
       blog: 'n8n-auto-report',
     },
     {
       title: 'Threads token 自動續期 · n8n 工作流範本',
-      desc: '每月自動 refresh Threads token，避免約 60 天到期後社群數據突然抓不到。匯進你的 n8n、填上自己的 token 就能用。',
+      desc: '每月自動 refresh Threads token，避免約 60 天到期後社群數據突然抓不到。匯進你的 n8n、填上自己的 token 就能用。內附中文 README（含第一次短期換長期）。',
       tags: ['n8n', 'Threads', 'Google Sheets'],
-      file: 'threads-token-auto-refresh.json',
+      file: 'threads-token-auto-refresh.zip',
       blog: 'multi-platform-posting',
     },
   ]
