@@ -1,5 +1,6 @@
 'use client'
 import { useTilt } from '@/hooks/useTilt'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 import SubscribeForm from '@/components/shared/SubscribeForm'
 import type { NewsletterIssue } from '@/lib/newsletter'
 
@@ -108,11 +109,16 @@ function NewsletterVisual({ issues, pointer, active }: {
 
 export default function HomeNewsletter({ issues = [] }: { issues?: NewsletterIssue[] }) {
   const { ref, style: tiltStyle, active, pointer } = useTilt({ max: 5, scale: 1.0, perspective: 1600 })
+  // Below 900px the two-column card + fixed 460px height can't hold the copy and
+  // subscribe form — the form row pushes past the viewport (page-wide horizontal
+  // scroll) and the right visual collapses into a clipped sliver. Switch to a
+  // single stacked column with auto height there.
+  const stacked = useMediaQuery('(max-width: 900px)')
 
   return (
-    <section id="subscribe" style={{ position: 'relative', padding: '60px 0 100px' }}>
-      <div style={{ maxWidth: 1180, margin: '0 auto', padding: '0 24px' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24, marginBottom: 32, flexWrap: 'wrap' as const }}>
+    <section id="subscribe" style={{ position: 'relative', padding: stacked ? '48px 0 72px' : '60px 0 100px' }}>
+      <div style={{ maxWidth: 1180, margin: '0 auto', padding: stacked ? '0 16px' : '0 24px' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24, marginBottom: stacked ? 24 : 32, flexWrap: 'wrap' as const }}>
           <div>
             <div style={{ marginBottom: 12, display: 'flex', alignItems: 'center', gap: 12 }}>
               <div style={{ height: 1, width: 28, background: 'linear-gradient(90deg, transparent, #7c5cff)', flexShrink: 0 }} />
@@ -128,11 +134,17 @@ export default function HomeNewsletter({ issues = [] }: { issues?: NewsletterIss
           </div>
         </div>
 
-        <div ref={ref} style={{ position: 'relative', height: 460, perspective: 1600 }}>
+        <div
+          ref={stacked ? undefined : ref}
+          style={stacked
+            ? { position: 'relative' }
+            : { position: 'relative', height: 460, perspective: 1600 }}
+        >
           <div style={{
-            ...tiltStyle,
-            position: 'absolute', inset: 0,
-            borderRadius: 28, overflow: 'hidden',
+            ...(stacked ? {} : tiltStyle),
+            position: stacked ? 'relative' : 'absolute',
+            inset: stacked ? undefined : 0,
+            borderRadius: stacked ? 22 : 28, overflow: 'hidden',
             background: 'linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015))',
             border: '1px solid rgba(255,255,255,0.10)',
             boxShadow: '0 28px 80px rgba(0,0,0,0.55), 0 0 70px rgba(124,92,255,0.16)',
@@ -146,12 +158,13 @@ export default function HomeNewsletter({ issues = [] }: { issues?: NewsletterIss
             <DotGrid />
 
             <div style={{
-              position: 'relative', height: '100%',
-              display: 'grid', gridTemplateColumns: '1.05fr 1fr',
-              gap: 36, padding: 44,
+              position: 'relative', height: stacked ? 'auto' : '100%',
+              display: 'grid',
+              gridTemplateColumns: stacked ? '1fr' : '1.05fr 1fr',
+              gap: stacked ? 28 : 36, padding: stacked ? 24 : 44,
             }}>
               {/* Left */}
-              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minWidth: 0 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: stacked ? 24 : 0, minWidth: 0 }}>
                 <div>
                   <div style={{
                     display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -159,15 +172,15 @@ export default function HomeNewsletter({ issues = [] }: { issues?: NewsletterIss
                     background: `linear-gradient(135deg, ${NL.c1}22, ${NL.c2}22)`,
                     border: `1px solid ${NL.c1}55`,
                     fontSize: 10, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase' as const,
-                    color: NL.c1, marginBottom: 24,
+                    color: NL.c1, marginBottom: stacked ? 18 : 24,
                   }}>
                     <span style={{ width: 6, height: 6, borderRadius: '50%', background: NL.c1, boxShadow: `0 0 8px ${NL.c1}` }} />
                     NEWSLETTER · 每週一更新
                   </div>
-                  <h3 style={{ fontSize: 'clamp(2.2rem, 4.4vw, 3.4rem)', lineHeight: 1.05, fontWeight: 600, letterSpacing: '-0.025em', color: '#fff', margin: '0 0 14px 0' }}>
+                  <h3 style={{ fontSize: stacked ? 'clamp(1.9rem, 9vw, 2.6rem)' : 'clamp(2.2rem, 4.4vw, 3.4rem)', lineHeight: 1.05, fontWeight: 600, letterSpacing: '-0.025em', color: '#fff', margin: '0 0 14px 0' }}>
                     一週一封信
                   </h3>
-                  <p style={{ fontSize: 18, lineHeight: 1.5, fontWeight: 500, margin: 0,
+                  <p style={{ fontSize: stacked ? 16 : 18, lineHeight: 1.5, fontWeight: 500, margin: 0,
                     background: `linear-gradient(90deg, ${NL.c1}, ${NL.c2})`,
                     WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                     AI 不負責思考，但會幫你省下整週時間。
@@ -199,6 +212,7 @@ export default function HomeNewsletter({ issues = [] }: { issues?: NewsletterIss
               {/* Right */}
               <div style={{
                 position: 'relative', borderRadius: 18,
+                minHeight: stacked ? 300 : undefined,
                 background: 'rgba(2,3,10,0.4)', border: '1px solid rgba(255,255,255,0.06)', overflow: 'hidden',
               }}>
                 <NewsletterVisual issues={issues} pointer={pointer} active={active} />

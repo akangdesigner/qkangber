@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
-export default function SubscribeForm({ className = '', small = false }: { className?: string; small?: boolean }) {
+export default function SubscribeForm({ className = '', small = false, stacked = false }: { className?: string; small?: boolean; stacked?: boolean }) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
@@ -43,7 +43,7 @@ export default function SubscribeForm({ className = '', small = false }: { class
   const inputCls = `flex-1 ${small ? 'px-3 py-2 text-[13px]' : 'px-4 py-3 text-sm'} rounded-full border border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:outline-none focus:border-violet-400/60 focus:bg-white/[0.07] transition-colors backdrop-blur-sm`
 
   return (
-    <form onSubmit={handleSubmit} className={`flex flex-col sm:flex-row gap-2 ${className}`}>
+    <form onSubmit={handleSubmit} className={`flex flex-col gap-2 ${stacked ? '' : 'sm:flex-row'} ${className}`}>
       <input
         type="email"
         value={email}
