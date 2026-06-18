@@ -54,11 +54,11 @@ function resolveDeliverables(svc: ServiceDetail): string[] {
 
 function CSLabel({ children, note }: { children: React.ReactNode; note?: string }) {
   return (
-    <div className="svc-cslabel">
+    <h2 className="svc-cslabel">
       <span>{'// '}{children}</span>
       <span className="svc-cslabel__rule" />
       {note && <span className="svc-cslabel__n">{note}</span>}
-    </div>
+    </h2>
   )
 }
 
@@ -455,7 +455,7 @@ const SERVICE_DETAIL_CSS = `
 .svc-badge { font-family: var(--mono); font-size: 10.5px; font-weight: 500; line-height: 1; letter-spacing: 0.04em; padding: 6px 11px; border-radius: 999px; border: 1px solid rgba(52,211,153,0.28); background: rgba(52,211,153,0.07); color: #6ee7b7; white-space: nowrap; }
 
 .svc-csec { margin-top: 56px; }
-.svc-cslabel { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--acc); }
+.svc-cslabel { display: flex; align-items: center; gap: 14px; margin: 0 0 20px; font-weight: 400; line-height: 1; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--acc); }
 .svc-cslabel__rule { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(52,211,153,0.28), transparent); }
 .svc-cslabel__n { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: #334155; }
 

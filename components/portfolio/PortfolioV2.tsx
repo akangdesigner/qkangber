@@ -227,7 +227,7 @@ function PV2CardTeaching({ onOpen }: { onOpen: OpenFn }) {
           <PV2Light tone="live" label="live" />
           <span style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.14em', color: '#475569' }}>FLAGSHIP · PROD 2025</span>
         </div>
-        <h3 style={{ margin: '0 0 8px', fontSize: 21, fontWeight: 700, color: '#ffffff', letterSpacing: '-0.01em', fontFamily: SANS }}>教師專案管理系統</h3>
+        <h2 style={{ margin: '0 0 8px', fontSize: 21, fontWeight: 700, color: '#ffffff', letterSpacing: '-0.01em', lineHeight: 'normal', fontFamily: SANS }}>教師專案管理系統</h2>
         <p style={{ margin: '0 0 18px', fontSize: 12.5, color: '#64748b', lineHeight: 1.7, fontFamily: SANS }}>一個人的補習班後台——AI 幫你記課、寫報告、推通知。</p>
         <ul style={{ listStyle: 'none', margin: '0 0 22px', padding: 0, display: 'grid', gap: 7 }}>
           <PV2Feat>自然語言記課，Groq 解析成結構化資料</PV2Feat>
@@ -257,7 +257,7 @@ function PV2CardMonitoring({ onOpen }: { onOpen: OpenFn }) {
           <PV2Light tone="amber" label="building" delay={0.3} />
           <PV2GitHub href="https://github.com/akangdesigner/productmonitoring" />
         </div>
-        <h3 style={{ margin: '0 0 7px', fontSize: 16.5, fontWeight: 700, color: '#ffffff', fontFamily: SANS }}>產品監控系統</h3>
+        <h2 style={{ margin: '0 0 7px', fontSize: 16.5, fontWeight: 700, color: '#ffffff', lineHeight: 'normal', fontFamily: SANS }}>產品監控系統</h2>
         <p style={{ margin: '0 0 18px', fontSize: 12.5, color: '#64748b', lineHeight: 1.7, fontFamily: SANS }}>爬蟲全天候追蹤各平台售價與庫存，異常即時 LINE 推播。</p>
         <div style={{ marginTop: 'auto' }}><PV2Badges items={['Node.js', 'React', 'SQLite', 'Docker']} /></div>
       </div>
@@ -274,7 +274,7 @@ function PV2CardFlow({ id, onOpen, nodes, light, lightDelay, title, desc, badges
       <PV2FlowAnim nodes={nodes} />
       <div style={{ position: 'relative', zIndex: 2, padding: '14px 24px 24px', display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div style={{ marginBottom: 12 }}><PV2Light tone="live" label={light} delay={lightDelay} /></div>
-        <h3 style={{ margin: '0 0 7px', fontSize: 16.5, fontWeight: 700, color: '#ffffff', fontFamily: SANS }}>{title}</h3>
+        <h2 style={{ margin: '0 0 7px', fontSize: 16.5, fontWeight: 700, color: '#ffffff', lineHeight: 'normal', fontFamily: SANS }}>{title}</h2>
         <p style={{ margin: '0 0 18px', fontSize: 12.5, color: '#64748b', lineHeight: 1.7, fontFamily: SANS }}>{desc}</p>
         <div style={{ marginTop: 'auto' }}><PV2Badges items={badges} /></div>
       </div>
@@ -307,7 +307,7 @@ function PV2CardAICommand({ onOpen }: { onOpen: OpenFn }) {
           <PV2Light tone="live" label="live" delay={1.4} />
           <a className="bv2-ghlink" href="https://aicommand.aiqkangber.com" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>↗ aicommand</a>
         </div>
-        <h3 style={{ margin: '0 0 7px', fontSize: 16.5, fontWeight: 700, color: '#ffffff', fontFamily: SANS }}>AICommand · AI 工具排行榜</h3>
+        <h2 style={{ margin: '0 0 7px', fontSize: 16.5, fontWeight: 700, color: '#ffffff', lineHeight: 'normal', fontFamily: SANS }}>AICommand · AI 工具排行榜</h2>
         <p style={{ margin: '0 0 18px', fontSize: 12.5, color: '#64748b', lineHeight: 1.7, fontFamily: SANS }}>六大社群的真實討論，量化成 AI 工具熱度榜。</p>
         <div style={{ marginTop: 'auto' }}><PV2Badges items={['Next.js', 'Python', 'PostgreSQL']} /></div>
       </div>

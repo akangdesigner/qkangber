@@ -484,7 +484,7 @@ export default function ServiceFlow({ services }: { services: Service[] }) {
               </div>
               <div style={{ fontSize: 15, fontWeight: 600, color: '#fff', marginBottom: 6 }}>{service.title.replace(/ —.*$/, '')}</div>
               <div style={{ fontFamily: 'ui-monospace, monospace', fontSize: 11, color: '#64748b' }}>
-                NT$ {service.price.toLocaleString()}{service.priceNote}
+                NT$ {service.price.toLocaleString()} {service.priceNote}
               </div>
             </Link>
           )
