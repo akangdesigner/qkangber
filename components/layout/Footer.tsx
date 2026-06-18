@@ -98,7 +98,7 @@ export default function Footer() {
               </a>
             </li>
           </ul>
-          <SubscribeForm small />
+          <SubscribeForm small stacked />
         </div>
       </div>
 
