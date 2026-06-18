@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import ParticleGlobe from './ParticleGlobe'
-import { useIsMobile } from '@/hooks/useMediaQuery'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 function ChangelogPill({ title, slug }: { title: string; slug: string }) {
   return (
@@ -278,7 +278,11 @@ function AgentStatusTicker() {
 
 export default function Hero({ latestPost }: { latestPost?: { title: string; slug: string } }) {
   const [hoveredSat, setHoveredSat] = useState<number | null>(null)
-  const isMobile = useIsMobile()
+  // Globe + its absolute-positioned chips only read well once the two-column
+  // desktop grid (lg) is active. Below that we serve a clean text-only hero,
+  // so gate everything globe-related on the same 1024px breakpoint as the grid
+  // (not 640px — that left an ugly globe-in-one-column zone at 641–1023px).
+  const isDesktop = useMediaQuery('(min-width: 1024px)')
 
   function jumpToSlide(key: string) {
     if (typeof window !== 'undefined' && (window as unknown as Record<string, unknown>).__jumpToSlide) {
@@ -320,15 +324,24 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
         maskImage: 'radial-gradient(125% 105% at 50% 18%, #000 38%, transparent 92%)',
         WebkitMaskImage: 'radial-gradient(125% 105% at 50% 18%, #000 38%, transparent 92%)',
       }} />
-      {/* edge feather — blend the top & right of the section into the page
-          background (#05060a), the same trick the services banner uses so the
-          hero dissolves into the page instead of sitting in a bounded card */}
+      {/* edge feather — blend the top of the section into the page background
+          (#05060a) so the hero dissolves into the page instead of sitting in a
+          bounded card. Always on. */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
-        background: 'linear-gradient(to bottom, #05060a 0%, rgba(5,6,10,0) 13%), linear-gradient(to right, rgba(5,6,10,0) 84%, #05060a 100%)',
+        background: 'linear-gradient(to bottom, #05060a 0%, rgba(5,6,10,0) 13%)',
       }} />
+      {/* right-edge feather — desktop only. It exists to let the globe's glow
+          dissolve into the page on the right; on mobile there's no globe, so
+          this overlay would just darken the right side of the body copy and
+          make it look clipped. */}
+      {isDesktop && (
+        <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
+          background: 'linear-gradient(to right, rgba(5,6,10,0) 84%, #05060a 100%)',
+        }} />
+      )}
 
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-10 sm:pb-[60px]">
-        <div className="grid lg:grid-cols-[1.15fr_1fr] gap-8 items-center" style={{ minHeight: isMobile ? 0 : 560 }}>
+      <div className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-10 sm:pb-[60px]">
+        <div className="grid lg:grid-cols-[1.15fr_1fr] gap-8 items-center" style={{ minHeight: isDesktop ? 560 : 0 }}>
           {/* Left — copy */}
           <div className="min-w-0">
             {latestPost && (
@@ -391,7 +404,7 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
           {/* Right — particle globe as integration hub (desktop only; the
               bespoke globe + absolute-positioned chips don't scale cleanly on
               mobile, so the mobile hero is a dedicated text-only layout) */}
-          {!isMobile && (
+          {isDesktop && (
           <div className="relative lg:-mr-20" style={{
             height: 'clamp(420px, 52vw, 580px)',
             opacity: 0, animation: 'heroLineIn 1000ms ease-out 400ms forwards',

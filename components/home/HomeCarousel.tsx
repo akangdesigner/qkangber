@@ -196,8 +196,8 @@ function VisualClaude({ c1, c2 }: { c1: string; c2: string }) {
       {nodes.map(n => (
         <g key={n.label} transform={`translate(${n.x},${n.y})`}>
           <rect x="-46" y="-22" width="92" height="44" rx="10" fill="rgba(15,18,32,0.78)" stroke={c1} strokeOpacity="0.4" />
-          <text x="-6" y="-2" fontFamily="sans-serif" fontSize="11" fontWeight="600" fill="#fff">{n.label}</text>
-          <text x="-6" y="12" fontFamily="ui-monospace, monospace" fontSize="8.5" fill="rgba(148,163,184,0.85)">{n.sub}</text>
+          <text x="0" y="-2" textAnchor="middle" fontFamily="sans-serif" fontSize="11" fontWeight="600" fill="#fff">{n.label}</text>
+          <text x="0" y="12" textAnchor="middle" fontFamily="ui-monospace, monospace" fontSize="8.5" fill="rgba(148,163,184,0.85)">{n.sub}</text>
           <circle cx="40" cy="-12" r="3" fill="#34d399">
             <animate attributeName="opacity" values="0.3;1;0.3" dur="1.8s" repeatCount="indefinite" />
           </circle>
