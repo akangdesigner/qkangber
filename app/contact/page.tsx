@@ -62,9 +62,55 @@ const METHODS: Method[] = [
 const ADDRESS = '台北市信義區東興路 49 號 11 樓'
 const MAP_SRC = `https://maps.google.com/maps?q=${encodeURIComponent('台北市信義區東興路49號11樓')}&t=&z=16&ie=UTF8&iwloc=&output=embed`
 
+const BASE_URL = 'https://aiqkangber.com'
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    name: '聯絡與需求諮詢',
+    url: `${BASE_URL}/contact`,
+    description: 'n8n 自動化與 AI 開發的聯絡與需求諮詢——初次免費診斷可行性與做法再報價，不必先付費也不綁約。',
+    mainEntity: {
+      '@type': 'Organization',
+      name: 'Q kangber',
+      url: BASE_URL,
+      logo: `${BASE_URL}/logo.png`,
+      email: 'asdtodd42@gmail.com',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '東興路49號11樓',
+        addressLocality: '信義區',
+        addressRegion: '台北市',
+        addressCountry: 'TW',
+      },
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'customer support',
+        email: 'asdtodd42@gmail.com',
+        availableLanguage: ['zh-Hant'],
+        areaServed: 'TW',
+      },
+      sameAs: [
+        'https://www.threads.com/@q_kangber',
+        'https://www.instagram.com/q_kangber',
+      ],
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '首頁', item: BASE_URL },
+      { '@type': 'ListItem', position: 2, name: '聯絡我們', item: `${BASE_URL}/contact` },
+    ],
+  },
+]
+
 export default function ContactPage() {
   return (
     <div style={{ color: '#e2e8f0' }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       {/* ── HERO ── */}
       <section style={{
         position: 'relative',
