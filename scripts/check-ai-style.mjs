@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // 去 AI 味自檢：掃 blog-drafts 的 HTML，列出命中黑名單的字詞與片段。
 // 用法：node scripts/check-ai-style.mjs blog-drafts/XX-slug
-// 規則來源：~/.claude/skills/_shared/anti-ai-style.md
+// 規則來源：docs/anti-ai-style.md（唯一來源）
 import fs from "fs";
 import path from "path";
 
@@ -13,6 +13,9 @@ const RULES = [
   [/值得注意的是/g, "A 灌水開頭", "說教式過渡詞"],
   [/必須記住/g, "A 灌水開頭", "說教式過渡詞"],
   [/(綜上所述|總而言之)/g, "A 灌水開頭", "僵化結尾套話"],
+  [/(先)?(誠實|老實|坦白)(講|說)/g, "A 灌水開頭", "宣告式誠實開場，真要誠實的人直接講那件事"],
+  [/說(真的|實話)/g, "A 灌水開頭", "宣告式開場，直接講"],
+  [/(不得不說|不諱言)/g, "A 灌水開頭", "宣告式開場"],
   // B. 浮誇強調詞
   [/至關重要/g, "B 浮誇強調", "用數字或後果代替"],
   [/(樞紐的|關鍵的一(環|步))/g, "B 浮誇強調", "浮誇強調，講具體後果"],
