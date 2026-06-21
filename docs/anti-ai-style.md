@@ -1,7 +1,8 @@
-# 去 AI 味黑名單 ＋ EEAT 具體化準則（共用）
+# 去 AI 味黑名單 ＋ EEAT 具體化準則（共用，唯一來源）
 
-> ⚠️ 這是**備份／版控保管**。實際生效的檔在本機 `~/.claude/skills/_shared/anti-ai-style.md`，
-> 由 dev-diary／qa-article／threads-diary／linkedin-post 四個 skill 引用。兩邊要同步更新。
+> ✅ 這是**唯一來源**（single source of truth），版控於本專案 repo。
+> dev-diary／qa-article／threads-diary／linkedin-post 四個 skill 直接引用此檔（路徑 `D:\qkangber\docs\anti-ai-style.md`）。改規則只改這裡。
+> （本機 `~/.claude/skills/_shared/anti-ai-style.md` 已退役刪除。）
 >
 > 所有產文 skill 共用這份規則。**動筆前讀一次當寫作約束，交付前讀一次當檢查清單。** 命中黑名單就重寫。
 > 來源：維基百科《人工智慧寫作跡象》、經理人「抓包 AI 味指南」、數位時代「AI 味具體是什麼」三篇整理。
