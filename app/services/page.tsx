@@ -9,6 +9,8 @@ export const metadata = buildMetadata({
   description: 'n8n 工作流自動化、電商訂單與報表自動化、行銷與社群自動化，以及 AI 客服機器人、RAG 知識庫建置與網站開發——協助電商與行銷團隊把自動化真正導入日常營運。',
   keywords: ['n8n 自動化服務', '電商自動化', '行銷自動化', 'AI 客服機器人', '報表自動化'],
   path: '/services',
+  ogSubtitle: '多平台發文 · 每週數據報表 · Threads token 自動續期，免費範本匯進 n8n 就能用',
+  ogBadge: '免費下載',
 })
 
 const jsonLd = [
