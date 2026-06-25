@@ -44,7 +44,7 @@ export default function NewsletterSubscribe() {
   if (status === 'success') {
     return (
       <p style={{ margin: '4px 0 0', fontFamily: SANS, fontSize: 14.5, color: '#cbd5e1', maxWidth: 480 }}>
-        <span style={{ color: ACCENT, fontWeight: 600 }}>✓ 收到了！</span> 請到收件匣點開確認信，下週四見 ✨
+        <span style={{ color: ACCENT, fontWeight: 600 }}>✓ 收到了！</span> 請到收件匣點開確認信，下週一見 ✨
       </p>
     )
   }
