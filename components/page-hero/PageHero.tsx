@@ -202,6 +202,8 @@ function PHStyles() {
         .ph-inner { grid-template-columns: 1fr !important; gap: 32px; padding-top: 96px; padding-bottom: 56px; }
         .ph-rail, .ph-visual { max-width: 440px; }
         .ph-illustration { order: -1; max-width: 360px; margin: 0 auto; }
+        /* 訂閱頁太空人插圖在窄欄會撐出一大塊空白、把訂閱表單推到摺疊線下，手機/平板直接隱藏，Hero 以標題＋表單開場 */
+        .ph-grid-newsletter .ph-illustration { display: none !important; }
       }
       @media (max-width: 560px) {
         .ph-corner-url { display: none; }
