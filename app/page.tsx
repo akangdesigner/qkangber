@@ -7,9 +7,9 @@ import { getAllPosts } from '@/lib/mdx'
 import { getAllNewsletterIssues } from '@/lib/newsletter'
 
 export const metadata = buildMetadata({
-  title: { absolute: 'Q kangber — 專注於 n8n 與 AI 深度整合的流程架構師' },
-  description: '提供 n8n 工作流自動化、AI Agent 與電商／行銷流程整合的接案與顧問服務。實戰派 n8n 流程架構師操刀，把訂單、報表、客服等重複工作交給自動化，讓團隊專注在真正重要的事。',
-  keywords: ['n8n 自動化', '流程自動化', 'AI Agent', '電商流程工程'],
+  title: { absolute: 'Q kangber — n8n 自動化 × AI 開發的實作分享' },
+  description: 'Q kangber 分享 n8n 自動化、AI 開發與 AI 行銷的實作經驗：開發各種 AI 工具、追蹤最新趨勢情報，用自動化減少繁瑣的人工流程，找到 AI 與人的協作平衡。需要把重複工作交給自動化，也可以直接找我。',
+  keywords: ['n8n 自動化', 'AI 開發', 'AI 工具', 'AI 行銷', 'AI Agent'],
   path: '/',
 })
 
@@ -20,7 +20,7 @@ const jsonLd = [
     name: 'Q kangber',
     url: 'https://aiqkangber.com',
     logo: 'https://aiqkangber.com/logo.png',
-    description: 'Claude 系列、n8n、RAG、提示詞工程——找到 AI 與人類的完美協作點，設計從資料進到結果出的完整自動化體系。',
+    description: '分享 n8n 自動化、AI 開發與 AI 行銷的實作經驗，開發各種 AI 工具、追蹤最新趨勢情報，用自動化減少繁瑣的人工流程，找到 AI 與人的協作平衡。',
     email: 'asdtodd42@gmail.com',
     sameAs: [
       'https://www.threads.com/@q_kangber',
@@ -38,7 +38,7 @@ const jsonLd = [
     '@type': 'WebSite',
     name: 'Q kangber',
     url: 'https://aiqkangber.com',
-    description: 'n8n 自動化 · AI Agent · 電商流程工程',
+    description: 'n8n 自動化 · AI 開發 · AI 行銷實作分享',
   },
 ]
 

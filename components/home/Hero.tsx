@@ -361,7 +361,7 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
                 opacity: 0, transform: 'translateY(18px)',
                 animation: 'heroLineIn 700ms cubic-bezier(.2,.7,.2,1) 180ms forwards',
               }}>
-                把 AI 導入你的工作流程，
+                n8n 自動化 × AI 開發
               </span>
               <span style={{
                 display: 'block', fontStyle: 'italic',
@@ -370,7 +370,7 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
                 background: 'linear-gradient(90deg, #c4b5fd 0%, #93c5fd 50%, #67e8f9 100%)',
                 WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent',
               }}>
-                讓自動化真正發生。
+                的實作分享
               </span>
             </h1>
 
@@ -380,7 +380,7 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
               margin: '0 0 36px 0',
               opacity: 0, animation: 'heroLineIn 700ms ease-out 540ms forwards',
             }}>
-              透過 n8n、AI Agent 與 RAG，把原本需要人工處理的工作流程，轉變成可穩定運行的 AI 系統。
+              開發各種 AI 工具、分享最新趨勢情報，用自動化減少繁瑣的人工流程，找到 AI 與人的協作平衡。
             </p>
 
             <div style={{
