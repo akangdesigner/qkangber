@@ -361,7 +361,7 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
                 opacity: 0, transform: 'translateY(18px)',
                 animation: 'heroLineIn 700ms cubic-bezier(.2,.7,.2,1) 180ms forwards',
               }}>
-                n8n 自動化 × AI 開發
+                AI 開發 × n8n 自動化
               </span>
               <span style={{
                 display: 'block', fontStyle: 'italic',
@@ -370,7 +370,7 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
                 background: 'linear-gradient(90deg, #c4b5fd 0%, #93c5fd 50%, #67e8f9 100%)',
                 WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent',
               }}>
-                的實作分享
+                實作分享
               </span>
             </h1>
 

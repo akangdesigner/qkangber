@@ -7,7 +7,7 @@ import { getAllPosts } from '@/lib/mdx'
 import { getAllNewsletterIssues } from '@/lib/newsletter'
 
 export const metadata = buildMetadata({
-  title: { absolute: 'Q kangber — n8n 自動化 × AI 開發的實作分享' },
+  title: { absolute: 'Q kangber — AI 開發 × n8n 自動化 實作分享' },
   description: 'Q kangber 分享 n8n 自動化、AI 開發與 AI 行銷的實作經驗：開發各種 AI 工具、追蹤最新趨勢情報，用自動化減少繁瑣的人工流程，找到 AI 與人的協作平衡。需要把重複工作交給自動化，也可以直接找我。',
   keywords: ['n8n 自動化', 'AI 開發', 'AI 工具', 'AI 行銷', 'AI Agent'],
   path: '/',
