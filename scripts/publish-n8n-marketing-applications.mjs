@@ -10,10 +10,10 @@ const WRITE = process.argv.includes('--write')
 const UPDATE = process.argv.includes('--update')
 
 const SLUG = 'n8n-marketing-applications'
-const TITLE = 'n8n 應用：行銷團隊必備 6 大自動化工具——從競品分析到行銷週報製作'
+const TITLE = 'n8n 應用：行銷團隊必備 5 大自動化工具——從競品分析到行銷週報製作'
 const DATE = '2026/06/27'
 const TAGS = 'n8n 應用,n8n 行銷自動化,行銷自動化,行銷團隊,自動化工作流'
-const EXCERPT = 'n8n 在行銷可以做什麼？這篇用 6 篇實戰幫行銷團隊把 n8n 學完用滿：先帶你把環境架起來，再給 5 種立刻能照做的自動化——新聞稿群發、多平台發文、競品分析、RFM／EDM、自動週報，從零到每週省下大把時間。'
+const EXCERPT = 'n8n 在行銷可以做什麼？這篇整理行銷團隊必備的 5 大 n8n 應用：新聞稿群發、多平台發文、競品分析、RFM／EDM、自動週報，先帶你把環境架起來，再一個個照著做，從零到每週省下大把時間。'
 const CATEGORY = '行銷自動化'
 const SUBCATEGORY = ''
 const COVER = 'https://i.ibb.co/JRfHTXNV/cover.webp'
