@@ -30,8 +30,8 @@ export default function FeaturedPosts({ posts }: { posts: Post[] }) {
     <section className="relative max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-24">
       <div className="flex items-end justify-between mb-10">
         <div>
-          <div className="mb-3"><EyebrowLabel>Latest writing</EyebrowLabel></div>
-          <h2 className="text-3xl font-semibold text-white tracking-[-0.015em]">最新文章</h2>
+          <div className="mb-3"><EyebrowLabel>Featured writing</EyebrowLabel></div>
+          <h2 className="text-3xl font-semibold text-white tracking-[-0.015em]">精選文章</h2>
         </div>
         <Link
           href="/blog"

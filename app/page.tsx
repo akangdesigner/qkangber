@@ -42,10 +42,16 @@ const jsonLd = [
   },
 ]
 
+// 首頁精選文章：手動策劃，依此順序顯示（不是最新 3 篇）。要換就改這份清單。
+const FEATURED_SLUGS = ['ai-architecture', 'ai-coding-downsides', 'n8n-zeabur-beginner-guide']
+
 export default async function HomePage() {
   const allPosts = await getAllPosts()
-  const featured = allPosts.filter((p) => p.featured).slice(0, 3)
-  const latestPosts = featured.length >= 3 ? featured : allPosts.slice(0, 3)
+  const bySlug = new Map(allPosts.map((p) => [p.slug, p]))
+  const picked = FEATURED_SLUGS.map((s) => bySlug.get(s)).filter((p): p is NonNullable<typeof p> => Boolean(p))
+  // 策劃清單沒湊滿 3 篇時，用最新文章補位，避免首頁開天窗。
+  const seen = new Set(picked.map((p) => p.slug))
+  const featuredPosts = [...picked, ...allPosts.filter((p) => !seen.has(p.slug))].slice(0, 3)
 
   const issues = await getAllNewsletterIssues()
   const recentIssues = issues.filter(i => i.published).slice(0, 3)
@@ -57,7 +63,7 @@ export default async function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Hero latestPost={latestPost} />
       <HomeCarousel />
-      <FeaturedPosts posts={latestPosts} />
+      <FeaturedPosts posts={featuredPosts} />
       <HomeNewsletter issues={recentIssues} />
     </>
   )
