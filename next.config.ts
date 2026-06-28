@@ -30,6 +30,12 @@ const nextConfig: NextConfig = {
       { source: '/newsletter/archive', destination: '/newsletter', permanent: true },
       // codetools-4 與 socailmedia 內容重複，下架 codetools-4 並永久轉址保留權重
       { source: '/blog/codetools-4', destination: '/blog/socailmedia', permanent: true },
+      // codetools-N 改成帶關鍵字的 slug，舊網址 308 轉址保留 SEO 權重
+      { source: '/blog/codetools', destination: '/blog/internal-tools-nextjs', permanent: true },
+      { source: '/blog/codetools-2', destination: '/blog/html-cleaner-tool', permanent: true },
+      { source: '/blog/codetools-3', destination: '/blog/ig-data-tracking', permanent: true },
+      { source: '/blog/codetools-5', destination: '/blog/google-search-console-api', permanent: true },
+      { source: '/blog/codetools-6', destination: '/blog/customer-service-bot-rag', permanent: true },
     ]
   },
 }
