@@ -170,9 +170,10 @@ function PV2Hero() {
   }, [])
   const systems = [
     { name: '教師專案管理系統', env: 'prod', tone: 'live', d: 0 },
-    { name: 'AICommand 排行榜', env: 'prod', tone: 'live', d: 0.4 },
-    { name: '行銷文章生成工作流', env: 'n8n', tone: 'live', d: 0.8 },
-    { name: '新聞電子報工作流', env: 'n8n · cron', tone: 'live', d: 1.2 },
+    { name: '台股自選股健檢', env: 'prod', tone: 'live', d: 0.4 },
+    { name: 'AICommand 排行榜', env: 'prod', tone: 'live', d: 0.8 },
+    { name: '行銷文章生成工作流', env: 'n8n', tone: 'live', d: 1.2 },
+    { name: '新聞電子報工作流', env: 'n8n · cron', tone: 'live', d: 1.6 },
     { name: '產品監控系統', env: 'dev', tone: 'amber', d: 0.2 },
   ]
   const ic = (on: boolean) => 'bv2-rise' + (on ? ' is-in' : '')
@@ -192,7 +193,7 @@ function PV2Hero() {
         <p className={ic(shown)} style={{ margin: '20px 0 0', maxWidth: 440, fontSize: 14, lineHeight: 1.9, color: '#64748b', fontFamily: SANS, textWrap: 'pretty', transitionDelay: '.24s' } as CSS}>
           收錄 n8n 自動化流程、AI Agent 應用與 Vibe Coding 開發的真實專案。每一個都在解決實際問題、在 production 上運作。
         </p>
-        <p className={ic(shown)} style={{ margin: '22px 0 0', fontFamily: MONO, fontSize: 11, letterSpacing: '0.1em', color: '#475569', transitionDelay: '.32s' }}>5 個專案&ensp;·&ensp;4 個上線&ensp;·&ensp;1 個開發中&ensp;·&ensp;始於 2025</p>
+        <p className={ic(shown)} style={{ margin: '22px 0 0', fontFamily: MONO, fontSize: 11, letterSpacing: '0.1em', color: '#475569', transitionDelay: '.32s' }}>6 個專案&ensp;·&ensp;5 個上線&ensp;·&ensp;1 個開發中&ensp;·&ensp;始於 2025</p>
       </div>
 
       <aside aria-label="系統狀態" className={ic(shown)} style={{ borderRadius: 16, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)', overflow: 'hidden', boxShadow: '0 24px 70px -30px rgba(0,0,0,0.8)', transitionDelay: '.2s' }}>
@@ -315,9 +316,41 @@ function PV2CardAICommand({ onOpen }: { onOpen: OpenFn }) {
   )
 }
 
+function PV2CardStock({ onOpen }: { onOpen: OpenFn }) {
+  const rows = [
+    { code: '2330', name: '台積電', dot: '#4ade80', score: 78 },
+    { code: '2454', name: '聯發科', dot: '#fbbf24', score: 62 },
+    { code: '2412', name: '中華電', dot: '#fb7185', score: 45 },
+  ]
+  return (
+    <article onClick={() => onOpen('stock')} className="bv2-card" style={{ display: 'flex', flexDirection: 'column', cursor: 'pointer' }}>
+      <span className="bv2-view" aria-hidden="true">open ↗</span>
+      <div aria-hidden="true" style={{ padding: '20px 24px 4px' }}>
+        {rows.map((r) => (
+          <div key={r.code} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '5px 0' }}>
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: r.dot, boxShadow: `0 0 8px ${r.dot}`, flexShrink: 0, display: 'block' }} />
+            <span style={{ width: 34, fontFamily: MONO, fontSize: 10, color: '#94a3b8', flexShrink: 0 }}>{r.code}</span>
+            <span style={{ width: 50, fontSize: 11, color: '#cbd5e1', fontFamily: SANS, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', flexShrink: 0 }}>{r.name}</span>
+            <span style={{ flex: 1, height: 3, borderRadius: 999, background: 'rgba(255,255,255,0.06)', overflow: 'hidden', display: 'block' }}>
+              <span style={{ display: 'block', height: '100%', width: r.score + '%', borderRadius: 999, background: r.score >= 70 ? 'linear-gradient(90deg, #34d399, #a7f3d0)' : r.score >= 55 ? 'linear-gradient(90deg, #fbbf24, #fde68a)' : '#475569' }} />
+            </span>
+            <span style={{ width: 18, textAlign: 'right', fontFamily: MONO, fontSize: 10, fontWeight: 700, color: r.score >= 70 ? '#6ee7b7' : r.score >= 55 ? '#fcd34d' : '#94a3b8' }}>{r.score}</span>
+          </div>
+        ))}
+      </div>
+      <div style={{ position: 'relative', zIndex: 2, padding: '14px 24px 24px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+        <div style={{ marginBottom: 12 }}><PV2Light tone="live" label="live" delay={0.5} /></div>
+        <h2 style={{ margin: '0 0 7px', fontSize: 16.5, fontWeight: 700, color: '#ffffff', lineHeight: 'normal', fontFamily: SANS }}>台股自選股健檢</h2>
+        <p style={{ margin: '0 0 18px', fontSize: 12.5, color: '#64748b', lineHeight: 1.7, fontFamily: SANS }}>技術＋基本＋籌碼三面向自動健檢，紅綠燈一眼看多空。</p>
+        <div style={{ marginTop: 'auto' }}><PV2Badges items={['Next.js', 'TypeScript', 'Yahoo Finance', '證交所 OpenAPI']} /></div>
+      </div>
+    </article>
+  )
+}
+
 function PV2CardMore() {
   return (
-    <article className="bv2-card bv2-span2" style={{ gridColumn: 'span 3', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, padding: '22px 24px', background: 'rgba(255,255,255,0.015)' }}>
+    <article className="bv2-card bv2-span2" style={{ gridColumn: 'span 2', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, padding: '22px 24px', background: 'rgba(255,255,255,0.015)' }}>
       <span style={{ fontFamily: MONO, fontSize: 12, letterSpacing: '0.08em', color: '#475569' }}>
         <span style={{ color: '#64748b' }}>{'// '}</span>更多作品即將上線
       </span>
@@ -332,10 +365,11 @@ function PV2Bento({ onOpen }: { onOpen: OpenFn }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 26 }}>
         <span style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.2em', color: '#475569' }}>SELECTED WORKS</span>
         <span style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, rgba(255,255,255,0.08), transparent)' }} />
-        <span style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.1em', color: '#334155' }}>01 — 05</span>
+        <span style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.1em', color: '#334155' }}>01 — 06</span>
       </div>
       <div className="bv2-grid bv2-reveal" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
         <PV2CardTeaching onOpen={onOpen} />
+        <PV2CardStock onOpen={onOpen} />
         <PV2CardMonitoring onOpen={onOpen} />
         <PV2CardFlow id="marketing" onOpen={onOpen} nodes={[{ label: 'webhook', shape: 'circle' }, { label: 'search', shape: 'square' }, { label: 'ai', shape: 'diamond' }, { label: 'sheets', shape: 'bars' }]} light="active · n8n" lightDelay={0.6} title="行銷文章生成工作流" desc="關鍵字進、多平台文案出——初稿時間省下 80%。" badges={['n8n', 'Groq', 'OpenRouter', 'Sheets']} />
         <PV2CardFlow id="newsletter" onOpen={onOpen} nodes={[{ label: 'cron', shape: 'circle' }, { label: 'news', shape: 'square' }, { label: 'ai', shape: 'diamond' }, { label: 'gmail', shape: 'square' }]} light="active · cron" lightDelay={1.0} title="新聞趨勢電子報工作流" desc="每日自動彙整 AI 新聞，AI 摘要後寄送給訂閱者。" badges={['n8n', 'Google News', 'Groq', 'Gmail']} />
@@ -526,6 +560,43 @@ const PV2_DETAILS: Detail[] = [
         { src: '/works/aicommand-home.png', label: '首頁 · Vibe Search', full: true, aspect: '1563/862' },
         { src: '/works/aicommand-news.png', label: '最新動態' },
         { src: '/works/aicommand-glossary.png', label: '名詞解釋' },
+      ],
+    },
+  },
+  {
+    id: 'stock', index: '06', tone: 'live', light: 'live', env: 'PROD · 2026',
+    title: '台股自選股健檢', tagline: '「輸入代號，技術＋基本＋籌碼三面向自動健檢，紅綠燈看多空」', links: [],
+    media: { src: '/works/stock-watch.png', bar: '自選股健檢 · localhost:3100' },
+    purpose: {
+      heading: '散戶的免費台股自選股健檢台',
+      paras: [
+        '自己看盤要在好幾個網站之間切換——技術線圖一個站、月營收一個站、三大法人又一個站。這個工具把它們接成一頁：輸入台股代號，盤後自動抓 Yahoo 日K 與證交所、櫃買的免費 OpenAPI，算完直接給紅綠燈。',
+        '三面向各自打 0~100 分再加權成總分：技術面看均線排列、KD、MACD 與進場時機；基本面看月營收年增與本益比、殖利率；籌碼面看三大法人買賣超與投信連買。再疊一層大盤環境（加權、費半、VIX），提醒今天適不適合做多。',
+      ],
+    },
+    features: [
+      { title: '三面向綜合評分', desc: '技術／基本／籌碼三柱各 0~100 分，依有資料的柱子加權成總分' },
+      { title: '紅綠燈訊號', desc: '站上季線＋多頭排列＋MACD 多方＝綠燈，多空狀態一眼看懂' },
+      { title: '全市場選股掃描', desc: '一鍵掃描，依買點、法人買超、體質等多條件交集篩選' },
+      { title: '大盤環境溫度計', desc: '加權、費半、標普、VIX 綜合判斷今日做多是順風或逆風' },
+      { title: '模擬持股試單', desc: '記下看好的股票與成本，追蹤零股報酬，先在紙上練手感' },
+      { title: '全免費資料源', desc: 'Yahoo Finance＋證交所／櫃買 OpenAPI，指標自算，無需付費 API' },
+    ],
+    stack: ['Next.js', 'TypeScript', 'Yahoo Finance API', '證交所 OpenAPI', '櫃買 OpenAPI', '技術指標自算'],
+    dash: {
+      hero: { big: '3', unit: '面向', glyph: '燈', glyphSub: '紅綠燈', title: '三面向綜合健檢', desc: '技術、基本、籌碼三柱各自打分加權成總分，再疊大盤環境，最後收斂成一顆紅綠燈。' },
+      widgets: [
+        { type: 'donut', span: 2, tag: '綜合評分', center: '3', centerSub: '柱', segs: [{ label: '技術面', color: '#8b5cf6' }, { label: '基本面', color: '#22d3ee' }, { label: '籌碼面', color: '#ec4899' }] },
+        { type: 'iconlist', span: 4, tag: '技術指標', rows: [{ label: '均線多空排列', color: '#8b5cf6' }, { label: 'KD 9,3,3', color: '#22d3ee' }, { label: 'MACD 12,26,9', color: '#fbbf24' }, { label: '量價配合', color: '#2dd4bf' }] },
+        { type: 'accent', span: 4, tag: '選股掃描', big: '掃描', sub: '多條件交集篩選全市場，買點／法人／體質一次過濾' },
+        { type: 'stat', span: 2, tag: '大盤環境', big: 'VIX', sub: '加權／費半／VIX 綜合看今日天氣' },
+      ],
+    },
+    gallery: {
+      label: '產品畫面',
+      items: [
+        { src: '/works/stock-watch.png', label: '自選股健檢清單', full: true },
+        { src: '/works/stock-scan.png', label: '選股掃描', full: true },
       ],
     },
   },
@@ -724,7 +795,7 @@ function PV2DetailOverlay({ openId, onClose, onOpen }: { openId: string | null; 
     <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(2,3,10,0.82)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', overflowY: 'auto', padding: '6vh 20px 8vh' }}>
       <div onClick={(e) => e.stopPropagation()} style={{ maxWidth: 920, margin: '0 auto', borderRadius: 22, border: '1px solid rgba(167,139,250,0.22)', background: 'linear-gradient(180deg, rgba(124,92,255,0.07), rgba(2,3,10,0) 240px), #070812', boxShadow: '0 0 0 1px rgba(124,92,255,0.1), 0 40px 120px -30px rgba(0,0,0,0.9)', padding: 'clamp(24px, 4vw, 44px)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 26 }}>
-          <span style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.18em', color: '#475569' }}>CASE {data.index} <span style={{ color: '#334155' }}>/ 05</span></span>
+          <span style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.18em', color: '#475569' }}>CASE {data.index} <span style={{ color: '#334155' }}>/ 06</span></span>
           <button onClick={onClose} aria-label="關閉" style={{ width: 32, height: 32, borderRadius: 9, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)', color: '#94a3b8', fontSize: 14, cursor: 'pointer', fontFamily: MONO, display: 'grid', placeItems: 'center' }}>✕</button>
         </div>
 
