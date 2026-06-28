@@ -28,6 +28,8 @@ const nextConfig: NextConfig = {
     return [
       { source: '/newsletter/archive/:slug', destination: '/newsletter/:slug', permanent: true },
       { source: '/newsletter/archive', destination: '/newsletter', permanent: true },
+      // codetools-4 與 socailmedia 內容重複，下架 codetools-4 並永久轉址保留權重
+      { source: '/blog/codetools-4', destination: '/blog/socailmedia', permanent: true },
     ]
   },
 }
