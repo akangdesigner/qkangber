@@ -33,7 +33,7 @@ const links = [
   { href: '/newsletter', label: '電子報' },
   { href: '/about', label: '關於我' },
   { href: '/contact', label: '聯絡我們' },
-  { href: '/faq', label: 'AI X 自動化指南' },
+  { href: '/faq', label: 'AI × 自動化指南' },
 ]
 
 export default function Nav() {
@@ -81,6 +81,8 @@ export default function Nav() {
           className="md:hidden flex flex-col justify-center items-center w-9 h-9 gap-1.5"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label={mobileOpen ? '關閉選單' : '開啟選單'}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-menu"
         >
           <span className={`block w-5 h-px bg-white transition-all duration-200 ${mobileOpen ? 'rotate-45 translate-y-[4px]' : ''}`} />
           <span className={`block w-5 h-px bg-white transition-all duration-200 ${mobileOpen ? 'opacity-0' : ''}`} />
@@ -90,7 +92,7 @@ export default function Nav() {
 
       {/* Mobile menu dropdown */}
       {mobileOpen && (
-        <nav className="md:hidden border-t border-white/[0.06] bg-[#05060a]/95 backdrop-blur-xl">
+        <nav id="mobile-menu" className="md:hidden border-t border-white/[0.06] bg-[#05060a]/95 backdrop-blur-xl">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-col">
             {links.map(({ href, label }) => {
               const isActive = pathname === href || pathname.startsWith(href + '/')

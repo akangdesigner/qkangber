@@ -194,15 +194,15 @@ function FrontFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: num
                 AI 不為取代判斷，而是精準表達想法。
               </p>
               <p style={{ fontFamily: '"Noto Sans TC", sans-serif', fontSize: 14, lineHeight: 1.85, color: '#94a3b8', margin: '20px 0 0 0', maxWidth: 560 }}>
-                專注於 n8n 與 AI 深度整合的流程架構師、職涯培訓講師。
+                專注於 n8n 與 AI 深度整合的流程架構師、職涯平台業師。
                 相信 AI 產出與人的協作配合，才能讓成果<span style={{ color: '#c4b5fd' }}>有溫度、有實際價值</span>——
-                協助企業 AI 轉型與內部培訓，並於職涯平台擔任培訓講師及舉辦實體講座。
+                協助企業 AI 轉型與內部培訓，並於職涯平台擔任業師及舉辦實體講座。
               </p>
             </div>
 
             <div className="mt-7 flex flex-col items-start gap-5 lg:mt-0 lg:flex-row lg:items-end lg:justify-between">
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, maxWidth: 380 }}>
-                {['n8n', 'Claude Code', '職涯培訓講師', 'API 整合', '流程架構'].map(t => (
+                {['n8n', 'Claude Code', '職涯平台業師', 'API 整合', '流程架構'].map(t => (
                   <span key={t} style={{ display: 'inline-block', fontSize: 10, fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 999, background: 'rgba(255,255,255,0.04)', color: '#cbd5e1', border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(6px)' }}>{t}</span>
                 ))}
               </div>

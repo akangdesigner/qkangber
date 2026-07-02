@@ -9,12 +9,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getAllServices(),
   ])
 
-  const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
-    changeFrequency: 'monthly',
-    priority: 0.7,
-  }))
+  // Sheet 端偶爾出現未來日期；lastmod 不可信會讓 Google 忽略整份 sitemap，故封頂到現在
+  const now = new Date()
+  const postEntries: MetadataRoute.Sitemap = posts.map((post) => {
+    const d = new Date(post.date)
+    return {
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified: d > now ? now : d,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    }
+  })
 
   const serviceEntries: MetadataRoute.Sitemap = services.map((service) => ({
     url: `${baseUrl}/services/${service.slug}`,
@@ -34,6 +39,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/tools`, priority: 0.65, changeFrequency: 'monthly' },
     { url: `${baseUrl}/tools/pet-talk`, priority: 0.6, changeFrequency: 'monthly' },
     { url: `${baseUrl}/newsletter`, priority: 0.6, changeFrequency: 'weekly' },
+    { url: `${baseUrl}/privacy`, priority: 0.3, changeFrequency: 'yearly' },
+    { url: `${baseUrl}/terms`, priority: 0.3, changeFrequency: 'yearly' },
     ...serviceEntries,
     ...postEntries,
   ]

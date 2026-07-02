@@ -51,7 +51,8 @@ for (const p of posts) {
     const anchor = STRIP(m[2])
     if (!href || href === '#') { emptyLinks.push({ slug: p.slug, anchor }); continue }
     // classify
-    const blogMatch = href.match(/(?:https?:\/\/aiqkangber\.com)?\/blog\/([a-z0-9\-]+)/i)
+    // 只認無 host 或 aiqkangber.com 的 /blog/ 路徑，避免外站 blog（mem0.ai/blog/… 等）被誤判成站內連結
+    const blogMatch = href.match(/^(?:https?:\/\/(?:www\.)?aiqkangber\.com)?\/blog\/([a-z0-9\-]+)/i)
     if (blogMatch) {
       const to = blogMatch[1]
       outs.push({ to, anchor, kind: 'blog' })
@@ -121,7 +122,8 @@ for (const [cat, list] of Object.entries(byCat)) {
 // aicommand 交叉連結
 console.log(`\n── aicommand 姊妹站交叉連結 ──`)
 let aicmd = 0
-for (const p of posts) for (const o of outbound.get(p.slug)) if (o.kind === 'external' && /aicommand/.test(o.to)) { aicmd++; }
+// 注意：aicommand 是 aiqkangber 子網域，會被歸類成 self-other，要單獨抓
+for (const p of posts) for (const o of outbound.get(p.slug)) if (/aicommand/.test(o.to)) { aicmd++; }
 console.log(`   全站指向 aicommand 的連結：${aicmd} 條`)
 
 // 全文 dump 給後續分析

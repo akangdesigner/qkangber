@@ -4,6 +4,7 @@ import SubscribeForm from '@/components/shared/SubscribeForm'
 
 const mainLinks = [
   { href: '/services', label: '服務' },
+  { href: '/portfolio', label: '作品集' },
   { href: '/blog', label: 'AI × n8n 知識庫' },
   { href: '/tools', label: '工具站' },
 ]
@@ -12,7 +13,7 @@ const moreLinks = [
   { href: '/contact', label: '聯絡我' },
   { href: '/newsletter', label: '訂閱電子報' },
   { href: '/about', label: '關於我' },
-  { href: '/faq', label: 'AI X 自動化指南' },
+  { href: '/faq', label: 'AI × 自動化指南' },
 ]
 
 const socialLinks = [
@@ -50,7 +51,7 @@ export default function Footer() {
             <span className="font-semibold text-white text-[1.02rem] tracking-[-0.01em]">Q kangber</span>
           </div>
           <p className="text-sm text-slate-400 leading-relaxed">
-            商業自動化碩士 · AI 流程開發工程師 · 職涯培訓講師 · 企業 AI 轉型顧問。讓重複的事自動化，讓真正重要的事留給你。
+            商業自動化碩士 · AI 流程開發工程師 · 職涯平台業師 · 企業 AI 轉型顧問。用 n8n 把重複的事自動化，讓真正重要的事留給你。
           </p>
         </div>
 
@@ -102,10 +103,18 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/[0.04] py-5">
-        <p className="text-center text-xs text-slate-600">
+      <div className="border-t border-white/[0.04] py-5 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 px-4 sm:px-6">
+        <p className="text-xs text-slate-500">
           © {new Date().getFullYear()} Q kangber. Built with intent.
         </p>
+        <div className="flex gap-4">
+          <Link href="/privacy" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">
+            隱私權政策
+          </Link>
+          <Link href="/terms" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">
+            服務條款
+          </Link>
+        </div>
       </div>
     </footer>
   )

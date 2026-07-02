@@ -59,6 +59,7 @@ export default function NewsletterSubscribe() {
             type="email"
             required
             placeholder="輸入你的 Email"
+            aria-label="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onFocus={() => setFocused(true)}

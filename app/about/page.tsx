@@ -4,9 +4,9 @@ import StatsBlock from '@/components/about/StatsBlock'
 import { buildMetadata } from '@/lib/metadata'
 
 export const metadata = buildMetadata({
-  title: { absolute: '關於 Q kangber — n8n 流程架構師與職涯培訓講師' },
-  description: '專注於 n8n 與 AI 深度整合的流程架構師。協助企業實現 AI 轉型與自動化、提供內部培訓，同時於職涯平台擔任職涯培訓講師並舉辦實體講座。',
-  keywords: ['n8n 流程架構師', '職涯培訓講師', 'AI 轉型顧問', '企業 AI 培訓'],
+  title: { absolute: '關於 Q kangber — 把重複工作交給 n8n 的流程架構師 × Vibe Coding 實踐者' },
+  description: '我是 Q kangber，商業自動化碩士、行銷公司 AI 工程師。這裡記錄我把訂單、報表、客服交給 n8n 自動化的實作經驗，也分享用 AI 寫程式的開發心得，並提供企業導入服務。',
+  keywords: ['n8n 流程架構師', '職涯平台業師', 'AI 轉型顧問', '企業 AI 培訓'],
   path: '/about',
 })
 
@@ -17,7 +17,7 @@ const socialLinks = [
 
 const siteLinks = [
   { href: '/services', label: '服務項目', desc: '電商與行銷自動化，每個服務獨立頁面說明' },
-  { href: '/blog', label: 'AI × n8n 知識庫', desc: '自動化實戰心得、AI 工具應用與踩坑記錄' },
+  { href: '/blog', label: 'AI × n8n 知識庫', desc: '自動化實戰心得、AI 工具應用與問題排解記錄' },
   { href: '/newsletter', label: '歷期電子報', desc: '每週 AI 業界動態精選，全部公開閱讀' },
 ]
 
@@ -33,9 +33,9 @@ const experience = [
     desc: '設計與開發 AI 驅動的行銷自動化架構，整合 n8n 與各類 API。憑藉高強度的自學與實作，陸續開發出多款 App、個人品牌官網及教師教學工具。',
   },
   {
-    role: '職涯平台　職涯培訓講師',
+    role: '職涯平台　業師',
     current: true,
-    desc: '於職涯平台擔任培訓講師並舉辦實體講座，將 n8n 自動化與 API 整合的實戰技術轉化為可落地的教學體系，陪伴個人從零到實際導入。',
+    desc: '於職涯平台擔任業師並舉辦實體講座，將 n8n 自動化與 API 整合的實戰技術轉化為可落地的教學體系，陪伴個人從零到實際導入。',
   },
   {
     role: '企業 AI 轉型顧問',
@@ -74,7 +74,7 @@ const personJsonLd = {
   url: 'https://aiqkangber.com/about',
   email: 'asdtodd42@gmail.com',
   jobTitle: 'n8n 自動化流程架構師',
-  description: '專注於 n8n 與 AI 深度整合的流程架構師。協助企業實現 AI 轉型與自動化、提供內部培訓，同時於職涯平台擔任職涯培訓講師並舉辦實體講座。',
+  description: '專注於 n8n 與 AI 深度整合的流程架構師。協助企業實現 AI 轉型與自動化、提供內部培訓，同時於職涯平台擔任業師並舉辦實體講座。',
   sameAs: [
     'https://www.threads.com/@q_kangber',
     'https://www.instagram.com/q_kangber',

@@ -20,6 +20,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
+  if (!getServiceDetail(slug)?.published) return {}
   const service = await getServiceBySlug(slug)
   if (!service) return {}
   return buildMetadata({
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ServicePage({ params }: Props) {
   const { slug } = await params
   const svc = getServiceDetail(slug)
-  if (!svc) notFound()
+  if (!svc || !svc.published) notFound()
 
   // SEO from the MDX frontmatter (unchanged source of truth for metadata).
   const service = await getServiceBySlug(slug)

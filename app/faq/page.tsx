@@ -3,14 +3,14 @@ import Link from 'next/link'
 
 export const metadata = buildMetadata({
   title: 'AI 是什麼？n8n 能做什麼？AI 自動化常見問題',
-  description: '什麼是 AI、AI Agent、RAG？n8n 能幫企業做什麼？整理 AI 與自動化最常被問的問題，用白話一次說清楚——從觀念、實際應用到導入企業。',
-  keywords: ['ai 是什麼', '人工智慧定義', 'n8n 是什麼', 'ai 應用', 'rag 是什麼', 'ai agent 是什麼'],
+  description: '什麼是 AI、AI Agent、RAG、MCP？n8n 能幫企業做什麼？整理 AI 與自動化最常被問的問題，用白話一次說清楚——從觀念、實際應用到導入企業。',
+  keywords: ['ai 是什麼', '人工智慧定義', 'n8n 是什麼', 'ai 應用', 'rag 是什麼', 'ai agent 是什麼', 'mcp 是什麼'],
   path: '/faq',
 })
 
 const BASE_URL = 'https://aiqkangber.com'
 
-type FaqItem = { q: string; a: string; list?: string[]; after?: string }
+type FaqItem = { q: string; a: string; list?: string[]; after?: string; link?: { href: string; label: string } }
 type FaqCategory = { category: string; items: FaqItem[] }
 
 const faqs: FaqCategory[] = [
@@ -125,6 +125,11 @@ const faqs: FaqCategory[] = [
         after: '再加上權限控制和「查不到就不答」的設計，內部 AI 助理是可以做到安全可控的。我在規劃時會把資料邊界和權限一起設計進去。',
       },
       {
+        q: 'MCP 是什麼？跟一般的 AI 串接差在哪？',
+        a: 'MCP（Model Context Protocol）是 Anthropic 在 2024 年底發布的開放標準，可以把它想成「AI 的 USB-C 接口」：以前要讓 AI 讀你的資料、操作你的工具，每家服務都得各寫一套串接；有了 MCP，工具端只要做一個 MCP server，任何支援 MCP 的 AI（像 Claude）就都能直接接上使用。差別在角色反轉——一般 API 串接是「你寫程式去呼叫 AI」，MCP 是「讓 AI 自己伸手去用你的工具」：它可以直接讀你的 Figma 設計稿、操作你的 n8n 工作流、查你的資料庫，而不是只回給你一段建議文字。對企業來說，這代表 AI 從「顧問」變成「能動手的同事」。',
+        link: { href: '/blog/claude-mcp', label: 'MCP 是什麼？讓 Claude 不只給建議、還能直接動手改你的 Figma 和 n8n' },
+      },
+      {
         q: '提示詞工程（Prompt Engineering）是什麼？真的有差嗎？',
         a: '提示詞工程就是「把需求講清楚到 AI 能穩定做對」的方法。同一個模型，含糊地問和結構化地問，產出品質可以差很多——好的提示詞會交代角色、目標、限制、輸出格式，必要時附上範例（few-shot）引導它。差別在哪？臨時用一次，隨便問也還好；但要把 AI 接進每天要跑的流程、要求結果穩定可預期，提示詞設計就是成敗關鍵。我接的 AI 應用案，很大一部分工夫其實花在這裡：把提示詞調到「換不同輸入也不會跑掉」。',
       },
@@ -198,12 +203,12 @@ export default function FaqPage() {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: '首頁', item: BASE_URL },
-      { '@type': 'ListItem', position: 2, name: 'AI X 自動化指南', item: `${BASE_URL}/faq` },
+      { '@type': 'ListItem', position: 2, name: 'AI × 自動化指南', item: `${BASE_URL}/faq` },
     ],
   }
 
   return (
-    <main className="relative max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+    <div className="relative max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
@@ -216,7 +221,7 @@ export default function FaqPage() {
         <ol className="flex items-center gap-1.5 text-sm text-slate-500">
           <li><Link href="/" className="hover:text-slate-300 transition-colors">首頁</Link></li>
           <li><span className="text-slate-700">/</span></li>
-          <li><span className="text-slate-300">AI X 自動化指南</span></li>
+          <li><span className="text-slate-300">AI × 自動化指南</span></li>
         </ol>
       </nav>
 
@@ -230,7 +235,7 @@ export default function FaqPage() {
         </span>
       </div>
 
-      <h1 className="text-2xl sm:text-4xl font-semibold text-white tracking-[-0.02em] mb-3">AI X 自動化指南</h1>
+      <h1 className="text-2xl sm:text-4xl font-semibold text-white tracking-[-0.02em] mb-3">AI × 自動化指南</h1>
       <p className="text-slate-400 mb-14">
         AI、n8n、自動化最常被問的問題，用白話講清楚。有其他問題歡迎
         <a href="mailto:asdtodd42@gmail.com" className="text-violet-400 hover:text-violet-300 transition-colors ml-1">直接問我</a>。
@@ -277,6 +282,13 @@ export default function FaqPage() {
                     {item.after && (
                       <p className="mt-3 text-sm text-slate-400 leading-relaxed">{item.after}</p>
                     )}
+                    {item.link && (
+                      <p className="mt-3 text-sm leading-relaxed">
+                        <Link href={item.link.href} className="text-violet-400 hover:text-violet-300 transition-colors">
+                          延伸閱讀：{item.link.label}
+                        </Link>
+                      </p>
+                    )}
                   </div>
                 </details>
               ))}
@@ -293,6 +305,6 @@ export default function FaqPage() {
           <a href="mailto:asdtodd42@gmail.com" className="text-violet-400 hover:text-violet-300 transition-colors">免費諮詢</a>。
         </p>
       </div>
-    </main>
+    </div>
   )
 }

@@ -108,13 +108,13 @@ export default async function PostPage({ params }: Props) {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_272px] gap-16 items-start">
-        <article>
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_272px] gap-16 items-start">
+        <article className="min-w-0">
           <Breadcrumbs crumbs={[
             { label: '首頁', href: '/' },
             { label: 'AI × n8n 知識庫', href: '/blog' },

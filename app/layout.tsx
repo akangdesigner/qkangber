@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next'
+﻿import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
 import { JetBrains_Mono, Space_Grotesk } from 'next/font/google'
 import Script from 'next/script'
@@ -27,6 +27,10 @@ const spaceGrotesk = Space_Grotesk({
   variable: '--font-space-grotesk',
   display: 'swap',
 })
+
+export const viewport: Viewport = {
+  themeColor: '#05060a',
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://aiqkangber.com'),

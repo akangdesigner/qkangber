@@ -387,7 +387,7 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
               display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 28,
               opacity: 0, animation: 'heroLineIn 700ms ease-out 700ms forwards',
             }}>
-              <Link href="/services" className="btn btn--aurora">
+              <Link href="/newsletter" className="btn btn--aurora">
                 <span className="btn__label">免費訂閱電子報</span>
                 <span className="btn__arrow">→</span>
               </Link>

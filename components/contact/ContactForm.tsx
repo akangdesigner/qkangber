@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useId, useState } from 'react'
 
 const BUDGET_OPTIONS = ['NT$5,000 以下', 'NT$5,000–10,000', 'NT$10,000–20,000', 'NT$20,000 以上', '還不確定，想先免費診斷']
 const TOPICS = ['訂單・出貨自動化', '每日報表自動化', '客服・LINE 自動回覆', '社群・貼文自動化', '潛客跟進自動化', '其他 / 還不確定']
@@ -22,9 +22,9 @@ const INPUT_BASE: React.CSSProperties = {
   transition: 'box-shadow 150ms',
 }
 
-function Label({ text, required }: { text: string; required?: boolean }) {
+function Label({ text, required, htmlFor }: { text: string; required?: boolean; htmlFor?: string }) {
   return (
-    <label style={{
+    <label htmlFor={htmlFor} style={{
       display: 'flex', alignItems: 'center', gap: 6,
       fontSize: 12, fontWeight: 500,
       color: '#cbd5e1', marginBottom: 7, letterSpacing: '0.02em',
@@ -40,10 +40,12 @@ function Field({ label, required, type = 'text', value, onChange, placeholder }:
   value: string; onChange: (v: string) => void; placeholder?: string
 }) {
   const [focused, setFocused] = useState(false)
+  const id = useId()
   return (
     <div>
-      <Label text={label} required={required} />
+      <Label text={label} required={required} htmlFor={id} />
       <input
+        id={id}
         type={type}
         value={value}
         onChange={e => onChange(e.target.value)}
@@ -72,6 +74,8 @@ export default function ContactForm() {
   const [message, setMessage] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const budgetId = useId()
+  const messageId = useId()
   const [sysError, setSysError] = useState(false)
   const [msgFocused, setMsgFocused] = useState(false)
 
@@ -186,20 +190,21 @@ export default function ContactForm() {
       </div>
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
           <Field label="品牌 / 公司" required value={brand} onChange={setBrand} />
           <Field label="稱呼" required value={name} onChange={setName} />
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
           <Field label="聯絡信箱" required type="email" value={email} onChange={setEmail} />
           <Field label="網站網址" type="url" value={website} onChange={setWebsite} />
         </div>
 
         {/* Budget select */}
         <div>
-          <Label text="預算範圍" />
+          <Label text="預算範圍" htmlFor={budgetId} />
           <div style={{ position: 'relative' }}>
             <select
+              id={budgetId}
               value={budget}
               onChange={e => setBudget(e.target.value)}
               style={{ ...INPUT_BASE, appearance: 'none', paddingRight: 34, cursor: 'pointer' }}
@@ -251,8 +256,9 @@ export default function ContactForm() {
 
         {/* Message */}
         <div>
-          <Label text="想聊聊的內容" required />
+          <Label text="想聊聊的內容" required htmlFor={messageId} />
           <textarea
+            id={messageId}
             value={message}
             onChange={e => setMessage(e.target.value)}
             required
@@ -270,7 +276,7 @@ export default function ContactForm() {
         </div>
 
         {status === 'error' && (
-          <p style={{ fontSize: 13, color: '#f87171', margin: 0 }}>
+          <p role="alert" style={{ fontSize: 13, color: '#f87171', margin: 0 }}>
             {errorMsg}
             {sysError && (
               <> · <a href="mailto:asdtodd42@gmail.com" style={{ color: '#f87171', textDecoration: 'underline' }}>asdtodd42@gmail.com</a></>

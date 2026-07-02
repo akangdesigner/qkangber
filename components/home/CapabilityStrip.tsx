@@ -8,9 +8,9 @@ const items = [
 export default function CapabilityStrip() {
   return (
     <section className="relative max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20 border-y border-white/[0.05]">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/[0.04]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-px bg-white/[0.04]">
         {items.map((it) => (
-          <div key={it.kw} className="bg-[#05060a] p-7 hover:bg-white/[0.02] transition-colors duration-200">
+          <div key={it.kw} className="bg-[#05060a] p-5 sm:p-7 hover:bg-white/[0.02] transition-colors duration-200">
             <p
               className="text-[2rem] font-semibold tracking-[-0.02em] mb-1"
               style={{
