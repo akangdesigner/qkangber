@@ -2,6 +2,7 @@ import { getAllPosts } from '@/lib/mdx'
 import BlogFilter from '@/components/blog/BlogFilter'
 import { BlogHero } from '@/components/page-hero/PageHero'
 import { buildMetadata } from '@/lib/metadata'
+import { jsonLdScript } from '@/lib/jsonld'
 
 export const revalidate = 60
 
@@ -60,7 +61,7 @@ export default async function BlogPage() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
       <BlogHero categories={heroCategories} />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-12 sm:pb-20">

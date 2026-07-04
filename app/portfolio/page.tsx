@@ -1,5 +1,6 @@
 import { buildMetadata } from '@/lib/metadata'
 import PortfolioV2 from '@/components/portfolio/PortfolioV2'
+import { jsonLdScript } from '@/lib/jsonld'
 
 export const metadata = buildMetadata({
   title: '作品集 — n8n 自動化與 AI 應用實戰案例',
@@ -34,7 +35,7 @@ const jsonLd = [
 export default function PortfolioPage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
       <PortfolioV2 />
     </>
   )

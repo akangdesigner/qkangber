@@ -1,4 +1,5 @@
 import { buildMetadata } from '@/lib/metadata'
+import { jsonLdScript } from '@/lib/jsonld'
 
 export const metadata = buildMetadata({
   title: '寵物溝通師 — AI 幫你解讀毛孩的內心世界',
@@ -37,7 +38,7 @@ const jsonLd = [
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
       {children}
     </>
   )

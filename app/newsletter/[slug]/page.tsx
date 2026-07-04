@@ -4,6 +4,7 @@ import { getNewsletterIssue, getAllNewsletterIssues } from '@/lib/newsletter'
 import type { Metadata } from 'next'
 import { buildMetadata } from '@/lib/metadata'
 import { lazifyContentImages } from '@/lib/html-images'
+import { jsonLdScript } from '@/lib/jsonld'
 
 export const dynamicParams = true
 
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     ...buildMetadata({
       title: issue.subject,
-      description: issue.summary ?? issue.subject,
+      description: issue.summary || issue.subject,
       path: `/newsletter/${slug}`,
       type: 'article',
       publishedTime: issue.date,
@@ -58,7 +59,7 @@ export default async function IssuePage({ params }: Props) {
       '@context': 'https://schema.org',
       '@type': 'NewsArticle',
       headline: issue.subject,
-      description: issue.summary ?? issue.subject,
+      description: issue.summary || issue.subject,
       url: `https://aiqkangber.com/newsletter/${slug}`,
       datePublished: issue.date,
       dateModified: issue.date,
@@ -91,7 +92,7 @@ export default async function IssuePage({ params }: Props) {
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
       <div className="mb-8">
         <Link
           href="/newsletter"

@@ -1,3 +1,4 @@
+// ⚠ 一次性腳本，任務已完成（分頁已建立），不需要再跑。
 // 在電子報 master 試算表建立「競品監控」分頁（n8n 競品輿情監控工作流 9JxN0cBbdTJgyeB3 寫入的目的地）。
 // 用法：node scripts/create-competitor-monitor-tab.mjs
 import fs from 'fs'

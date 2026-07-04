@@ -170,6 +170,7 @@ export const getServiceBySlug = cache(async (slug: string): Promise<ServiceWithC
     featured: data.featured ?? false,
     published: data.published ?? true,
     serviceType: data.serviceType,
+    keywords: data.keywords,
     faq: data.faq,
     subtitle: data.subtitle,
     accent: data.accent,

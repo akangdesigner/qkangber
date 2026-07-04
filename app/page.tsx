@@ -5,6 +5,7 @@ import FeaturedPosts from '@/components/home/FeaturedPosts'
 import HomeNewsletter from '@/components/home/HomeNewsletter'
 import { getAllPosts } from '@/lib/mdx'
 import { getAllNewsletterIssues } from '@/lib/newsletter'
+import { jsonLdScript } from '@/lib/jsonld'
 
 export const metadata = buildMetadata({
   title: { absolute: 'Q kangber — AI 開發 × n8n 自動化 實作分享' },
@@ -60,7 +61,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
       <Hero latestPost={latestPost} />
       <HomeCarousel />
       <FeaturedPosts posts={featuredPosts} />

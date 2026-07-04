@@ -2,6 +2,7 @@ import type { NextConfig } from 'next'
 
 // 基本安全標頭（先不上嚴格 CSP，避免誤擋自家腳本）
 const securityHeaders = [
+  { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' }, // 強制 HTTPS
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },              // 防網站被嵌入他站做釣魚
   { key: 'X-Content-Type-Options', value: 'nosniff' },          // 防瀏覽器亂猜檔案類型
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },

@@ -2,6 +2,7 @@
 import { getAllNewsletterIssues } from '@/lib/newsletter'
 import { NewsletterHero } from '@/components/page-hero/PageHero'
 import { buildMetadata } from '@/lib/metadata'
+import { jsonLdScript } from '@/lib/jsonld'
 
 export const metadata = buildMetadata({
   title: '電子報 — 每週 5 分鐘掌握重要 AI 資訊',
@@ -50,7 +51,7 @@ export default async function NewsletterPage() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
       <NewsletterHero />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-12 sm:pb-20">

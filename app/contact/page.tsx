@@ -2,6 +2,7 @@ import Image from 'next/image'
 import ContactForm from '@/components/contact/ContactForm'
 import ConstellationBg from '@/components/contact/ConstellationBg'
 import { buildMetadata } from '@/lib/metadata'
+import { jsonLdScript } from '@/lib/jsonld'
 
 type Method = {
   label: string; value: string; sub: string; href: string; color: string
@@ -110,7 +111,7 @@ const jsonLd = [
 export default function ContactPage() {
   return (
     <div style={{ color: '#e2e8f0' }}>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
       {/* ── HERO ── */}
       <section style={{
         position: 'relative',

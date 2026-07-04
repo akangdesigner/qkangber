@@ -54,14 +54,3 @@ export const getNewsletterIssue = cache(async (slug: string): Promise<Newsletter
   const all = await getAllNewsletterIssues()
   return all.find((i) => i.slug === slug) ?? null
 })
-
-// Admin: MDX-only (no cache, force-dynamic pages)
-export function getMdxNewsletterIssues(): NewsletterIssue[] {
-  return readMdxIssues()
-    .filter((i) => i.slug)
-    .sort((a, b) => (a.date > b.date ? -1 : 1))
-}
-
-export function getMdxNewsletterIssue(slug: string): NewsletterIssue | null {
-  return readMdxIssues().find((i) => i.slug === slug) ?? null
-}

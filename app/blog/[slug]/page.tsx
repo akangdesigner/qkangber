@@ -15,6 +15,7 @@ import { extractToc } from '@/lib/html-toc'
 import TableOfContents from '@/components/blog/TableOfContents'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
+import { jsonLdScript } from '@/lib/jsonld'
 
 export const revalidate = 60
 
@@ -111,7 +112,7 @@ export default async function PostPage({ params }: Props) {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_272px] gap-16 items-start">
         <article className="min-w-0">

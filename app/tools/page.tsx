@@ -1,5 +1,6 @@
 ﻿import { buildMetadata } from '@/lib/metadata'
 import Link from 'next/link'
+import { jsonLdScript } from '@/lib/jsonld'
 
 export const metadata = buildMetadata({
   title: '免費 AI 工具站 — 不用註冊，打開瀏覽器就能用',
@@ -53,7 +54,7 @@ const tools = [
 export default function ToolsPage() {
   return (
     <main className="relative max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
       <div
         className="absolute inset-0 pointer-events-none -z-10"
         style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 10%, rgba(124,92,255,0.10), transparent 60%)' }}

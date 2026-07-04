@@ -2,13 +2,14 @@ import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import { google } from 'googleapis'
 import { checkRateLimit } from '@/lib/rate-limit'
+import { getClientIp } from '@/lib/client-ip'
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export async function POST(request: Request) {
   // 防機器人灌表單：同一 IP 10 分鐘最多 5 次
   const headersList = await headers()
-  const ip = headersList.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+  const ip = getClientIp(headersList)
   const rl = checkRateLimit(`contact:${ip}`, 5, 10 * 60_000)
   if (!rl.success) {
     return NextResponse.json(

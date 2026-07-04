@@ -1,5 +1,6 @@
 import { buildMetadata } from '@/lib/metadata'
 import Link from 'next/link'
+import { jsonLdScript } from '@/lib/jsonld'
 
 export const metadata = buildMetadata({
   title: 'AI 是什麼？n8n 能做什麼？AI 自動化常見問題',
@@ -209,7 +210,7 @@ export default function FaqPage() {
 
   return (
     <div className="relative max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
       <div

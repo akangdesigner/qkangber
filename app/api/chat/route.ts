@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Groq from 'groq-sdk'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 import { checkRateLimit } from '@/lib/rate-limit'
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
+import { getClientIp } from '@/lib/client-ip'
+import { getGroqClient, GROQ_MODEL } from '@/lib/groq'
 
 let knowledgeBase: string | null = null
 function getKnowledgeBase(): string {
@@ -35,7 +34,7 @@ ${getKnowledgeBase()}
 export async function POST(req: NextRequest) {
   try {
     // 對外公開功能：限制呼叫頻率，避免被灌爆 Groq 帳單
-    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+    const ip = getClientIp(req.headers)
     const rl = checkRateLimit(`chat:${ip}`, 20, 60_000)
     if (!rl.success) {
       return NextResponse.json(
@@ -61,8 +60,8 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const stream = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
+    const stream = await getGroqClient().chat.completions.create({
+      model: GROQ_MODEL,
       messages: [
         { role: 'system', content: buildSystemPrompt() },
         ...messages,
@@ -75,11 +74,16 @@ export async function POST(req: NextRequest) {
     const encoder = new TextEncoder()
     const readable = new ReadableStream({
       async start(controller) {
-        for await (const chunk of stream) {
-          const text = chunk.choices[0]?.delta?.content ?? ''
-          if (text) controller.enqueue(encoder.encode(text))
+        try {
+          for await (const chunk of stream) {
+            const text = chunk.choices[0]?.delta?.content ?? ''
+            if (text) controller.enqueue(encoder.encode(text))
+          }
+          controller.close()
+        } catch (err) {
+          // 上游串流中斷時要主動關閉，否則前端 reader.read() 會永遠卡住
+          controller.error(err)
         }
-        controller.close()
       },
     })
 

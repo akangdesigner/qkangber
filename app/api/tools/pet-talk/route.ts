@@ -2,8 +2,10 @@ import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import { getGroqClient, GROQ_MODEL } from '@/lib/groq'
 import { checkRateLimit } from '@/lib/rate-limit'
+import { getClientIp } from '@/lib/client-ip'
 
-const VISION_MODEL = 'llama-3.2-11b-vision-preview'
+// llama-3.2-11b-vision-preview 已被 Groq 除役，改用現役 vision 模型
+const VISION_MODEL = 'meta-llama/llama-4-scout-17b-16e-instruct'
 
 const SYSTEM_PROMPT = `你是「量子靈魂感應研究所」的首席分析師，擁有神經行為物理學博士後研究資歷。
 你的任務是用嚴肅的學術語氣，將寵物行為解釋為某種複雜的跨領域現象——荒唐之處在於「邏輯推導的結論」，而非病名本身。
@@ -30,7 +32,7 @@ const SYSTEM_PROMPT = `你是「量子靈魂感應研究所」的首席分析師
 
 export async function POST(request: Request) {
   const headersList = await headers()
-  const ip = headersList.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+  const ip = getClientIp(headersList)
 
   const rl = checkRateLimit(ip)
   if (!rl.success) {
@@ -100,7 +102,11 @@ export async function POST(request: Request) {
     }
     return NextResponse.json({ success: true, data })
   } catch (err) {
-    const message = err instanceof Error ? err.message : '量子頻道中斷，寵物可能進入了平行宇宙'
-    return NextResponse.json({ error: message }, { status: 500 })
+    // 內部錯誤細節（模型名、額度）只進 log，不回給前台
+    console.error('[pet-talk]', err)
+    return NextResponse.json(
+      { error: '量子頻道中斷，寵物可能進入了平行宇宙，請稍後再試' },
+      { status: 500 },
+    )
   }
 }

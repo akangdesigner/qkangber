@@ -22,12 +22,38 @@ const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
   headers: { Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json' },
   body: JSON.stringify({ model: 'google/gemini-2.5-flash-image', messages: [{ role: 'user', content: PROMPT }], modalities: ['image', 'text'] }),
 })
-const json = await res.json()
-if (!res.ok) { console.error('HTTP', res.status, JSON.stringify(json).slice(0, 400)); process.exit(1) }
+// 先拿 text 再 parse：OpenRouter 出錯（502/限流）常回 HTML，直接 res.json() 會
+// 丟 SyntaxError 蓋掉真正的 HTTP 錯誤
+const bodyText = await res.text()
+if (!res.ok) { console.error('HTTP', res.status, bodyText.slice(0, 400)); process.exit(1) }
+let json
+try { json = JSON.parse(bodyText) } catch { console.error('non-JSON response:', bodyText.slice(0, 400)); process.exit(1) }
 const url = json?.choices?.[0]?.message?.images?.[0]?.image_url?.url
 if (!url) { console.error('no image', JSON.stringify(json).slice(0, 400)); process.exit(1) }
 const buf = Buffer.from(url.split(',')[1], 'base64')
 const m = await sharp(buf).metadata()
+
+// 防呆：Gemini 有時把插畫畫在留白畫布上、四周帶白邊。
+// 內建 sharp.trim() 對「只有左右(或只有上下)留白」這種非完整外框無效，
+// 改用掃描白色 bounding box 自己裁；滿版無白邊的圖會原樣返回（不誤砍）。
+async function trimWhite(srcBuf) {
+  const { data, info } = await sharp(srcBuf).raw().toBuffer({ resolveWithObject: true })
+  const { width: w, height: h, channels: ch } = info
+  const isW = (x, y) => { const i = (y * w + x) * ch; return data[i] > 235 && data[i + 1] > 235 && data[i + 2] > 235 }
+  let minX = w, minY = h, maxX = -1, maxY = -1
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (!isW(x, y)) { if (x < minX) minX = x; if (x > maxX) maxX = x; if (y < minY) minY = y; if (y > maxY) maxY = y }
+  if (maxX < 0) return srcBuf // 全白，放棄
+  // 內縮 2px 去掉白→暗的反鋸齒淺灰邊
+  const inset = 2
+  minX = Math.min(minX + inset, maxX); minY = Math.min(minY + inset, maxY)
+  maxX = Math.max(maxX - inset, minX); maxY = Math.max(maxY - inset, minY)
+  const cw = maxX - minX + 1, cyh = maxY - minY + 1
+  if (cw >= w - 3 && cyh >= h - 3) return srcBuf // 幾乎沒白邊可裁，原樣返回
+  console.log('trimWhite', `${w}x${h} -> ${cw}x${cyh}（去白邊）`)
+  return await sharp(srcBuf).extract({ left: minX, top: minY, width: cw, height: cyh }).toBuffer()
+}
+
+const clean = await trimWhite(buf)
 console.log('raw', m.width, 'x', m.height, '->', `${W}x${H}`)
-await sharp(buf).resize(W, H, { fit: 'cover' }).jpeg({ quality: 92 }).toFile(OUT)
+await sharp(clean).resize(W, H, { fit: 'cover' }).jpeg({ quality: 92 }).toFile(OUT)
 console.log('OK ->', OUTARG)

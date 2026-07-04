@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import { subscribeEmail } from '@/lib/convertkit'
 import { checkRateLimit } from '@/lib/rate-limit'
+import { getClientIp } from '@/lib/client-ip'
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -9,7 +10,7 @@ export async function POST(request: Request) {
   try {
     // 防機器人灌訂閱：同一 IP 10 分鐘最多 5 次
     const headersList = await headers()
-    const ip = headersList.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+    const ip = getClientIp(headersList)
     const rl = checkRateLimit(`subscribe:${ip}`, 5, 10 * 60_000)
     if (!rl.success) {
       return NextResponse.json(
@@ -27,7 +28,7 @@ export async function POST(request: Request) {
     await subscribeEmail(email)
     return NextResponse.json({ success: true })
   } catch (err) {
-    const message = err instanceof Error ? err.message : '訂閱失敗，請稍後再試'
-    return NextResponse.json({ error: message }, { status: 500 })
+    console.error('[subscribe]', err)
+    return NextResponse.json({ error: '訂閱失敗，請稍後再試' }, { status: 500 })
   }
 }

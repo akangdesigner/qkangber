@@ -3,6 +3,7 @@ import ServicesTabs from '@/components/services/ServicesTabs'
 import HeroBanner from '@/components/services/HeroBanner'
 import Link from 'next/link'
 import { buildMetadata } from '@/lib/metadata'
+import { jsonLdScript } from '@/lib/jsonld'
 
 export const metadata = buildMetadata({
   title: '服務 — n8n 自動化、電商與行銷自動化、AI 客服與知識庫建置',
@@ -44,7 +45,7 @@ export default async function ServicesPage() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
 
       {/* Full-width hero banner */}
       <HeroBanner />

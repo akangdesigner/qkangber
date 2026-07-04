@@ -1,3 +1,9 @@
+// ⛔ 已作廢（2026-07-04 稽核）：此腳本會用 values.update 從 A2:L7「覆蓋」寫入
+// 電子報 master 表的「競品監控」分頁——該分頁現在是 n8n 工作流 9JxN0cBbdTJgyeB3
+// 的真實寫入目的地，誤跑會蓋掉真實監控資料。示範資料一律改建在「示範用」表。
+console.error('此腳本已作廢：會覆蓋 master 表的真實競品監控資料。示範資料請建在「示範用」表（1q1GR6...）。')
+process.exit(1)
+
 // 在「競品監控」分頁補幾筆擬真示範資料（給文章截圖用，非真實監控結果）。
 // 用法：node scripts/seed-competitor-monitor-rows.mjs
 import fs from 'fs'

@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { isValidAdminSession } from '@/lib/admin-auth'
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   // Block Server Action probe requests (bots sending Next-Action header)
   // This app has no Server Actions, so all such requests are invalid.
   if (request.headers.has('next-action')) {
@@ -14,9 +15,8 @@ export function middleware(request: NextRequest) {
   if (pathname === '/admin/login') return NextResponse.next()
 
   const session = request.cookies.get('admin_session')?.value
-  const expected = process.env.PASSWORD ?? ''
 
-  if (!session || session !== expected) {
+  if (!(await isValidAdminSession(session))) {
     return NextResponse.redirect(new URL('/admin/login', request.url))
   }
 
