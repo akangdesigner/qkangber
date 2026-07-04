@@ -595,7 +595,6 @@ const PV2_DETAILS: Detail[] = [
     gallery: {
       label: '產品畫面',
       items: [
-        { src: '/works/stock-watch.png', label: '自選股健檢清單', full: true },
         { src: '/works/stock-detail.png', label: '個股展開 · K棒走勢＋均線與 KD 指標', full: true, aspect: '1952/2020' },
         { src: '/works/stock-scan.png', label: '選股掃描', full: true },
       ],
