@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-Hant">
+<!--
+  ============================================================
+  Q kangber 衛教/流程示意圖 — 黃金範本（固定板型）
+  ============================================================
+  用途：部落格文章內的「概念示意圖 / 三欄對比 / 流程步驟」
+  渲染：inline SVG 直接貼進文章 HTML，不轉 JPEG（深色站可用）
+  風格參考：牙醫衛教圖（膠囊標題＋三欄線條圖示＋虛線分隔＋tip＋footer）
+
+  【固定，不要動】外框 / 內底 / 膠囊形狀 / 虛線分隔 / tip 膠囊 / footer 版位
+  【可變，每篇只改這些】
+    - 標題文字（雙色 tspan）
+    - 3 個 <use> 圖示（從下方 #icon-library 挑，或新增）
+    - 3 行欄位標籤
+    - tip 那句話
+    - 配色：改 :root 的 4 個變數即可整張換色
+
+  配色備案：
+    靛紫(官網)  #4f46e5 / #6366f1 / #312e81 / #e0e3ff / #f5f6ff
+    琥珀金      #d97706 / #f59e0b / #78350f / #fef3c7 / #fffbeb
+    青藍(原圖)  #2c7a7b / #4f9a9b / #234e52 / #d7eceb / #f0f8f7
+  ============================================================
+-->
+<head>
+<meta charset="utf-8">
+<title>Q kangber 示意圖範本</title>
+<style>
+  body{margin:0;background:#0b0c10;display:flex;flex-direction:column;align-items:center;gap:20px;padding:32px;font-family:system-ui,"Microsoft JhengHei",sans-serif}
+  .cap{color:#9aa0aa;font-size:13px}
+  svg{max-width:100%;height:auto;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+</style>
+</head>
+<body>
+  <div class="cap">三欄示意圖範本 — 改標題 / 圖示 / 標籤 / tip / 顏色即可</div>
+
+<!-- ================= 黃金板型（複製這整段 svg 去用） ================= -->
+<svg width="1024" height="768" viewBox="0 0 1024 768" xmlns="http://www.w3.org/2000/svg"
+     font-family="'Microsoft JhengHei','PingFang TC',sans-serif">
+  <style>
+    :root{}
+    .frameA{stop-color:#6366f1} .frameB{stop-color:#4f46e5}
+    .inner{fill:#f5f6ff}      /* 內底 */
+    .capsule{fill:#e0e3ff}    /* 膠囊底 */
+    .titleA{fill:#312e81}     /* 標題深色字 */
+    .titleB{fill:#6366f1}     /* 標題亮色字 */
+    .label{fill:#312e81}      /* 欄位標籤 */
+    .icon{fill:none;stroke:#4f46e5;stroke-width:6;stroke-linecap:round;stroke-linejoin:round} /* 線條圖示：樣式掛 class 才能穿過 <use> */
+    .accent{fill:#6366f1}     /* 火花/重點填色 */
+    .dash{stroke:#c7cbf5}     /* 虛線分隔 */
+    .tipline{stroke:#6366f1}  .tiptext{fill:#4f46e5}
+  </style>
+
+  <defs>
+    <linearGradient id="frame" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" class="frameA"/><stop offset="1" class="frameB"/>
+    </linearGradient>
+
+    <!-- ===================== icon-library（線條圖示庫） =====================
+         用法：<use href="#ic-xxx" x="欄中心X-40" y="圖示頂Y" />  (每個圖示畫在 80x80 內)
+         每個 <g> 都要帶 class="icon"（樣式必須在群組本身，<use> 才帶得過去）
+         需要新圖示就照同樣 viewBox 0..80 畫一個 <g id="ic-..." class="icon"> 加進來 -->
+    <!-- 下載/抓資料 -->
+    <g id="ic-download" class="icon"><path d="M40 14 v40 m-22 -22 l22 22 22 -22"/><path d="M14 60 h52 v6 a4 4 0 0 1 -4 4 h-44 a4 4 0 0 1 -4 -4 z"/></g>
+    <!-- AI 晶片 -->
+    <g id="ic-chip" class="icon"><rect x="22" y="22" width="36" height="36" rx="7"/><path d="M30 22 v-10 M50 22 v-10 M30 58 v10 M50 58 v10 M22 32 h-10 M22 48 h-10 M58 32 h10 M58 48 h10"/><path d="M40 33 l4 9 9 4 -9 4 -4 9 -4 -9 -9 -4 9 -4z" class="accent" stroke="none"/></g>
+    <!-- 紙飛機/發送 -->
+    <g id="ic-send" class="icon"><path d="M16 18 l52 22 -52 22 9 -22z"/><path d="M25 40 h22"/></g>
+    <!-- 機器人 -->
+    <g id="ic-robot" class="icon"><rect x="20" y="28" width="40" height="32" rx="8"/><circle cx="32" cy="44" r="4"/><circle cx="48" cy="44" r="4"/><path d="M40 28 v-10 M40 14 h.01 M14 40 h6 M60 40 h6"/></g>
+    <!-- 時鐘/排程 -->
+    <g id="ic-clock" class="icon"><circle cx="40" cy="42" r="26"/><path d="M40 28 v14 l10 6"/><path d="M30 12 l-8 6 M50 12 l8 6"/></g>
+    <!-- 報表/長條圖 -->
+    <g id="ic-chart" class="icon"><path d="M16 64 h52"/><path d="M26 64 v-20 M40 64 v-34 M54 64 v-12"/></g>
+    <!-- 試算表 -->
+    <g id="ic-sheet" class="icon"><rect x="18" y="16" width="44" height="50" rx="5"/><path d="M18 32 h44 M18 48 h44 M40 16 v50"/></g>
+    <!-- 流程節點 -->
+    <g id="ic-flow" class="icon"><circle cx="24" cy="24" r="9"/><circle cx="56" cy="56" r="9"/><rect x="46" y="14" width="20" height="20" rx="5"/><path d="M33 24 h13 M40 33 v15 a8 8 0 0 0 7 8"/></g>
+    <!-- 信封/EDM -->
+    <g id="ic-mail" class="icon"><rect x="16" y="22" width="48" height="36" rx="5"/><path d="M16 26 l24 18 24 -18"/></g>
+    <!-- 放大鏡/監控 -->
+    <g id="ic-search" class="icon"><circle cx="36" cy="36" r="20"/><path d="M51 51 l13 13"/></g>
+    <!-- 勾選/核准 -->
+    <g id="ic-check" class="icon"><circle cx="40" cy="40" r="26"/><path d="M28 41 l9 9 16 -19"/></g>
+    <!-- 警告/痛點 -->
+    <g id="ic-warn" class="icon"><path d="M40 14 l28 50 h-56 z"/><path d="M40 34 v14 M40 56 h.01"/></g>
+  </defs>
+
+  <!-- 外框 + 內底 -->
+  <rect width="1024" height="768" rx="28" fill="url(#frame)"/>
+  <rect x="22" y="22" width="980" height="724" rx="20" class="inner"/>
+
+  <!-- 膠囊標題 -->
+  <rect x="232" y="52" width="560" height="92" rx="46" class="capsule"/>
+  <text x="512" y="112" text-anchor="middle" font-size="46" font-weight="800" letter-spacing="2">
+    <tspan class="titleA">n8n 自動化</tspan><tspan class="titleB">　三步驟省下重工</tspan>
+  </text>
+
+  <!-- 三欄虛線分隔（保留） -->
+  <line x1="362" y1="210" x2="362" y2="560" class="dash" stroke-width="3" stroke-dasharray="3 12" stroke-linecap="round"/>
+  <line x1="662" y1="210" x2="662" y2="560" class="dash" stroke-width="3" stroke-dasharray="3 12" stroke-linecap="round"/>
+
+  <!-- ===== 三欄內容（欄中心 X = 212 / 512 / 812；圖示頂 Y = 290） ===== -->
+  <use href="#ic-download" x="172" y="290"/>
+  <text x="212" y="510" text-anchor="middle" font-size="30" font-weight="700" class="label">自動抓資料</text>
+
+  <use href="#ic-chip" x="472" y="290"/>
+  <text x="512" y="510" text-anchor="middle" font-size="30" font-weight="700" class="label">AI 整理分析</text>
+
+  <use href="#ic-send" x="772" y="290"/>
+  <text x="812" y="510" text-anchor="middle" font-size="30" font-weight="700" class="label">一鍵發送</text>
+
+  <!-- 底部 tip 膠囊 -->
+  <rect x="287" y="600" width="450" height="64" rx="32" fill="none" class="tipline" stroke-width="3"/>
+  <circle cx="338" cy="632" r="15" fill="none" class="tipline" stroke-width="3"/>
+  <path d="M338 624 v10 M333 638 h10" class="tipline" stroke-width="3" stroke-linecap="round"/>
+  <text x="380" y="642" font-size="26" font-weight="700" class="tiptext">流程核心：抓 → 整理 → 發，全自動</text>
+
+  <!-- footer -->
+  <text x="512" y="712" text-anchor="middle" font-size="22" font-weight="800" class="titleA" letter-spacing="3">Q kangber</text>
+</svg>
+<!-- ================= /黃金板型 ================= -->
+
+</body>
+</html>

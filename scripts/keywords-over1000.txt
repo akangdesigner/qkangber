@@ -1,0 +1,31 @@
+# 破千關鍵字（2026-06-30 Google Keyword Planner，台灣/繁中，月搜≥1000）
+# KP 只給級距 50/500/5000/50000，5000=約1千~1萬之間，非精確值
+# 分層見 project_keyword_map 記憶
+
+## 🎯 主攻（高量 × 品牌契合 × 打得贏）
+vibe coding	50000
+ai agent	50000
+vibe coding 是什麼	5000
+ai agent 是什麼	5000
+mcp 是什麼	5000
+n8n 是什麼	5000
+n8n 教學	5000
+ai coding	5000
+ai 寫程式	5000
+prompt engineering	5000
+google apps script	5000
+app script	5000
+line bot	5000
+
+## 🟡 次要（品牌沾邊）
+ai notion	5000
+ai claude	5000
+chatgpt 是什麼	5000
+prompt ai	5000
+
+## ⚪ 量大但別碰（太廣、稀釋主題）
+n8n	50000
+人工智慧	50000
+何謂 ai	5000
+ai 人工智慧	5000
+ai 應用	5000

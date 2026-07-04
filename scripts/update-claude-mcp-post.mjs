@@ -5,11 +5,13 @@ import { google } from 'googleapis'
 
 const WRITE = process.argv.includes('--write')
 const SLUG = 'claude-mcp'
-const TITLE = 'MCP 是什麼？Claude Code 核心功能詳解：以 Figma、n8n 為例打造會動手的 AI'
-const EXCERPT = 'MCP 是讓 AI 從「出一張嘴」變成「能動手」的關鍵，也是 Claude Code 最核心的功能之一。用白話詳解 MCP 是什麼，並以 Figma、n8n 為例打造會動手的 AI，附上實際試玩心得。'
+const TITLE = 'MCP 是什麼？讓 Claude 不只給建議、還能直接動手改你的 Figma 和 n8n'
+const EXCERPT = 'MCP（Model Context Protocol）讓 Claude 不只給你建議，而是直接讀你的 Figma、操作你的 n8n。用白話講清楚 MCP 是什麼、三層架構怎麼運作、怎麼動手接上第一個 server，並分享實際串 n8n、Figma MCP 的真實心得。'
 
-const rawContent = fs.readFileSync('blog-drafts/04-claude-mcp/04-claude-mcp.content.html', 'utf8')
-const content = rawContent.replace(/#c0392b/gi, '#fbbf24')
+// 重寫版去重官網內容：抽 body、去 h1、紅 #c0392b → 琥珀 #fbbf24（與其他 publish 腳本同慣例）
+const raw = fs.readFileSync('blog-drafts/04-claude-mcp/04-claude-mcp.rewrite.html', 'utf8')
+const bodyM = raw.match(/<body>([\s\S]*?)<\/body>/i)
+const content = (bodyM ? bodyM[1] : raw).replace(/<h1>[\s\S]*?<\/h1>/i, '').trim().replace(/#c0392b/gi, '#fbbf24')
 const stillRed = (content.match(/#c0392b/gi) ?? []).length
 
 // --- load .env.local ---
