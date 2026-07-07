@@ -1,48 +1,39 @@
-// 發布 23-n8n-apps-script 到 posts 分頁（等 22 google-apps-script 入門篇上線後再跑，內文有指向它的連結）。
-// 用法：node scripts/publish-n8n-apps-script.mjs [--write] [--update]
+// 發布 21-prompt-engineering 到 posts 分頁。
+// 用法：node scripts/publish-prompt-engineering.mjs [--write] [--update]
 //   預設 dry-run；--write 才寫入；--update 覆蓋既有同 slug 那列（否則 append 新列）。
-// 官網版處理：去 h1、紅 #c0392b → 琥珀 #fbbf24；五張 <img>（封面＋4 示意圖）src 全換 ImgBB webp。
+// 官網版處理：去 h1、紅 #c0392b → 琥珀 #fbbf24。內文圖＋封面皆已是 ImgBB webp 網址。
 import fs from 'fs'
 import { google } from 'googleapis'
 
 const WRITE = process.argv.includes('--write')
 const UPDATE = process.argv.includes('--update')
 
-const SLUG = 'n8n-apps-script'
-const TITLE = 'n8n × Google Apps Script 協同作業教學：從數據抓取到報表統計，打造全自動流程'
-const DATE = '2026/07/04'
-const TAGS = 'n8n,Google Apps Script,webhook,Google Sheets,自動化'
-const EXCERPT = 'n8n 和 Google Apps Script 怎麼搭配？用我的 IG 監控工具當例子：Apps Script 顧資料進表、n8n webhook 串接跨服務流程，從數據抓取、AI 摘要到報表統計全自動，含分工決策圖。'
-const CATEGORY = 'AI 軟體開發'    // M 主分類（dry-run 會印既有分類供核對）
+const SLUG = 'prompt-engineering'
+const TITLE = '提示詞怎麼寫，AI 生成的答案才會準確？prompt engineering 5 大重點一次看懂'
+const DATE = '2026/07/07'
+const TAGS = 'prompt engineering,提示詞,提示工程,ai prompt,prompt ai'
+const EXCERPT = 'AI 給的答案總是不夠準？多半是提示詞沒寫好。這篇用一組組爛提示詞改成好提示詞的對照，講清楚 prompt engineering（提示工程）的 5 大重點：給角色情境、把需求講具體、給範例、指定輸出格式、拆解任務步驟，中英文提示詞都適用。'
+const CATEGORY = 'AI 軟體開發'   // M 主分類（Vibe Coding pillar spoke⭐2）
 const SUBCATEGORY = ''            // O 副分類已退役，留空
-
-// [本地檔名, 草稿用 jpg 網址（方格子版）, 官網用 webp 網址]——草稿內嵌 jpg 網址，發官網換 webp
-const IMG = [
-  ['cover.jpg', 'https://i.ibb.co/jvRcJR0n/cover-jpg.jpg', 'https://i.ibb.co/kgzrbQzc/cover.webp'],
-  ['arch-hub.jpg', 'https://i.ibb.co/wNDPqRBf/arch-hub-jpg.jpg', 'https://i.ibb.co/ZpNtB0V6/arch-hub.webp'],
-  ['flow-relay.jpg', 'https://i.ibb.co/8gzvt14C/flow-relay-jpg.jpg', 'https://i.ibb.co/b5YfbSrJ/flow-relay.webp'],  // 2026-07-04 換版：出手→動手
-  ['webhook-directions.jpg', 'https://i.ibb.co/B224X30k/webhook-directions-jpg.jpg', 'https://i.ibb.co/NgQFTDp0/webhook-directions.webp'],
-  ['decision-tree.jpg', 'https://i.ibb.co/hRBbypDN/decision-tree-jpg.jpg', 'https://i.ibb.co/9mJHQRCb/decision-tree.webp'],
-]
-const COVER = IMG[0][2]
+const COVER = 'https://i.ibb.co/C37jrPmk/cover.webp'
 
 // --- 內文轉換 ---
-const raw = fs.readFileSync('blog-drafts/23-n8n-apps-script/23-n8n-apps-script.html', 'utf8')
+const raw = fs.readFileSync('blog-drafts/21-prompt-engineering/21-prompt-engineering.html', 'utf8')
 const bodyM = raw.match(/<body>([\s\S]*?)<\/body>/i)
 let content = (bodyM ? bodyM[1] : raw).replace(/<h1>[\s\S]*?<\/h1>/i, '').trim()
 
-// 草稿 jpg 網址（或殘留的本地路徑）→ 官網 webp 網址
-for (const [file, jpgUrl, webpUrl] of IMG) {
-  content = content.replaceAll(`src="${jpgUrl}"`, `src="${webpUrl}"`)
-  content = content.replaceAll(`src="images/${file}"`, `src="${webpUrl}"`)
-}
+// 本地圖 → ImgBB 網址
+content = content
+  .replace(/src="images\/cover\.jpg"/gi, `src="${COVER}"`)
+  .replace(/src="images\/bad-vs-good\.png"/gi, 'src="https://i.ibb.co/fYrr7mnN/bad-vs-good.webp"')
+  .replace(/src="images\/point2-specific\.png"/gi, 'src="https://i.ibb.co/Mk5WSDX8/point2-specific.webp"')
 
 // 紅 → 琥珀
 content = content.replace(/#c0392b/gi, '#fbbf24')
 
 const aqLinks = [...content.matchAll(/href="(https:\/\/aiqkangber\.com[^"]*)"/gi)].map((m) => m[1])
 const leftover = {
-  redBody: (content.match(/#c0392b/gi) ?? []).length,
+  red: (content.match(/#c0392b/gi) ?? []).length,
   localImg: (content.match(/src="images\//gi) ?? []).length,
   serviceCta: (content.match(/aiqkangber\.com\/services/gi) ?? []).length,
   imgs: (content.match(/<img /gi) ?? []).length,
@@ -65,26 +56,21 @@ const sheets = google.sheets({ version: 'v4', auth })
 const existing = await sheets.spreadsheets.values.get({ spreadsheetId: env.GOOGLE_SHEET_ID, range: 'posts!A:O' })
 const rows = existing.data.values ?? []
 const slugs = rows.map((r) => (r[0] ?? '').trim())
-const existIdx = slugs.indexOf(SLUG)
+const existIdx = slugs.indexOf(SLUG)   // 0-based（含表頭）
 if (!UPDATE && existIdx !== -1) { console.error(`posts 已有 slug=${SLUG}，要覆蓋請加 --update`); process.exit(1) }
 if (UPDATE && existIdx === -1) { console.error(`找不到 slug=${SLUG}，無法 --update`); process.exit(1) }
 const cats = [...new Set(rows.slice(1).map((r) => (r[12] ?? '').trim()).filter(Boolean))]
-
-// 前置檢查：22 入門篇上線了嗎（內文兩處連結指向它）
-const has22 = slugs.includes('google-apps-script')
-console.log(`前置：posts 是否已有 google-apps-script（22 入門篇）→ ${has22 ? '✓ 有' : '✗ 還沒！先發 22 再發這篇'}`)
 
 console.log(`模式：${UPDATE ? `覆蓋既有第 ${existIdx + 1} 列` : 'append 新列'}`)
 console.log(`既有分類（核對 M 欄該填什麼）：${cats.join('、')}`)
 console.log(`slug=${SLUG}`)
 console.log(`title=${TITLE}`)
 console.log(`date=${DATE} | M=${CATEGORY} | tags=${TAGS}`)
-console.log(`內文長度=${content.length}｜<img>=${leftover.imgs}（應5：封面＋4示意圖；程式碼是 <pre> 文字塊非圖）`)
-console.log(`紅字殘留=${leftover.redBody}（應0）｜本地圖殘留=${leftover.localImg}（應0）｜/services 連結=${leftover.serviceCta}（文中框＋結尾，應2）`)
+console.log(`內文長度=${content.length}｜<img>=${leftover.imgs}（應3：封面＋2內文圖）`)
+console.log(`殘留檢查：紅字=${leftover.red}（應0）｜本地圖=${leftover.localImg}（應0）｜/services 連結=${leftover.serviceCta}（方框＋結尾，應≥2）`)
 console.log(`內文 aiqkangber 連結（${aqLinks.length}）：\n  - ${aqLinks.join('\n  - ')}`)
 console.log(`封面=${COVER}`)
 if (!WRITE) { console.log(`\n（dry-run）確認無誤後加 --write${UPDATE ? ' --update' : ''} 才會寫入。`); process.exit(0) }
-if (!has22 && !UPDATE) { console.error('✗ 22 入門篇還沒上線，擋下寫入（確定要先發就自己註解掉這行）'); process.exit(1) }
 
 if (UPDATE) {
   const rowNum = existIdx + 1
