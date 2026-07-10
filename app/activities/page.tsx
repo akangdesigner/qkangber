@@ -31,7 +31,7 @@ const activities: Activity[] = [
   {
     date: '2026-07-18',
     status: '即將開始 · 12 週',
-    title: '為期 12 週的訓練營',
+    title: 'Claude 實戰訓練營',
     desc: '為期 12 週的長期訓練營，循序從零帶學員建立自己的 AI 工作流與實作專案。強調的是持續產出與逐週累積，而不是短期速成的一次性課程。',
     link: { href: 'https://www.xlab.com.tw/events', label: '活動官網' },
   },
