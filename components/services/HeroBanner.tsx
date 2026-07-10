@@ -108,8 +108,8 @@ export default function HeroBanner() {
           </div>
         </div>
 
-        {/* workflow panel */}
-        <div style={{
+        {/* workflow panel — 桌機專屬，手機版（≤860px）整塊隱藏 */}
+        <div className="svc-panel" style={{
           marginTop: 40, border: '1px solid rgba(255,255,255,0.08)', borderRadius: 18,
           background: 'rgba(255,255,255,0.02)', overflow: 'hidden',
         }}>
@@ -210,8 +210,9 @@ export default function HeroBanner() {
   )
 }
 
-// Responsive rules for the three-stage flow: horizontal on desktop, stacked
-// on narrow screens (連接器改成向下箭頭、輸出改成橫排 chip、字級不縮）。
+// 桌機：三階段流程面板橫向排列（Trigger｜Workflow｜Output）。
+// 手機（≤860px）：整塊面板隱藏，Hero 只留 eyebrow＋標題＋副標＋兩顆 CTA。
+// 桌機版樣式與現行完全一致，手機/桌機在此明確分流。
 function HeroStyles() {
   return (
     <style>{`
@@ -227,14 +228,9 @@ function HeroStyles() {
       .svc-svc { transition: border-color .2s ease, background .2s ease, transform .2s ease; }
       .svc-svc:hover { border-color: rgba(167,139,250,0.55) !important; background: rgba(20,22,40,0.95) !important; transform: translateY(-1px); }
 
+      /* 手機精簡版：拿掉整個桌機流程面板 */
       @media (max-width: 860px) {
-        .svc-flow { flex-direction: column; align-items: stretch; }
-        .svc-trigger, .svc-output { flex: none; width: auto; }
-        .svc-trigger-body { display: block; }
-        .svc-conn { width: auto; margin-top: 0; padding: 8px 0; }
-        .svc-conn-h { display: none; }
-        .svc-conn-v { display: flex; }
-        .svc-output-list { flex-direction: row; flex-wrap: wrap; }
+        .svc-panel { display: none; }
       }
     `}</style>
   )
