@@ -245,26 +245,6 @@ function DesktopHero() {
 
 /* ══════════════ 手機新版：三階段流程 hero ══════════════ */
 
-// 服務卡片資料——名稱／價格／頁面連結對齊 lib/services-detail.ts 真實資料
-const SERVICES = [
-  { emoji: '🛒', cat: '電商', catColor: '#a78bfa', border: 'rgba(167,139,250,0.28)', title: '電商訂單自動化', price: 'NT$ 9,000 起', slug: 'ecommerce-automation' },
-  { emoji: '📈', cat: '行銷', catColor: '#60a5fa', border: 'rgba(96,165,250,0.28)', title: '行銷漏斗自動化', price: 'NT$ 12,000 起', slug: 'marketing-automation' },
-  { emoji: '📊', cat: '電商', catColor: '#67e8f9', border: 'rgba(103,232,249,0.28)', title: '數據報表自動化', price: 'NT$ 6,000 起', slug: 'data-report-automation' },
-] as const
-
-const OUTPUTS = [
-  { emoji: '💬', label: 'Slack' },
-  { emoji: '🟢', label: 'LINE' },
-  { emoji: '✉️', label: 'Email' },
-  { emoji: '📑', label: 'Sheet' },
-] as const
-
-function StageLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <span style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#475569', marginBottom: 12, display: 'block' }}>{children}</span>
-  )
-}
-
 function MobileHero() {
   return (
     <section style={{ position: 'relative', width: '100%', overflow: 'hidden', fontFamily: SANS }}>
@@ -312,70 +292,6 @@ function MobileHero() {
           </Link>
         </div>
 
-        {/* workflow panel — 三階段直向堆疊 */}
-        <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, background: 'rgba(255,255,255,0.02)', overflow: 'hidden' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '13px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontFamily: MONO, fontSize: 12, color: '#64748b' }}>
-              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px rgba(52,211,153,0.8)' }} />
-              workflow.json · live
-            </div>
-            <div style={{ display: 'flex', gap: 5 }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(244,63,94,0.55)' }} />
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(245,158,11,0.55)' }} />
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(52,211,153,0.55)' }} />
-            </div>
-          </div>
-
-          <div style={{ padding: '20px 16px', display: 'flex', flexDirection: 'column' }}>
-            <StageLabel>Trigger</StageLabel>
-            <div style={{ padding: 14, border: '1.5px solid rgba(34,211,238,0.5)', borderRadius: 13, background: 'rgba(13,14,26,0.9)', boxShadow: '0 0 20px rgba(34,211,238,0.12)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#22d3ee', boxShadow: '0 0 10px rgba(34,211,238,0.8)' }} />
-                <span style={{ fontSize: 15, fontWeight: 700, color: '#f8fafc' }}>Webhook 觸發</span>
-              </div>
-              <div style={{ fontFamily: MONO, fontSize: 11.5, color: '#64748b' }}>客戶事件 / Cron 排程</div>
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'center', color: '#7c5cff', fontSize: 17, padding: '10px 0' }}>↓</div>
-
-            <StageLabel>Workflow</StageLabel>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {SERVICES.map((s) => (
-                <Link key={s.slug} href={`/services/${s.slug}`} className="svc-svc" style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
-                  padding: '13px 15px', border: `1.5px solid ${s.border}`, borderRadius: 13,
-                  background: 'rgba(13,14,26,0.92)', textDecoration: 'none',
-                }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
-                    <span style={{ fontSize: 20 }}>{s.emoji}</span>
-                    <span style={{ minWidth: 0 }}>
-                      <span style={{ display: 'block', fontFamily: MONO, fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', color: s.catColor }}>{s.cat}</span>
-                      <span style={{ display: 'block', fontSize: 15, fontWeight: 600, color: '#f1f5f9' }}>{s.title}</span>
-                    </span>
-                  </span>
-                  <span style={{ fontFamily: MONO, fontSize: 11.5, color: '#64748b', whiteSpace: 'nowrap' }}>{s.price}</span>
-                </Link>
-              ))}
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'center', color: '#7c5cff', fontSize: 17, padding: '10px 0' }}>↓</div>
-
-            <StageLabel>Output</StageLabel>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              {OUTPUTS.map((o) => (
-                <div key={o.label} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 13px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, background: 'rgba(13,14,26,0.9)' }}>
-                  <span style={{ fontSize: 16 }}>{o.emoji}</span>
-                  <span style={{ fontFamily: MONO, fontSize: 12, color: '#94a3b8' }}>{o.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.06)', fontFamily: MONO, fontSize: 11.5, color: '#475569', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22d3ee', boxShadow: '0 0 8px rgba(34,211,238,0.8)' }} />
-            點擊任一服務查看詳情
-          </div>
-        </div>
       </div>
     </section>
   )
