@@ -286,11 +286,11 @@ function MobileHero() {
           border: '1px solid rgba(124,92,255,0.3)', background: 'rgba(124,92,255,0.07)',
         }}>
           <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px rgba(52,211,153,0.8)' }} />
-          <span style={{ fontFamily: MONO, fontSize: 10.5, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c4b5fd' }}>Services</span>
+          <span style={{ fontFamily: MONO, fontSize: 10.5, fontWeight: 600, letterSpacing: '0.20em', textTransform: 'uppercase', color: '#c4b5fd' }}>整合服務 · 接案中</span>
         </div>
 
-        <h1 style={{ margin: '0 0 16px', fontFamily: SANS, fontSize: '2rem', lineHeight: 1.16, fontWeight: 800, letterSpacing: '-0.02em', color: '#fff' }}>
-          讓 n8n 處理<br />
+        <h1 style={{ margin: '0 0 16px', fontFamily: SANS, fontSize: '2rem', lineHeight: 1.16, fontWeight: 600, letterSpacing: '-0.02em', color: '#fff' }}>
+          AI 幫你處理<br />
           <span style={{
             background: 'linear-gradient(90deg, #c4b5fd 0%, #93c5fd 50%, #67e8f9 100%)',
             WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent',
@@ -298,7 +298,7 @@ function MobileHero() {
         </h1>
 
         <p style={{ margin: '0 0 24px', fontSize: 15, lineHeight: 1.8, color: '#94a3b8' }}>
-          專注在電商與行銷流程自動化。每個服務都是從實際專案裡打磨出來的，不賣課程，直接幫你做好。
+          n8n 流程自動化、Claude AI 應用開發——從重複性作業到智慧判斷，每個環節都可以設計得更好。
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 30 }}>
