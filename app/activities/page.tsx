@@ -10,9 +10,11 @@ export const metadata = buildMetadata({
 
 const MONO = 'var(--font-jetbrains), ui-monospace, monospace'
 
+// 標籤：accent = 紫色主標（講師身分／活動主類型）、muted = 灰色次標（時長、細節）
+type Tag = { label: string; tone?: 'accent' | 'muted' }
 type Activity = {
   date: string // YYYY-MM-DD
-  status?: string // 狀態標籤：即將參加 / 即將開始 · 12 週…（過去參加過的省略）
+  tags?: Tag[] // 一則可掛多個標籤；第一個不給 tone 預設 accent
   title: string
   desc: string
   link?: { href: string; label: string }
@@ -24,21 +26,21 @@ type Activity = {
 const activities: Activity[] = [
   {
     date: '2026-07-25',
-    status: '擔任講師',
+    tags: [{ label: '擔任講師' }, { label: '講座', tone: 'muted' }],
     title: 'AI 時代的一人公司',
     desc: '為什麼現在是一人公司最好的時代？又為什麼你適合開始構思屬於自己的一人公司？這堂講座從定位到 AI 分工，帶你把行銷、內容、客服、開發交給 AI，一個人也能像一個團隊那樣運作。',
     image: { src: '/activities/xlab-one-person-company-v2.webp', alt: 'XLab 講座主視覺「一人公司 · AI 分工打造一個團隊」，標示 Marketing、Content、Customer Service、Development 等 AI 分工', pos: 'left' },
   },
   {
     date: '2026-07-18',
-    status: '擔任講師 · 12 週',
+    tags: [{ label: '擔任講師' }, { label: '訓練營', tone: 'muted' }, { label: '12 週', tone: 'muted' }],
     title: 'Claude 實戰訓練營',
     desc: '為期 12 週深度掌握 Anthropic Claude 全系列工具，導入「VIBE Coding」開發模式——強調意圖引導優於語法記憶，不必對寫程式感到恐懼。以「從零到一打造智慧型個人知識管理平台」為核心專案，把 AI 協作、開發、設計整合進實際工作流。',
     image: { src: '/activities/xlab-claude-camp.webp', alt: 'XLab Claude 實戰訓練營主視覺：Claude AI 標誌與 API 圖示' },
   },
   {
     date: '2026-07-09',
-    status: '已參加',
+    tags: [{ label: '技術大會' }, { label: '雲端 AI', tone: 'muted' }],
     title: 'Google Cloud Day',
     desc: 'Google Cloud 的年度技術大會，聚焦生成式 AI、資料與雲端架構的最新進展。涵蓋 Gemini、Vertex AI 等產品的實戰場次與企業導入案例，是一次掌握雲端 AI 全貌的現場。',
     image: { src: '/activities/google-cloud-day.webp', alt: 'Google Cloud Day Taipei 活動現場報到區，背板印有 Google Cloud、Cloud Day Taipei 字樣', pos: 'center 38%' },
@@ -50,11 +52,17 @@ function formatDate(iso: string) {
   return `${y}.${m}.${d}`
 }
 
-function StatusTag({ children }: { children: React.ReactNode }) {
+function StatusTag({ children, tone = 'accent' }: { children: React.ReactNode; tone?: 'accent' | 'muted' }) {
+  const accent = tone === 'accent'
   return (
     <span
       className="inline-flex items-center rounded-full text-[0.58rem] font-semibold tracking-[0.16em] uppercase"
-      style={{ padding: '2px 8px', color: '#c4b5fd', background: 'rgba(124,92,255,0.12)', border: '1px solid rgba(124,92,255,0.28)' }}
+      style={{
+        padding: '2px 8px',
+        color: accent ? '#c4b5fd' : '#94a3b8',
+        background: accent ? 'rgba(124,92,255,0.12)' : 'rgba(255,255,255,0.04)',
+        border: accent ? '1px solid rgba(124,92,255,0.28)' : '1px solid rgba(255,255,255,0.1)',
+      }}
     >
       {children}
     </span>
@@ -142,7 +150,7 @@ export default function ActivitiesPage() {
                           <time dateTime={a.date} style={{ fontFamily: MONO, fontSize: '0.78rem', letterSpacing: '0.06em', color: '#7c5cff' }}>
                             {formatDate(a.date)}
                           </time>
-                          {a.status && <StatusTag>{a.status}</StatusTag>}
+                          {a.tags?.map((t) => <StatusTag key={t.label} tone={t.tone}>{t.label}</StatusTag>)}
                         </div>
                         <h2 className="text-lg sm:text-2xl font-semibold text-slate-100 tracking-[-0.015em] leading-snug mb-2.5 mt-0">{a.title}</h2>
                         <p className="text-[0.95rem] sm:text-[1.0625rem] leading-[1.8] text-slate-300 m-0 mb-3">{a.desc}</p>
