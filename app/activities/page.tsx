@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { buildMetadata } from '@/lib/metadata'
 
 export const metadata = buildMetadata({
-  title: { absolute: '活動足跡 — Q kangber 參與的講座與活動記錄' },
+  title: { absolute: '活動分享 — Q kangber 參與的講座與活動記錄' },
   description: '按時間記錄我實際參與的技術活動與講座，含當下觀察到的 AI 與自動化趨勢，作為長期關注這個領域的第一手紀錄。',
   path: '/activities',
 })
@@ -16,7 +16,7 @@ type Activity = {
   title: string
   desc: string
   link?: { href: string; label: string }
-  image?: { src: string; alt: string } // 有現場照片才給，會自動交替左右排版
+  image?: { src: string; alt: string; pos?: string } // 有現場照片才給，會自動交替左右排版；pos 控制裁切焦點
 }
 
 // 依日期新→舊排序，新增時加在陣列最前面。
@@ -40,6 +40,7 @@ const activities: Activity[] = [
     title: 'Google Cloud Day',
     desc: 'Google Cloud 的年度技術大會，聚焦生成式 AI、資料與雲端架構的最新進展。涵蓋 Gemini、Vertex AI 等產品的實戰場次與企業導入案例，是一次掌握雲端 AI 全貌的現場。',
     link: { href: 'https://www.xlab.com.tw/events', label: '活動官網' },
+    image: { src: '/activities/google-cloud-day.webp', alt: 'Google Cloud Day Taipei 活動現場報到區，背板印有 Google Cloud、Cloud Day Taipei 字樣', pos: 'center 38%' },
   },
 ]
 
@@ -92,7 +93,7 @@ export default function ActivitiesPage() {
               Activities
             </span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-semibold text-white tracking-[-0.02em] leading-[1.08] mb-5">活動足跡</h1>
+          <h1 className="text-3xl sm:text-5xl font-semibold text-white tracking-[-0.02em] leading-[1.08] mb-5">活動分享</h1>
           <p className="text-slate-400 leading-relaxed max-w-[56ch] text-base sm:text-[1.0625rem]">
             按時間順序記錄我實際參與的技術活動與講座——每則簡述這場活動在做什麼、聚焦哪些主題。想細看的觀察與延伸，會另外寫成
             <Link href="/blog" className="text-violet-300 hover:text-violet-200 underline underline-offset-4 mx-1">部落格文章</Link>。
@@ -131,7 +132,7 @@ export default function ActivitiesPage() {
                       {a.image && (
                         <div className="min-w-0 overflow-hidden rounded-xl border border-white/[0.08]" style={{ flex: '1 1 260px', aspectRatio: '16/10', background: 'rgba(255,255,255,0.02)' }}>
                           <div className="relative w-full h-full">
-                            <Image src={a.image.src} alt={a.image.alt} fill sizes="(max-width: 720px) 100vw, 420px" style={{ objectFit: 'cover' }} />
+                            <Image src={a.image.src} alt={a.image.alt} fill sizes="(max-width: 720px) 100vw, 420px" style={{ objectFit: 'cover', objectPosition: a.image.pos || 'center' }} />
                           </div>
                         </div>
                       )}

@@ -32,7 +32,7 @@ const links = [
   { href: '/blog', label: 'AI × n8n 知識庫' },
   { href: '/newsletter', label: '電子報' },
   { href: '/about', label: '關於我' },
-  { href: '/activities', label: '活動足跡' },
+  { href: '/activities', label: '活動分享' },
   { href: '/contact', label: '聯絡我們' },
   { href: '/faq', label: 'AI × 自動化指南' },
 ]
