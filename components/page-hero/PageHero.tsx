@@ -342,7 +342,7 @@ export function NewsletterHero() {
             fontSize: 'clamp(2.4rem, 4.6vw, 3.5rem)', lineHeight: 1.12,
             fontWeight: 700, letterSpacing: '-0.03em', color: PH.white,
           }}>
-            每週精選<br />最值得關注的{' '}
+            每週精選<br />最值得關注的<br />
             <span style={{
               background: 'linear-gradient(90deg, #a78bfa, #60a5fa)',
               WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent',
