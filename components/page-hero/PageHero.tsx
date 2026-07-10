@@ -346,10 +346,14 @@ export function NewsletterHero() {
           <PHEyebrow en="Newsletter · 每週一" accent={accent} />
           <h1 style={{
             margin: 0, fontFamily: PH.sans,
-            fontSize: 'clamp(2.4rem, 4.6vw, 3.6rem)', lineHeight: 1.1,
-            fontWeight: 600, letterSpacing: '-0.03em', color: PH.white,
+            fontSize: 'clamp(2.4rem, 4.6vw, 3.5rem)', lineHeight: 1.12,
+            fontWeight: 700, letterSpacing: '-0.03em', color: PH.white,
           }}>
-            每週精選<br />最值得關注的<br />AI 動態
+            每週精選<br />最值得關注的{' '}
+            <span style={{
+              background: 'linear-gradient(90deg, #a78bfa, #60a5fa)',
+              WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            }}>AI 動態</span>
           </h1>
           <p style={{ margin: 0, fontFamily: PH.sans, fontSize: 15.5, lineHeight: 1.8, color: PH.mute, maxWidth: 440 }}>
             我用開發者與接案者的角度，幫你判斷哪些資訊真正值得關注，每週省下數小時 AI 資訊整理時間。精選 AI、Agent、Claude、OpenAI、n8n 與實戰案例。
