@@ -1,7 +1,15 @@
-'use client'
-
+// ─────────────────────────────────────────────────────────────
+// 服務頁 Hero — 桌機／手機分流
+//   桌機（>860px）：舊版——左文案＋右側浮動 n8n 流程視窗與 AI 助理對話。
+//   手機（≤860px）：新版 RWD——「觸發 → 流程 → 輸出」三階段流程面板直向堆疊。
+// 用 CSS media query 切換（兩份都預先渲染，無 hydration 閃爍）。純 CSS/SVG。
+// ─────────────────────────────────────────────────────────────
 import Link from 'next/link'
-import { useIsMobile } from '@/hooks/useMediaQuery'
+
+const MONO = 'var(--font-jetbrains), "JetBrains Mono", ui-monospace, monospace'
+const SANS = 'var(--font-noto), "Noto Sans TC", sans-serif'
+
+/* ══════════════ 桌機舊版：浮動視窗 hero ══════════════ */
 
 function DotWaveBg() {
   const dots: React.ReactNode[] = []
@@ -14,20 +22,15 @@ function DotWaveBg() {
       dots.push(<circle key={`${row}-${col}`} cx={x} cy={y} r={r} fill="url(#hb-dot-grad)" />)
     }
   }
-
   return (
-    <svg
-      aria-hidden
-      width="100%" height="100%"
-      viewBox="0 0 1100 460"
+    <svg aria-hidden width="100%" height="100%" viewBox="0 0 1100 460"
       preserveAspectRatio="xMaxYMid slice"
-      style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
-    >
+      style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
       <defs>
         <radialGradient id="hb-dot-grad" cx="80%" cy="35%" r="55%">
-          <stop offset="0"   stopColor="#f0abfc" stopOpacity="1" />
+          <stop offset="0" stopColor="#f0abfc" stopOpacity="1" />
           <stop offset="0.4" stopColor="#a78bfa" stopOpacity="1" />
-          <stop offset="1"   stopColor="#a78bfa" stopOpacity="0" />
+          <stop offset="1" stopColor="#a78bfa" stopOpacity="0" />
         </radialGradient>
         <mask id="hb-wave-mask">
           <rect width="100%" height="100%" fill="#000" />
@@ -37,11 +40,11 @@ function DotWaveBg() {
       </defs>
       <g mask="url(#hb-wave-mask)">{dots}</g>
       <path d="M 1100 60 Q 700 140, 760 460" stroke="#f0abfc" strokeOpacity="0.4"
-            strokeWidth="1" fill="none" strokeDasharray="2 8">
+        strokeWidth="1" fill="none" strokeDasharray="2 8">
         <animate attributeName="stroke-dashoffset" from="0" to="-40" dur="3.2s" repeatCount="indefinite" />
       </path>
       <path d="M 1100 200 Q 820 300, 850 460" stroke="#a78bfa" strokeOpacity="0.5"
-            strokeWidth="1" fill="none" strokeDasharray="2 6">
+        strokeWidth="1" fill="none" strokeDasharray="2 6">
         <animate attributeName="stroke-dashoffset" from="0" to="-40" dur="2.6s" repeatCount="indefinite" />
       </path>
     </svg>
@@ -51,8 +54,7 @@ function DotWaveBg() {
 function WorkflowScreen() {
   return (
     <div style={{
-      width: '100%', height: '100%',
-      borderRadius: 18,
+      width: '100%', height: '100%', borderRadius: 18,
       background: 'linear-gradient(160deg, #0b1023 0%, #0a0a1a 100%)',
       boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.10), 0 18px 40px rgba(124,92,255,0.30), 0 0 0 1px rgba(124,92,255,0.20)',
       padding: 14, overflow: 'hidden', position: 'relative',
@@ -61,11 +63,7 @@ function WorkflowScreen() {
         <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#f87171' }} />
         <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fbbf24' }} />
         <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#34d399' }} />
-        <span style={{
-          marginLeft: 'auto',
-          fontFamily: '"JetBrains Mono", ui-monospace, monospace',
-          fontSize: 8.5, color: '#67e8f9', letterSpacing: '0.12em',
-        }}>n8n · live</span>
+        <span style={{ marginLeft: 'auto', fontFamily: MONO, fontSize: 8.5, color: '#67e8f9', letterSpacing: '0.12em' }}>n8n · live</span>
       </div>
       <svg viewBox="0 0 192 160" width="100%" height="160">
         <defs>
@@ -95,11 +93,7 @@ function WorkflowScreen() {
         </circle>
         <path id="ws-arc" d="M 30 40 C 60 40, 60 100, 96 100" fill="none" stroke="none" />
       </svg>
-      <div style={{
-        marginTop: 2,
-        fontFamily: '"JetBrains Mono", ui-monospace, monospace',
-        fontSize: 9.5, color: '#94a3b8', textAlign: 'center',
-      }}>order.received → check_stock → notify</div>
+      <div style={{ marginTop: 2, fontFamily: MONO, fontSize: 9.5, color: '#94a3b8', textAlign: 'center' }}>order.received → check_stock → notify</div>
     </div>
   )
 }
@@ -112,9 +106,7 @@ function Bubble({ side, children }: { side: 'user' | 'bot'; children: React.Reac
       alignSelf: isUser ? 'flex-end' : 'flex-start',
       background: isUser ? 'rgba(124,92,255,0.25)' : 'rgba(255,255,255,0.05)',
       boxShadow: isUser ? 'inset 0 0 0 1px rgba(167,139,250,0.4)' : 'inset 0 0 0 1px rgba(255,255,255,0.08)',
-      color: '#e2e8f0',
-      fontFamily: '"Noto Sans TC", sans-serif',
-      fontSize: 9.5, lineHeight: 1.5,
+      color: '#e2e8f0', fontFamily: SANS, fontSize: 9.5, lineHeight: 1.5,
     }}>{children}</div>
   )
 }
@@ -122,8 +114,7 @@ function Bubble({ side, children }: { side: 'user' | 'bot'; children: React.Reac
 function AIScreen() {
   return (
     <div style={{
-      width: '100%', height: '100%',
-      borderRadius: 20,
+      width: '100%', height: '100%', borderRadius: 20,
       background: 'linear-gradient(160deg, #1a1230 0%, #0a0a1a 100%)',
       boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.10), 0 24px 50px rgba(124,92,255,0.45), 0 0 0 1px rgba(167,139,250,0.30)',
       padding: 14, overflow: 'hidden', position: 'relative',
@@ -132,12 +123,11 @@ function AIScreen() {
         <div style={{
           width: 22, height: 22, borderRadius: 7,
           background: 'linear-gradient(135deg, #a78bfa, #7c5cff)',
-          display: 'grid', placeItems: 'center',
-          fontSize: 13, color: '#fff',
+          display: 'grid', placeItems: 'center', fontSize: 13, color: '#fff',
         }}>✦</div>
         <div>
-          <div style={{ fontFamily: '"Noto Sans TC", sans-serif', fontSize: 11, color: '#fff', fontWeight: 600, lineHeight: 1 }}>AI 助理</div>
-          <div style={{ fontFamily: '"JetBrains Mono", ui-monospace, monospace', fontSize: 7.5, color: '#67e8f9', letterSpacing: '0.10em', marginTop: 2 }}>● Claude / GPT</div>
+          <div style={{ fontFamily: SANS, fontSize: 11, color: '#fff', fontWeight: 600, lineHeight: 1 }}>AI 助理</div>
+          <div style={{ fontFamily: MONO, fontSize: 7.5, color: '#67e8f9', letterSpacing: '0.10em', marginTop: 2 }}>● Claude / GPT</div>
         </div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -148,8 +138,7 @@ function AIScreen() {
       <div aria-hidden style={{
         position: 'absolute', left: 0, right: 0, height: 1,
         background: 'linear-gradient(90deg, transparent, rgba(167,139,250,0.65), transparent)',
-        animation: 'hbScan 3.6s ease-in-out infinite',
-        pointerEvents: 'none',
+        animation: 'hbScan 3.6s ease-in-out infinite', pointerEvents: 'none',
       }} />
     </div>
   )
@@ -158,8 +147,7 @@ function AIScreen() {
 function PlatformRing() {
   return (
     <div aria-hidden style={{
-      position: 'absolute', bottom: 30,
-      left: '50%', transform: 'translateX(-50%)',
+      position: 'absolute', bottom: 30, left: '50%', transform: 'translateX(-50%)',
       width: 360, height: 360, pointerEvents: 'none',
     }}>
       <div style={{
@@ -183,90 +171,52 @@ function PlatformRing() {
   )
 }
 
-export default function HeroBanner() {
-  const isMobile = useIsMobile()
+function DesktopHero() {
   return (
     <section style={{ position: 'relative', width: '100%' }}>
-      <style>{`
-        @keyframes hbPulse  { 0%,100% { opacity:1 } 50% { opacity:0.5 } }
-        @keyframes hbFloat  { 0%,100% { transform:rotate(-8deg) translateY(0) } 50% { transform:rotate(-8deg) translateY(-6px) } }
-        @keyframes hbFloat2 { 0%,100% { transform:rotate(6deg) translateY(0) } 50% { transform:rotate(6deg) translateY(-9px) } }
-        @keyframes hbScan   { 0% { transform:translateY(-100%) } 100% { transform:translateY(120%) } }
-      `}</style>
-
       <div style={{ position: 'relative', minHeight: 520, overflow: 'hidden' }}>
         <DotWaveBg />
-
-        {/* Spotlight */}
         <div aria-hidden style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
           background: 'radial-gradient(ellipse 80% 60% at 0% 30%, rgba(124,92,255,0.22), transparent 60%), radial-gradient(ellipse 70% 50% at 100% 100%, rgba(34,211,238,0.10), transparent 60%)',
         }} />
-        {/* Top/bottom feather */}
         <div aria-hidden style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
           background: 'linear-gradient(to bottom, #02030a 0%, transparent 12%, transparent 88%, #02030a 100%)',
         }} />
 
-        {/* Content grid */}
         <div style={{
-          position: 'relative',
-          maxWidth: 1180, margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: isMobile ? '1fr' : 'minmax(0, 1.05fr) minmax(0, 1fr)',
-          alignItems: 'center',
-          gap: isMobile ? 28 : 40,
-          padding: isMobile ? '56px 20px' : '80px 44px',
-          minHeight: isMobile ? 0 : 520,
+          position: 'relative', maxWidth: 1180, margin: '0 auto',
+          display: 'grid', gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 1fr)',
+          alignItems: 'center', gap: 40, padding: '80px 44px', minHeight: 520,
         }}>
           {/* LEFT: copy */}
           <div style={{ position: 'relative', zIndex: 2 }}>
-            {/* Status pill */}
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 10,
               padding: '5px 12px', borderRadius: 999,
-              background: 'rgba(124,92,255,0.10)',
-              boxShadow: 'inset 0 0 0 1px rgba(124,92,255,0.35)',
+              background: 'rgba(124,92,255,0.10)', boxShadow: 'inset 0 0 0 1px rgba(124,92,255,0.35)',
               marginBottom: 22,
             }}>
-              <span style={{
-                width: 6, height: 6, borderRadius: '50%',
-                background: '#34d399', boxShadow: '0 0 8px #34d399',
-                animation: 'hbPulse 1.6s ease-in-out infinite',
-              }} />
-              <span style={{
-                fontFamily: '"JetBrains Mono", ui-monospace, monospace',
-                fontSize: 10.5, letterSpacing: '0.20em', textTransform: 'uppercase',
-                color: '#c4b5fd',
-              }}>整合服務 · 接案中</span>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px #34d399', animation: 'hbPulse 1.6s ease-in-out infinite' }} />
+              <span style={{ fontFamily: MONO, fontSize: 10.5, letterSpacing: '0.20em', textTransform: 'uppercase', color: '#c4b5fd' }}>整合服務 · 接案中</span>
             </div>
 
-            {/* Original h1 */}
             <h1 style={{
-              margin: 0,
-              fontFamily: '"Noto Sans TC", sans-serif',
-              fontSize: 'clamp(2.4rem, 5vw, 4rem)',
-              lineHeight: 1.15, fontWeight: 600,
-              color: '#fff', letterSpacing: '-0.025em',
+              margin: 0, fontFamily: SANS, fontSize: 'clamp(2.4rem, 5vw, 4rem)',
+              lineHeight: 1.15, fontWeight: 600, color: '#fff', letterSpacing: '-0.025em',
             }}>
               AI 幫你處理<br />
               <span style={{
                 background: 'linear-gradient(90deg, #c4b5fd 0%, #93c5fd 50%, #67e8f9 100%)',
-                WebkitBackgroundClip: 'text', backgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent',
               }}>你不該浪費時間的事</span>
             </h1>
 
-            {/* Original description */}
-            <p style={{
-              margin: '20px 0 0',
-              fontFamily: '"Noto Sans TC", sans-serif',
-              fontSize: 15, lineHeight: 1.8, color: '#94a3b8', maxWidth: 440,
-            }}>
+            <p style={{ margin: '20px 0 0', fontFamily: SANS, fontSize: 15, lineHeight: 1.8, color: '#94a3b8', maxWidth: 440 }}>
               n8n 流程自動化、Claude AI 應用開發——從重複性作業到智慧判斷，每個環節都可以設計得更好。
             </p>
 
-            {/* CTA */}
             <div style={{ marginTop: 30 }}>
               <Link href="/contact" className="btn btn--ink-outline">
                 <span className="btn__label">免費諮詢</span>
@@ -275,9 +225,7 @@ export default function HeroBanner() {
             </div>
           </div>
 
-          {/* RIGHT: floating screens (desktop only — fixed-px mockups don't
-              scale cleanly on mobile, so the mobile banner is a clean text layout) */}
-          {!isMobile && (
+          {/* RIGHT: floating screens */}
           <div style={{ position: 'relative', height: 380, display: 'grid', placeItems: 'center' }}>
             <PlatformRing />
             <div style={{ position: 'relative', width: 380, height: 280 }}>
@@ -289,9 +237,171 @@ export default function HeroBanner() {
               </div>
             </div>
           </div>
-          )}
         </div>
       </div>
     </section>
+  )
+}
+
+/* ══════════════ 手機新版：三階段流程 hero ══════════════ */
+
+// 服務卡片資料——名稱／價格／頁面連結對齊 lib/services-detail.ts 真實資料
+const SERVICES = [
+  { emoji: '🛒', cat: '電商', catColor: '#a78bfa', border: 'rgba(167,139,250,0.28)', title: '電商訂單自動化', price: 'NT$ 9,000 起', slug: 'ecommerce-automation' },
+  { emoji: '📈', cat: '行銷', catColor: '#60a5fa', border: 'rgba(96,165,250,0.28)', title: '行銷漏斗自動化', price: 'NT$ 12,000 起', slug: 'marketing-automation' },
+  { emoji: '📊', cat: '電商', catColor: '#67e8f9', border: 'rgba(103,232,249,0.28)', title: '數據報表自動化', price: 'NT$ 6,000 起', slug: 'data-report-automation' },
+] as const
+
+const OUTPUTS = [
+  { emoji: '💬', label: 'Slack' },
+  { emoji: '🟢', label: 'LINE' },
+  { emoji: '✉️', label: 'Email' },
+  { emoji: '📑', label: 'Sheet' },
+] as const
+
+function StageLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <span style={{ fontFamily: MONO, fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#475569', marginBottom: 12, display: 'block' }}>{children}</span>
+  )
+}
+
+function MobileHero() {
+  return (
+    <section style={{ position: 'relative', width: '100%', overflow: 'hidden', fontFamily: SANS }}>
+      <div aria-hidden style={{
+        position: 'absolute', inset: 0, pointerEvents: 'none',
+        background: 'radial-gradient(ellipse 90% 55% at 30% -10%, rgba(124,92,255,0.20), transparent 68%)',
+      }} />
+      <div aria-hidden style={{
+        position: 'absolute', inset: 0, pointerEvents: 'none',
+        backgroundImage: 'radial-gradient(circle, rgba(148,163,184,1) 1px, transparent 1px)',
+        backgroundSize: '26px 26px', opacity: 0.03,
+      }} />
+
+      <div style={{ position: 'relative', zIndex: 2, padding: '48px 20px 40px' }}>
+        {/* copy */}
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: 9,
+          padding: '6px 15px', borderRadius: 999, marginBottom: 20,
+          border: '1px solid rgba(124,92,255,0.3)', background: 'rgba(124,92,255,0.07)',
+        }}>
+          <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px rgba(52,211,153,0.8)' }} />
+          <span style={{ fontFamily: MONO, fontSize: 10.5, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#c4b5fd' }}>Services</span>
+        </div>
+
+        <h1 style={{ margin: '0 0 16px', fontFamily: SANS, fontSize: '2rem', lineHeight: 1.16, fontWeight: 800, letterSpacing: '-0.02em', color: '#fff' }}>
+          讓 n8n 處理<br />
+          <span style={{
+            background: 'linear-gradient(90deg, #c4b5fd 0%, #93c5fd 50%, #67e8f9 100%)',
+            WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent',
+          }}>你不該浪費時間的事</span>
+        </h1>
+
+        <p style={{ margin: '0 0 24px', fontSize: 15, lineHeight: 1.8, color: '#94a3b8' }}>
+          專注在電商與行銷流程自動化。每個服務都是從實際專案裡打磨出來的，不賣課程，直接幫你做好。
+        </p>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 30 }}>
+          <Link href="/contact" className="btn btn--ink" style={{ width: '100%' }}>
+            <span className="btn__dot" />
+            <span className="btn__label">免費諮詢</span>
+            <span className="btn__arrow">→</span>
+          </Link>
+          <Link href="#services" className="btn btn--ink-outline" style={{ width: '100%' }}>
+            <span className="btn__label">看服務項目</span>
+          </Link>
+        </div>
+
+        {/* workflow panel — 三階段直向堆疊 */}
+        <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, background: 'rgba(255,255,255,0.02)', overflow: 'hidden' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '13px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontFamily: MONO, fontSize: 12, color: '#64748b' }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px rgba(52,211,153,0.8)' }} />
+              workflow.json · live
+            </div>
+            <div style={{ display: 'flex', gap: 5 }}>
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(244,63,94,0.55)' }} />
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(245,158,11,0.55)' }} />
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(52,211,153,0.55)' }} />
+            </div>
+          </div>
+
+          <div style={{ padding: '20px 16px', display: 'flex', flexDirection: 'column' }}>
+            <StageLabel>Trigger</StageLabel>
+            <div style={{ padding: 14, border: '1.5px solid rgba(34,211,238,0.5)', borderRadius: 13, background: 'rgba(13,14,26,0.9)', boxShadow: '0 0 20px rgba(34,211,238,0.12)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#22d3ee', boxShadow: '0 0 10px rgba(34,211,238,0.8)' }} />
+                <span style={{ fontSize: 15, fontWeight: 700, color: '#f8fafc' }}>Webhook 觸發</span>
+              </div>
+              <div style={{ fontFamily: MONO, fontSize: 11.5, color: '#64748b' }}>客戶事件 / Cron 排程</div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'center', color: '#7c5cff', fontSize: 17, padding: '10px 0' }}>↓</div>
+
+            <StageLabel>Workflow</StageLabel>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {SERVICES.map((s) => (
+                <Link key={s.slug} href={`/services/${s.slug}`} className="svc-svc" style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+                  padding: '13px 15px', border: `1.5px solid ${s.border}`, borderRadius: 13,
+                  background: 'rgba(13,14,26,0.92)', textDecoration: 'none',
+                }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+                    <span style={{ fontSize: 20 }}>{s.emoji}</span>
+                    <span style={{ minWidth: 0 }}>
+                      <span style={{ display: 'block', fontFamily: MONO, fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', color: s.catColor }}>{s.cat}</span>
+                      <span style={{ display: 'block', fontSize: 15, fontWeight: 600, color: '#f1f5f9' }}>{s.title}</span>
+                    </span>
+                  </span>
+                  <span style={{ fontFamily: MONO, fontSize: 11.5, color: '#64748b', whiteSpace: 'nowrap' }}>{s.price}</span>
+                </Link>
+              ))}
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'center', color: '#7c5cff', fontSize: 17, padding: '10px 0' }}>↓</div>
+
+            <StageLabel>Output</StageLabel>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {OUTPUTS.map((o) => (
+                <div key={o.label} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 13px', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, background: 'rgba(13,14,26,0.9)' }}>
+                  <span style={{ fontSize: 16 }}>{o.emoji}</span>
+                  <span style={{ fontFamily: MONO, fontSize: 12, color: '#94a3b8' }}>{o.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.06)', fontFamily: MONO, fontSize: 11.5, color: '#475569', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22d3ee', boxShadow: '0 0 8px rgba(34,211,238,0.8)' }} />
+            點擊任一服務查看詳情
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ══════════════ 分流：桌機 / 手機 ══════════════ */
+
+export default function HeroBanner() {
+  return (
+    <>
+      <style>{`
+        @keyframes hbPulse  { 0%,100% { opacity:1 } 50% { opacity:0.5 } }
+        @keyframes hbFloat  { 0%,100% { transform:rotate(-8deg) translateY(0) } 50% { transform:rotate(-8deg) translateY(-6px) } }
+        @keyframes hbFloat2 { 0%,100% { transform:rotate(6deg) translateY(0) } 50% { transform:rotate(6deg) translateY(-9px) } }
+        @keyframes hbScan   { 0% { transform:translateY(-100%) } 100% { transform:translateY(120%) } }
+        .svc-svc { transition: border-color .2s ease, background .2s ease, transform .2s ease; }
+        .svc-svc:hover { border-color: rgba(167,139,250,0.55) !important; background: rgba(20,22,40,0.95) !important; transform: translateY(-1px); }
+        /* 桌機顯示舊版、手機顯示新版三階段 */
+        .svc-hero-mobile { display: none; }
+        @media (max-width: 860px) {
+          .svc-hero-desktop { display: none; }
+          .svc-hero-mobile { display: block; }
+        }
+      `}</style>
+      <div className="svc-hero-desktop"><DesktopHero /></div>
+      <div className="svc-hero-mobile"><MobileHero /></div>
+    </>
   )
 }

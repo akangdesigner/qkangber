@@ -50,7 +50,7 @@ export default async function ServicesPage() {
       {/* Full-width hero banner */}
       <HeroBanner />
 
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 pb-16">
+      <div id="services" className="relative max-w-5xl mx-auto px-4 sm:px-6 pb-16 scroll-mt-20">
       <ServicesTabs automationServices={automationServices} aiServices={aiServices} productServices={productServices} />
 
       <div
