@@ -26,14 +26,14 @@ const activities: Activity[] = [
     date: '2026-07-25',
     status: '擔任講師',
     title: 'AI 時代的一人公司',
-    desc: '我擔任講師的一場講座——為什麼現在是一個人創業最好的時代，以及如何用 AI 把行銷、內容、客服、開發分工出去，一個人也能像一個團隊那樣運作。',
+    desc: '為什麼現在是一人公司最好的時代？又為什麼你適合開始構思屬於自己的一人公司？這堂講座從定位到 AI 分工，帶你把行銷、內容、客服、開發交給 AI，一個人也能像一個團隊那樣運作。',
     image: { src: '/activities/xlab-one-person-company-v2.webp', alt: 'XLab 講座主視覺「一人公司 · AI 分工打造一個團隊」，標示 Marketing、Content、Customer Service、Development 等 AI 分工', pos: 'left' },
   },
   {
     date: '2026-07-18',
     status: '擔任講師 · 12 週',
     title: 'Claude 實戰訓練營',
-    desc: '我擔任講師、為期 12 週的長期訓練營，循序從零帶學員建立自己的 AI 工作流與實作專案。強調的是持續產出與逐週累積，而不是短期速成的一次性課程。',
+    desc: '為期 12 週深度掌握 Anthropic Claude 全系列工具，導入「VIBE Coding」開發模式——強調意圖引導優於語法記憶，不必對寫程式感到恐懼。以「從零到一打造智慧型個人知識管理平台」為核心專案，把 AI 協作、開發、設計整合進實際工作流。',
     image: { src: '/activities/xlab-claude-camp.webp', alt: 'XLab Claude 實戰訓練營主視覺：Claude AI 標誌與 API 圖示' },
   },
   {
