@@ -27,11 +27,14 @@ const PH = {
   sans: 'var(--font-noto), "Noto Sans TC", sans-serif',
 }
 
-// Four-side feather → dissolves the hero into the page background.
+// Four-side feather → dissolves the hero's background glow / motif into the page
+// background. Sits BELOW the content (zIndex 1, above backdrop+motif) so the
+// top/bottom fade never dims the text — the layout is self-contained now, the
+// feather is purely a background blend, not an overlay.
 function PHFeather() {
   return (
     <div aria-hidden style={{
-      position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 5,
+      position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1,
       background:
         `linear-gradient(to right, ${PH.bg} 0%, transparent 11%, transparent 89%, ${PH.bg} 100%),` +
         `linear-gradient(to bottom, ${PH.bg} 0%, transparent 13%, transparent 87%, ${PH.bg} 100%)`,
