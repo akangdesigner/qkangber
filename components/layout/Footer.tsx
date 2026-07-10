@@ -13,6 +13,7 @@ const moreLinks = [
   { href: '/contact', label: '聯絡我' },
   { href: '/newsletter', label: '訂閱電子報' },
   { href: '/about', label: '關於我' },
+  { href: '/activities', label: '活動足跡' },
   { href: '/faq', label: 'AI × 自動化指南' },
 ]
 
