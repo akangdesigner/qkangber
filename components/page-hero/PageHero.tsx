@@ -62,25 +62,15 @@ function PHBackdrop({ accent }: { accent: string }) {
   )
 }
 
-// Editorial corner chrome — section label (top-left) + domain (top-right).
-function CornerMarks({ sectionEn, accent }: { sectionEn: string; accent: string }) {
+// Editorial corner chrome — domain only (top-right). The section name already
+// lives in the pill eyebrow, so the old top-left label was a duplicate.
+function CornerMarks() {
   return (
-    <>
-      <div aria-hidden className="ph-corner" style={{
-        position: 'absolute', top: 22, left: 24, zIndex: 6,
-        fontFamily: PH.mono, fontSize: 10.5, letterSpacing: '0.22em',
-        color: PH.faint, textTransform: 'uppercase',
-        display: 'flex', alignItems: 'center', gap: 10,
-      }}>
-        <span style={{ width: 8, height: 8, borderRadius: '50%', background: accent, boxShadow: `0 0 8px ${accent}` }} />
-        <span>{sectionEn}</span>
-      </div>
-      <div aria-hidden className="ph-corner-url" style={{
-        position: 'absolute', top: 22, right: 24, zIndex: 6,
-        fontFamily: PH.mono, fontSize: 10.5, letterSpacing: '0.2em',
-        color: PH.faint, textTransform: 'lowercase',
-      }}>aiqkangber.com</div>
-    </>
+    <div aria-hidden className="ph-corner-url" style={{
+      position: 'absolute', top: 22, right: 24, zIndex: 6,
+      fontFamily: PH.mono, fontSize: 10.5, letterSpacing: '0.2em',
+      color: PH.faint, textTransform: 'lowercase',
+    }}>aiqkangber.com</div>
   )
 }
 
@@ -146,9 +136,9 @@ function PHAurora({ accent }: { accent: string }) {
 
 // ── Shell every hero wraps in ──
 function PHShell({
-  sectionEn, accent, motif, children,
+  accent, motif, children,
 }: {
-  sectionEn: string; accent: string
+  accent: string
   motif: React.ReactNode; children: React.ReactNode
 }) {
   return (
@@ -160,7 +150,7 @@ function PHShell({
     }}>
       <PHBackdrop accent={accent} />
       {motif}
-      <CornerMarks sectionEn={sectionEn} accent={accent} />
+      <CornerMarks />
       <div style={{ position: 'relative', zIndex: 2, width: '100%', display: 'flex', alignItems: 'center' }}>
         {children}
       </div>
@@ -257,7 +247,7 @@ function BlogCategoryRail({ categories, accent }: { categories: Category[]; acce
 export function BlogHero({ categories }: { categories: Category[] }) {
   const accent = PH.cyan
   return (
-    <PHShell sectionEn="KNOWLEDGE BASE" accent={accent} motif={<PHScanBeam accent={accent} />}>
+    <PHShell accent={accent} motif={<PHScanBeam accent={accent} />}>
       <div className="ph-inner ph-grid-bigindex">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           <PHEyebrow en="Knowledge Base" accent={accent} />
@@ -294,14 +284,14 @@ function NLIllustrationDisc({ accent }: { accent: string }) {
       position: 'relative', width: '100%', height: '100%', minHeight: 300,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
-      {/* glowing disc */}
+      {/* soft glow behind the astronaut — no hard rim / border, so it reads as a
+          diffuse halo rather than a dark bordered bubble */}
       <div aria-hidden style={{
-        position: 'absolute', width: 'min(70%, 290px)', aspectRatio: '1', borderRadius: '50%',
+        position: 'absolute', width: 'min(84%, 340px)', aspectRatio: '1', borderRadius: '50%',
         background:
-          `radial-gradient(circle at 38% 32%, ${accent}33, rgba(2,3,10,0) 62%),` +
-          `radial-gradient(circle at 72% 80%, ${PH.violet}22, rgba(2,3,10,0) 60%)`,
-        boxShadow: `inset 0 0 60px ${accent}26`,
-        border: '1px solid rgba(255,255,255,0.07)',
+          `radial-gradient(circle at 42% 38%, ${accent}2b, rgba(2,3,10,0) 72%),` +
+          `radial-gradient(circle at 70% 78%, ${PH.violet}1c, rgba(2,3,10,0) 70%)`,
+        filter: 'blur(6px)',
       }} />
       {/* dashed orbit ring + traveling dot */}
       <svg aria-hidden viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet"
@@ -339,7 +329,7 @@ function NLIllustrationDisc({ accent }: { accent: string }) {
 export function NewsletterHero() {
   const accent = PH.blue
   return (
-    <PHShell sectionEn="NEWSLETTER" accent={accent} motif={<PHAurora accent={accent} />}>
+    <PHShell accent={accent} motif={<PHAurora accent={accent} />}>
       <div className="ph-inner ph-grid-newsletter">
         {/* LEFT — subscribe */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -437,7 +427,7 @@ function WorkPreviewCard({ accent }: { accent: string }) {
 export function PortfolioHero() {
   const accent = PH.pink
   return (
-    <PHShell sectionEn="PORTFOLIO" accent={accent} motif={<PHAurora accent={accent} />}>
+    <PHShell accent={accent} motif={<PHAurora accent={accent} />}>
       <div className="ph-inner ph-grid-split">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
           <PHEyebrow en="Portfolio" accent={accent} />
