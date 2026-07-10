@@ -202,8 +202,10 @@ function PHStyles() {
         .ph-inner { grid-template-columns: 1fr !important; gap: 32px; padding-top: 96px; padding-bottom: 56px; }
         .ph-rail, .ph-visual { max-width: 440px; }
         .ph-illustration { order: -1; max-width: 360px; margin: 0 auto; }
-        /* 訂閱頁太空人插圖在窄欄會撐出一大塊空白、把訂閱表單推到摺疊線下，手機/平板直接隱藏，Hero 以標題＋表單開場 */
-        .ph-grid-newsletter .ph-illustration { display: none !important; }
+        /* 訂閱頁太空人：窄欄改成置頂的小尺寸插圖（不再整塊隱藏），避免撐出大空白又保留主視覺 */
+        .ph-grid-newsletter .ph-illustration { display: flex !important; max-width: 300px; }
+        .nl-disc { min-height: 200px !important; }
+        .nl-disc .astro-walk { width: 168px !important; }
       }
       @media (max-width: 560px) {
         .ph-corner-url { display: none; }
@@ -288,7 +290,7 @@ export function BlogHero({ categories }: { categories: Category[] }) {
 // floating on top — all CSS/SVG except the transparent PNG.
 function NLIllustrationDisc({ accent }: { accent: string }) {
   return (
-    <div style={{
+    <div className="nl-disc" style={{
       position: 'relative', width: '100%', height: '100%', minHeight: 300,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>

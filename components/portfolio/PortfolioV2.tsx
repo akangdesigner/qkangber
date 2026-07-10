@@ -168,13 +168,14 @@ function PV2Hero() {
     const r = requestAnimationFrame(() => setShown(true))
     return () => cancelAnimationFrame(r)
   }, [])
-  const systems = [
-    { name: '教師專案管理系統', env: 'prod', tone: 'live', d: 0 },
-    { name: '台股自選股健檢', env: 'prod', tone: 'live', d: 0.4 },
-    { name: 'AICommand 排行榜', env: 'prod', tone: 'live', d: 0.8 },
-    { name: '行銷文章生成工作流', env: 'n8n', tone: 'live', d: 1.2 },
-    { name: '新聞電子報工作流', env: 'n8n · cron', tone: 'live', d: 1.6 },
-    { name: '產品監控系統', env: 'dev', tone: 'amber', d: 0.2 },
+  // 精選專案清單——與下方 bento 卡片一致：3 個上線網站 + 2 條 n8n 工作流 + 1 個開發中
+  const projects = [
+    { name: '教師專案管理系統', status: '上線', dot: '#34d399', d: 0 },
+    { name: '台股自選股健檢', status: '上線', dot: '#34d399', d: 0.4 },
+    { name: 'AICommand 排行榜', status: '上線', dot: '#34d399', d: 0.8 },
+    { name: '行銷文章生成工作流', status: 'n8n', dot: '#a78bfa', d: 1.2 },
+    { name: '新聞電子報工作流', status: 'n8n', dot: '#a78bfa', d: 1.6 },
+    { name: '產品監控系統', status: '開發中', dot: '#fbbf24', d: 0.2, amber: true },
   ]
   const ic = (on: boolean) => 'bv2-rise' + (on ? ' is-in' : '')
   return (
@@ -183,34 +184,51 @@ function PV2Hero() {
       display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 360px', gap: 56, alignItems: 'center',
     }}>
       <div>
-        <p className={ic(shown)} style={{ margin: '0 0 26px', fontFamily: MONO, fontSize: 11, letterSpacing: '0.22em', color: '#f0abfc', textTransform: 'uppercase', transitionDelay: '.05s' }}>{'// PORTFOLIO — 作品集'}</p>
-        <h1 className={ic(shown)} style={{ margin: 0, fontFamily: DISP, fontWeight: 700, fontSize: 'clamp(52px, 6.4vw, 84px)', lineHeight: 0.98, letterSpacing: '-0.035em', color: '#ffffff', transitionDelay: '.13s' }}>
-          作品集<span style={{ color: '#f0abfc' }}>.</span>
+        {/* 膠囊 eyebrow——對齊全站 hero 標準（綠點 + Portfolio） */}
+        <div className={ic(shown)} style={{
+          display: 'inline-flex', alignItems: 'center', gap: 9,
+          padding: '6px 15px', borderRadius: 999, marginBottom: 26,
+          border: '1px solid rgba(124,92,255,0.3)', background: 'rgba(124,92,255,0.07)',
+          transitionDelay: '.05s',
+        }}>
+          <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px rgba(52,211,153,0.8)' }} />
+          <span style={{ fontFamily: MONO, fontSize: 11, fontWeight: 600, letterSpacing: '0.24em', textTransform: 'uppercase', color: '#c4b5fd' }}>Portfolio</span>
+        </div>
+        <h1 className={ic(shown)} style={{ margin: 0, fontFamily: SANS, fontWeight: 800, fontSize: 'clamp(2.6rem, 5.4vw, 4.4rem)', lineHeight: 1.04, letterSpacing: '-0.035em', color: '#ffffff', transitionDelay: '.13s' }}>
+          作品集
         </h1>
-        <p className={ic(shown)} style={{ margin: '24px 0 0', fontFamily: SANS, fontWeight: 600, fontSize: 'clamp(18px, 2.2vw, 26px)', lineHeight: 1.4, letterSpacing: '-0.01em', color: '#e2e8f0', transitionDelay: '.2s' }}>
-          n8n 自動化與 AI 應用實戰案例
+        <p className={ic(shown)} style={{ margin: '22px 0 0', maxWidth: 460, fontSize: 16, lineHeight: 1.85, color: '#94a3b8', fontFamily: SANS, textWrap: 'pretty', transitionDelay: '.2s' } as CSS}>
+          收錄 n8n 自動化流程、AI Agent 應用與 Vibe Coding 開發的真實專案——每個作品都是解決實際問題的工具，不是 demo。
         </p>
-        <p className={ic(shown)} style={{ margin: '20px 0 0', maxWidth: 440, fontSize: 14, lineHeight: 1.9, color: '#64748b', fontFamily: SANS, textWrap: 'pretty', transitionDelay: '.24s' } as CSS}>
-          收錄 n8n 自動化流程、AI Agent 應用與 Vibe Coding 開發的真實專案。每一個都在解決實際問題、在 production 上運作。
+        <p className={ic(shown)} style={{ margin: '24px 0 0', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px 16px', fontFamily: MONO, fontSize: 12, letterSpacing: '0.04em', color: '#475569', transitionDelay: '.32s' }}>
+          <span><span style={{ color: '#a78bfa' }}>6</span> 個專案</span><span style={{ color: '#334155' }}>·</span>
+          <span><span style={{ color: '#34d399' }}>5</span> 個上線</span><span style={{ color: '#334155' }}>·</span>
+          <span><span style={{ color: '#fbbf24' }}>1</span> 個開發中</span><span style={{ color: '#334155' }}>·</span>
+          <span>始於 2025</span>
         </p>
-        <p className={ic(shown)} style={{ margin: '22px 0 0', fontFamily: MONO, fontSize: 11, letterSpacing: '0.1em', color: '#475569', transitionDelay: '.32s' }}>6 個專案&ensp;·&ensp;5 個上線&ensp;·&ensp;1 個開發中&ensp;·&ensp;始於 2025</p>
       </div>
 
-      <aside aria-label="系統狀態" className={ic(shown)} style={{ borderRadius: 16, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)', overflow: 'hidden', boxShadow: '0 24px 70px -30px rgba(0,0,0,0.8)', transitionDelay: '.2s' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '13px 18px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-          <span style={{ fontFamily: MONO, fontSize: 10, fontWeight: 600, letterSpacing: '0.18em', color: '#94a3b8' }}>SYS.STATUS</span>
-          <PV2Light tone="live" label="all systems go" />
+      <aside aria-label="精選專案" className={ic(shown)} style={{ borderRadius: 16, border: '1px solid rgba(255,255,255,0.09)', background: 'linear-gradient(180deg,rgba(255,255,255,0.025),rgba(255,255,255,0.01))', overflow: 'hidden', boxShadow: '0 24px 70px -30px rgba(0,0,0,0.8)', transitionDelay: '.2s' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#94a3b8' }}>精選專案</span>
+          <span style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.07)' }} />
+          <span style={{ fontFamily: MONO, fontSize: 12, fontWeight: 600, color: '#a78bfa' }}>06</span>
         </div>
         <ul style={{ listStyle: 'none', margin: 0, padding: '6px 0' }}>
-          {systems.map((s) => (
-            <li key={s.name} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '11px 18px', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-              <span className="bv2-light" style={{ '--ld': s.d + 's', width: 6, height: 6, borderRadius: '50%', flexShrink: 0, background: s.tone === 'amber' ? '#fbbf24' : '#4ade80', boxShadow: s.tone === 'amber' ? '0 0 8px #fbbf24' : '0 0 8px #4ade80' } as CSS} />
-              <span style={{ flex: 1, fontSize: 12.5, color: '#cbd5e1', fontFamily: SANS, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{s.name}</span>
-              <span style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.08em', color: s.tone === 'amber' ? '#fbbf24' : '#475569' }}>{s.env}</span>
+          {projects.map((p) => (
+            <li key={p.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '13px 20px' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 11, minWidth: 0, color: '#e2e8f0', fontSize: 15, fontFamily: SANS }}>
+                <span className="bv2-light" style={{ '--ld': p.d + 's', width: 7, height: 7, borderRadius: '50%', flexShrink: 0, background: p.dot, boxShadow: p.amber ? `0 0 8px ${p.dot}` : 'none' } as CSS} />
+                <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</span>
+              </span>
+              <span style={{ fontFamily: SANS, fontSize: 12.5, color: p.amber ? '#fbbf24' : '#64748b', whiteSpace: 'nowrap' }}>{p.status}</span>
             </li>
           ))}
         </ul>
-        <div style={{ padding: '10px 18px', background: 'rgba(255,255,255,0.015)', fontFamily: MONO, fontSize: 10, letterSpacing: '0.1em', color: '#334155' }}>$ watch --all<span className="bv2-cursor" style={{ display: 'inline-block', width: 5, height: 11, background: '#475569', marginLeft: 6, verticalAlign: 'middle' }} /></div>
+        <a href="#works" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px', borderTop: '1px solid rgba(255,255,255,0.06)', textDecoration: 'none' }}>
+          <span style={{ fontFamily: SANS, fontSize: 12.5, color: '#64748b' }}>5 個上線 · 1 個開發中</span>
+          <span style={{ fontFamily: SANS, fontSize: 13, fontWeight: 600, color: '#a78bfa' }}>查看全部 →</span>
+        </a>
       </aside>
     </header>
   )
@@ -361,7 +379,7 @@ function PV2CardMore() {
 
 function PV2Bento({ onOpen }: { onOpen: OpenFn }) {
   return (
-    <section style={{ maxWidth: 1180, margin: '0 auto', padding: '0 40px 110px' }}>
+    <section id="works" style={{ maxWidth: 1180, margin: '0 auto', padding: '0 40px 110px', scrollMarginTop: 80 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 26 }}>
         <span style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.2em', color: '#475569' }}>SELECTED WORKS</span>
         <span style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, rgba(255,255,255,0.08), transparent)' }} />
