@@ -196,9 +196,9 @@ function PHStyles() {
         .ph-rail, .ph-visual { max-width: 440px; }
         .ph-illustration { order: -1; max-width: 360px; margin: 0 auto; }
         /* 訂閱頁太空人：窄欄改成置頂的小尺寸插圖（不再整塊隱藏），避免撐出大空白又保留主視覺 */
-        .ph-grid-newsletter .ph-illustration { display: flex !important; max-width: 300px; }
-        .nl-disc { min-height: 200px !important; }
-        .nl-disc .astro-walk { width: 168px !important; }
+        .ph-grid-newsletter .ph-illustration { display: flex !important; max-width: 330px; }
+        .nl-disc { min-height: 240px !important; }
+        .nl-disc .astro-walk { width: 208px !important; }
       }
       @media (max-width: 560px) {
         .ph-corner-url { display: none; }
@@ -284,13 +284,13 @@ export function BlogHero({ categories }: { categories: Category[] }) {
 function NLIllustrationDisc({ accent }: { accent: string }) {
   return (
     <div className="nl-disc" style={{
-      position: 'relative', width: '100%', height: '100%', minHeight: 300,
+      position: 'relative', width: '100%', height: '100%', minHeight: 340,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
       {/* soft glow behind the astronaut — no hard rim / border, so it reads as a
           diffuse halo rather than a dark bordered bubble */}
       <div aria-hidden style={{
-        position: 'absolute', width: 'min(84%, 340px)', aspectRatio: '1', borderRadius: '50%',
+        position: 'absolute', width: 'min(94%, 388px)', aspectRatio: '1', borderRadius: '50%',
         background:
           `radial-gradient(circle at 42% 38%, ${accent}2b, rgba(2,3,10,0) 72%),` +
           `radial-gradient(circle at 70% 78%, ${PH.violet}1c, rgba(2,3,10,0) 70%)`,
@@ -298,7 +298,7 @@ function NLIllustrationDisc({ accent }: { accent: string }) {
       }} />
       {/* dashed orbit ring + traveling dot */}
       <svg aria-hidden viewBox="0 0 400 400" preserveAspectRatio="xMidYMid meet"
-        style={{ position: 'absolute', width: '68%', height: '68%', overflow: 'visible' }}>
+        style={{ position: 'absolute', width: '75%', height: '75%', overflow: 'visible' }}>
         <defs>
           <linearGradient id="nlSubOrbit" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stopColor={accent} stopOpacity="0.55" />
@@ -313,14 +313,14 @@ function NLIllustrationDisc({ accent }: { accent: string }) {
       </svg>
       {/* astronaut — static PNG, floats via the astroWalk keyframe */}
       <div className="astro-walk" style={{
-        position: 'relative', zIndex: 2, width: 'min(94%, 380px)', aspectRatio: '1 / 1',
+        position: 'relative', zIndex: 2, width: 'min(106%, 440px)', aspectRatio: '1 / 1',
         filter: 'drop-shadow(0 18px 24px rgba(2,3,10,0.45))',
       }}>
         <Image
           src="/newsletter/astronaut-centered.png"
           alt="霓虹太空人插圖，漂浮在發光圓盤與虛線軌道環之上"
           fill
-          sizes="(max-width: 860px) 360px, 380px"
+          sizes="(max-width: 860px) 320px, 440px"
           style={{ objectFit: 'contain' }}
           priority
         />
