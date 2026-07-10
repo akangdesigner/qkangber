@@ -285,10 +285,12 @@ export default function ServicesTabs({ automationServices, aiServices, productSe
       <style>{`
         @keyframes stHoloPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         @keyframes stHoloSweep { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        /* 手機版把 CLI/terminal 裝飾（// select.mode 與 loaded:… READY）整段隱藏，保留分頁 pills */
+        @media (max-width: 640px) { .st-cli-chrome { display: none !important; } }
       `}</style>
 
       {/* Mode label */}
-      <div style={{
+      <div className="st-cli-chrome" style={{
         display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14,
       }}>
         <span style={{
@@ -330,7 +332,7 @@ export default function ServicesTabs({ automationServices, aiServices, productSe
       </div>
 
       {/* Status console bar */}
-      <div style={{
+      <div className="st-cli-chrome" style={{
         position: 'relative',
         display: 'flex', alignItems: 'center', gap: 16,
         padding: '20px 24px',
