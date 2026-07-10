@@ -38,6 +38,7 @@ const activities: Activity[] = [
   },
   {
     date: '2026-07-09',
+    status: '已參加',
     title: 'Google Cloud Day',
     desc: 'Google Cloud 的年度技術大會，聚焦生成式 AI、資料與雲端架構的最新進展。涵蓋 Gemini、Vertex AI 等產品的實戰場次與企業導入案例，是一次掌握雲端 AI 全貌的現場。',
     image: { src: '/activities/google-cloud-day.webp', alt: 'Google Cloud Day Taipei 活動現場報到區，背板印有 Google Cloud、Cloud Day Taipei 字樣', pos: 'center 38%' },
