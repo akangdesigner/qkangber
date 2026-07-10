@@ -20,26 +20,26 @@ type Activity = {
 }
 
 // 依日期新→舊排序，新增時加在陣列最前面。
+// link 目前一律不給——之後每則會做成點進去看詳細的「了解更多」詳情頁再補。
 const activities: Activity[] = [
   {
     date: '2026-07-25',
-    status: '即將參加',
-    title: 'AI 一人創業訓練營',
-    desc: '聚焦「一人公司」的實作型訓練營。以 AI 工具為核心，帶著把個人創業的定位、產品、內容到行銷跑完一整輪，重點在如何用最小人力把事情系統化地撐起來。',
-    link: { href: 'https://www.xlab.com.tw/events', label: '活動官網' },
+    status: '擔任講師',
+    title: 'AI 時代的一人公司',
+    desc: '我擔任講師的一場講座——為什麼現在是一個人創業最好的時代，以及如何用 AI 把行銷、內容、客服、開發分工出去，一個人也能像一個團隊那樣運作。',
+    image: { src: '/activities/xlab-one-person-company-v2.webp', alt: 'XLab 講座主視覺「一人公司 · AI 分工打造一個團隊」，標示 Marketing、Content、Customer Service、Development 等 AI 分工', pos: 'left' },
   },
   {
     date: '2026-07-18',
-    status: '即將開始 · 12 週',
+    status: '擔任講師 · 12 週',
     title: 'Claude 實戰訓練營',
-    desc: '為期 12 週的長期訓練營，循序從零帶學員建立自己的 AI 工作流與實作專案。強調的是持續產出與逐週累積，而不是短期速成的一次性課程。',
-    link: { href: 'https://www.xlab.com.tw/events', label: '活動官網' },
+    desc: '我擔任講師、為期 12 週的長期訓練營，循序從零帶學員建立自己的 AI 工作流與實作專案。強調的是持續產出與逐週累積，而不是短期速成的一次性課程。',
+    image: { src: '/activities/xlab-claude-camp.webp', alt: 'XLab Claude 實戰訓練營主視覺：Claude AI 標誌與 API 圖示' },
   },
   {
     date: '2026-07-09',
     title: 'Google Cloud Day',
     desc: 'Google Cloud 的年度技術大會，聚焦生成式 AI、資料與雲端架構的最新進展。涵蓋 Gemini、Vertex AI 等產品的實戰場次與企業導入案例，是一次掌握雲端 AI 全貌的現場。',
-    link: { href: 'https://www.xlab.com.tw/events', label: '活動官網' },
     image: { src: '/activities/google-cloud-day.webp', alt: 'Google Cloud Day Taipei 活動現場報到區，背板印有 Google Cloud、Cloud Day Taipei 字樣', pos: 'center 38%' },
   },
 ]
