@@ -136,6 +136,21 @@ function CucumberAvatar({ className = 'w-[180px] h-[180px]' }: { className?: str
   )
 }
 
+// 卡片右上角的狀態徽章（膠囊＋脈動點），正/背面各顯示自己的頁碼
+function FaceBadge({ label }: { label: string }) {
+  return (
+    <div style={{
+      display: 'inline-flex', alignItems: 'center', gap: 6,
+      padding: '4px 11px', borderRadius: 999,
+      background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(167,139,250,0.28)',
+      fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#c4b5fd',
+    }}>
+      <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#a78bfa', boxShadow: '0 0 8px rgba(167,139,250,0.8)', animation: 'fcBadgePulse 1.6s ease-in-out infinite' }} />
+      {label}
+    </div>
+  )
+}
+
 // ── Card faces ─────────────────────────────────────────────────
 function CardFaceWrapper({ children, back = false }: { children: React.ReactNode; back?: boolean }) {
   return (
@@ -163,13 +178,9 @@ function FrontFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: num
   return (
     <>
       <div className="relative p-6 sm:p-8 lg:absolute lg:inset-0 lg:p-0" style={{ transformStyle: 'preserve-3d' }}>
-        {/* Eyebrow */}
-        <Layer depth={0.4} drift={3} pointer={pointer} className="flex justify-between items-center lg:absolute lg:top-11 lg:left-14 lg:right-14">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ height: 1, width: 32, flexShrink: 0, background: 'linear-gradient(90deg, transparent, #7c5cff)' }} />
-            <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.24em', textTransform: 'uppercase', background: 'linear-gradient(90deg, #a78bfa, #60a5fa)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>About · Q kangber</span>
-          </div>
-          <span style={{ fontSize: 10, color: '#64748b', letterSpacing: '0.20em' }}>EST. 2024</span>
+        {/* Eyebrow — 卡片外已有標準 About 膠囊，這裡右上角放頁碼狀態徽章 */}
+        <Layer depth={0.4} drift={3} pointer={pointer} className="flex justify-end items-center lg:absolute lg:top-11 lg:left-14 lg:right-14">
+          <FaceBadge label="Front · 01 / 02" />
         </Layer>
 
         {/* Two-column layout */}
@@ -232,7 +243,7 @@ function BackFace({ pointer, active, onFlip }: { pointer: { nx: number; ny: numb
             <div style={{ height: 1, width: 32, flexShrink: 0, background: 'linear-gradient(90deg, transparent, #7c5cff)' }} />
             <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.24em', textTransform: 'uppercase', background: 'linear-gradient(90deg, #a78bfa, #60a5fa)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Philosophy · 我的核心理念</span>
           </div>
-          <span style={{ fontSize: 10, color: '#64748b', letterSpacing: '0.20em' }}>EST. 2024</span>
+          <FaceBadge label="Back · 02 / 02" />
         </Layer>
 
         <Layer depth={1.4} drift={5} pointer={pointer} className="mt-8 lg:mt-0 lg:absolute lg:top-[100px] lg:left-14 lg:right-14">
@@ -305,19 +316,6 @@ export default function FlipCard() {
               <BackFace pointer={pointer} active={active} onFlip={() => setFlipped(false)} />
             </CardFaceWrapper>
           </div>
-        </div>
-
-        {/* Floating badge — outside tilt container */}
-        <div style={{
-          position: 'absolute', top: -14, right: 24,
-          display: 'flex', alignItems: 'center', gap: 6,
-          padding: '6px 12px', borderRadius: 999,
-          fontSize: 10, fontWeight: 600, letterSpacing: '0.20em', textTransform: 'uppercase',
-          background: '#05060a', border: '1px solid rgba(167,139,250,0.35)', color: '#c4b5fd',
-          boxShadow: '0 4px 16px rgba(124,92,255,0.3)', zIndex: 5, pointerEvents: 'none',
-        }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#a78bfa', boxShadow: '0 0 8px rgba(167,139,250,0.8)', animation: 'fcBadgePulse 1.6s ease-in-out infinite' }} />
-          {flipped ? 'Back · 02 / 02' : 'Front · 01 / 02'}
         </div>
       </div>
     </>

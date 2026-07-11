@@ -95,14 +95,12 @@ export default function AboutPage() {
       <div aria-hidden className="absolute inset-0 pointer-events-none -z-10" style={{ backgroundImage: 'radial-gradient(circle, rgba(167,139,250,0.18) 1px, transparent 1px)', backgroundSize: '32px 32px', opacity: 0.45 }} />
 
       <div className="max-w-[1080px] mx-auto px-4 sm:px-6 pt-12 sm:pt-20">
-        {/* Eyebrow + subtitle */}
-        <div className="mb-4">
-          <div className="flex items-center gap-3">
-            <div className="h-px w-8 flex-shrink-0" style={{ background: 'linear-gradient(90deg, transparent, #7c5cff)' }} />
-            <span className="text-[0.66rem] tracking-[0.28em] uppercase font-semibold" style={{ background: 'linear-gradient(90deg,#a78bfa,#60a5fa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              About
-            </span>
-          </div>
+        {/* Eyebrow — 對齊全站 hero 標準（綠點紫膠囊 + About） */}
+        <div className="mb-6 inline-flex items-center gap-2.5 rounded-full" style={{ padding: '6px 15px', border: '1px solid rgba(124,92,255,0.3)', background: 'rgba(124,92,255,0.07)' }}>
+          <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px rgba(52,211,153,0.8)' }} />
+          <span style={{ fontFamily: 'var(--font-jetbrains), ui-monospace, monospace', fontSize: 11, fontWeight: 600, letterSpacing: '0.24em', textTransform: 'uppercase', color: '#c4b5fd' }}>
+            About
+          </span>
         </div>
 
         {/* Flip card hero */}

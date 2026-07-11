@@ -26,16 +26,18 @@ type Activity = {
 const activities: Activity[] = [
   {
     date: '2026-07-25',
-    tags: [{ label: '擔任講師' }, { label: '講座', tone: 'muted' }],
+    tags: [{ label: 'XLab' }, { label: '擔任講師' }, { label: '講座', tone: 'muted' }],
     title: 'AI 時代的一人公司',
     desc: '為什麼現在是一人公司最好的時代？又為什麼你適合開始構思屬於自己的一人公司？這堂講座從定位到 AI 分工，帶你把行銷、內容、客服、開發交給 AI，一個人也能像一個團隊那樣運作。',
+    link: { href: 'https://www.xlab.com.tw/events', label: '查看活動官網' },
     image: { src: '/activities/xlab-one-person-company-v2.webp', alt: 'XLab 講座主視覺「一人公司 · AI 分工打造一個團隊」，標示 Marketing、Content、Customer Service、Development 等 AI 分工', pos: 'left' },
   },
   {
     date: '2026-07-18',
-    tags: [{ label: '擔任講師' }, { label: '訓練營', tone: 'muted' }, { label: '12 週', tone: 'muted' }],
+    tags: [{ label: 'XLab' }, { label: '擔任講師' }, { label: '訓練營', tone: 'muted' }, { label: '12 週', tone: 'muted' }],
     title: 'Claude 實戰訓練營',
     desc: '為期 12 週深度掌握 Anthropic Claude 全系列工具，導入「VIBE Coding」開發模式——強調意圖引導優於語法記憶，不必對寫程式感到恐懼。以「從零到一打造智慧型個人知識管理平台」為核心專案，把 AI 協作、開發、設計整合進實際工作流。',
+    link: { href: 'https://www.xlab.com.tw/events', label: '查看活動官網' },
     image: { src: '/activities/xlab-claude-camp.webp', alt: 'XLab Claude 實戰訓練營主視覺：Claude AI 標誌與 API 圖示' },
   },
   {
@@ -87,6 +89,10 @@ function EntryLink({ href, label }: { href: string; label: string }) {
 export default function ActivitiesPage() {
   // 依年份分組（新→舊），每組前面標一個年份 marker
   const years = Array.from(new Set(activities.map((a) => a.date.slice(0, 4))))
+  // 標頭統計列
+  const total = activities.length
+  const lecturerCount = activities.filter((a) => a.tags?.some((t) => t.label === '擔任講師')).length
+  const startYear = years[years.length - 1]
 
   return (
     <main className="relative overflow-hidden pb-16 sm:pb-24">
@@ -96,9 +102,10 @@ export default function ActivitiesPage() {
       <div className="max-w-[940px] mx-auto px-4 sm:px-6 pt-12 sm:pt-24">
         {/* header */}
         <header className="mb-12 sm:mb-20">
-          <div className="inline-flex items-center gap-2.5 mb-5">
-            <span className="block h-[1.5px] w-[26px] rounded-full" style={{ background: 'linear-gradient(90deg,#7c5cff,#60a5fa)' }} />
-            <span className="text-[0.68rem] font-semibold tracking-[0.28em] uppercase" style={{ background: 'linear-gradient(90deg,#a78bfa,#60a5fa)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          {/* Eyebrow — 對齊全站 hero 標準（綠點紫膠囊 + Activities） */}
+          <div className="mb-6 inline-flex items-center gap-2.5 rounded-full" style={{ padding: '6px 15px', border: '1px solid rgba(124,92,255,0.3)', background: 'rgba(124,92,255,0.07)' }}>
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px rgba(52,211,153,0.8)' }} />
+            <span style={{ fontFamily: MONO, fontSize: 11, fontWeight: 600, letterSpacing: '0.24em', textTransform: 'uppercase', color: '#c4b5fd' }}>
               Activities
             </span>
           </div>
@@ -106,6 +113,13 @@ export default function ActivitiesPage() {
           <p className="text-slate-400 leading-relaxed max-w-[56ch] text-base sm:text-[1.0625rem]">
             按時間順序記錄我實際參與的技術活動與講座——每則簡述這場活動在做什麼、聚焦哪些主題。想細看的觀察與延伸，會另外寫成
             <Link href="/blog" className="text-violet-300 hover:text-violet-200 underline underline-offset-4 mx-1">部落格文章</Link>。
+          </p>
+          {/* 統計列 — 對齊作品集 hero 的 meta 密度 */}
+          <p className="mt-6" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px 16px', fontFamily: MONO, fontSize: 12, letterSpacing: '0.04em', color: '#475569', margin: '24px 0 0' }}>
+            <span><span style={{ color: '#a78bfa' }}>{total}</span> 場紀錄</span><span style={{ color: '#334155' }}>·</span>
+            <span><span style={{ color: '#c4b5fd' }}>{lecturerCount}</span> 場擔任講師</span><span style={{ color: '#334155' }}>·</span>
+            <span>始於 {startYear}</span><span style={{ color: '#334155' }}>·</span>
+            <span>持續紀錄中</span>
           </p>
         </header>
 
