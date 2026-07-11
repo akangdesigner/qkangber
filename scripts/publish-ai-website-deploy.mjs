@@ -1,34 +1,45 @@
-// 發布 21-prompt-engineering 到 posts 分頁。
-// 用法：node scripts/publish-prompt-engineering.mjs [--write] [--update]
+// 發布 24-ai-website-deploy 到 posts 分頁。
+// 用法：node scripts/publish-ai-website-deploy.mjs [--write] [--update]
 //   預設 dry-run；--write 才寫入；--update 覆蓋既有同 slug 那列（否則 append 新列）。
-// 官網版處理：去 h1、紅 #c0392b → 琥珀 #fbbf24。內文圖＋封面皆已是 ImgBB webp 網址。
+// 官網版處理：去 h1、紅 #c0392b → 琥珀 #fbbf24、本地圖換 ImgBB 網址。封面保留在 body 當題圖，同時填 K/N 欄。
+// CTA 保留（文中方框＋結尾，導 /services/web-development 與 /services）；延伸閱讀內鏈保留。
 import fs from 'fs'
 import { google } from 'googleapis'
 
 const WRITE = process.argv.includes('--write')
 const UPDATE = process.argv.includes('--update')
 
-const SLUG = 'prompt-engineering'
-const TITLE = '提示詞怎麼寫，AI 生成的答案才會準確？prompt engineering 5 大重點一次看懂'
-const DATE = '2026/07/07'
-const TAGS = 'prompt engineering,提示詞,提示工程,ai prompt,prompt ai'
-const EXCERPT = 'AI 給的答案總是不夠準？多半是提示詞沒寫好。這篇用一組組爛提示詞改成好提示詞的對照，講清楚 prompt engineering（提示工程）的 5 大重點：給角色情境、把需求講具體、給範例、指定輸出格式、拆解任務步驟，中英文提示詞都適用。'
-const CATEGORY = 'AI 軟體開發'   // M 主分類（Vibe Coding pillar spoke⭐2）
+const SLUG = 'ai-website-deploy'
+const TITLE = '2026 AI 網站部署怎麼做？不會寫程式也能讓網站真正上線、全世界都連得到'
+const DATE = '2026/07/08'
+const TAGS = 'AI 網站部署,網站部署,Zeabur 部署,網域申請,Claude Code'
+const EXCERPT = 'AI 做好的網站只有自己看得到，要怎麼讓全世界都連得到？這篇用 Claude Code 開發、Git 存檔、捕夢網買網域、Zeabur 部署，四步驟帶不會寫程式的你把網站真正送上線，附真實截圖示範網域申請與 DNS 設定。'
+const CATEGORY = 'AI 軟體開發'   // M 主分類（扁平 5 類）
 const SUBCATEGORY = ''            // O 副分類已退役，留空
-const COVER = 'https://i.ibb.co/C37jrPmk/cover.webp'
+const COVER = 'https://i.ibb.co/27PqfgZD/cover.webp'
+
+const IMG_MAP = {
+  'images/cover.jpg': 'https://i.ibb.co/27PqfgZD/cover.webp',
+  'images/concept-localhost.jpg': 'https://i.ibb.co/9kcyjRq2/concept-localhost.webp',
+  'images/flow-overview.jpg': 'https://i.ibb.co/nMj2F8rp/flow-overview.webp',
+  'images/domain-door.jpg': 'https://i.ibb.co/Xk8Gcw4Y/domain-door.webp',
+  'images/pumo-domain-search.jpg': 'https://i.ibb.co/KxLHt0gc/pumo-domain-search.webp',
+  'images/cloudflare-dns.jpg': 'https://i.ibb.co/SDzMw3zx/cloudflare-dns.webp',
+  'images/zeabur-domain.jpg': 'https://i.ibb.co/3tSXQ7X/zeabur-domain.webp',
+  'images/deploy-flow.jpg': 'https://i.ibb.co/CK2tBG0j/deploy-flow.webp',
+}
 
 // --- 內文轉換 ---
-const raw = fs.readFileSync('blog-drafts/21-prompt-engineering/21-prompt-engineering.html', 'utf8')
+const raw = fs.readFileSync('blog-drafts/24-ai-website-deploy/24-ai-website-deploy.html', 'utf8')
 const bodyM = raw.match(/<body>([\s\S]*?)<\/body>/i)
 let content = (bodyM ? bodyM[1] : raw).replace(/<h1>[\s\S]*?<\/h1>/i, '').trim()
 
 // 本地圖 → ImgBB 網址
-content = content
-  .replace(/src="images\/cover\.jpg"/gi, `src="${COVER}"`)
-  .replace(/src="images\/bad-vs-good\.png"/gi, 'src="https://i.ibb.co/k2Jywn4q/bad-vs-good.webp"')
-  .replace(/src="images\/point2-specific\.png"/gi, 'src="https://i.ibb.co/4n4S8qnf/point2-specific.webp"')
+for (const [local, url] of Object.entries(IMG_MAP)) {
+  content = content.replace(new RegExp(`src="${local.replace(/\//g, '\\/')}"`, 'gi'), `src="${url}"`)
+}
 
-// 紅 → 琥珀
+// 紅 → 琥珀（含文中方框 CTA 的框色/按鈕色一起轉）
 content = content.replace(/#c0392b/gi, '#fbbf24')
 
 const aqLinks = [...content.matchAll(/href="(https:\/\/aiqkangber\.com[^"]*)"/gi)].map((m) => m[1])
@@ -62,11 +73,11 @@ if (UPDATE && existIdx === -1) { console.error(`找不到 slug=${SLUG}，無法 
 const cats = [...new Set(rows.slice(1).map((r) => (r[12] ?? '').trim()).filter(Boolean))]
 
 console.log(`模式：${UPDATE ? `覆蓋既有第 ${existIdx + 1} 列` : 'append 新列'}`)
-console.log(`既有分類（核對 M 欄該填什麼）：${cats.join('、')}`)
+console.log(`既有分類：${cats.join('、')}`)
 console.log(`slug=${SLUG}`)
 console.log(`title=${TITLE}`)
-console.log(`date=${DATE} | M=${CATEGORY} | tags=${TAGS}`)
-console.log(`內文長度=${content.length}｜<img>=${leftover.imgs}（應3：封面＋2內文圖）`)
+console.log(`date=${DATE} | M=${CATEGORY} | O=（空）| tags=${TAGS}`)
+console.log(`內文長度=${content.length}｜<img>=${leftover.imgs}（應 8）`)
 console.log(`殘留檢查：紅字=${leftover.red}（應0）｜本地圖=${leftover.localImg}（應0）｜/services 連結=${leftover.serviceCta}（方框＋結尾，應≥2）`)
 console.log(`內文 aiqkangber 連結（${aqLinks.length}）：\n  - ${aqLinks.join('\n  - ')}`)
 console.log(`封面=${COVER}`)
