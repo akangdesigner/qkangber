@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
@@ -90,6 +91,20 @@ export default function CloudDay2026Page() {
             <span>22 張現場紀錄</span>
           </p>
         </header>
+
+        {/* 現場照 */}
+        <div className="mb-10 sm:mb-14 overflow-hidden rounded-2xl border border-white/[0.08]" style={{ aspectRatio: '16/9', background: 'rgba(255,255,255,0.02)' }}>
+          <div className="relative w-full h-full">
+            <Image
+              src="/activities/cloud-day-2026/venue.webp"
+              alt="Google Cloud Day Taipei 2026 主場館現場，大螢幕投影 Cloud Day Taipei 主視覺，台下座無虛席"
+              fill
+              sizes="(max-width: 940px) 100vw, 892px"
+              priority
+              style={{ objectFit: 'cover', objectPosition: 'center 38%' }}
+            />
+          </div>
+        </div>
 
         {/* 總綱 */}
         <section className="mb-10 sm:mb-14 rounded-2xl p-5 sm:p-7" style={{ border: '1px solid rgba(124,92,255,0.22)', background: 'rgba(124,92,255,0.05)' }}>
