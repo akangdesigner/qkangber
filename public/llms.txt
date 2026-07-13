@@ -12,6 +12,8 @@
 - [AI × N8N 知識庫（部落格）](https://aiqkangber.com/blog): N8N 自動化、Vibe Coding、AI 趨勢、AI 工具實測與 Agent 整合的實戰文章
 - [歷期電子報](https://aiqkangber.com/newsletter): 每週精選 AI 業界動態、N8N 自動化、工具推薦與實戰心得，全部公開免費閱讀
 - [AI × 自動化指南（FAQ）](https://aiqkangber.com/faq): n8n、AI Agent、RAG、Prompt Engineering 的實戰問答
+- [活動分享](https://aiqkangber.com/activities): 按時間記錄實際參與的技術活動與講座
+- [Google Cloud Day 2026 八場講座筆記](https://aiqkangber.com/activities/google-cloud-day-2026): Gemini Enterprise、AI Agent、開放 Lakehouse、BigQuery 對話式 Agent、生成式媒體 AI、GECX 與 ADK 的第一手現場筆記
 - [關於我](https://aiqkangber.com/about): 主理人背景、經歷與專業領域
 - [聯絡我們](https://aiqkangber.com/contact): 合作洽詢與聯絡方式
 

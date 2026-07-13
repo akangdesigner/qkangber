@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { buildMetadata } from '@/lib/metadata'
+import StatusTag from '@/components/activities/StatusTag'
 
 export const metadata = buildMetadata({
   title: { absolute: '活動分享 — Q kangber 參與的講座與活動記錄' },
@@ -22,7 +23,7 @@ type Activity = {
 }
 
 // 依日期新→舊排序，新增時加在陣列最前面。
-// link 目前一律不給——之後每則會做成點進去看詳細的「了解更多」詳情頁再補。
+// link 以 '/' 開頭＝站內詳情頁（同分頁），否則視為外部活動官網（另開新分頁）。
 const activities: Activity[] = [
   {
     date: '2026-07-25',
@@ -45,6 +46,7 @@ const activities: Activity[] = [
     tags: [{ label: '技術大會' }, { label: '雲端 AI', tone: 'muted' }],
     title: 'Google Cloud Day',
     desc: 'Google Cloud 的年度技術大會，聚焦生成式 AI、資料與雲端架構的最新進展。涵蓋 Gemini、Vertex AI 等產品的實戰場次與企業導入案例，是一次掌握雲端 AI 全貌的現場。',
+    link: { href: '/activities/google-cloud-day-2026', label: '閱讀八場講座筆記' },
     image: { src: '/activities/google-cloud-day.webp', alt: 'Google Cloud Day Taipei 活動現場報到區，背板印有 Google Cloud、Cloud Day Taipei 字樣', pos: 'center 38%' },
   },
 ]
@@ -54,34 +56,23 @@ function formatDate(iso: string) {
   return `${y}.${m}.${d}`
 }
 
-function StatusTag({ children, tone = 'accent' }: { children: React.ReactNode; tone?: 'accent' | 'muted' }) {
-  const accent = tone === 'accent'
-  return (
-    <span
-      className="inline-flex items-center rounded-full text-[0.58rem] font-semibold tracking-[0.16em] uppercase"
-      style={{
-        padding: '2px 8px',
-        color: accent ? '#c4b5fd' : '#94a3b8',
-        background: accent ? 'rgba(124,92,255,0.12)' : 'rgba(255,255,255,0.04)',
-        border: accent ? '1px solid rgba(124,92,255,0.28)' : '1px solid rgba(255,255,255,0.1)',
-      }}
-    >
-      {children}
-    </span>
-  )
-}
-
 function EntryLink({ href, label }: { href: string; label: string }) {
+  const className = 'group inline-flex items-center gap-1.5 text-sm'
+  const style = { color: '#93c5fd' }
+  const arrow = <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+  // 站內詳情頁走 next/link 同分頁；外部活動官網才另開新分頁
+  if (href.startsWith('/')) {
+    return (
+      <Link href={href} className={className} style={style}>
+        {label}
+        {arrow}
+      </Link>
+    )
+  }
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group inline-flex items-center gap-1.5 text-sm"
-      style={{ color: '#93c5fd' }}
-    >
+    <a href={href} target="_blank" rel="noopener noreferrer" className={className} style={style}>
       {label}
-      <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+      {arrow}
     </a>
   )
 }
