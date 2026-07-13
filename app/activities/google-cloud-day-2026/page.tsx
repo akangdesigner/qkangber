@@ -95,7 +95,7 @@ export default function CloudDay2026Page() {
         <section className="mb-10 sm:mb-14 rounded-2xl p-5 sm:p-7" style={{ border: '1px solid rgba(124,92,255,0.22)', background: 'rgba(124,92,255,0.05)' }}>
           <p className="m-0 mb-3 font-semibold tracking-[0.18em] uppercase" style={{ fontFamily: MONO, fontSize: '0.72rem', color: '#a78bfa' }}>心得筆記</p>
           <p className="m-0 text-[0.95rem] sm:text-base leading-[1.9] text-slate-300">
-            聽了好多 Google 跟企業合作夥伴的演講，感覺旗下的 ADK 跟 BigQuery 產品讓 Agent 的開發平台有一個很美好的基底，有機會大家可以去試試看。以下分享一些專題講座，也許我們可以給 Gemini 多一點信心 💪
+            聽了好多 Google 跟企業合作夥伴的演講，感覺旗下的 ADK 跟 BigQuery 產品讓 Agent 的開發平台有一個很美好的基底，有機會大家可以去試試看。以下分享一些專題講座，也許我們可以給 Gemini 多一點信心 🤣
           </p>
         </section>
 
