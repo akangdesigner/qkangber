@@ -124,6 +124,20 @@ export default function CloudDay2026Page() {
                 className="group flex flex-col gap-3 rounded-2xl p-5 transition-colors duration-200 border border-white/[0.08] hover:border-violet-400/40"
                 style={{ background: 'rgba(255,255,255,0.02)' }}
               >
+                {s.cover && (
+                  <div className="-mx-5 -mt-5 mb-1 overflow-hidden rounded-t-2xl border-b border-white/[0.06]" style={{ aspectRatio: '16/9', background: 'rgba(255,255,255,0.02)' }}>
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={s.cover}
+                        alt={`${s.title} 場次代表投影片`}
+                        fill
+                        sizes="(max-width: 640px) 100vw, 440px"
+                        className="transition-transform duration-300 group-hover:scale-[1.03]"
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
+                  </div>
+                )}
                 <div className="flex flex-wrap items-center gap-2.5">
                   <span style={{ fontFamily: MONO, fontSize: '0.72rem', letterSpacing: '0.06em', color: '#7c5cff' }}>{String(s.order).padStart(2, '0')}</span>
                   <StatusTag>{s.track}</StatusTag>

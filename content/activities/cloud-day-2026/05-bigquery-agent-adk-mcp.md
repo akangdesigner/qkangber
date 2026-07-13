@@ -7,6 +7,7 @@ speakers:
     title: Google Cloud 台灣解決方案架構師
   - name: Happy Lee 李昆謀
     title: 91APP 產品長
+cover: /activities/cloud-day-2026/s05-3.webp
 summary: 讓 Agent 查詢 BigQuery 有五種做法，從免寫程式到完全客製都有；91APP 用「資料定義治理（Looker）＋確定性檢查用程式碼、不信任 Agent 判斷」的方式，把資料 Agent 做到能給兩萬多客戶安全使用的規模。
 ---
 

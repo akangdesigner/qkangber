@@ -5,6 +5,7 @@ order: 8
 speakers:
   - name: Thu Ya Kyaw
     title: Senior Developer Relations Engineer, Google Cloud
+cover: /activities/cloud-day-2026/s08-2.webp
 summary: ADK 是 Google 開源的 AI Agent 開發框架，開放、跨模型、可觀測；2.0 版新增「圖形化工作流」與「動態編排」兩種建構方式，並強化多 Agent 協作與人為審核（Human-in-the-loop）。
 ---
 

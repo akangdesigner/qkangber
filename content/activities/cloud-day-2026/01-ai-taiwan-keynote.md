@@ -9,6 +9,7 @@ speakers:
     title: Google 台灣總經理
   - name: Isabel Hou 侯宜秀
     title: 數位發展部政務次長
+cover: /activities/cloud-day-2026/s01-2.webp
 summary: 從台灣少子化、超高齡化、資安威脅三大社會挑戰出發，帶出「AI 要能解決真實問題」的框架；數位發展部說明國家 AI 發展綱領草案與 AI 基本法，Google Cloud 則展示其完整的 Agentic Enterprise 技術堆疊。
 ---
 

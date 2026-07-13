@@ -7,6 +7,7 @@ speakers:
     title: Google Cloud 台灣解決方案架構師
   - name: Paris Lo 羅煒茜
     title: 全聯實業全電商營運部特助
+cover: /activities/cloud-day-2026/s04-2.webp
 summary: 當 AI Agent 要「讀」企業資料時，資料倉儲的角色從給人看的 Dashboard，變成要能撐住成千上萬 Agent 同時查詢、且讓 AI「聽得懂」資料背後語意的基礎建設；Google Cloud 用開源的 Iceberg 格式打造跨雲的開放 Lakehouse，全聯／全支付則分享把「全支付 App」做成集團 Data Hub 的數據變現實戰。
 ---
 

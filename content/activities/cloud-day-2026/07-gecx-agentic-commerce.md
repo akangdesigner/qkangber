@@ -7,6 +7,7 @@ speakers:
     title: Google Cloud 台灣 AI 解決方案資深協理
   - name: Felix Chin 覃志宗
     title: Engineering Manager，統一超商
+cover: /activities/cloud-day-2026/s07-2.webp
 summary: 零售正從「使用者自己動手搜尋」的 Digital 時代，進入「告訴 Agent 目標、它幫你完成」的 Agentic Commerce 時代；商品資料要為 AI 重寫，安全與評測是導入的必修課。
 ---
 

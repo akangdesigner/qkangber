@@ -7,6 +7,7 @@ speakers:
     title: Managing Director, AI GTM APAC, Google Cloud
   - name: Bob Hung 洪偉淦
     title: 趨勢科技台灣暨香港區總經理
+cover: /activities/cloud-day-2026/venue.webp
 summary: 好的 AI 成果來自好的資料治理；企業導入 AI 不該只挑便宜或某項強的模型，而要看安全、速度、成本，並用「智慧路由」混用多顆模型控制成本。趨勢科技則把重心從企業防護轉向消費市場防詐。
 ---
 

@@ -7,6 +7,7 @@ speakers:
     title: Google Cloud 台灣 AI 解決方案資深協理
   - name: Phoebe Lee 李其嘉
     title: Business Product Lead, Cyberlink
+cover: /activities/cloud-day-2026/s06-2.webp
 summary: Google 最新生成式媒體模型 Gemini Omni 系列已經能理解「物理世界的邏輯」（水流方向、物體掉落），支援一次輸出影片＋配聲＋對話式局部修改；訊連科技把這些技術（含 Nano Banana Pro、Veo 3.1、Gemini VLM）落地成 Promeo，讓中小型商家能用文字快速產出行銷素材。
 ---
 

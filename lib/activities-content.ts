@@ -12,6 +12,8 @@ export type ActivitySession = {
   track: string
   speakers: ActivitySpeaker[]
   summary: string
+  /** 卡片代表圖（public 路徑） */
+  cover?: string
   /** 已做 MDX 跳脫的正文（不含 frontmatter/標題/講者，由頁面結構化渲染） */
   body: string
 }
@@ -44,6 +46,7 @@ export const getActivitySessions = cache((eventSlug: string): ActivitySession[] 
         track: data.track ?? '',
         speakers: (data.speakers ?? []) as ActivitySpeaker[],
         summary: data.summary ?? '',
+        cover: data.cover,
         body: sanitizeForMdx(content.trim()),
       }
     })

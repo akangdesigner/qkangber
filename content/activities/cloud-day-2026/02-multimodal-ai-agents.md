@@ -5,6 +5,7 @@ order: 2
 speakers:
   - name: Ed Chi 紀懷新
     title: VP of Research, Google DeepMind
+cover: /activities/cloud-day-2026/s02-4.webp
 summary: 回顧 Google 從 2012 深度學習到 2017 Transformer 的技術突破史，說明 AI 推理典範正從「預測下一個字」演進到「預測下一個想法」，並拆解出 Agent 解決複雜問題所需的五項核心能力。
 ---
 
