@@ -15,12 +15,13 @@ function clamp(text: string, max: number): string {
 }
 
 /** 由頁面標題/副標自動組出動態 OG 圖網址，每個網址因此有自己獨立的預覽圖。 */
-function buildOgImageUrl(title: string, subtitle: string, badge?: string): string {
+function buildOgImageUrl(title: string, subtitle: string, badge?: string, photo?: string): string {
   const params = new URLSearchParams({
     title: clamp(title, OG_TITLE_MAX),
     subtitle: clamp(subtitle, OG_SUBTITLE_MAX),
   })
   if (badge) params.set('badge', badge)
+  if (photo) params.set('img', photo)
   return `/api/og?${params.toString()}`
 }
 
@@ -44,10 +45,14 @@ type BuildMetadataInput = {
   keywords?: string[]
   /** OG 圖；預設用「依本頁標題/副標自動生成」的動態圖。傳值（如文章封面）會覆蓋。 */
   image?: string
+  /** 動態 OG 圖的標題；預設取本頁 title。頁標帶後綴（「… — XX 筆記」）時傳短版避免被截斷 */
+  ogTitle?: string
   /** 動態 OG 圖的副標；預設取本頁 description，傳值可自訂 */
   ogSubtitle?: string
   /** 動態 OG 圖右上角徽章（如「免費下載」），不傳則不顯示 */
   ogBadge?: string
+  /** 動態 OG 圖的真實照片底圖（站內路徑，如 '/activities/xx/og/s01.jpg'）；有照片時卡片改走圖底＋文字覆蓋版型 */
+  ogPhoto?: string
   type?: 'website' | 'article'
   publishedTime?: string
   authors?: string[]
@@ -67,8 +72,10 @@ export function buildMetadata({
   path,
   keywords,
   image,
+  ogTitle: ogCardTitle,
   ogSubtitle,
   ogBadge,
+  ogPhoto,
   type = 'website',
   publishedTime,
   authors,
@@ -78,7 +85,13 @@ export function buildMetadata({
   const metaDescription = clampDescription(description)
   // 未指定 image 時，依本頁標題/副標自動生成專屬 OG 圖。
   const ogImage =
-    image ?? buildOgImageUrl(ogTitle, ogSubtitle ?? description ?? OG_DEFAULT_SUBTITLE, ogBadge)
+    image ??
+    buildOgImageUrl(
+      ogCardTitle ?? ogTitle,
+      ogSubtitle ?? description ?? OG_DEFAULT_SUBTITLE,
+      ogBadge,
+      ogPhoto,
+    )
 
   const openGraph = {
     type,

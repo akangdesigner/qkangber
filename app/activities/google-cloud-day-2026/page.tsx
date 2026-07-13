@@ -11,6 +11,10 @@ export const metadata = buildMetadata({
   description:
     '2026-07-09 Google Cloud Day Taipei 現場第一手筆記：Gemini Enterprise、多模態 AI Agent、開放 Lakehouse、BigQuery 對話式 Agent、生成式媒體 AI、GECX Agentic Commerce 與 ADK，共八場完整整理。',
   path: '/activities/google-cloud-day-2026',
+  ogTitle: 'Google Cloud Day 2026 八場講座筆記',
+  ogSubtitle: '現場第一手筆記，八場完整整理',
+  ogBadge: '活動筆記',
+  ogPhoto: '/activities/cloud-day-2026/og/event-cover.jpg',
   type: 'article',
   publishedTime: '2026-07-09',
   authors: ['Q kangber'],

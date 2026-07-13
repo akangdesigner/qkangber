@@ -28,6 +28,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${session.title} — Google Cloud Day 2026 筆記`,
     description: session.summary,
     path: `${BASE_PATH}/${slug}`,
+    ogTitle: session.title,
+    ogSubtitle: 'Google Cloud Day 2026 現場筆記',
+    ogBadge: '活動筆記',
+    // OG 底圖用預裁好的 1200×630 jpg（satori 不吃 webp），檔名對應 cover
+    ogPhoto: session.cover?.replace(/([^/]+)\.webp$/, 'og/$1.jpg'),
     type: 'article',
     publishedTime: '2026-07-09',
     authors: ['Q kangber'],
