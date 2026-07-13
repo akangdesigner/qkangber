@@ -28,14 +28,6 @@ function anchorId(order: number) {
 export default function CloudDay2026Page() {
   const sessions = getActivitySessions('cloud-day-2026')
 
-  // 目錄依軌分組（保持 order 順序，相同 track 連續歸為一組）
-  const trackGroups: { track: string; items: typeof sessions }[] = []
-  for (const s of sessions) {
-    const last = trackGroups[trackGroups.length - 1]
-    if (last && last.track === s.track) last.items.push(s)
-    else trackGroups.push({ track: s.track, items: [s] })
-  }
-
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -99,24 +91,38 @@ export default function CloudDay2026Page() {
           </p>
         </header>
 
-        {/* 錨點目錄 */}
-        <nav aria-label="場次目錄" className="mb-14 sm:mb-20 rounded-2xl p-5 sm:p-7" style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}>
-          <p className="m-0 mb-5 font-semibold tracking-[0.18em] uppercase" style={{ fontFamily: MONO, fontSize: '0.72rem', color: '#64748b' }}>場次目錄</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
-            {trackGroups.map((g) => (
-              <div key={g.track}>
-                <p className="m-0 mb-2.5 text-[0.78rem] font-medium" style={{ color: '#a78bfa' }}>{g.track}</p>
-                <ul className="m-0 p-0 list-none space-y-2">
-                  {g.items.map((s) => (
-                    <li key={s.slug}>
-                      <a href={`#${anchorId(s.order)}`} className="group flex items-baseline gap-2.5 text-[0.92rem] leading-snug text-slate-300 hover:text-white transition-colors">
-                        <span className="shrink-0" style={{ fontFamily: MONO, fontSize: '0.72rem', color: '#7c5cff' }}>{String(s.order).padStart(2, '0')}</span>
-                        <span className="group-hover:underline underline-offset-4 decoration-violet-400/50">{s.title}</span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+        {/* 總綱 */}
+        <section className="mb-10 sm:mb-14 rounded-2xl p-5 sm:p-7" style={{ border: '1px solid rgba(124,92,255,0.22)', background: 'rgba(124,92,255,0.05)' }}>
+          <p className="m-0 mb-3 font-semibold tracking-[0.18em] uppercase" style={{ fontFamily: MONO, fontSize: '0.72rem', color: '#a78bfa' }}>這一天在講什麼</p>
+          <p className="m-0 text-[0.95rem] sm:text-base leading-[1.9] text-slate-300">
+            八場聽下來，主軸只有一條：AI Agent 要真的進企業，光有模型不夠。資料要先治理好（開放 Lakehouse、Looker 語意層），權限與數字判斷要用程式碼寫死、不讓模型自己拍板（91APP、統一超商、ADK 三場不約而同都在講這件事），商品與內容資料則要為 AI 重寫（GECX 場的 SEO→GEO）。上午三場是政策與 Gemini Enterprise 技術版圖的總覽，下午進到資料平台與零售、媒體產業的落地實戰，最後由開發者專場用 ADK 收尾。下面每場一張卡片，點進去就是該場的完整筆記。
+          </p>
+        </section>
+
+        {/* 場次卡片目錄 */}
+        <nav aria-label="場次目錄" className="mb-14 sm:mb-20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {sessions.map((s) => (
+              <a
+                key={s.slug}
+                href={`#${anchorId(s.order)}`}
+                className="group flex flex-col gap-3 rounded-2xl p-5 transition-colors duration-200 border border-white/[0.08] hover:border-violet-400/40"
+                style={{ background: 'rgba(255,255,255,0.02)' }}
+              >
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <span style={{ fontFamily: MONO, fontSize: '0.72rem', letterSpacing: '0.06em', color: '#7c5cff' }}>{String(s.order).padStart(2, '0')}</span>
+                  <StatusTag>{s.track}</StatusTag>
+                </div>
+                <h3 className="m-0 text-base sm:text-[1.0625rem] font-semibold leading-snug text-slate-100 group-hover:text-white transition-colors">{s.title}</h3>
+                <p className="m-0 text-sm leading-[1.75] text-slate-400 line-clamp-3">{s.summary}</p>
+                <p className="m-0 mt-auto flex items-center justify-between gap-3 text-[0.78rem]">
+                  <span className="truncate text-slate-500">{s.speakers.map((sp) => sp.name).join('、')}</span>
+                  <span className="shrink-0 inline-flex items-center gap-1" style={{ color: '#93c5fd' }}>
+                    看這場筆記
+                    <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
+                  </span>
+                </p>
+              </a>
             ))}
           </div>
         </nav>
