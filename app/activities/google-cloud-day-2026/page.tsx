@@ -93,9 +93,9 @@ export default function CloudDay2026Page() {
 
         {/* 總綱 */}
         <section className="mb-10 sm:mb-14 rounded-2xl p-5 sm:p-7" style={{ border: '1px solid rgba(124,92,255,0.22)', background: 'rgba(124,92,255,0.05)' }}>
-          <p className="m-0 mb-3 font-semibold tracking-[0.18em] uppercase" style={{ fontFamily: MONO, fontSize: '0.72rem', color: '#a78bfa' }}>這一天在講什麼</p>
+          <p className="m-0 mb-3 font-semibold tracking-[0.18em] uppercase" style={{ fontFamily: MONO, fontSize: '0.72rem', color: '#a78bfa' }}>心得筆記</p>
           <p className="m-0 text-[0.95rem] sm:text-base leading-[1.9] text-slate-300">
-            八場聽下來，主軸只有一條：AI Agent 要真的進企業，光有模型不夠。資料要先治理好（開放 Lakehouse、Looker 語意層），權限與數字判斷要用程式碼寫死、不讓模型自己拍板（91APP、統一超商、ADK 三場不約而同都在講這件事），商品與內容資料則要為 AI 重寫（GECX 場的 SEO→GEO）。上午三場是政策與 Gemini Enterprise 技術版圖的總覽，下午進到資料平台與零售、媒體產業的落地實戰，最後由開發者專場用 ADK 收尾。下面每場一張卡片，點進去就是該場的完整筆記。
+            聽了好多 Google 跟企業合作夥伴的演講，感覺旗下的 ADK 跟 BigQuery 產品讓 Agent 的開發平台有一個很美好的基底，有機會大家可以去試試看。以下分享一些專題講座，也許我們可以給 Gemini 多一點信心 💪
           </p>
         </section>
 
