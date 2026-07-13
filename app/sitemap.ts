@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { getAllPosts, getAllServices } from '@/lib/mdx'
+import { getActivitySessions } from '@/lib/activities-content'
 
 const baseUrl = 'https://aiqkangber.com'
 
@@ -27,6 +28,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }))
 
+  const activitySessionEntries: MetadataRoute.Sitemap = getActivitySessions('cloud-day-2026').map((s) => ({
+    url: `${baseUrl}/activities/google-cloud-day-2026/${s.slug}`,
+    changeFrequency: 'monthly',
+    priority: 0.55,
+  }))
+
   // 電子報期數頁已設 noindex（新聞摘要彙整、無搜尋價值），不進 sitemap；/newsletter 主頁保留
   return [
     { url: baseUrl, priority: 1.0, changeFrequency: 'weekly' },
@@ -44,6 +51,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/privacy`, priority: 0.3, changeFrequency: 'yearly' },
     { url: `${baseUrl}/terms`, priority: 0.3, changeFrequency: 'yearly' },
     ...serviceEntries,
+    ...activitySessionEntries,
     ...postEntries,
   ]
 }

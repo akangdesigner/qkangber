@@ -5,7 +5,7 @@ import { cache } from 'react'
 
 export type ActivitySpeaker = { name: string; title: string }
 export type ActivitySession = {
-  /** 檔名去掉副檔名，如 '01-ai-taiwan-keynote'；錨點用 order 組 sNN */
+  /** URL 用 slug：檔名去掉副檔名與排序前綴，如 'ai-taiwan-keynote' */
   slug: string
   order: number
   title: string
@@ -40,7 +40,7 @@ export const getActivitySessions = cache((eventSlug: string): ActivitySession[] 
       const raw = fs.readFileSync(path.join(dir, f), 'utf-8')
       const { data, content } = matter(raw)
       return {
-        slug: f.replace(/\.md$/, ''),
+        slug: f.replace(/\.md$/, '').replace(/^\d+-/, ''),
         order: data.order ?? 0,
         title: data.title ?? '',
         track: data.track ?? '',
@@ -52,3 +52,7 @@ export const getActivitySessions = cache((eventSlug: string): ActivitySession[] 
     })
     .sort((a, b) => a.order - b.order)
 })
+
+export function getActivitySession(eventSlug: string, slug: string): ActivitySession | undefined {
+  return getActivitySessions(eventSlug).find((s) => s.slug === slug)
+}
