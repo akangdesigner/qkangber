@@ -1,7 +1,7 @@
 ---
 title: BigQuery 對話式 Agent 開發——ADK 與 MCP 的實戰整合
 track: 下午・加值產業轉型與智慧代理
-order: 5
+order: 4
 speakers:
   - name: Simon Wang
     title: Google Cloud 台灣解決方案架構師

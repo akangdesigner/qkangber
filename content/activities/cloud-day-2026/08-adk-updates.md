@@ -1,7 +1,7 @@
 ---
 title: Google Agent Development Kit（ADK）最新功能和發展
 track: 開發者社群技術專場
-order: 8
+order: 7
 speakers:
   - name: Thu Ya Kyaw
     title: Senior Developer Relations Engineer, Google Cloud

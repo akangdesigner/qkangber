@@ -1,7 +1,7 @@
 ---
 title: 從模型發展到應用落地：讓 Google AI 釋放產業動能
 track: 上午・主題演講
-order: 3
+order: 8
 speakers:
   - name: Harsha Konduri
     title: Managing Director, AI GTM APAC, Google Cloud

@@ -1,7 +1,7 @@
 ---
 title: 加速產品創新：以生成式媒體 AI 驅動市場競爭優勢
 track: 下午・加值產業轉型與智慧代理
-order: 6
+order: 5
 speakers:
   - name: Ben Lee
     title: Google Cloud 台灣 AI 解決方案資深協理

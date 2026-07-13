@@ -1,7 +1,7 @@
 ---
 title: 購物體驗再進化：讓大語言模型真正讀懂商品與消費者需求，通過 GECX 打造 AI 時代全新消費者體驗
 track: 下午・加值產業轉型與智慧代理
-order: 7
+order: 6
 speakers:
   - name: Josie Cheng
     title: Google Cloud 台灣 AI 解決方案資深協理

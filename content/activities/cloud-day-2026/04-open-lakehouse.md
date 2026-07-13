@@ -1,7 +1,7 @@
 ---
 title: 開放與互通的數據湖倉——打造 AI 代理時代的統一數據根基
 track: 下午・資料平台與開發平台
-order: 4
+order: 3
 speakers:
   - name: Cory Hu
     title: Google Cloud 台灣解決方案架構師
