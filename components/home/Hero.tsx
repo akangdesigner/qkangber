@@ -361,7 +361,7 @@ export default function Hero({ latestPost }: { latestPost?: { title: string; slu
                 opacity: 0, transform: 'translateY(18px)',
                 animation: 'heroLineIn 700ms cubic-bezier(.2,.7,.2,1) 180ms forwards',
               }}>
-                AI 開發 × n8n 自動化
+                AI 應用開發 × n8n 自動化
               </span>
               <span style={{
                 display: 'block', fontStyle: 'italic',
