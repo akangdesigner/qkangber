@@ -40,8 +40,7 @@ const activities: Activity[] = [
     title: 'Claude 實戰訓練營',
     desc: '為期 12 週深度掌握 Anthropic Claude 全系列工具，導入「VIBE Coding」開發模式——強調意圖引導優於語法記憶，不必對寫程式感到恐懼。以「從零到一打造智慧型個人知識管理平台」為核心專案，把 AI 協作、開發、設計整合進實際工作流。目前進行到第 2 週，實體教室與線上直播同步進行。',
     link: { href: '/activities/claude-camp-2026', label: '看 12 週上課紀錄' },
-    image: { src: '/activities/claude-camp-w2-live.webp', alt: 'Claude 實戰訓練營第 2 週實體課現場，學員各自用筆電跟著操作，投影幕正在講角色設定', pos: 'center 45%' },
-    image2: { src: '/activities/claude-camp-w2-online.webp', alt: 'Claude 實戰訓練營第 2 週線上同步畫面，Google Meet 分享上半場簡報，多位學員同時在線' },
+    image: { src: '/activities/xlab-claude-camp.webp', alt: 'XLab Claude 實戰訓練營主視覺：Claude AI 標誌與 API 圖示' },
   },
   {
     date: '2026-07-09',
