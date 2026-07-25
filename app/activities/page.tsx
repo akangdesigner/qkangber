@@ -20,6 +20,7 @@ type Activity = {
   desc: string
   link?: { href: string; label: string }
   image?: { src: string; alt: string; pos?: string } // 有現場照片才給，會自動交替左右排版；pos 控制裁切焦點
+  image2?: { src: string; alt: string; pos?: string } // 第二張照片（如實體＋線上同場活動），與 image 直向堆疊
 }
 
 // 依日期新→舊排序，新增時加在陣列最前面。
@@ -29,7 +30,7 @@ const activities: Activity[] = [
     date: '2026-07-25',
     tags: [{ label: 'XLab' }, { label: '擔任講師' }, { label: '講座', tone: 'muted' }],
     title: 'AI 時代的一人公司',
-    desc: '為什麼現在是一人公司最好的時代？又為什麼你適合開始構思屬於自己的一人公司？這堂講座從定位到 AI 分工，帶你把行銷、內容、客服、開發交給 AI，一個人也能像一個團隊那樣運作。',
+    desc: '60 分鐘的講座，從 AI 改變的成本結構講起，攤開我一個人經營品牌的分工地圖，再談怎麼把 AI 當同事帶（交接、給範本、驗收）、最容易卡住的三件事與 AI 能接手到哪，收尾留給低成本驗證的起手式。',
     link: { href: 'https://www.xlab.com.tw/events', label: '查看活動官網' },
     image: { src: '/activities/xlab-one-person-company-v2.webp', alt: 'XLab 講座主視覺「一人公司 · AI 分工打造一個團隊」，標示 Marketing、Content、Customer Service、Development 等 AI 分工', pos: 'left' },
   },
@@ -37,9 +38,10 @@ const activities: Activity[] = [
     date: '2026-07-18',
     tags: [{ label: 'XLab' }, { label: '擔任講師' }, { label: '訓練營', tone: 'muted' }, { label: '12 週', tone: 'muted' }],
     title: 'Claude 實戰訓練營',
-    desc: '為期 12 週深度掌握 Anthropic Claude 全系列工具，導入「VIBE Coding」開發模式——強調意圖引導優於語法記憶，不必對寫程式感到恐懼。以「從零到一打造智慧型個人知識管理平台」為核心專案，把 AI 協作、開發、設計整合進實際工作流。',
+    desc: '為期 12 週深度掌握 Anthropic Claude 全系列工具，導入「VIBE Coding」開發模式——強調意圖引導優於語法記憶，不必對寫程式感到恐懼。以「從零到一打造智慧型個人知識管理平台」為核心專案，把 AI 協作、開發、設計整合進實際工作流。目前進行到第 2 週，實體教室與線上直播同步進行。',
     link: { href: 'https://www.xlab.com.tw/events', label: '查看活動官網' },
-    image: { src: '/activities/xlab-claude-camp.webp', alt: 'XLab Claude 實戰訓練營主視覺：Claude AI 標誌與 API 圖示' },
+    image: { src: '/activities/claude-camp-w2-live.webp', alt: 'Claude 實戰訓練營第 2 週實體課現場，學員各自用筆電跟著操作，投影幕正在講角色設定', pos: 'center 45%' },
+    image2: { src: '/activities/claude-camp-w2-online.webp', alt: 'Claude 實戰訓練營第 2 週線上同步畫面，Google Meet 分享上半場簡報，多位學員同時在線' },
   },
   {
     date: '2026-07-09',
@@ -144,10 +146,14 @@ export default function ActivitiesPage() {
                       style={{ flexDirection: a.image ? (imageRight ? 'row-reverse' : 'row') : 'row' }}
                     >
                       {a.image && (
-                        <div className="min-w-0 overflow-hidden rounded-xl border border-white/[0.08]" style={{ flex: '1 1 260px', aspectRatio: '16/10', background: 'rgba(255,255,255,0.02)' }}>
-                          <div className="relative w-full h-full">
-                            <Image src={a.image.src} alt={a.image.alt} fill sizes="(max-width: 720px) 100vw, 420px" style={{ objectFit: 'cover', objectPosition: a.image.pos || 'center' }} />
-                          </div>
+                        <div className="min-w-0 flex flex-col gap-2.5" style={{ flex: '1 1 260px' }}>
+                          {[a.image, ...(a.image2 ? [a.image2] : [])].map((img) => (
+                            <div key={img.src} className="overflow-hidden rounded-xl border border-white/[0.08]" style={{ aspectRatio: '16/10', background: 'rgba(255,255,255,0.02)' }}>
+                              <div className="relative w-full h-full">
+                                <Image src={img.src} alt={img.alt} fill sizes="(max-width: 720px) 100vw, 420px" style={{ objectFit: 'cover', objectPosition: img.pos || 'center' }} />
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       )}
                       <div className="min-w-0" style={{ flex: a.image ? '1 1 300px' : '1 1 100%' }}>
