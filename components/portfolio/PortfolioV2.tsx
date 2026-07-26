@@ -77,8 +77,8 @@ function PV2Styles() {
       @keyframes bv2-nodeglow { 0%,100% { box-shadow: none; border-color: rgba(255,255,255,0.14); } 50% { box-shadow: 0 0 16px -3px #67e8f9; border-color: rgba(103,232,249,0.6); } }
       @keyframes bv2-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
       @keyframes bv2-caret { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
-      @media (max-width: 980px) { .bv2-grid { grid-template-columns: 1fr 1fr !important; } .bv2-span2 { grid-column: span 2 !important; } .bv2-hero { grid-template-columns: 1fr !important; } }
-      @media (max-width: 640px) { .bv2-grid { grid-template-columns: 1fr !important; } .bv2-span2 { grid-column: span 1 !important; } }
+      @media (max-width: 980px) { .bv2-grid { grid-template-columns: 1fr 1fr !important; } .bv2-span2 { grid-column: span 2 !important; } .bv2-hero { grid-template-columns: 1fr !important; } .bv2-flagship-gallery { grid-template-columns: 1fr 1fr !important; } }
+      @media (max-width: 640px) { .bv2-grid { grid-template-columns: 1fr !important; } .bv2-span2 { grid-column: span 1 !important; } .bv2-flagship-gallery { grid-template-columns: 1fr !important; } }
       @media (max-width: 760px) { .bv2-detail-cols { grid-template-columns: 1fr !important; } }
       @keyframes bv2RevealUp { from { opacity: 0; transform: translateY(42px) scale(0.99); } to { opacity: 1; transform: none; } }
       @media (prefers-reduced-motion: no-preference) {
@@ -231,6 +231,78 @@ function PV2Hero() {
         </a>
       </aside>
     </header>
+  )
+}
+
+/* ════════ 1.5 · flagship（獨立於便當盒之外——興趣專案，不是自動化工具） ════════ */
+function PV2Flagship() {
+  const stats: { big: string; unit?: string; label: string }[] = [
+    { big: '5', unit: '天', label: '從空專案到能連線對戰' },
+    { big: '17', unit: '種棋子', label: '獨立走法規則' },
+    { big: '34', unit: '張卡', label: '全數綁定專屬機制' },
+  ]
+  const gallery: { src: string; label: string }[] = [
+    { src: '/works/battlecard-roster.png', label: '編制棋組' },
+    { src: '/works/battlecard-codex.png', label: '卡牌圖鑑' },
+    { src: '/works/battlecard-menu.png', label: '主選單' },
+  ]
+  return (
+    <section style={{ maxWidth: 1180, margin: '0 auto', padding: '0 40px 90px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 26 }}>
+        <span style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '0.2em', color: '#475569' }}>SPOTLIGHT</span>
+        <span style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, rgba(236,72,153,0.25), transparent)' }} />
+      </div>
+
+      <div style={{ borderRadius: 24, border: '1px solid rgba(236,72,153,0.22)', background: 'linear-gradient(165deg, rgba(236,72,153,0.07), rgba(2,3,10,0) 260px), rgba(255,255,255,0.02)', padding: 'clamp(26px, 4vw, 48px)', boxShadow: '0 30px 90px -40px rgba(236,72,153,0.25)' }}>
+        <h2 style={{ margin: '0 0 22px', fontFamily: SANS, fontWeight: 800, fontSize: 'clamp(1.8rem, 3.6vw, 2.6rem)', lineHeight: 1.15, letterSpacing: '-0.02em', color: '#fff' }}>
+          夜影傭兵團
+        </h2>
+
+        <div style={{ borderLeft: '2px solid rgba(236,72,153,0.4)', paddingLeft: 18, margin: '0 0 24px', maxWidth: 640 }}>
+          <p style={{ margin: '0 0 8px', fontSize: 14, lineHeight: 1.85, color: '#94a3b8', fontFamily: SANS, textWrap: 'pretty' } as CSS}>王都的城牆守了三夜，第四夜，是自己人從裡面打開的。</p>
+          <p style={{ margin: '0 0 8px', fontSize: 14, lineHeight: 1.85, color: '#94a3b8', fontFamily: SANS, textWrap: 'pretty' } as CSS}>王國花光最後的金庫，買回一群沒人要的傢伙。他們不為王旗作戰，只接下一份委託：守住最後一座主堡。</p>
+          <p style={{ margin: 0, fontSize: 14, lineHeight: 1.85, color: '#94a3b8', fontFamily: SANS }}>前一任指揮官的名字，沒有人再提起。</p>
+        </div>
+
+        <p style={{ margin: '0 0 28px', maxWidth: 720, fontSize: 14.5, lineHeight: 1.9, color: '#cbd5e1', fontFamily: SANS, textWrap: 'pretty' } as CSS}>
+          夜影傭兵團是一款 3D 戰棋卡牌遊戲：棋盤上 17 種棋子各自有獨立走法，34 張技能卡綁定特定棋子才能出，要嘛壓著棋盤穩紮穩打、要嘛靠卡牌翻盤局勢，贏的方式是攻破敵方主堡或擊殺敵方指揮官——可以先打 AI 練手，也能跟朋友連線對戰。背後是用 Claude Code 搭配 Godot 打造，規則先寫成資料再讓 AI 照著實作。
+        </p>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(20px, 4vw, 40px)', marginBottom: 32, paddingBottom: 28, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+          {stats.map((s) => (
+            <div key={s.label}>
+              <div>
+                <span className="bv2-metric-val" style={{ fontSize: 30, color: PAL.pink }}>{s.big}</span>
+                {s.unit && <span style={{ fontFamily: MONO, fontSize: 12, color: '#94a3b8', marginLeft: 5 }}>{s.unit}</span>}
+              </div>
+              <div style={{ fontSize: 12, color: '#64748b', fontFamily: SANS, marginTop: 4 }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: 14, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.09)', marginBottom: 16, background: '#05060a' }}>
+          <video
+            src="/works/battlecard-demo.mp4"
+            poster="/works/battlecard-hero.jpg"
+            controls
+            playsInline
+            preload="metadata"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </div>
+
+        <div className="bv2-flagship-gallery" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+          {gallery.map((g) => (
+            <div key={g.src} style={{ borderRadius: 12, border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden', background: 'rgba(255,255,255,0.02)' }}>
+              <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9' }}>
+                <Image src={g.src} alt={`夜影傭兵團 ${g.label} 畫面`} fill sizes="(max-width: 1180px) 33vw, 350px" style={{ objectFit: 'cover', objectPosition: 'top' }} />
+              </div>
+              <div style={{ padding: '8px 12px', fontFamily: MONO, fontSize: 10, letterSpacing: '0.08em', color: '#94a3b8' }}>{g.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -925,6 +997,7 @@ export default function PortfolioV2() {
       <div aria-hidden="true" style={{ position: 'absolute', inset: 0, height: 680, pointerEvents: 'none', background: 'radial-gradient(ellipse 100% 55% at 50% -10%, rgba(124,92,255,0.10), transparent 70%)' }} />
       <main style={{ position: 'relative', zIndex: 1 }}>
         <PV2Hero />
+        <PV2Flagship />
         <PV2Bento onOpen={open} />
       </main>
       <PV2DetailOverlay openId={openId} onClose={close} onOpen={open} />
