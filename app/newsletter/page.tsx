@@ -6,7 +6,7 @@ import { jsonLdScript } from '@/lib/jsonld'
 
 export const metadata = buildMetadata({
   title: '電子報 — 每週 5 分鐘掌握重要 AI 資訊',
-  description: '以開發者與接案者的角度精選 AI、Agent、Claude、OpenAI、n8n 與實戰案例，幫你判斷哪些資訊值得關注、每週省下數小時整理時間，5 分鐘看完。全部公開免費閱讀，也可免費訂閱直送信箱。',
+  description: '以開發者與接案者角度精選 AI、Agent、Claude、n8n 實戰案例，5 分鐘看完，省下每週整理時間，全部公開免費閱讀。',
   keywords: ['AI 自動化週報', 'n8n 電子報', 'AI 趨勢週報', '免費 AI 電子報'],
   path: '/newsletter',
 })
@@ -16,7 +16,7 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: '歷期 AI 自動化週報',
-    description: '歷期 Q kangber AI 自動化週報——以開發者與接案者角度精選 AI、Agent、Claude、OpenAI、n8n 與實戰案例，全部公開閱讀，免費無需訂閱。',
+    description: '歷期 Q kangber AI 自動化週報，精選 AI、Agent、Claude、n8n 實戰案例，全部公開閱讀，免費無需訂閱。',
     url: 'https://aiqkangber.com/newsletter',
     publisher: {
       '@type': 'Person',

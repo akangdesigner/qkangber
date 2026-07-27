@@ -11,7 +11,7 @@ type Method = {
 
 export const metadata = buildMetadata({
   title: '聯絡與需求諮詢 — n8n 自動化與 AI 開發',
-  description: '每天被訂單、報表、客服、社群貼文這些重複工作綁住嗎？這些都能用 n8n 自動化處理。把你想省下的流程告訴我，初次免費診斷可行性與做法再報價，不必先付費也不綁約。',
+  description: '每天被訂單、報表、客服、社群貼文綁住嗎？都能用 n8n 自動化處理。告訴我你想省下的流程，免費診斷可行性再報價，不必先付費也不綁約。',
   path: '/contact',
 })
 

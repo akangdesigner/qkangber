@@ -9,10 +9,10 @@ const WRITE = process.argv.includes('--write')
 const UPDATE = process.argv.includes('--update')
 
 const SLUG = 'prompt-engineering'
-const TITLE = '提示詞怎麼寫，AI 生成的答案才會準確？prompt engineering 5 大重點一次看懂'
+const TITLE = 'AI 提示詞怎麼寫？5 個重點讓答案更準確'
 const DATE = '2026/07/07'
 const TAGS = 'prompt engineering,提示詞,提示工程,ai prompt,prompt ai'
-const EXCERPT = 'AI 給的答案總是不夠準？多半是提示詞沒寫好。這篇用一組組爛提示詞改成好提示詞的對照，講清楚 prompt engineering（提示工程）的 5 大重點：給角色情境、把需求講具體、給範例、指定輸出格式、拆解任務步驟，中英文提示詞都適用。'
+const EXCERPT = 'AI 提示詞怎麼寫才準？用爛提示詞 vs 好提示詞的對照，講清楚 5 個重點：給角色情境、需求具體、給範例、指定輸出格式、拆步驟，中英文都適用。'
 const CATEGORY = 'AI 軟體開發'   // M 主分類（Vibe Coding pillar spoke⭐2）
 const SUBCATEGORY = ''            // O 副分類已退役，留空
 const COVER = 'https://i.ibb.co/C37jrPmk/cover.webp'

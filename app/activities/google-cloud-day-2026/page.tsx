@@ -9,7 +9,7 @@ import { jsonLdScript } from '@/lib/jsonld'
 export const metadata = buildMetadata({
   title: { absolute: 'Google Cloud Day 2026 八場講座筆記 — Q kangber 活動分享' },
   description:
-    '2026-07-09 Google Cloud Day Taipei 現場第一手筆記：Gemini Enterprise、多模態 AI Agent、開放 Lakehouse、BigQuery 對話式 Agent、生成式媒體 AI、GECX Agentic Commerce 與 ADK，共八場完整整理。',
+    'Google Cloud Day 2026 現場筆記：Gemini Enterprise、AI Agent、Lakehouse 等八場完整整理。',
   path: '/activities/google-cloud-day-2026',
   ogTitle: 'Google Cloud Day 2026 八場講座筆記',
   ogSubtitle: '現場第一手筆記，八場完整整理',
@@ -31,7 +31,7 @@ export default function CloudDay2026Page() {
     '@type': 'CollectionPage',
     headline: 'Google Cloud Day 2026 八場講座筆記',
     description:
-      'Google Cloud Day Taipei 2026 現場第一手筆記：Gemini Enterprise、多模態 AI Agent、開放 Lakehouse、BigQuery 對話式 Agent、生成式媒體 AI、GECX Agentic Commerce 與 ADK，共八場完整整理。',
+      'Google Cloud Day 2026 現場筆記：Gemini Enterprise、AI Agent、Lakehouse 等八場完整整理。',
     url: `https://aiqkangber.com${BASE_PATH}`,
     datePublished: '2026-07-09',
     dateModified: '2026-07-09',

@@ -25,10 +25,10 @@ function buildOgImageUrl(title: string, subtitle: string, badge?: string, photo?
   return `/api/og?${params.toString()}`
 }
 
-// Google 桌面約顯示 155-160 字元就截斷，Ahrefs 也把 >160 標為「too long」。
-// 統一在 155 收斂並補省略號，避免任何頁面（多見於電子報 summary／長 excerpt）描述過長。
+// Google 桌面約 920px 寬就截斷；155 是英文字母標準，但繁中字寬約 2 倍，
+// 155 字的中文敘述在 SERP 會被攔腰截斷變成「…」。改收斂在 78，對齊繁中安全字數。
 // 只影響 <head> 的 meta／OG，畫面上的摘要文字仍直接取自原始來源、不受影響。
-const MAX_DESCRIPTION = 155
+const MAX_DESCRIPTION = 78
 
 function clampDescription(text: string): string {
   const chars = [...text] // 以 code point 切，避免切壞表情符號等代理對

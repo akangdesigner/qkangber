@@ -5,7 +5,7 @@ import { buildMetadata } from '@/lib/metadata'
 
 export const metadata = buildMetadata({
   title: { absolute: '關於 Q kangber — 把重複工作交給 n8n 的流程架構師 × Vibe Coding 實踐者' },
-  description: '我是 Q kangber，商業自動化碩士、行銷公司 AI 工程師。這裡記錄我把訂單、報表、客服交給 n8n 自動化的實作經驗，也分享用 AI 寫程式的開發心得，並提供企業導入服務。',
+  description: '我是 Q kangber，商業自動化碩士、行銷公司 AI 工程師，記錄把訂單、報表、客服交給 n8n 自動化的實作經驗，並提供企業導入服務。',
   keywords: ['n8n 流程架構師', '職涯平台業師', 'AI 轉型顧問', '企業 AI 培訓'],
   path: '/about',
 })

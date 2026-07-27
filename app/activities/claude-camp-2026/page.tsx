@@ -8,7 +8,7 @@ import { jsonLdScript } from '@/lib/jsonld'
 export const metadata = buildMetadata({
   title: { absolute: 'Claude 實戰訓練營 12 週上課紀錄 — Q kangber 活動分享' },
   description:
-    '2026 年 7 月開課的 Claude 實戰訓練營逐週紀錄：12 週用 VIBE Coding 把一個解決自己真實困擾的網頁工具從想法做到上線。每週更新當週講了什麼、現場照片與課堂重點。',
+    'Claude 實戰訓練營逐週紀錄：12 週用 VIBE Coding 把一個解決自己真實困擾的網頁工具從想法做到上線，每週更新上課內容與現場照片。',
   path: '/activities/claude-camp-2026',
   ogTitle: 'Claude 實戰訓練營 12 週上課紀錄',
   ogSubtitle: '實體＋線上混成班，每週更新上課內容',

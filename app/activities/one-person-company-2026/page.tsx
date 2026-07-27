@@ -8,7 +8,7 @@ import { jsonLdScript } from '@/lib/jsonld'
 export const metadata = buildMetadata({
   title: { absolute: 'AI 時代的一人公司 講座整理 — Q kangber 活動分享' },
   description:
-    '2026-07-25 在 XLab 的 60 分鐘講座完整整理：AI 改變的成本結構、一個人經營品牌的四部門分工地圖、把 AI 當同事帶的三個動作（交接、給範本、驗收）、三個常見卡點與 AI 能接手的界線，以及低成本驗證的第一個月行動清單。',
+    'XLab 講座完整整理：AI 改變的成本結構、一人公司的四部門分工地圖、把 AI 當同事帶的方法、卡點與界線、低成本驗證的第一步。',
   path: '/activities/one-person-company-2026',
   ogTitle: 'AI 時代的一人公司 講座整理',
   ogSubtitle: '60 分鐘講座內容，五個段落完整整理',
