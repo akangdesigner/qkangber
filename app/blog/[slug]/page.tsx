@@ -26,7 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPostBySlug(slug)
   if (!post) return {}
   return buildMetadata({
-    title: post.title,
+    // 繞過 layout 的 '%s — Q kangber' 樣板：文章標題本身就抓 25–30 字，
+    // 再吃 11 字元的品牌後綴會被 SERP 截斷，字元留給關鍵字。
+    title: { absolute: post.title },
     description: post.excerpt,
     path: `/blog/${slug}`,
     image: post.coverImage || undefined,
