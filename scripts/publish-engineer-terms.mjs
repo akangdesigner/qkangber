@@ -7,10 +7,10 @@ import { google } from 'googleapis'
 const WRITE = process.argv.includes('--write')
 
 const SLUG = 'engineer-terms'
-const TITLE = '工程師術語聽不懂？用 AI 寫程式必懂的 20 個開發行話 QA 大補帖'
+const TITLE = '工程師術語白話解釋：用 AI 寫程式會遇到的 20 個開發行話一次看懂'
 const DATE = '2026/06/13'
 const TAGS = '工程師術語,AI 寫程式,Vibe Coding,Git,CI/CD'
-const EXCERPT = '用 AI 寫程式卻聽不懂工程師術語？本篇整理 vibe coding 必懂的 20 個開發行話 QA：環境變數、CI/CD、PR、git rebase、Linter 全部白話解釋，讓你聽得懂、答得上、不再點頭裝懂。'
+const EXCERPT = '環境變數、CI/CD、PR、git rebase、Linter……這些工程師術語到底在說什麼？20 個開發行話全部用白話解釋，一篇看懂。'
 const CATEGORY = 'AI小知識'
 const COVER = 'https://i.ibb.co/GQ8DWFP0/cover.webp'
 

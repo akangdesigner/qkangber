@@ -10,10 +10,10 @@ const WRITE = process.argv.includes('--write')
 const UPDATE = process.argv.includes('--update')
 
 const SLUG = 'ai-agent-trigger'
-const TITLE = 'AI 為什麼不用人下指令，也會自己開始工作？拆解 AI Agent 的排程與事件觸發機制'
+const TITLE = 'AI Agent 為什麼不用人下指令就能自動工作？排程與事件觸發機制詳解'
 const DATE = '2026/07/01'
 const TAGS = 'AI Agent,排程,事件觸發,Trigger,主動式 AI'
-const EXCERPT = '為什麼有些 AI 不用你開口，就會自己定時整理報表、收到訂單自動處理？這篇拆解 AI Agent 的排程（Schedule）與事件觸發（Trigger）機制，看懂主動式 AI 怎麼自己開始工作，以及 Trigger 和 Workflow 差在哪。'
+const EXCERPT = '為什麼有些 AI 不用你開口，就會自己定時整理報表、收到訂單自動處理？拆解 AI Agent 的排程與事件觸發機制，看懂主動式 AI 怎麼開始工作。'
 const CATEGORY = 'AI Agent'       // M 主分類（dry-run 會印既有分類供核對）
 const SUBCATEGORY = ''            // O 副分類已退役，留空
 

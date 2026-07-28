@@ -7,10 +7,10 @@ import { google } from 'googleapis'
 const WRITE = process.argv.includes('--write')
 
 const SLUG = 'claude-design'
-const TITLE = 'Claude Code 做出來的網頁充滿 AI 味？Claude Design 協同設計讓網站 UI/UX 質感飛躍'
+const TITLE = 'Claude Design 怎麼用？和 Claude Code 協同作業打造設計感網站'
 const DATE = '2026/06/11'
 const TAGS = 'Claude Design,Claude Code,UI/UX,Vibe Coding'
-const EXCERPT = 'Claude Code 做的網頁總是充滿 AI 味、一看就是 AI 生的？這篇用我自己的網站當案例，實測怎麼讓 Claude Design 與 Claude Code 協同設計，從千篇一律、彼此撞臉的罐頭版型救成有個性的 UI/UX，並誠實講限制與最新的額度變動。'
+const EXCERPT = 'Claude Design 怎麼用？用自己的網站實測它跟 Claude Code 怎麼分工，把一眼就是 AI 做的罐頭版型改成有個性 UI，額度限制也照講。'
 const CATEGORY = 'AI工具'
 const COVER = 'https://i.ibb.co/v4NFZ68q/06-claude-code-web-design-cover.jpg'
 

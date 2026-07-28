@@ -9,10 +9,10 @@ const WRITE = process.argv.includes('--write')
 const UPDATE = process.argv.includes('--update')
 
 const SLUG = 'google-apps-script'
-const TITLE = 'Google Apps Script 能做什麼？4 種用法與免費額度入門教學，Google 帳號內建的自動化工具'
+const TITLE = 'Google Apps Script 能做什麼？4 種用法與免費額度入門教學'
 const DATE = '2026/07/04'
 const TAGS = 'Google Apps Script,GAS,Google Sheets,自動化,自訂函式'
-const EXCERPT = 'Google Apps Script 能做什麼？入門教學一次認識 4 種常見用法：Google Sheet 自訂函式、定時觸發器、自動寄信、網頁應用程式，整理免費額度上限，並附上我實際用它解決問題的過程與部署設定。'
+const EXCERPT = 'Google Apps Script 能做什麼？入門教學一次認識 4 種常見用法：自訂函式、定時觸發器、自動寄信、網頁應用程式，附免費額度與部署過程。'
 const CATEGORY = 'AI 軟體開發'    // M 主分類（dry-run 會印既有分類供核對）
 const SUBCATEGORY = ''            // O 副分類已退役，留空
 

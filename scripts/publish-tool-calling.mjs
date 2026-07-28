@@ -10,10 +10,10 @@ const WRITE = process.argv.includes('--write')
 const UPDATE = process.argv.includes('--update')
 
 const SLUG = 'ai-tool-calling'
-const TITLE = 'AI 為什麼能查資料、寄信、操作資料庫？Tool Calling 運作原理一次看懂'
+const TITLE = 'AI 怎麼查資料、寄信、操作資料庫？拆解 Tool Calling 運作原理'
 const DATE = '2026/07/01'
 const TAGS = 'AI Agent,Tool Calling,Function Calling,MCP,工具呼叫'
-const EXCERPT = 'ChatGPT 不只會聊天，還能查資料、寄 Email、操作資料庫，靠的就是 Tool Calling。這篇拆解 AI 如何決定要不要使用工具、完整執行流程，以及 Tool Calling、Function Calling、MCP 有什麼不同。'
+const EXCERPT = 'ChatGPT 不只會聊天，還能查資料、寄信、操作資料庫，靠的是 Tool Calling。拆解 AI 怎麼決定用不用工具、完整執行流程。'
 const CATEGORY = 'AI Agent'       // M 主分類（dry-run 會印既有分類供核對）
 const SUBCATEGORY = ''            // O 副分類已退役，留空
 const COVER = 'https://i.ibb.co/fd4vq9kR/cover.webp'

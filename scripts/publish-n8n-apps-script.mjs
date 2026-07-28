@@ -12,7 +12,7 @@ const SLUG = 'n8n-apps-script'
 const TITLE = 'n8n × Google Apps Script 協同作業教學：從數據抓取到報表統計，打造全自動流程'
 const DATE = '2026/07/04'
 const TAGS = 'n8n,Google Apps Script,webhook,Google Sheets,自動化'
-const EXCERPT = 'n8n 和 Google Apps Script 怎麼搭配？用我的 IG 監控工具當例子：Apps Script 顧資料進表、n8n webhook 串接跨服務流程，從數據抓取、AI 摘要到報表統計全自動，含分工決策圖。'
+const EXCERPT = 'n8n 和 Google Apps Script 怎麼搭配？用 IG 監控工具當例子，Apps Script 顧資料進表、n8n 串跨服務流程全自動。'
 const CATEGORY = 'AI 軟體開發'    // M 主分類（dry-run 會印既有分類供核對）
 const SUBCATEGORY = ''            // O 副分類已退役，留空
 

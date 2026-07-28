@@ -7,10 +7,10 @@ import { google } from 'googleapis'
 const WRITE = process.argv.includes('--write')
 
 const SLUG = 'multi-platform-posting'
-const TITLE = '多平台發文如何自動化？我捨棄 Buffer，用 n8n 串 API 一次發三平台'
+const TITLE = '社群自動發文怎麼做？我捨棄 Buffer，用 n8n 一篇貼文同時發到 FB、IG、Threads'
 const DATE = '2026/06/17'
 const TAGS = '多平台發文自動化,社群貼文自動化,n8n 串 API,Instagram 發文,Threads 發文'
-const EXCERPT = '多平台發文自動化怎麼做？這篇分享我為什麼捨棄 Buffer，改用 n8n 串 Meta Graph API，把一篇定稿自動發到 FB、IG、Threads 的完整流程，還有 token 會過期這個最容易被忽略的問題。'
+const EXCERPT = '社群自動發文怎麼做？分享我為什麼捨棄 Buffer，改用 n8n 把一篇定稿自動發到 FB、IG、Threads，含 token 過期問題。'
 const CATEGORY = 'n8n 自動化'        // M 主分類
 const SUBCATEGORY = '行銷專用'        // O 副分類
 const COVER = 'https://i.ibb.co/3yqVkN11/cover.webp'

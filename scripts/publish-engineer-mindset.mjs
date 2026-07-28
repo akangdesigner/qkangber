@@ -10,10 +10,10 @@ const WRITE = process.argv.includes('--write')
 const UPDATE = process.argv.includes('--update')
 
 const SLUG = 'engineer-mindset'
-const TITLE = 'AI 會取代工程師嗎？我關掉全自動寫文工作流，決定回來跟它一起動手'
+const TITLE = 'AI 會取代工程師嗎？會被取代的是打字，不是判斷'
 const DATE = '2026/06/19'
 const TAGS = 'AI 取代工程師,工程師會被 AI 取代嗎,人在迴路,Vibe Coding,n8n 全自動寫文章'
-const EXCERPT = 'AI 會取代工程師嗎？我做過一條 n8n 全自動寫文章工作流，從選題到上站完全不用人碰，結果搜尋零曝光沒人看。這篇用我關掉它、改回人在迴路把關的真實過程，談 AI 取代工程師真正的分界線：會消失的是打字那部分，不是判斷。'
+const EXCERPT = 'AI 會取代工程師嗎？我實測過一條從選題到上站全自動的寫文工作流，最後親手關掉它。這篇從真實結果談哪些工作會消失、哪些反而更值錢，以及該把力氣放在哪。'
 const CATEGORY = 'AI 趨勢觀點'   // M 主分類（扁平 5 類）— 觀點型破除迷思，非軟體開發教學
 const SUBCATEGORY = ''           // O 副分類已退役，留空
 const COVER = 'https://i.ibb.co/KxjWy2zx/photo-1508780709619-79562169bc64.webp'

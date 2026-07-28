@@ -8,10 +8,10 @@ const COVER_ID = process.argv[2] && !process.argv[2].startsWith('--') ? process.
 const WRITE = process.argv.includes('--write')
 
 const SLUG = 'ai-architecture'
-const TITLE = 'AI 架構是什麼？搞懂 AI Agent 怎麼從「會聊天」變成「會自己做事」'
+const TITLE = 'AI Agent 是什麼？用 AI 架構解析它如何從會聊天變成會自己做事'
 const DATE = '2026/06/09'
 const TAGS = 'AI 架構,AI Agent,n8n,AI'
-const EXCERPT = 'AI 架構是什麼？這篇用四個元件白話拆解，帶你看懂 AI Agent 怎麼從會聊天進化到會自己做事，並用實際做過的系統教你判斷：你的需求到底該不該用 AI Agent。'
+const EXCERPT = 'AI Agent 是什麼？用 AI 架構四個元件白話拆解，帶你看懂它怎麼從會聊天進化到會自己做事，判斷你的需求該不該用 AI Agent。'
 const CATEGORY = 'AI趨勢'
 
 // --- 內文：抽 body、去 h1、紅 #c0392b → 琥珀 #fbbf24 ---

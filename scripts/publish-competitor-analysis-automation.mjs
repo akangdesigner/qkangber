@@ -10,10 +10,10 @@ const WRITE = process.argv.includes('--write')
 const UPDATE = process.argv.includes('--update')
 
 const SLUG = 'competitor-analysis-automation'
-const TITLE = '競品分析自動化：省下近 4 萬月費，用 n8n 每週自動監控競品與產業關鍵字'
+const TITLE = '競品分析怎麼做？我用 n8n 自動每週監控競品動態，省下近 4 萬月費'
 const DATE = '2026/06/23'
 const TAGS = '競品分析自動化,競品監控,輿情監控,社群監聽,n8n 行銷自動化'
-const EXCERPT = '企業級輿情工具月費近 4 萬、還要簽一年。這篇教你用 n8n 自己做一套輕量的競品分析自動化，Tavily 撈新聞、Apify 爬社群、AI 分類，每週自動生成競品輿情監控週報，並判斷什麼情況不需要做這套。'
+const EXCERPT = '競品分析怎麼做才不用花大錢？企業級輿情工具月費近 4 萬還要簽一年，教你用 n8n 自己做一套輕量競品分析，每週自動生成監控週報。'
 const CATEGORY = '行銷自動化'   // M 主分類（扁平 5 類）
 const SUBCATEGORY = ''           // O 副分類已退役，留空
 const COVER = 'https://i.ibb.co/xt9VZtff/125df80ef417.jpg'
