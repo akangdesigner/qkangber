@@ -281,13 +281,14 @@ function PV2Flagship() {
         </div>
 
         <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: 14, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.09)', marginBottom: 16, background: '#05060a' }}>
-          <video
-            src="/works/battlecard-demo.mp4"
-            poster="/works/battlecard-hero.jpg"
-            controls
-            playsInline
-            preload="metadata"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          <iframe
+            src="https://www.youtube.com/embed/wWtRn-Nlzyw"
+            title="夜影傭兵團 3D 戰棋卡牌遊戲實機對戰影片"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            loading="lazy"
+            style={{ width: '100%', height: '100%', border: 0, display: 'block' }}
           />
         </div>
 
