@@ -98,14 +98,22 @@ body {
   background: linear-gradient(180deg, #8b5cf6 0%, #3b82f6 100%);
 }
 
+/* H3 用小方塊呼應 H2 的直條，同一套視覺語言但份量更輕。
+   （原本是 content:"// " 的註解風，H3 改寫成完整句子之後讀起來很怪，已移除。） */
 .prose h3 {
+  position: relative;
+  padding-left: 0.85rem;
   letter-spacing: -0.01em;
 }
 .prose h3::before {
-  content: "// ";
-  font-weight: 400;
-  color: #6366f1;
-  opacity: 0.8;
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: #6366f1;
 }
 
 /* Prose overflow guards — Sheets-HTML posts bypass the MDX table wrapper,
@@ -114,6 +122,28 @@ body {
   display: block;
   max-width: 100%;
   overflow-x: auto;
+  border-collapse: collapse;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 10px;
+  font-size: 0.925rem;
+  line-height: 1.55;
+}
+.prose thead {
+  background: rgba(99, 102, 241, 0.14);
+}
+.prose th {
+  padding: 0.7rem 0.95rem;
+  white-space: nowrap;
+  font-weight: 600;
+  color: #e2e8f0;
+  text-align: left;
+}
+.prose td {
+  padding: 0.7rem 0.95rem;
+  vertical-align: top;
+}
+.prose tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.025);
 }
 .prose svg {
   max-width: 100%;

@@ -110,7 +110,16 @@
   <use href="#ic-send" x="772" y="290"/>
   <text x="812" y="510" text-anchor="middle" font-size="30" font-weight="700" class="label">一鍵發送</text>
 
-  <!-- 底部 tip 膠囊 -->
+  <!-- 底部 tip 膠囊
+       ⚠ 換 tip 文字一定要重算框寬，否則字會戳出膠囊外（2026-08-01 踩過）。
+       中文在 font-size N 時每字寬約 N px（全形標點也算一字）。公式：
+         文字寬 = 字數 × font-size
+         框寬   = 文字寬 + 52（驚嘆號圖示）+ 64（左右留白）
+         框 x   = 512 − 框寬 / 2          ← 整組置中於畫布中線
+         圓心 cx = 框x + 47              ← 32 留白 + 半徑 15
+         驚嘆號 path 的兩個 x 跟著 cx 走（cx / cx−5）
+         文字 x = cx + 37                ← 半徑 15 + 間距 22
+       例：19 字 × 25 → 475 + 52 + 64 = 591；框 x=217、cx=264、文字 x=301。 -->
   <rect x="287" y="600" width="450" height="64" rx="32" fill="none" class="tipline" stroke-width="3"/>
   <circle cx="338" cy="632" r="15" fill="none" class="tipline" stroke-width="3"/>
   <path d="M338 624 v10 M333 638 h10" class="tipline" stroke-width="3" stroke-linecap="round"/>
