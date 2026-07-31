@@ -81,10 +81,13 @@ body {
   --tw-prose-bullets:       #6366f1;
 }
 
-/* Prose headings — tech accent */
+/* Prose headings — 層級只靠「H2 有直條、H3 沒有」＋字級／顏色／留白三層差，
+   不要兩層都掛左側標記（同方向同色的記號縮小版會糊在一起，H3 一多更吵）。 */
 .prose h2 {
   position: relative;
   padding-left: 1rem;
+  margin-top: 3em;
+  font-size: 1.6em;
   letter-spacing: -0.01em;
 }
 .prose h2::before {
@@ -98,22 +101,13 @@ body {
   background: linear-gradient(180deg, #8b5cf6 0%, #3b82f6 100%);
 }
 
-/* H3 用小方塊呼應 H2 的直條，同一套視覺語言但份量更輕。
-   （原本是 content:"// " 的註解風，H3 改寫成完整句子之後讀起來很怪，已移除。） */
+/* H3 不加任何標記（原本是 content:"// " 註解風，H3 改寫成完整句子後很怪；
+   換成小方塊又跟 H2 直條打架，索性拿掉）。 */
 .prose h3 {
-  position: relative;
-  padding-left: 0.85rem;
+  margin-top: 1.8em;
+  font-size: 1.2em;
+  color: #e2e8f0;
   letter-spacing: -0.01em;
-}
-.prose h3::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.62em;
-  width: 6px;
-  height: 6px;
-  border-radius: 2px;
-  background: #6366f1;
 }
 
 /* Prose overflow guards — Sheets-HTML posts bypass the MDX table wrapper,
@@ -131,15 +125,18 @@ body {
 .prose thead {
   background: rgba(99, 102, 241, 0.14);
 }
-.prose th {
+.prose th,
+.prose td {
+  border: 1px solid rgba(255, 255, 255, 0.12);  /* 橫線＋直線都畫，欄位才分得開 */
   padding: 0.7rem 0.95rem;
+}
+.prose th {
   white-space: nowrap;
   font-weight: 600;
   color: #e2e8f0;
   text-align: left;
 }
 .prose td {
-  padding: 0.7rem 0.95rem;
   vertical-align: top;
 }
 .prose tbody tr:nth-child(even) {
