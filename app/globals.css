@@ -102,11 +102,12 @@ body {
 }
 
 /* H3 不加任何標記（原本是 content:"// " 註解風，H3 改寫成完整句子後很怪；
-   換成小方塊又跟 H2 直條打架，索性拿掉）。 */
+   換成小方塊又跟 H2 直條打架，索性拿掉）。層級差改用顏色拉開：
+   H2 白字＋左側漸層直條，H3 走品牌淡紫，長文掃讀時 H3 才浮得出來。 */
 .prose h3 {
   margin-top: 1.8em;
   font-size: 1.2em;
-  color: #e2e8f0;
+  color: #c4b5fd;
   letter-spacing: -0.01em;
 }
 

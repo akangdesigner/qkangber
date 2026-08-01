@@ -13,6 +13,7 @@ import { buildMetadata } from '@/lib/metadata'
 import { lazifyContentImages } from '@/lib/html-images'
 import { extractToc } from '@/lib/html-toc'
 import TableOfContents from '@/components/blog/TableOfContents'
+import ReadingProgress from '@/components/blog/ReadingProgress'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkGfm from 'remark-gfm'
 import { jsonLdScript } from '@/lib/jsonld'
@@ -116,6 +117,7 @@ export default async function PostPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
+      <ReadingProgress targetId="article-content" />
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_272px] gap-16 items-start">
         <article className="min-w-0">
           <Breadcrumbs crumbs={[
@@ -142,7 +144,7 @@ export default async function PostPage({ params }: Props) {
           </header>
 
           {isHtmlPost && <TableOfContents toc={toc} showSubitems={tocShowSubitems} />}
-          <div className="prose max-w-none">
+          <div id="article-content" className="prose max-w-none">
             {isHtmlPost ? (
               <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
             ) : (
