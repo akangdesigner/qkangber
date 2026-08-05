@@ -57,7 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta
           name="impact-site-verification"
-          {...({ value: '7c05de3d-7c4e-4d7e-8123-946c6c12884c' } as unknown as Record<string, string>)}
+          {...({ value: '7cb25030-b3a5-4943-af80-a72cc8bcdced' } as unknown as Record<string, string>)}
         />
       </head>
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-J6T5R7BQFW" strategy="afterInteractive" />
