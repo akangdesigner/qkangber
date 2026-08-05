@@ -10,6 +10,7 @@ const DRAFT = 'blog-drafts/34-google-apps-script-syntax/34-google-apps-script-sy
 const OUT = 'blog-drafts/34-google-apps-script-syntax/_fanggezi.html'
 
 const IMG = {
+  'images/cover.jpg': 'https://i.ibb.co/HfrsQjzK/cover.jpg',
   'images/error-log.png': 'https://i.ibb.co/5g7vFTrF/error-log.png',
   'images/script-properties.png': 'https://i.ibb.co/4gJGH7rK/script-properties.png',
 }

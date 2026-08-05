@@ -25,7 +25,8 @@ const raw = fs.readFileSync('blog-drafts/34-google-apps-script-syntax/34-google-
 const bodyM = raw.match(/<body>([\s\S]*?)<\/body>/i)
 let content = (bodyM ? bodyM[1] : raw).replace(/<h1>[\s\S]*?<\/h1>/i, '').trim()
 
-// 本地圖 → ImgBB webp（封面不在內文裡，只寫進 K/N 欄）
+// 本地圖 → ImgBB webp（封面在前言後面嵌一張，同時也寫進 K/N 欄）
+content = content.replace(/src="images\/cover\.jpg"/gi, `src="${COVER}"`)
 content = content.replace(/src="images\/error-log\.png"/gi, `src="${SHOT_ERROR}"`)
 content = content.replace(/src="images\/script-properties\.png"/gi, `src="${SHOT_PROPS}"`)
 
@@ -79,7 +80,7 @@ console.log(`既有分類（核對 M 欄該填什麼）：${cats.join('、')}`)
 console.log(`slug=${SLUG}`)
 console.log(`title=${TITLE}`)
 console.log(`date=${DATE} | M=${CATEGORY} | tags=${TAGS}`)
-console.log(`內文長度=${content.length}｜<img>=${leftover.imgs}（應2）｜inline <svg>=${leftover.svgs}（應1）｜<pre>=${leftover.pres}（應5）｜<table>=${leftover.tables}（應1）｜rowspan=${leftover.rowspan}（應0）｜FAQ=${leftover.faq}（應5）`)
+console.log(`內文長度=${content.length}｜<img>=${leftover.imgs}（應3）｜inline <svg>=${leftover.svgs}（應1）｜<pre>=${leftover.pres}（應5）｜<table>=${leftover.tables}（應1）｜rowspan=${leftover.rowspan}（應0）｜FAQ=${leftover.faq}（應5）`)
 console.log(`紅字殘留=${leftover.red}（應0）｜本地圖殘留=${leftover.localImg}（應0）｜CTA 連結=${leftover.serviceCta}（應≥2）`)
 console.log(`內鏈 aiqkangber（${aqLinks.length}）：\n  - ${aqLinks.join('\n  - ')}`)
 console.log(`外部參考資料（${extLinks.length}）：\n  - ${extLinks.join('\n  - ')}`)
