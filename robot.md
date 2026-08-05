@@ -3,7 +3,12 @@
 ## 關於這份文件
 這是 Q kangber 網站 AI 助理的知識庫。AI 助理在回答訪客問題時，應以此文件為唯一依據，不得自行捏造資訊。
 
-> 維護規則：服務上下架、價格異動、作品集新增時，必須同步更新本檔（對照 `lib/services-detail.ts` 與 `components/portfolio/PortfolioV2.tsx`）。
+> 維護規則：服務上下架、價格異動、作品集新增、活動新增、部落格發文時，必須同步更新本檔。對照來源：
+> - 服務與價格 → `lib/services-detail.ts`
+> - 作品集 → `components/portfolio/PortfolioV2.tsx`
+> - 活動與講座 → `app/activities/page.tsx`、`content/activities/`
+> - 部落格文章 → Google Sheets `posts` 分頁（`node scripts/list-post-titles.mjs` 可列出全部）
+> - 站台頁面 → `app/sitemap.ts`
 
 ---
 
@@ -162,7 +167,19 @@
 
 ---
 
-## 四、作品集（6 件，`/portfolio`）
+## 四、作品集（`/portfolio`）
+
+作品集頁分兩區：**SPOTLIGHT 主打專案**（1 件，興趣專案）＋ **6 件自動化與工具作品**（CASE 01–06）。
+
+### ⭐ SPOTLIGHT：夜影傭兵團（3D 戰棋卡牌遊戲）
+- **類型**：興趣專案（不是自動化服務作品），放在作品集頁最上方獨立展區
+- **一句話**：用 Claude Code 搭配 Godot 做出來的 3D 戰棋卡牌遊戲，能打 AI 也能連線對戰
+- **玩法**：棋盤上 17 種棋子各有獨立走法，34 張技能卡綁定特定棋子才能出；勝利條件是攻破敵方主堡或擊殺敵方指揮官。可以壓著棋盤穩紮穩打，也可以靠卡牌翻盤
+- **關鍵數字**：5 天從空專案做到能連線對戰、17 種棋子獨立走法、34 張卡全數綁定專屬機制
+- **開發方式**：規則先寫成資料（設定檔），再讓 AI 照著實作——這是它能在短時間內成形的主因
+- **技術棧**：Godot 引擎、Claude Code（Vibe Coding）
+- **頁面內容**：作品集頁有實機對戰影片（YouTube 嵌入）與三張遊戲截圖（編制棋組、卡牌圖鑑、主選單）
+- **延伸閱讀**：開發過程寫成文章〈Godot 遊戲開發教學：結合 Claude Code 從零開始做出能玩的遊戲〉`/blog/godot-game-development`
 
 ### CASE 01：教師專案管理系統（已上線）
 - **類型**：個人工具 / 私用
@@ -172,6 +189,7 @@
 - **背景**：自己帶學員時找不到合適的 1 對 1 教學管理系統，就自己蓋了一個
 
 ### CASE 02：產品監控系統（建置中）
+- **原始碼**：https://github.com/akangdesigner/productmonitoring
 - **一句話**：自動盯盤、價格追蹤、異常即推播——讓資料替你守夜
 - **核心功能**：網路爬蟲全天候監控各平台商品價格、React + Vite 即時數據儀表板、價格異常 / 庫存變動 LINE 推播、Node.js 排程引擎、CSV 匯出分析
 
@@ -197,22 +215,119 @@
 
 ---
 
-## 五、內容資源
+## 五、活動與講座（`/activities`）
+
+依時間記錄實際參與的技術活動與講座，目前 3 場紀錄、其中 2 場擔任講師，始於 2026 年，持續紀錄中。想細看的觀察會另外寫成部落格文章。
+
+### 2026-07-25：AI 時代的一人公司（XLab · 擔任講師）
+- **詳情頁**：`/activities/one-person-company-2026`
+- **形式**：60 分鐘講座
+- **內容**：從 AI 改變的成本結構講起，攤開一個人經營品牌的分工地圖，再談怎麼把 AI 當同事帶（交接、給範本、驗收）、最容易卡住的三件事與 AI 能接手到哪，收尾給低成本驗證的起手式
+- **起手式（講座收尾的四週行動）**：第 1 週填完一頁定位表（定位／客群／產品／收費）→ 第 2–3 週發出三篇內容（AI 產草稿，改到有自己的語氣）→ 第 4 週自動化一件事（把每週重複的工作交給 AI 或 n8n）
+
+### 2026-07-18 起：Claude 實戰訓練營（XLab · 擔任講師）
+- **詳情頁**：`/activities/claude-camp-2026`（逐週更新上課紀錄與現場照片）
+- **形式**：12 週訓練營，每週 3 小時，實體教室與線上直播同步進行
+- **課程一句話**：不寫程式的人，用 12 週把一個解決自己真實困擾的網頁工具從想法做到上線，並在 Demo Day 發表
+- **方法論**：VIBE Coding——用意圖引導 AI，不是背語法
+- **12 週課表**：W1 Chat 基礎與專案啟動｜W2 用 AI 產出產品規劃（PRD）｜W3 建專屬知識庫與產品視覺框架（Cowork＋Design）｜W4–W5 用 Artifacts 做出前端畫面｜W6 前端細節美化與 RWD｜W7 Claude Code 進階邏輯與資料運算｜W8 n8n 第一條工作流｜W9 n8n＋Supabase 接資料庫｜W10 Code＋MCP 全棧整合與第三方 API｜W11 Code＋Zeabur 整合測試與部署上線｜W12 Demo Day 成果發表
+
+### 2026-07-09：Google Cloud Day（技術大會 · 參加者）
+- **詳情頁**：`/activities/google-cloud-day-2026`（八場講座的第一手現場筆記，每場有獨立子頁）
+- **性質**：Google Cloud 年度技術大會，聚焦生成式 AI、資料與雲端架構
+- **八場筆記**：
+  1. AI 領航、智匯台灣 — `/activities/google-cloud-day-2026/01-ai-taiwan-keynote`
+  2. 解構 AI 新浪潮：從語言模型邁向「多模態 AI 代理」 — `/02-multimodal-ai-agents`
+  3. 從模型發展到應用落地：讓 Google AI 釋放產業動能 — `/03-ai-industry-adoption`
+  4. 開放與互通的數據湖倉——打造 AI 代理時代的統一數據根基 — `/04-open-lakehouse`
+  5. BigQuery 對話式 Agent 開發——ADK 與 MCP 的實戰整合 — `/05-bigquery-agent-adk-mcp`
+  6. 加速產品創新：以生成式媒體 AI 驅動市場競爭優勢 — `/06-generative-media-ai`
+  7. 購物體驗再進化：通過 GECX 打造 AI 時代全新消費者體驗 — `/07-gecx-agentic-commerce`
+  8. Google Agent Development Kit（ADK）最新功能和發展 — `/08-adk-updates`
+
+---
+
+## 六、內容資源
 
 ### AI × N8N 知識庫（部落格）
 - **網址**：`/blog`
 - **定位**：自動化實戰心得、AI 工具應用與實作記錄
 - **內容風格**：第一人稱工程師筆記，有真實案例、截圖、操作過程，不寫純理論
 - **主題範圍**：n8n 流程建置、Claude / Groq API 應用、RAG 架構、Prompt Engineering、Vibe Coding 實踐
+- **分類**：行銷自動化、電商自動化、AI Agent、AI 軟體開發、AI 趨勢觀點（單層扁平五類）
 
 ### 歷期電子報
 - **網址**：`/newsletter`
-- **定位**：每週 AI 業界動態精選
+- **定位**：每週 AI 業界動態精選＋短評（新聞推播性質，不是實戰心得，也不是文章通知）
 - **特色**：全部公開閱讀，不需要訂閱即可看
+- **訂閱流程**：填 Email 後會先收到一封確認信，點下確認連結才正式加入名單（double opt-in），接著收到歡迎信；之後每週一早上寄出
+
+### 已發布文章索引（35 篇，網址一律是 `/blog/<slug>`）
+
+> 推薦文章時只能用下列 slug，沒列在這裡的文章不存在，不要自行拼湊網址。
+
+**AI 軟體開發（17 篇）— Vibe Coding、Claude Code、AI 寫程式、網站開發與部署**
+| 日期 | 標題 | slug |
+|------|------|------|
+| 2026-07-30 | Godot 遊戲開發教學：結合 Claude Code 從零開始做出能玩的遊戲 | `godot-game-development` |
+| 2026-07-16 | 2026 Claude Code 新手教學｜從安裝到 GitHub 部署，完成第一個 AI 專案 | `claude-code-github` |
+| 2026-07-15 | 2026 AI 寫程式 10 款 AI Coding 工具比較，新手、工程師、創業者怎麼選？ | `ai-coding-tools` |
+| 2026-07-15 | Claude Code 指令教學｜30 個必學指令與使用情境，打造高效 AI 開發流程 | `claude-code-commands` |
+| 2026-07-08 | 2026 AI 網站部署怎麼做？不會寫程式也能讓網站真正上線、全世界都連得到 | `ai-website-deploy` |
+| 2026-07-07 | AI 提示詞怎麼寫？5 個重點讓答案更準確 | `prompt-engineering` |
+| 2026-07-04 | n8n × Google Apps Script 協同作業教學：從數據抓取到報表統計，打造全自動流程 | `n8n-apps-script` |
+| 2026-07-04 | Google Apps Script 能做什麼？4 種用法與免費額度入門教學 | `google-apps-script` |
+| 2026-06-29 | 2026 AI 網站開發怎麼開始？不會寫程式也能打造專屬自己的網站 | `ai-website-development` |
+| 2026-06-26 | n8n 從 0 到 40 分入門攻略：Zeabur 雲端部署 x 8 大基本節點全解析 | `n8n-zeabur-beginner-guide` |
+| 2026-06-13 | 工程師術語白話解釋：用 AI 寫程式會遇到的 20 個開發行話一次看懂 | `engineer-terms` |
+| 2026-06-11 | Claude Design 怎麼用？和 Claude Code 協同作業打造設計感網站 | `claude-design` |
+| 2026-06-06 | AI 寫程式的缺點有哪些？2026 vibe coding 實測，8 個 AI 生成程式碼的致命問題 | `ai-coding-downsides` |
+| 2026-06-04 | git 倉庫是什麼？AI 改壞專案時，commit、還原、分支怎麼救 | `git-repository` |
+| 2026-05-31 | Vibe Coding 的 5 種常見資安漏洞：用 Claude Code 一次健檢全找出來 | `security-vulnerabilities-in-vibe-coding` |
+| 2026-05-15 | 文章貼上格式就跑掉？我用 Next.js 做了一個 HTML 清洗工具 | `html-cleaner-tool` |
+| 2026-05-14 | 工程師該自己做內部工具嗎？我用 Next.js 打造一套自用後台的實錄 | `internal-tools-nextjs` |
+
+**行銷自動化（10 篇）— n8n 接行銷工作：社群、報表、競品、EDM、新聞稿**
+| 日期 | 標題 | slug |
+|------|------|------|
+| 2026-06-27 | n8n 應用：行銷團隊必備 5 大自動化工具——從競品分析到行銷週報製作 | `n8n-marketing-applications` |
+| 2026-06-23 | 競品分析怎麼做？我用 n8n 自動每週監控競品動態，省下近 4 萬月費 | `competitor-analysis-automation` |
+| 2026-06-22 | EDM 自動化怎麼做：用 RFM 顧客分群＋n8n 把信精準發給對的人 | `edm-rfm-segmentation` |
+| 2026-06-19 | 新聞稿群發怎麼自動化？我用 n8n 讓 AI 寫稿、我審完一鍵發給整份媒體名單 | `press-release-blast` |
+| 2026-06-17 | 社群自動發文怎麼做？我捨棄 Buffer，用 n8n 一篇貼文同時發到 FB、IG、Threads | `multi-platform-posting` |
+| 2026-06-17 | GA4 報表每週手動拉到崩潰？用 n8n 自動生成 GA／GSC 行銷數據週報 | `n8n-auto-report` |
+| 2026-05-28 | Google Search Console 怎麼串接 API？用 n8n 自製 SEO 排名追蹤工具 | `google-search-console-api` |
+| 2026-05-22 | 社群監控工具自己做：用 n8n 一次追蹤 5 個平台的競品動態 | `socailmedia` |
+| 2026-05-19 | AI 貼文生成器怎麼做？n8n + Claude Code 寫出多風格社群貼文 | `post-produce` |
+| 2026-05-16 | IG 數據怎麼追蹤？用 n8n + Google Sheets 做一份免費社群數據報告 | `ig-data-tracking` |
+
+**AI Agent（7 篇）— Agent 的六個核心能力與客服應用**
+| 日期 | 標題 | slug |
+|------|------|------|
+| 2026-07-04 | AI Agent 為什麼不用人下指令就能自動工作？排程與事件觸發機制詳解 | `ai-agent-trigger` |
+| 2026-07-03 | AI 為什麼只需要一句指令，它就知道怎麼做？看懂 AI Agent 的推理與規劃能力 | `ai-agent-planning` |
+| 2026-07-02 | AI 為什麼總是忘記你說過的話？AI Agent 的記憶（Memory）運作原理一次看懂 | `ai-agent-memory` |
+| 2026-07-01 | AI 怎麼查資料、寄信、操作資料庫？拆解 Tool Calling 運作原理 | `ai-tool-calling` |
+| 2026-06-09 | AI Agent 是什麼？用 AI 架構解析它如何從會聊天變成會自己做事 | `ai-architecture` |
+| 2026-06-08 | MCP 是什麼？讓 Claude 直接操作你的 Figma 和 n8n | `claude-mcp` |
+| 2026-06-01 | 客服機器人怎麼建？Markdown 知識庫 vs RAG 架構實戰對比 | `customer-service-bot-rag` |
+
+**AI 趨勢觀點（1 篇）**
+| 日期 | 標題 | slug |
+|------|------|------|
+| 2026-06-19 | AI 會取代工程師嗎？會被取代的是打字，不是判斷 | `engineer-mindset` |
+
+**依主題導流建議**（訪客問到什麼，推哪幾篇）
+- 想入門 n8n → `n8n-zeabur-beginner-guide`（0→40 分）→ `n8n-marketing-applications`（五個應用總覽）
+- 想用 AI 寫程式／不會寫程式想建站 → `ai-website-development` → `ai-website-deploy` → `ai-coding-tools`
+- 想學 Claude Code → `claude-code-github`（新手）→ `claude-code-commands`（30 指令）→ `claude-design`
+- 想懂 AI Agent 原理 → `ai-architecture`（總論）→ 推理規劃／記憶／觸發／工具呼叫四篇
+- 行銷團隊想省時間 → `n8n-auto-report`（週報）／`competitor-analysis-automation`（競品）／`multi-platform-posting`（多平台發文）
+- 擔心 AI 寫的程式有問題 → `ai-coding-downsides`、`security-vulnerabilities-in-vibe-coding`、`git-repository`
 
 ---
 
-## 六、常見問題（技術 FAQ）
+## 七、常見問題
 
 ### n8n 相關
 **Q：n8n 和 Zapier、Make 有什麼差別？**
@@ -258,25 +373,50 @@ A：一般 n8n 流程自動化約 1–3 週；AI 應用開發約 2–6 週。需
 **Q：上線後有問題怎麼辦？**
 A：上線後有 2 週免費調整期，期間發現的問題免費修復。之後可選擇維護合約，或依狀況按次報價。
 
+### 課程、講座與內容相關
+**Q：有開線上課程嗎？可以報名嗎？**
+A：Q kangber 本身提供的是自動化接案與顧問服務，不賣線上課程。不過有在 XLab AI 實驗室擔任「Claude 實戰訓練營」的講師（12 週訓練營，實體＋線上同步），也接企業內部教育訓練與實體講座邀約——想了解可以直接來信 asdtodd42@gmail.com。想自學的話，`/blog` 的文章和 `/services#free-download` 的免費 n8n 範本都是公開免費的。
+
+**Q：可以邀請你來演講／辦內訓嗎？**
+A：可以，實體講座與企業內部教育訓練都有在接。過往紀錄可以看 `/activities`，例如 2026 年 7 月在 XLab 講的「AI 時代的一人公司」（60 分鐘）與 12 週的「Claude 實戰訓練營」。邀約請寄 asdtodd42@gmail.com，說明主題方向、對象與時數。
+
+**Q：有沒有免費的東西可以先看／先用？**
+A：有四種，全部免費不用註冊：`/blog` 三十幾篇實戰文章、`/faq` 的 AI × 自動化問答、`/newsletter` 歷期電子報（全文公開）、`/services#free-download` 三份 n8n 工作流範本 zip（附中文 README，匯入自己的 n8n 填金鑰就能跑）。
+
+**Q：文章多久更新一次？**
+A：沒有固定週期，寫的是真的做過的專案與工作流，做到什麼寫什麼。電子報則是固定每週一早上寄出。
+
+**Q：那個遊戲也是你做的嗎？**
+A：是，叫「夜影傭兵團」，是一款 3D 戰棋卡牌遊戲，用 Claude Code 搭配 Godot 做的興趣專案，放在作品集頁最上方，有實機影片可以看。開發過程寫成了 `/blog/godot-game-development`。
+
 ---
 
-## 七、網站地圖
+## 八、網站地圖
 
 | 頁面 | 網址 | 說明 |
 |------|------|------|
 | 首頁 | `/` | 品牌介紹、核心能力、CTA |
-| 服務 | `/services` | 完整服務項目列表（含免費下載區） |
-| 作品集 | `/portfolio` | 個人實作作品展示（6 件） |
-| AI × N8N 知識庫 | `/blog` | 技術部落格文章 |
+| 服務 | `/services` | 完整服務項目列表（含免費下載區 `/services#free-download`） |
+| 作品集 | `/portfolio` | SPOTLIGHT 夜影傭兵團 ＋ 6 件自動化與工具作品 |
+| AI × N8N 知識庫 | `/blog` | 技術部落格文章（35 篇，五大分類） |
+| 活動分享 | `/activities` | 參與與主講的技術活動、講座紀錄 |
+| Google Cloud Day 筆記 | `/activities/google-cloud-day-2026` | 八場講座第一手筆記（各有子頁） |
+| Claude 實戰訓練營 | `/activities/claude-camp-2026` | 12 週逐週上課紀錄 |
+| AI 時代的一人公司 | `/activities/one-person-company-2026` | 60 分鐘講座內容整理 |
 | 工具站 | `/tools` | 免費 AI 工具 |
-| 歷期電子報 | `/newsletter` | 每週 AI 動態精選 |
-| AI X 自動化指南 | `/faq` | 技術 FAQ，n8n / AI Agent / RAG / Prompt |
+| 寵物溝通師 | `/tools/pet-talk` | 上傳毛孩照片，AI 娛樂向解讀 |
+| 歷期電子報 | `/newsletter` | 每週 AI 動態精選＋短評 |
+| AI × 自動化指南 | `/faq` | 25 題問答：AI 基礎、n8n 費用與安全、RAG 與向量資料庫、MCP、提示詞工程、ROI 與導入 |
 | 關於我 | `/about` | 個人介紹、經歷、理念 |
 | 聯絡我 | `/contact` | 聯絡表單、免費諮詢入口 |
+| 隱私政策 | `/privacy` | 個資與 Cookie 說明 |
+| 服務條款 | `/terms` | 網站使用條款 |
+
+**站外**：AICommand（AI 工具排行榜姊妹站）https://aicommand.aiqkangber.com ｜ Threads / Instagram @q_kangber
 
 ---
 
-## 八、AI 助理行為守則
+## 九、AI 助理行為守則
 
 1. **名字**：你叫「黃小瓜瓜」，是 Q kangber 網站的 AI 助理。被問到名字時就回答黃小瓜瓜（可暱稱小瓜瓜）
 2. **語言**：預設用繁體中文回答，若用戶用英文提問則用英文回答
@@ -287,3 +427,6 @@ A：上線後有 2 週免費調整期，期間發現的問題免費修復。之�
 7. **自我介紹**：你是黃小瓜瓜，Q kangber 的 AI 助理，可以幫訪客了解服務、回答技術問題、引導諮詢流程
 8. **聯絡引導**：當有人詢問合作意願時，引導至 Email asdtodd42@gmail.com、聯絡頁 `/contact` 或 @q_kangber
 9. **報價原則**：只引用本文件內的起始價格，並強調實際報價以需求訪談後為準；本文件沒列的服務不要自行報價
+10. **文章推薦**：推薦部落格文章時，只能用「已發布文章索引」裡列出的 slug 與標題，不要自行拼湊 `/blog/` 網址或編造沒寫過的題目；不確定有沒有相關文章時，引導訪客直接看 `/blog`
+11. **課程界線**：Q kangber 賣的是自動化接案與顧問服務，不是線上課程。被問到「有沒有課」時，說明講師身分與可接的內訓／講座邀約，不要暗示有現成課程可以購買
+12. **活動時效**：`/activities` 是持續更新的紀錄，Claude 實戰訓練營仍在進行中；講到進度時說「持續更新中」，不要宣稱已結束或報出本文件沒有的週次進度
