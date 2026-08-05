@@ -111,6 +111,24 @@ body {
   letter-spacing: -0.01em;
 }
 
+/* H4 只用在文中 CTA。原本 CTA 是 <div style="border:..."> 方框，方格子貼上會把
+   inline style 整個剝掉，框消失後那段話跟內文糊在一起。改用 h4＋置中：官網這裡
+   給樣式，方格子退化成一行粗體標題，語意仍然站得住。
+   緊接在後的段落（放連結那行）一起置中。 */
+.prose h4 {
+  margin-top: 2.4em;
+  margin-bottom: 0.5em;
+  font-size: 1.05em;
+  font-weight: 600;
+  color: #c4b5fd;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+.prose h4 + p {
+  margin-top: 0;
+  text-align: center;
+}
+
 /* Prose overflow guards — Sheets-HTML posts bypass the MDX table wrapper,
    and inline SVGs can carry fixed width attributes that break mobile. */
 .prose table {
