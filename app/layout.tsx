@@ -49,14 +49,14 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
   },
-  other: {
-    'impact-site-verification': '7c05de3d-7c4e-4d7e-8123-946c6c12884c',
-  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="zh-TW" className={`${notoSansTC.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} h-full`}>
+      <head>
+        <meta name="impact-site-verification" value="7c05de3d-7c4e-4d7e-8123-946c6c12884c" />
+      </head>
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-J6T5R7BQFW" strategy="afterInteractive" />
       <Script id="ga4" strategy="afterInteractive">{`
         window.dataLayer = window.dataLayer || [];
