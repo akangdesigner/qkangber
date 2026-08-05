@@ -55,7 +55,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="zh-TW" className={`${notoSansTC.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} h-full`}>
       <head>
-        <meta name="impact-site-verification" value="7c05de3d-7c4e-4d7e-8123-946c6c12884c" />
+        <meta
+          name="impact-site-verification"
+          {...({ value: '7c05de3d-7c4e-4d7e-8123-946c6c12884c' } as unknown as Record<string, string>)}
+        />
       </head>
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-J6T5R7BQFW" strategy="afterInteractive" />
       <Script id="ga4" strategy="afterInteractive">{`
