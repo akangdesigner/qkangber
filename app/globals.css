@@ -129,12 +129,16 @@ body {
   text-align: center;
 }
 
-/* Prose overflow guards — Sheets-HTML posts bypass the MDX table wrapper,
-   and inline SVGs can carry fixed width attributes that break mobile. */
-.prose table {
-  display: block;
+/* Prose overflow guards — Sheets-HTML posts get a .table-scroll wrapper injected by
+   extractToc()（lib/html-toc.ts），inline SVGs can carry fixed width attributes that break mobile. */
+.prose .table-scroll {
   max-width: 100%;
   overflow-x: auto;
+  margin: 1.5rem 0;
+}
+.prose table {
+  width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 10px;

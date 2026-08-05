@@ -15,5 +15,12 @@ export function extractToc(html: string): { html: string; toc: TocItem[] } {
     if (idMatch) return full
     return `<h${lvl}${attrs} id="${id}">${inner}</h${lvl}>`
   })
-  return { html: out, toc }
+  // Sheets-HTML 的表格沒有外層容器（MDX 那條路有）。以前是靠 .prose table 自己 display:block
+  // 撐橫向捲，但 block 化之後裡面的列會縮成內容寬度，欄位少的表就撐不滿版面。
+  // 改成在外面包一層捲動容器，表格本身維持正常 table 才能 width:100%。
+  const withTables = out.replace(
+    /<table\b[\s\S]*?<\/table>/gi,
+    (t) => `<div class="table-scroll">${t}</div>`,
+  )
+  return { html: withTables, toc }
 }
